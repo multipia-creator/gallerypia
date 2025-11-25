@@ -4980,6 +4980,13 @@ app.get('/api/artworks', async (c) => {
   try {
     const { category, status, sort = 'created_at', order = 'DESC', limit = '50' } = c.req.query()
     
+    // ✅ Whitelist validation for SQL Injection prevention
+    const allowedSortColumns = ['created_at', 'title', 'estimated_value', 'view_count']
+    const allowedOrders = ['ASC', 'DESC']
+    const validSort = allowedSortColumns.includes(sort) ? sort : 'created_at'
+    const validOrder = allowedOrders.includes(order.toUpperCase()) ? order.toUpperCase() : 'DESC'
+    const validLimit = Math.min(parseInt(limit) || 50, 100) // Max 100
+    
     let query = `
       SELECT 
         a.*,
@@ -4990,19 +4997,25 @@ app.get('/api/artworks', async (c) => {
       WHERE 1=1
     `
     
+    const bindings: any[] = []
+    
     if (category && category !== 'all') {
-      query += ` AND a.category = '${category}'`
+      query += ` AND a.category = ?`
+      bindings.push(category)
     }
     
     if (status) {
-      query += ` AND a.status = '${status}'`
+      query += ` AND a.status = ?`
+      bindings.push(status)
     } else {
       query += ` AND a.status IN ('approved', 'minted')`
     }
     
-    query += ` ORDER BY a.${sort} ${order} LIMIT ${limit}`
+    // ✅ Safe: validSort and validOrder are whitelisted
+    query += ` ORDER BY a.${validSort} ${validOrder} LIMIT ?`
+    bindings.push(validLimit)
     
-    const result = await c.env.DB.prepare(query).all()
+    const result = await c.env.DB.prepare(query).bind(...bindings).all()
     
     return c.json<ApiResponse<ArtworkWithArtist[]>>({
       success: true,
@@ -12895,6 +12908,22 @@ app.get('/settings', (c) => {
               </p>
             </div>
           </div>
+          
+          <!-- 계정 관리 -->
+          <div class="card-nft rounded-2xl p-8 border-2 border-red-900">
+            <h2 class="text-xl font-bold text-white mb-6">
+              <i class="fas fa-exclamation-triangle mr-2 text-red-400"></i>
+              위험 구역
+            </h2>
+            
+            <p class="text-gray-400 mb-4">
+              계정을 삭제하면 모든 데이터가 영구적으로 삭제되며 복구할 수 없습니다.
+            </p>
+            
+            <button onclick="openAccountDeleteModal()" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors">
+              <i class="fas fa-trash-alt mr-2"></i>계정 삭제
+            </button>
+          </div>
         </div>
         
         <div class="mt-8">
@@ -12935,6 +12964,47 @@ app.get('/settings', (c) => {
             </button>
           </div>
         </form>
+      </div>
+    </div>
+    
+    <!-- 계정 삭제 확인 모달 -->
+    <div id="accountDeleteModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div class="bg-gray-900 rounded-2xl p-8 max-w-md w-full border-2 border-red-900">
+        <h3 class="text-2xl font-bold text-red-400 mb-6">
+          <i class="fas fa-exclamation-triangle mr-2"></i>
+          계정 삭제 확인
+        </h3>
+        
+        <div class="space-y-4 mb-6">
+          <div class="p-4 bg-red-900 bg-opacity-30 border border-red-700 rounded-xl">
+            <p class="text-red-300 font-bold mb-2">⚠️ 다음 데이터가 영구적으로 삭제됩니다:</p>
+            <ul class="text-sm text-gray-300 space-y-1">
+              <li>• 프로필 정보 및 업로드한 작품</li>
+              <li>• 거래 내역 및 활동 로그</li>
+              <li>• 즐겨찾기 및 팔로우 정보</li>
+              <li>• 평가 및 댓글 기록</li>
+            </ul>
+          </div>
+          
+          <div>
+            <label class="block text-gray-400 mb-2">삭제 확인을 위해 "계정삭제"를 입력하세요</label>
+            <input type="text" id="deleteConfirmText" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-red-500 transition-colors" placeholder="계정삭제">
+          </div>
+          
+          <div>
+            <label class="block text-gray-400 mb-2">현재 비밀번호</label>
+            <input type="password" id="deletePassword" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-red-500 transition-colors" required>
+          </div>
+        </div>
+        
+        <div class="flex gap-4">
+          <button type="button" onclick="confirmAccountDelete()" class="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors">
+            <i class="fas fa-trash-alt mr-2"></i>영구 삭제
+          </button>
+          <button type="button" onclick="closeAccountDeleteModal()" class="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition-colors">
+            취소
+          </button>
+        </div>
       </div>
     </div>
     
@@ -13067,6 +13137,51 @@ app.get('/settings', (c) => {
         } catch (error) {
           console.error('비밀번호 변경 실패:', error);
           alert('비밀번호 변경에 실패했습니다');
+        }
+      }
+      
+      // 계정 삭제 모달
+      function openAccountDeleteModal() {
+        document.getElementById('accountDeleteModal').classList.remove('hidden');
+      }
+      
+      function closeAccountDeleteModal() {
+        document.getElementById('accountDeleteModal').classList.add('hidden');
+        document.getElementById('deleteConfirmText').value = '';
+        document.getElementById('deletePassword').value = '';
+      }
+      
+      async function confirmAccountDelete() {
+        const confirmText = document.getElementById('deleteConfirmText').value;
+        const password = document.getElementById('deletePassword').value;
+        
+        if (confirmText !== '계정삭제') {
+          alert('"계정삭제"를 정확히 입력해주세요');
+          return;
+        }
+        
+        if (!password) {
+          alert('비밀번호를 입력해주세요');
+          return;
+        }
+        
+        try {
+          const response = await axios.delete('/api/users/account', {
+            headers: { 'Authorization': \`Bearer \${token}\` },
+            data: { password }
+          });
+          
+          if (response.data.success) {
+            alert('계정이 성공적으로 삭제되었습니다');
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+          } else {
+            alert('오류: ' + response.data.message);
+          }
+        } catch (error) {
+          console.error('계정 삭제 실패:', error);
+          alert('계정 삭제에 실패했습니다');
         }
       }
     </script>
@@ -22085,6 +22200,15 @@ app.put('/api/users/password', async (c) => {
     
     const { current_password, new_password } = await c.req.json()
     
+    // ✅ Backend password strength validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    if (!passwordRegex.test(new_password)) {
+      return c.json({ 
+        success: false, 
+        message: '새 비밀번호는 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다' 
+      }, 400)
+    }
+    
     // 현재 비밀번호 확인
     const user = await db.prepare(`
       SELECT password_hash FROM users WHERE id = ?
@@ -22094,15 +22218,17 @@ app.put('/api/users/password', async (c) => {
       return c.json({ success: false, message: '사용자를 찾을 수 없습니다' }, 404)
     }
     
-    // 비밀번호 검증 (간단한 비교, 실제로는 bcrypt 사용)
-    if (user.password_hash !== current_password) {
-      return c.json({ success: false, message: '현재 비밀번호가 일치하지 않습니다' }, 400)
+    // ✅ bcrypt를 사용한 비밀번호 검증 (Timing Attack 방지)
+    const isValidPassword = await bcrypt.compare(current_password, user.password_hash as string)
+    if (!isValidPassword) {
+      return c.json({ success: false, message: '현재 비밀번호가 일치하지 않습니다' }, 401)
     }
     
-    // 새 비밀번호 저장 (실제로는 bcrypt로 해싱)
+    // ✅ bcrypt로 새 비밀번호 해싱
+    const hashedNewPassword = await bcrypt.hash(new_password, 10)
     await db.prepare(`
-      UPDATE users SET password_hash = ? WHERE id = ?
-    `).bind(new_password, session.user_id).run()
+      UPDATE users SET password_hash = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?
+    `).bind(hashedNewPassword, session.user_id).run()
     
     return c.json({ success: true, message: '비밀번호가 변경되었습니다' })
   } catch (error: any) {
@@ -22149,6 +22275,65 @@ app.put('/api/users/wallet', async (c) => {
   } catch (error: any) {
     console.error('Wallet save error:', error)
     return c.json({ success: false, message: '지갑 주소 저장 중 오류가 발생했습니다: ' + error.message }, 500)
+  }
+})
+
+// ✅ 계정 삭제 API (GDPR Compliant)
+app.delete('/api/users/account', async (c) => {
+  const db = c.env.DB
+  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  
+  if (!token) {
+    return c.json({ success: false, message: '로그인이 필요합니다' }, 401)
+  }
+  
+  try {
+    const session = await verifySession(db, token)
+    if (!session) {
+      return c.json({ success: false, message: '유효하지 않은 세션입니다' }, 401)
+    }
+    
+    const { password } = await c.req.json()
+    
+    // ✅ 비밀번호 확인 (bcrypt)
+    const user = await db.prepare(`
+      SELECT password_hash FROM users WHERE id = ?
+    `).bind(session.user_id).first()
+    
+    if (!user) {
+      return c.json({ success: false, message: '사용자를 찾을 수 없습니다' }, 404)
+    }
+    
+    const isValidPassword = await bcrypt.compare(password, user.password_hash as string)
+    if (!isValidPassword) {
+      return c.json({ success: false, message: '비밀번호가 일치하지 않습니다' }, 401)
+    }
+    
+    // ✅ 연관 데이터 삭제 (GDPR Right to Erasure)
+    await db.batch([
+      db.prepare('DELETE FROM user_sessions WHERE user_id = ?').bind(session.user_id),
+      db.prepare('DELETE FROM activity_logs WHERE user_id = ?').bind(session.user_id),
+      db.prepare('DELETE FROM favorites WHERE user_id = ?').bind(session.user_id),
+      db.prepare('DELETE FROM user_follows WHERE follower_id = ? OR following_id = ?').bind(session.user_id, session.user_id),
+      db.prepare('DELETE FROM notifications WHERE user_id = ?').bind(session.user_id),
+      db.prepare('DELETE FROM artist_profiles WHERE user_id = ?').bind(session.user_id),
+      db.prepare('DELETE FROM users WHERE id = ?').bind(session.user_id)
+    ])
+    
+    // 삭제 로그 기록 (감사 추적)
+    await db.prepare(`
+      INSERT INTO activity_logs (user_id, action, details, ip_address, user_agent, created_at)
+      VALUES (?, 'account_deleted', ?, ?, ?, CURRENT_TIMESTAMP)
+    `).bind(session.user_id, JSON.stringify({ reason: 'user_request' }), c.req.header('CF-Connecting-IP') || '', c.req.header('User-Agent') || '').run()
+    
+    return c.json({ 
+      success: true, 
+      message: '계정이 성공적으로 삭제되었습니다',
+      gdpr_compliant: true
+    })
+  } catch (error: any) {
+    console.error('Account deletion error:', error)
+    return c.json({ success: false, message: '계정 삭제 중 오류가 발생했습니다: ' + error.message }, 500)
   }
 })
 
