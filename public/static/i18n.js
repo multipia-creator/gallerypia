@@ -2194,6 +2194,105 @@ class I18n {
         }
       });
       
+      // === Additional Text Replacement for Server-Rendered Content ===
+      // Replace ALL text nodes containing Korean text
+      const replaceTextInElement = (element, searchText, replaceText) => {
+        if (element.childNodes) {
+          element.childNodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE && node.textContent.includes(searchText)) {
+              node.textContent = node.textContent.replace(searchText, replaceText);
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              replaceTextInElement(node, searchText, replaceText);
+            }
+          });
+        }
+      };
+      
+      // Comprehensive text replacement map
+      const textReplacements = {
+        // Gallery Page
+        '가격 높은순': this.t('gallery.sort_price_high'),
+        '가격 낮은순': this.t('gallery.sort_price_low'),
+        '최신순': this.t('gallery.sort_latest'),
+        '인기순': this.t('gallery.sort_popular'),
+        '검색 결과가 없습니다': this.t('gallery.no_results'),
+        '데이터를 불러오는데 실패했습니다': this.t('msg.error'),
+        '등록된 컬렉션이 없습니다': this.t('msg.no_data'),
+        
+        // Common UI
+        '메인 콘텐츠로 바로가기': this.t('nav.skip_to_content'),
+        '사용자': this.t('nav.user'),
+        '대시보드': this.t('mypage.dashboard'),
+        '로그아웃': this.t('auth.logout'),
+        '로그인': this.t('auth.login'),
+        '회원가입': this.t('auth.signup'),
+        '검색': this.t('search.title'),
+        '갤러리': this.t('nav.gallery'),
+        '추천': this.t('nav.recommendations'),
+        '아티스트': this.t('nav.artists'),
+        '가치산정': this.t('valuation.title'),
+        '소개': this.t('nav.about'),
+        '도움말': this.t('support.help'),
+        '문의하기': this.t('support.contact'),
+        '갤러리로 이동': this.t('vr.goGallery'),
+        
+        // Login Page
+        '갤러리피아에 오신 것을 환영합니다': this.t('nav.home'),
+        '또는 이메일로 로그인': this.t('auth.login'),
+        '로그인 상태 유지': 'Remember me',
+        '비밀번호 찾기': this.t('auth.forgot_password'),
+        
+        // Categories
+        '디지털아트': this.t('gallery.digital'),
+        '사진': this.t('gallery.photo'),
+        '회화': this.t('gallery.painting'),
+        '조각': this.t('gallery.sculpture'),
+        '혼합매체': this.t('gallery.mixed'),
+        '공예': this.t('gallery.craft'),
+        '판화': this.t('gallery.print'),
+        '설치미술': this.t('gallery.installation'),
+        '디자인': this.t('gallery.design'),
+        '미디어아트': this.t('gallery.media'),
+        '전체': this.t('gallery.all'),
+        
+        // Messages
+        '새로운 알림이 없습니다': this.t('nav.no_notifications'),
+        '알림을 불러오는 중': this.t('nav.loading_notifications'),
+        
+        // Buttons
+        '리셋': this.t('common.reset'),
+        '닫기': this.t('common.close'),
+        
+        // Footer
+        '개인정보보호': this.t('footer.privacy'),
+        '가치산정 시스템': this.t('valuation.system_title'),
+        
+        // Accessibility
+        '키보드 단축키': 'Keyboard Shortcuts',
+        '접근성': 'Accessibility',
+        '단축키 도움말': 'Shortcut Help',
+        '링크/버튼 활성화': 'Activate Link/Button',
+        '모달/메뉴 닫기': 'Close Modal/Menu',
+        '사이트 이용하기': 'Navigate Site',
+        '배경음악': 'Background Music',
+        
+        // Mobile
+        '모바일 기기로 QR 코드를 스캔하세요': 'Scan QR code with mobile device',
+        '모바일 기기에서 카메라를 통해 실제 공간에 작품을 배치해보세요': 'Place artwork in real space through camera on mobile device',
+        '모바일에서 직접 열기': 'Open directly on mobile',
+        
+        // Misc
+        '새로운 버전이 있습니다': 'New version available',
+        '미민팅': 'Unminted',
+        '산정가': this.t('artwork.estimated_price'),
+        '액션': 'Actions'
+      };
+      
+      // Apply all text replacements
+      Object.keys(textReplacements).forEach(searchText => {
+        replaceTextInElement(document.body, searchText, textReplacements[searchText]);
+      });
+      
       console.log('✅ All main page content translated');
     } catch (error) {
       console.warn('Translation warning:', error);
