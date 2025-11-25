@@ -19318,6 +19318,14 @@ app.post('/api/admin/logout', async (c) => {
   return c.json({ success: true })
 })
 
+// ============================================
+// 🔐 Admin API Security Middleware
+// ============================================
+import { requireRole } from './middleware/auth'
+
+// ✅ Apply authentication middleware to all /api/admin/* endpoints
+app.use('/api/admin/*', requireRole(['admin', 'super_admin']))
+
 // 관리자 통계 API
 app.get('/api/admin/stats', async (c) => {
   const db = c.env.DB
