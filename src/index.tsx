@@ -209,6 +209,13 @@ const translations = {
     'main.valuation_artist_style_desc': '작가의 독특한 스타일과 창의성',
     'main.valuation_expert_panel': '전문가 패널',
     'main.valuation_expert_panel_desc': '검증된 전문가 패널의 종합 평가',
+    // VR 갤러리
+    'main.vr_gallery_tour': 'VR 갤러리 투어',
+    'main.vr_gallery_subtitle': '360도 가상 갤러리에서 작품 감상하기',
+    'main.vr_enter_mode': 'VR 모드 진입',
+    'main.vr_background_music': '배경음악',
+    'main.vr_controls': '마우스로 드래그 | WASD 키로 이동',
+    'main.vr_loading': 'VR 갤러리 로딩 중...',
     
     // Welcome Tutorial
     'tutorial.welcome_title': '갤러리피아에 오신 것을 환영합니다! 🎨',
@@ -417,6 +424,34 @@ const translations = {
     'main.recent_no_artworks': 'No recently registered artworks.',
     'main.recent_coming_soon': 'New artworks will be registered soon.',
     'main.recent_badge': 'NEW',
+    // Valuation System Section
+    'main.valuation_title': 'Self-Valuation System',
+    'main.valuation_subtitle': 'Provides transparent and objective NFT art valuation by combining qualitative evaluation from expert panels and data-based quantitative evaluation',
+    'main.valuation_quantitative': 'Quantitative Evaluation',
+    'main.valuation_quantitative_en': 'Quantitative Analysis',
+    'main.valuation_qualitative': 'Qualitative Evaluation',
+    'main.valuation_qualitative_en': 'Qualitative Evaluation',
+    'main.valuation_market_demand': 'Market Demand',
+    'main.valuation_market_demand_desc': 'NFT market trend and trading volume analysis',
+    'main.valuation_rarity': 'Rarity',
+    'main.valuation_rarity_desc': 'Edition count and similar NFT comparison analysis',
+    'main.valuation_transaction_history': 'Transaction History',
+    'main.valuation_transaction_history_desc': 'Past transaction records and price trends',
+    'main.valuation_design_quality': 'Design Quality',
+    'main.valuation_design_quality_desc': 'Design quality and aesthetic completeness evaluation',
+    'main.valuation_originality': 'Originality',
+    'main.valuation_originality_desc': 'Freshness of concept and creative expression',
+    'main.valuation_artist_style': 'Artist Style',
+    'main.valuation_artist_style_desc': "Artist's unique style and creativity",
+    'main.valuation_expert_panel': 'Expert Panel',
+    'main.valuation_expert_panel_desc': 'Comprehensive evaluation by verified expert panel',
+    // VR Gallery
+    'main.vr_gallery_tour': 'VR Gallery Tour',
+    'main.vr_gallery_subtitle': 'View artwork in 360-degree virtual gallery',
+    'main.vr_enter_mode': 'Enter VR Mode',
+    'main.vr_background_music': 'Background Music',
+    'main.vr_controls': 'Drag with mouse | Move with WASD keys',
+    'main.vr_loading': 'Loading VR Gallery...',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'Welcome to GalleryPia! 🎨',
@@ -625,6 +660,34 @@ const translations = {
     'main.recent_no_artworks': '暂无最近注册的作品。',
     'main.recent_coming_soon': '新作品即将注册。',
     'main.recent_badge': 'NEW',
+    // 估值系统部分
+    'main.valuation_title': '自我估值系统',
+    'main.valuation_subtitle': '结合专家小组的定性评估和基于数据的定量评估，提供透明客观的NFT艺术品估值',
+    'main.valuation_quantitative': '定量评估',
+    'main.valuation_quantitative_en': 'Quantitative Analysis',
+    'main.valuation_qualitative': '定性评估',
+    'main.valuation_qualitative_en': 'Qualitative Evaluation',
+    'main.valuation_market_demand': '市场需求',
+    'main.valuation_market_demand_desc': 'NFT市场趋势和交易量分析',
+    'main.valuation_rarity': '稀有性',
+    'main.valuation_rarity_desc': '版次数量和类似NFT比较分析',
+    'main.valuation_transaction_history': '交易历史',
+    'main.valuation_transaction_history_desc': '过去交易记录和价格趋势',
+    'main.valuation_design_quality': '设计质量',
+    'main.valuation_design_quality_desc': '设计质量和美学完整性评估',
+    'main.valuation_originality': '原创性',
+    'main.valuation_originality_desc': '概念新鲜度和创意表达',
+    'main.valuation_artist_style': '艺术家风格',
+    'main.valuation_artist_style_desc': '艺术家独特的风格和创造力',
+    'main.valuation_expert_panel': '专家小组',
+    'main.valuation_expert_panel_desc': '经过验证的专家小组综合评估',
+    // VR画廊
+    'main.vr_gallery_tour': 'VR画廊导览',
+    'main.vr_gallery_subtitle': '在360度虚拟画廊中欣赏作品',
+    'main.vr_enter_mode': '进入VR模式',
+    'main.vr_background_music': '背景音乐',
+    'main.vr_controls': '鼠标拖动 | WASD键移动',
+    'main.vr_loading': '正在加载VR画廊...',
     
     // Welcome Tutorial
     'tutorial.welcome_title': '欢迎来到GalleryPia！🎨',
@@ -833,6 +896,34 @@ const translations = {
     'main.recent_no_artworks': '最近登録された作品がありません。',
     'main.recent_coming_soon': '新しい作品が間もなく登録されます。',
     'main.recent_badge': 'NEW',
+    // 評価システムセクション
+    'main.valuation_title': 'セルフ評価システム',
+    'main.valuation_subtitle': '専門家パネルの定性評価とデータベースの定量評価を組み合わせて、透明で客観的なNFTアート評価を提供します',
+    'main.valuation_quantitative': '定量評価',
+    'main.valuation_quantitative_en': 'Quantitative Analysis',
+    'main.valuation_qualitative': '定性評価',
+    'main.valuation_qualitative_en': 'Qualitative Evaluation',
+    'main.valuation_market_demand': '市場需要',
+    'main.valuation_market_demand_desc': 'NFTマーケットトレンドと取引量分析',
+    'main.valuation_rarity': '希少性',
+    'main.valuation_rarity_desc': 'エディション数と類似NFT比較分析',
+    'main.valuation_transaction_history': '取引履歴',
+    'main.valuation_transaction_history_desc': '過去の取引記録と価格変動傾向',
+    'main.valuation_design_quality': 'デザイン品質',
+    'main.valuation_design_quality_desc': 'デザイン品質と美的完成度評価',
+    'main.valuation_originality': '独創性',
+    'main.valuation_originality_desc': 'コンセプトの新鮮さと独創的な表現',
+    'main.valuation_artist_style': 'アーティストスタイル',
+    'main.valuation_artist_style_desc': 'アーティストの独自のスタイルと創造性',
+    'main.valuation_expert_panel': '専門家パネル',
+    'main.valuation_expert_panel_desc': '検証済み専門家パネルの総合評価',
+    // VRギャラリー
+    'main.vr_gallery_tour': 'VRギャラリーツアー',
+    'main.vr_gallery_subtitle': '360度仮想ギャラリーで作品鑑賞',
+    'main.vr_enter_mode': 'VRモード開始',
+    'main.vr_background_music': '背景音楽',
+    'main.vr_controls': 'マウスでドラッグ | WASDキーで移動',
+    'main.vr_loading': 'VRギャラリー読み込み中...',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'GalleryPiaへようこそ！🎨',
@@ -8351,11 +8442,10 @@ app.get('/', async (c) => {
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-black mb-4">
-                    <span class="text-gradient">셀프가치산정 시스템</span>
+                    <span class="text-gradient">${t('main.valuation_title', lang)}</span>
                 </h2>
                 <p class="text-gray-400 text-base md:text-lg font-light leading-relaxed max-w-3xl mx-auto">
-                    전문가 패널의 정성평가와 데이터 기반의 정량평가를 결합하여<br class="hidden md:block"/>
-                    투명하고 객관적인 NFT 미술품 가치산정을 제공합니다
+                    ${t('main.valuation_subtitle', lang)}
                 </p>
             </div>
             
@@ -8367,8 +8457,8 @@ app.get('/', async (c) => {
                             <i class="fas fa-chart-line text-white text-2xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-3xl font-black text-white mb-1">정량적 평가</h3>
-                            <div class="text-blue-400 text-sm font-semibold">Quantitative Analysis</div>
+                            <h3 class="text-3xl font-black text-white mb-1">${t('main.valuation_quantitative', lang)}</h3>
+                            <div class="text-blue-400 text-sm font-semibold">${t('main.valuation_quantitative_en', lang)}</div>
                         </div>
                     </div>
                     <ul class="space-y-5">
@@ -8377,8 +8467,8 @@ app.get('/', async (c) => {
                                 <i class="fas fa-fire text-white text-base"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="font-bold text-white mb-2 text-lg">시장 수요도</div>
-                                <div class="text-gray-300 text-sm leading-relaxed">NFT 마켓 트렌드 및 거래량 분석</div>
+                                <div class="font-bold text-white mb-2 text-lg">${t('main.valuation_market_demand', lang)}</div>
+                                <div class="text-gray-300 text-sm leading-relaxed">${t('main.valuation_market_demand_desc', lang)}</div>
                                 <div class="mt-2 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" style="width: 85%"></div>
                                 </div>
@@ -8389,8 +8479,8 @@ app.get('/', async (c) => {
                                 <i class="fas fa-gem text-white text-base"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="font-bold text-white mb-2 text-lg">희소성</div>
-                                <div class="text-gray-300 text-sm leading-relaxed">에디션 수 및 유사 NFT 비교 분석</div>
+                                <div class="font-bold text-white mb-2 text-lg">${t('main.valuation_rarity', lang)}</div>
+                                <div class="text-gray-300 text-sm leading-relaxed">${t('main.valuation_rarity_desc', lang)}</div>
                                 <div class="mt-2 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" style="width: 92%"></div>
                                 </div>
@@ -8401,8 +8491,8 @@ app.get('/', async (c) => {
                                 <i class="fas fa-history text-white text-base"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="font-bold text-white mb-2 text-lg">거래 이력</div>
-                                <div class="text-gray-300 text-sm leading-relaxed">과거 거래 내역 및 가격 변동 추이</div>
+                                <div class="font-bold text-white mb-2 text-lg">${t('main.valuation_transaction_history', lang)}</div>
+                                <div class="text-gray-300 text-sm leading-relaxed">${t('main.valuation_transaction_history_desc', lang)}</div>
                                 <div class="mt-2 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" style="width: 78%"></div>
                                 </div>
@@ -8418,8 +8508,8 @@ app.get('/', async (c) => {
                             <i class="fas fa-star text-white text-2xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-3xl font-black text-white mb-1">정성적 평가</h3>
-                            <div class="text-purple-400 text-sm font-semibold">Qualitative Analysis</div>
+                            <h3 class="text-3xl font-black text-white mb-1">${t('main.valuation_qualitative', lang)}</h3>
+                            <div class="text-purple-400 text-sm font-semibold">${t('main.valuation_qualitative_en', lang)}</div>
                         </div>
                     </div>
                     <ul class="space-y-5">
@@ -8428,8 +8518,8 @@ app.get('/', async (c) => {
                                 <i class="fas fa-palette text-white text-base"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="font-bold text-white mb-2 text-lg">예술적 완성도</div>
-                                <div class="text-gray-300 text-sm leading-relaxed">디자인 품질 및 미적 완성도 평가</div>
+                                <div class="font-bold text-white mb-2 text-lg">${t('main.valuation_design_quality', lang)}</div>
+                                <div class="text-gray-300 text-sm leading-relaxed">${t('main.valuation_design_quality_desc', lang)}</div>
                                 <div class="mt-2 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width: 95%"></div>
                                 </div>
@@ -8440,8 +8530,8 @@ app.get('/', async (c) => {
                                 <i class="fas fa-lightbulb text-white text-base"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="font-bold text-white mb-2 text-lg">독창성</div>
-                                <div class="text-gray-300 text-sm leading-relaxed">아티스트의 고유한 스타일과 창의성</div>
+                                <div class="font-bold text-white mb-2 text-lg">${t('main.valuation_originality', lang)}</div>
+                                <div class="text-gray-300 text-sm leading-relaxed">${t('main.valuation_originality_desc', lang)}</div>
                                 <div class="mt-2 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width: 88%"></div>
                                 </div>
@@ -8452,8 +8542,8 @@ app.get('/', async (c) => {
                                 <i class="fas fa-user-tie text-white text-base"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="font-bold text-white mb-2 text-lg">전문가 평점</div>
-                                <div class="text-gray-300 text-sm leading-relaxed">검증된 전문가 패널의 종합 평가</div>
+                                <div class="font-bold text-white mb-2 text-lg">${t('main.valuation_expert_panel', lang)}</div>
+                                <div class="text-gray-300 text-sm leading-relaxed">${t('main.valuation_expert_panel_desc', lang)}</div>
                                 <div class="mt-2 h-1.5 bg-gray-800 rounded-full overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width: 91%"></div>
                                 </div>
