@@ -343,7 +343,7 @@ function openAddressSearch(addressInput) {
     if (!document.getElementById('kakao-postcode-script')) {
       const script = document.createElement('script');
       script.id = 'kakao-postcode-script';
-      script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+      script.src = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
       script.onload = () => {
         openAddressSearch(addressInput);
       };
