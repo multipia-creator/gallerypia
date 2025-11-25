@@ -195,6 +195,131 @@ class I18n {
         'feature3.item1': '검증된 미술관 작품',
         'feature3.item2': '큐레이터 추천 시스템',
         'feature3.item3': '글로벌 마켓플레이스',
+        
+        // Common Terms (for auto-translation)
+        'common.recommended': '추천',
+        'common.popular': '인기',
+        'common.new': '신규',
+        'common.recent': '최신',
+        'common.viewAll': '전체 보기',
+        'common.artworks': '작품',
+        'common.price': '산정가',
+        'common.painting': '회화',
+        'common.digital': '디지털아트',
+        'common.photo': '사진',
+        'common.sculpture': '조각',
+        'common.abstract': '추상화',
+        'common.3dart': '3D 아트',
+        'common.excellentCollection': '전문가 평가가 우수한 엄선된 컬렉션',
+        'common.mostInterest': '가장 많은 관심을 받고 있는 작품',
+        'common.latestArtworks': '최근 등록된 신작',
+        'common.noArtworks': '등록된 작품이 없습니다.',
+        'common.noRecommended': '평점 4.0 이상의 추천 작품이 없습니다.',
+        'common.noPopular': '인기 작품이 없습니다.',
+        'common.expertEval': '전문가 평가를 받은 우수한 작품이 곧 추가됩니다.',
+        
+        // Search Section
+        'search.placeholder': 'AI로 작품 검색... (텍스트, 음성 지원)',
+        'search.voice': '음성 검색',
+        'search.ai': 'AI 검색',
+        'search.noResults': '검색 결과가 없습니다',
+        
+        // Quick Categories
+        'category.painting': '회화',
+        'category.digital': '디지털아트',
+        'category.photo': '사진',
+        'category.sculpture': '조각',
+        'category.abstract': '추상화',
+        'category.3dart': '3D 아트',
+        
+        // VR Gallery
+        'vr.tour': 'VR 갤러리 투어',
+        'vr.experience': '360도 가상 갤러리에서 작품 감상하기',
+        'vr.goGallery': '갤러리로 이동',
+        
+        // Stats Cards
+        'stats.artworks': 'NFT 작품',
+        'stats.artists': '아티스트',
+        'stats.minted': '민팅 완료',
+        'stats.totalValue': '총 가치',
+        
+        // Innovation Features Section
+        'innovation.badge': '월드클래스 3대 신기능',
+        'innovation.title': '혁신 기술로 더 안전하고 편리한 NFT 경험',
+        'innovation.subtitle': 'AI 기반 진위 검증, 완전 자동화된 로열티, 글로벌 파트너십으로',
+        
+        // AI Verification Feature
+        'feature.ai.title': 'AI 진위 검증',
+        'feature.ai.desc': '딥러닝 기반 이미지 분석과 블록체인 추적으로 작품의 진위성을 자동으로 검증합니다',
+        'feature.ai.item1': '실시간 위조품 탐지',
+        'feature.ai.item2': '블록체인 기록 자동 추적',
+        'feature.ai.item3': '전문가 2차 검증 시스템',
+        'feature.ai.link': '진위 검증 알아보기',
+        
+        // Auto Royalty Feature
+        'feature.royalty.title': '자동 로열티 분배',
+        'feature.royalty.desc': '스마트 컨트랙트를 통한 완전 자동화된 로열티 분배 시스템으로 투명한 수익 분배를 보장합니다',
+        'feature.royalty.item1': '거래 즉시 자동 분배',
+        'feature.royalty.item2': '투명한 분배 내역 확인',
+        'feature.royalty.item3': '스마트 컨트랙트 보장',
+        'feature.royalty.link': '로열티 시스템 알아보기',
+        
+        // Global Partnership Feature
+        'feature.partnership.title': '글로벌 파트너십',
+        'feature.partnership.desc': '전 세계 미술관, 갤러리, 딜러와의 파트너십으로 프리미엄 작품을 제공합니다',
+        'feature.partnership.item1': '전문 갤러리 큐레이션',
+        'feature.partnership.item2': '국제 미술 전시 연계',
+        'feature.partnership.item3': '블록체인 보안',
+        'feature.partnership.link': '파트너 미술관 보기',
+        
+        // Artwork Sections
+        'section.recommended': '추천 작품',
+        'section.popular': '인기 작품',
+        'section.new': '신규 작품',
+        'section.recommendedDesc': '평점 4.0 이상의 추천 작품이 없습니다.',
+        'section.popularDesc': '인기 작품이 없습니다.',
+        'section.popularMsg': '조회수와 좋아요가 많은 작품이 곧 추가됩니다.',
+        'section.newDesc': '등록된 작품이 없습니다.',
+        
+        // AI Recommendations
+        'ai.recommendations': '🤖 AI RECOMMENDATIONS',
+        'ai.forYou': '당신을 위한 추천 작품',
+        'ai.analyzing': '추천 작품을 분석하는 중...',
+        'ai.hybrid': '하이브리드 추천',
+        'ai.noRecommendations': '아직 추천할 작품이 없습니다',
+        
+        // Artwork Card
+        'card.estimatedValue': '산정가',
+        'card.views': '조회',
+        'card.likes': '좋아요',
+        'card.seeDetails': '상세 보기',
+        
+        // Auction Section
+        'auction.info': '경매 정보를 불러오는 중...',
+        'auction.ended': '경매 종료',
+        'auction.noAuctions': '진행 중인 경매가 없습니다',
+        'auction.available': '판매자가 경매를 시작하면 참여할 수 있습니다',
+        'auction.bid': '경매 입찰',
+        
+        // Valuation System
+        'valuation.title': '작품분석 + AI평가 + 전문가 검증',
+        'valuation.subtitle': '평가 완료 후 즉시 NFT 민팅 및 등록 가능',
+        'valuation.aiValue': 'AI 산정 가치',
+        'valuation.hashBonus': '블록체인 원본 해시 등록 (+40점)',
+        'valuation.noArtworks': '민팅 가능한 작품이 없습니다.',
+        'valuation.aiPrice': 'AI 산정가',
+        'valuation.aiPrediction': 'AI 가격 예측 보기',
+        
+        // Upload Section
+        'upload.title': 'NFT 작품 업로드',
+        'upload.subtitle': '작품을 업로드하고 NFT로 발행하세요',
+        'upload.dragDrop': '이미지를 드래그하거나 클릭하여 업로드',
+        'upload.noUploads': '아직 업로드한 작품이 없습니다',
+        
+        // Analysis
+        'analysis.marketTrend': 'NFT 마켓 트렌드 및 거래량 분석',
+        'analysis.editionComparison': '에디션 수 및 유사 NFT 비교 분석',
+        'analysis.artistStyle': '아티스트의 고유한 스타일과 창의성',
       },
       
       // English
@@ -334,6 +459,109 @@ class I18n {
         'feature3.item1': 'Verified museum works',
         'feature3.item2': 'Curator recommendations',
         'feature3.item3': 'Global marketplace',
+        
+        // Search Section
+        'search.placeholder': 'Search artworks with AI... (Text, Voice supported)',
+        'search.voice': 'Voice Search',
+        'search.ai': 'AI Search',
+        'search.noResults': 'No results found',
+        
+        // Quick Categories  
+        'category.painting': 'Painting',
+        'category.digital': 'Digital Art',
+        'category.photo': 'Photography',
+        'category.sculpture': 'Sculpture',
+        'category.abstract': 'Abstract',
+        'category.3dart': '3D Art',
+        
+        // VR Gallery
+        'vr.tour': 'VR Gallery Tour',
+        'vr.experience': 'Experience artworks in 360° virtual gallery',
+        'vr.goGallery': 'Go to Gallery',
+        
+        // Stats Cards
+        'stats.artworks': 'NFT Artworks',
+        'stats.artists': 'Artists',
+        'stats.minted': 'Minted',
+        'stats.totalValue': 'Total Value',
+        
+        // Innovation Features Section
+        'innovation.badge': 'World-Class 3 Major Features',
+        'innovation.title': 'Safer and More Convenient NFT Experience',
+        'innovation.subtitle': 'AI authenticity verification, automated royalty, global partnerships',
+        
+        // AI Verification Feature
+        'feature.ai.title': 'AI Authenticity Verification',
+        'feature.ai.desc': 'Auto verify artwork authenticity with deep learning image analysis and blockchain tracking',
+        'feature.ai.item1': 'Real-time counterfeit detection',
+        'feature.ai.item2': 'Automatic blockchain tracking',
+        'feature.ai.item3': 'Expert secondary verification',
+        'feature.ai.link': 'Learn about verification',
+        
+        // Auto Royalty Feature
+        'feature.royalty.title': 'Automated Royalty Distribution',
+        'feature.royalty.desc': 'Fully automated royalty distribution system through smart contracts',
+        'feature.royalty.item1': 'Instant automatic distribution',
+        'feature.royalty.item2': 'Transparent distribution history',
+        'feature.royalty.item3': 'Smart contract guarantee',
+        'feature.royalty.link': 'Learn about royalty system',
+        
+        // Global Partnership Feature
+        'feature.partnership.title': 'Global Partnerships',
+        'feature.partnership.desc': 'Premium artworks through partnerships with museums, galleries, and dealers worldwide',
+        'feature.partnership.item1': 'Professional gallery curation',
+        'feature.partnership.item2': 'International art exhibitions',
+        'feature.partnership.item3': 'Blockchain security',
+        'feature.partnership.link': 'View partner museums',
+        
+        // Artwork Sections
+        'section.recommended': 'Recommended Artworks',
+        'section.popular': 'Popular Artworks',
+        'section.new': 'New Artworks',
+        'section.recommendedDesc': 'No recommended artworks with rating 4.0+',
+        'section.popularDesc': 'No popular artworks',
+        'section.popularMsg': 'Popular artworks with many views and likes coming soon',
+        'section.newDesc': 'No artworks registered yet',
+        
+        // AI Recommendations
+        'ai.recommendations': '🤖 AI RECOMMENDATIONS',
+        'ai.forYou': 'Recommended for You',
+        'ai.analyzing': 'Analyzing recommendations...',
+        'ai.hybrid': 'Hybrid Recommendations',
+        'ai.noRecommendations': 'No recommendations yet',
+        
+        // Artwork Card
+        'card.estimatedValue': 'Estimated Value',
+        'card.views': 'Views',
+        'card.likes': 'Likes',
+        'card.seeDetails': 'See Details',
+        
+        // Auction Section
+        'auction.info': 'Loading auction information...',
+        'auction.ended': 'Auction Ended',
+        'auction.noAuctions': 'No ongoing auctions',
+        'auction.available': 'You can participate when sellers start auctions',
+        'auction.bid': 'Place Bid',
+        
+        // Valuation System
+        'valuation.title': 'Artwork Analysis + AI Evaluation + Expert Verification',
+        'valuation.subtitle': 'Immediate NFT minting after evaluation',
+        'valuation.aiValue': 'AI Estimated Value',
+        'valuation.hashBonus': 'Blockchain Hash Registration (+40pts)',
+        'valuation.noArtworks': 'No artworks available for minting',
+        'valuation.aiPrice': 'AI Estimated Price',
+        'valuation.aiPrediction': 'View AI Price Prediction',
+        
+        // Upload Section
+        'upload.title': 'Upload NFT Artwork',
+        'upload.subtitle': 'Upload your artwork and mint as NFT',
+        'upload.dragDrop': 'Drag or click to upload images',
+        'upload.noUploads': 'No uploaded artworks yet',
+        
+        // Analysis
+        'analysis.marketTrend': 'NFT market trend and trading volume analysis',
+        'analysis.editionComparison': 'Edition count and similar NFT comparison',
+        'analysis.artistStyle': 'Artist\'s unique style and creativity',
       },
       
       // Chinese (简体中文)
@@ -473,6 +701,109 @@ class I18n {
         'feature3.item1': '经过验证的博物馆作品',
         'feature3.item2': '策展人推荐',
         'feature3.item3': '全球市场',
+        
+        // Search Section
+        'search.placeholder': '用AI搜索作品... (支持文本、语音)',
+        'search.voice': '语音搜索',
+        'search.ai': 'AI搜索',
+        'search.noResults': '未找到结果',
+        
+        // Quick Categories
+        'category.painting': '绘画',
+        'category.digital': '数字艺术',
+        'category.photo': '摄影',
+        'category.sculpture': '雕塑',
+        'category.abstract': '抽象画',
+        'category.3dart': '3D艺术',
+        
+        // VR Gallery
+        'vr.tour': 'VR画廊之旅',
+        'vr.experience': '在360°虚拟画廊中欣赏作品',
+        'vr.goGallery': '前往画廊',
+        
+        // Stats Cards
+        'stats.artworks': 'NFT作品',
+        'stats.artists': '艺术家',
+        'stats.minted': '已铸造',
+        'stats.totalValue': '总价值',
+        
+        // Innovation Features Section
+        'innovation.badge': '世界级三大新功能',
+        'innovation.title': '创新技术带来更安全便捷的NFT体验',
+        'innovation.subtitle': '基于AI的真伪验证、全自动版税、全球合作伙伴',
+        
+        // AI Verification Feature
+        'feature.ai.title': 'AI真伪验证',
+        'feature.ai.desc': '通过深度学习图像分析和区块链追踪自动验证作品真伪',
+        'feature.ai.item1': '实时伪造品检测',
+        'feature.ai.item2': '区块链记录自动追踪',
+        'feature.ai.item3': '专家二次验证系统',
+        'feature.ai.link': '了解验证',
+        
+        // Auto Royalty Feature
+        'feature.royalty.title': '自动版税分配',
+        'feature.royalty.desc': '通过智能合约实现完全自动化的版税分配系统，确保透明的收益分配',
+        'feature.royalty.item1': '即时自动分配',
+        'feature.royalty.item2': '透明分配记录',
+        'feature.royalty.item3': '智能合约保障',
+        'feature.royalty.link': '了解版税系统',
+        
+        // Global Partnership Feature
+        'feature.partnership.title': '全球合作伙伴',
+        'feature.partnership.desc': '通过与全球博物馆、画廊和经销商的合作提供优质作品',
+        'feature.partnership.item1': '专业画廊策展',
+        'feature.partnership.item2': '国际艺术展览联动',
+        'feature.partnership.item3': '区块链安全',
+        'feature.partnership.link': '查看合作博物馆',
+        
+        // Artwork Sections
+        'section.recommended': '推荐作品',
+        'section.popular': '热门作品',
+        'section.new': '新作品',
+        'section.recommendedDesc': '暂无评分4.0以上的推荐作品',
+        'section.popularDesc': '暂无热门作品',
+        'section.popularMsg': '浏览量和点赞数高的作品即将添加',
+        'section.newDesc': '暂无已注册作品',
+        
+        // AI Recommendations
+        'ai.recommendations': '🤖 AI推荐',
+        'ai.forYou': '为您推荐',
+        'ai.analyzing': '正在分析推荐作品...',
+        'ai.hybrid': '混合推荐',
+        'ai.noRecommendations': '暂无推荐作品',
+        
+        // Artwork Card
+        'card.estimatedValue': '估价',
+        'card.views': '浏览',
+        'card.likes': '点赞',
+        'card.seeDetails': '查看详情',
+        
+        // Auction Section
+        'auction.info': '正在加载拍卖信息...',
+        'auction.ended': '拍卖结束',
+        'auction.noAuctions': '暂无进行中的拍卖',
+        'auction.available': '卖家开始拍卖后即可参与',
+        'auction.bid': '竞价',
+        
+        // Valuation System
+        'valuation.title': '作品分析 + AI评估 + 专家验证',
+        'valuation.subtitle': '评估完成后立即铸造NFT并注册',
+        'valuation.aiValue': 'AI估值',
+        'valuation.hashBonus': '区块链原始哈希注册 (+40分)',
+        'valuation.noArtworks': '暂无可铸造作品',
+        'valuation.aiPrice': 'AI估价',
+        'valuation.aiPrediction': '查看AI价格预测',
+        
+        // Upload Section
+        'upload.title': '上传NFT作品',
+        'upload.subtitle': '上传您的作品并铸造为NFT',
+        'upload.dragDrop': '拖动或点击上传图片',
+        'upload.noUploads': '暂无已上传作品',
+        
+        // Analysis
+        'analysis.marketTrend': 'NFT市场趋势和交易量分析',
+        'analysis.editionComparison': '版数和类似NFT对比分析',
+        'analysis.artistStyle': '艺术家的独特风格和创意',
       },
       
       // Japanese (日本語)
@@ -612,6 +943,109 @@ class I18n {
         'feature3.item1': '検証済み美術館作品',
         'feature3.item2': 'キュレーター推薦',
         'feature3.item3': 'グローバルマーケット',
+        
+        // Search Section
+        'search.placeholder': 'AIで作品を検索... (テキスト、音声対応)',
+        'search.voice': '音声検索',
+        'search.ai': 'AI検索',
+        'search.noResults': '検索結果がありません',
+        
+        // Quick Categories
+        'category.painting': '絵画',
+        'category.digital': 'デジタルアート',
+        'category.photo': '写真',
+        'category.sculpture': '彫刻',
+        'category.abstract': '抽象画',
+        'category.3dart': '3Dアート',
+        
+        // VR Gallery
+        'vr.tour': 'VRギャラリーツアー',
+        'vr.experience': '360度バーチャルギャラリーで作品鑑賞',
+        'vr.goGallery': 'ギャラリーへ',
+        
+        // Stats Cards
+        'stats.artworks': 'NFT作品',
+        'stats.artists': 'アーティスト',
+        'stats.minted': 'ミント済み',
+        'stats.totalValue': '総価値',
+        
+        // Innovation Features Section
+        'innovation.badge': 'ワールドクラス3大新機能',
+        'innovation.title': '革新技術でより安全で便利なNFT体験',
+        'innovation.subtitle': 'AIベースの真贋検証、完全自動化されたロイヤリティ、グローバルパートナーシップ',
+        
+        // AI Verification Feature
+        'feature.ai.title': 'AI真贋検証',
+        'feature.ai.desc': 'ディープラーニングベースの画像分析とブロックチェーントラッキングで作品の真贋を自動検証',
+        'feature.ai.item1': 'リアルタイム偽造品検出',
+        'feature.ai.item2': 'ブロックチェーン記録自動追跡',
+        'feature.ai.item3': '専門家二次検証システム',
+        'feature.ai.link': '検証について',
+        
+        // Auto Royalty Feature
+        'feature.royalty.title': '自動ロイヤリティ分配',
+        'feature.royalty.desc': 'スマートコントラクトによる完全自動化されたロイヤリティ分配システムで透明な収益分配を保証',
+        'feature.royalty.item1': '即時自動分配',
+        'feature.royalty.item2': '透明な分配履歴',
+        'feature.royalty.item3': 'スマートコントラクト保証',
+        'feature.royalty.link': 'ロイヤリティシステムについて',
+        
+        // Global Partnership Feature
+        'feature.partnership.title': 'グローバルパートナーシップ',
+        'feature.partnership.desc': '世界中の美術館、ギャラリー、ディーラーとのパートナーシップでプレミアム作品を提供',
+        'feature.partnership.item1': 'プロのギャラリーキュレーション',
+        'feature.partnership.item2': '国際美術展示連携',
+        'feature.partnership.item3': 'ブロックチェーンセキュリティ',
+        'feature.partnership.link': 'パートナー美術館を見る',
+        
+        // Artwork Sections
+        'section.recommended': 'おすすめ作品',
+        'section.popular': '人気作品',
+        'section.new': '新作',
+        'section.recommendedDesc': '評価4.0以上のおすすめ作品はありません',
+        'section.popularDesc': '人気作品はありません',
+        'section.popularMsg': '閲覧数といいねが多い作品が間もなく追加されます',
+        'section.newDesc': '登録された作品はありません',
+        
+        // AI Recommendations
+        'ai.recommendations': '🤖 AIレコメンデーション',
+        'ai.forYou': 'あなたへのおすすめ',
+        'ai.analyzing': 'おすすめ作品を分析中...',
+        'ai.hybrid': 'ハイブリッド推薦',
+        'ai.noRecommendations': 'まだおすすめできる作品がありません',
+        
+        // Artwork Card
+        'card.estimatedValue': '見積額',
+        'card.views': '閲覧',
+        'card.likes': 'いいね',
+        'card.seeDetails': '詳細を見る',
+        
+        // Auction Section
+        'auction.info': 'オークション情報を読み込み中...',
+        'auction.ended': 'オークション終了',
+        'auction.noAuctions': '進行中のオークションはありません',
+        'auction.available': '販売者がオークションを開始すると参加できます',
+        'auction.bid': '入札',
+        
+        // Valuation System
+        'valuation.title': '作品分析 + AI評価 + 専門家検証',
+        'valuation.subtitle': '評価完了後すぐにNFTミントと登録が可能',
+        'valuation.aiValue': 'AI見積額',
+        'valuation.hashBonus': 'ブロックチェーン原本ハッシュ登録 (+40点)',
+        'valuation.noArtworks': 'ミント可能な作品がありません',
+        'valuation.aiPrice': 'AI見積もり',
+        'valuation.aiPrediction': 'AI価格予測を見る',
+        
+        // Upload Section
+        'upload.title': 'NFT作品アップロード',
+        'upload.subtitle': '作品をアップロードしてNFTとして発行',
+        'upload.dragDrop': '画像をドラッグまたはクリックしてアップロード',
+        'upload.noUploads': 'まだアップロードした作品がありません',
+        
+        // Analysis
+        'analysis.marketTrend': 'NFT市場トレンドと取引量分析',
+        'analysis.editionComparison': 'エディション数と類似NFT比較分析',
+        'analysis.artistStyle': 'アーティストの独自のスタイルと創造性',
       }
     };
   }
@@ -686,14 +1120,14 @@ class I18n {
       el.title = this.t(key);
     });
     
-    // Auto-translate main page buttons (without data-i18n attributes)
-    this.translateMainPageButtons();
+    // Auto-translate all page content (without data-i18n attributes)
+    this.translateAllContent();
   }
   
-  translateMainPageButtons() {
+  translateAllContent() {
     // Wait for DOM to be ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.translateMainPageButtons());
+      document.addEventListener('DOMContentLoaded', () => this.translateAllContent());
       return;
     }
     
@@ -875,6 +1309,159 @@ class I18n {
           link.textContent = this.t('feature1.link');
         }
       });
+      
+      // === Search Section ===
+      const searchInput = document.querySelector('input[placeholder*="작품"]');
+      if (searchInput) searchInput.placeholder = this.t('search.placeholder');
+      
+      const voiceButton = document.querySelector('button[title*="음성"]');
+      if (voiceButton) voiceButton.title = this.t('search.voice');
+      
+      const aiSearchButton = document.querySelector('button[title*="AI"]');
+      if (aiSearchButton) aiSearchButton.title = this.t('search.ai');
+      
+      // === Quick Categories ===
+      updateText('a[href*="/gallery?category=painting"]', 'category.painting');
+      updateText('a[href*="/gallery?category=digital"]', 'category.digital');
+      updateText('a[href*="/gallery?category=photo"]', 'category.photo');
+      updateText('a[href*="/gallery?category=sculpture"]', 'category.sculpture');
+      
+      // === VR Gallery ===
+      const vrTour = document.querySelector('.text-white.font-bold');
+      if (vrTour && vrTour.textContent.includes('VR')) {
+        vrTour.textContent = this.t('vr.tour');
+      }
+      const vrExperience = document.querySelector('.text-gray-400');
+      if (vrExperience && vrExperience.textContent.includes('360')) {
+        vrExperience.textContent = this.t('vr.experience');
+      }
+      updateText('a[href="/gallery"] span.text-white', 'vr.goGallery');
+      
+      // === Innovation Features Section (3대 신기능) ===
+      const innovationBadge = document.querySelector('.text-gradient');
+      if (innovationBadge && innovationBadge.textContent.includes('3대')) {
+        innovationBadge.textContent = this.t('innovation.badge');
+      }
+      const innovationTitle = document.querySelector('.text-4xl');
+      if (innovationTitle && innovationTitle.textContent.includes('혁신')) {
+        innovationTitle.textContent = this.t('innovation.title');
+      }
+      const innovationSubtitle = document.querySelector('.text-xl.text-gray-400');
+      if (innovationSubtitle && innovationSubtitle.textContent.includes('AI 기반')) {
+        innovationSubtitle.textContent = this.t('innovation.subtitle');
+      }
+      
+      // === AI Verification Feature ===
+      const aiFeatureTitle = document.querySelector('.text-2xl');
+      if (aiFeatureTitle && aiFeatureTitle.textContent.includes('AI 진위')) {
+        aiFeatureTitle.textContent = this.t('feature.ai.title');
+      }
+      const aiFeatureDesc = document.querySelector('.text-gray-400.leading-relaxed');
+      if (aiFeatureDesc && aiFeatureDesc.textContent.includes('딥러닝')) {
+        aiFeatureDesc.textContent = this.t('feature.ai.desc');
+      }
+      const aiFeatureItems = document.querySelectorAll('.text-sm.text-gray-300');
+      if (aiFeatureItems[0] && aiFeatureItems[0].textContent.includes('위조품')) {
+        aiFeatureItems[0].textContent = this.t('feature.ai.item1');
+      }
+      if (aiFeatureItems[1] && aiFeatureItems[1].textContent.includes('블록체인')) {
+        aiFeatureItems[1].textContent = this.t('feature.ai.item2');
+      }
+      if (aiFeatureItems[2] && aiFeatureItems[2].textContent.includes('전문가')) {
+        aiFeatureItems[2].textContent = this.t('feature.ai.item3');
+      }
+      const aiFeatureLink = document.querySelector('a[href*="/verification"]');
+      if (aiFeatureLink) aiFeatureLink.textContent = this.t('feature.ai.link');
+      
+      // === Auto Royalty Feature ===
+      const royaltyTitle = document.querySelectorAll('.text-2xl')[1];
+      if (royaltyTitle && royaltyTitle.textContent.includes('로열티')) {
+        royaltyTitle.textContent = this.t('feature.royalty.title');
+      }
+      const royaltyDesc = document.querySelectorAll('.text-gray-400.leading-relaxed')[1];
+      if (royaltyDesc && royaltyDesc.textContent.includes('스마트')) {
+        royaltyDesc.textContent = this.t('feature.royalty.desc');
+      }
+      
+      // === Global Partnership Feature ===
+      const partnershipTitle = document.querySelectorAll('.text-2xl')[2];
+      if (partnershipTitle && partnershipTitle.textContent.includes('파트너십')) {
+        partnershipTitle.textContent = this.t('feature.partnership.title');
+      }
+      const partnershipDesc = document.querySelectorAll('.text-gray-400.leading-relaxed')[2];
+      if (partnershipDesc && partnershipDesc.textContent.includes('미술관')) {
+        partnershipDesc.textContent = this.t('feature.partnership.desc');
+      }
+      
+      // === Artwork Sections ===
+      updateText('h2:contains("추천 작품")', 'section.recommended');
+      updateText('h2:contains("인기 작품")', 'section.popular');
+      updateText('h2:contains("신규 작품")', 'section.new');
+      
+      const noRecommended = document.querySelector('.text-center.text-gray-400');
+      if (noRecommended && noRecommended.textContent.includes('추천 작품이 없습니다')) {
+        noRecommended.textContent = this.t('section.recommendedDesc');
+      }
+      const noPopular = document.querySelectorAll('.text-center.text-gray-400')[1];
+      if (noPopular && noPopular.textContent.includes('인기 작품이 없습니다')) {
+        noPopular.textContent = this.t('section.popularDesc');
+      }
+      
+      // === AI Recommendations ===
+      const aiRecommendations = document.querySelector('.text-2xl.font-bold');
+      if (aiRecommendations && aiRecommendations.textContent.includes('AI RECOMMENDATIONS')) {
+        aiRecommendations.textContent = this.t('ai.recommendations');
+      }
+      const aiForYou = document.querySelector('.text-xl');
+      if (aiForYou && aiForYou.textContent.includes('당신을 위한')) {
+        aiForYou.textContent = this.t('ai.forYou');
+      }
+      const aiAnalyzing = document.querySelector('.text-gray-400');
+      if (aiAnalyzing && aiAnalyzing.textContent.includes('분석하는 중')) {
+        aiAnalyzing.textContent = this.t('ai.analyzing');
+      }
+      
+      // === Artwork Card ===
+      const estimatedValue = document.querySelectorAll('.text-xs.text-gray-400');
+      estimatedValue.forEach(el => {
+        if (el.textContent.includes('산정가')) {
+          el.textContent = this.t('card.estimatedValue');
+        }
+      });
+      
+      // === Auction Section ===
+      const auctionInfo = document.querySelector('.text-center');
+      if (auctionInfo && auctionInfo.textContent.includes('경매 정보')) {
+        auctionInfo.textContent = this.t('auction.info');
+      }
+      const auctionEnded = document.querySelector('.badge');
+      if (auctionEnded && auctionEnded.textContent.includes('경매 종료')) {
+        auctionEnded.textContent = this.t('auction.ended');
+      }
+      
+      // === Valuation System ===
+      const valuationTitle = document.querySelector('.text-3xl.font-bold');
+      if (valuationTitle && valuationTitle.textContent.includes('작품분석')) {
+        valuationTitle.textContent = this.t('valuation.title');
+      }
+      const valuationSubtitle = document.querySelector('.text-gray-400');
+      if (valuationSubtitle && valuationSubtitle.textContent.includes('평가 완료 후')) {
+        valuationSubtitle.textContent = this.t('valuation.subtitle');
+      }
+      
+      // === Upload Section ===
+      const uploadTitle = document.querySelector('.text-2xl.font-bold');
+      if (uploadTitle && uploadTitle.textContent.includes('NFT 작품 업로드')) {
+        uploadTitle.textContent = this.t('upload.title');
+      }
+      const uploadSubtitle = document.querySelector('.text-gray-400');
+      if (uploadSubtitle && uploadSubtitle.textContent.includes('작품을 업로드하고')) {
+        uploadSubtitle.textContent = this.t('upload.subtitle');
+      }
+      const uploadDragDrop = document.querySelector('.text-center.text-gray-400');
+      if (uploadDragDrop && uploadDragDrop.textContent.includes('드래그')) {
+        uploadDragDrop.textContent = this.t('upload.dragDrop');
+      }
       
       console.log('✅ All main page content translated');
     } catch (error) {
