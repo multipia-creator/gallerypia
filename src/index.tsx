@@ -7580,15 +7580,15 @@ app.get('/', async (c) => {
                             <input 
                                 type="text" 
                                 id="aiSearchInput"
-                                placeholder="AI로 작품 검색... (텍스트, 음성 지원)"
+                                placeholder="${t('main.search_placeholder', lang)}"
                                 class="w-full px-6 py-5 pr-36 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:bg-white/10 transition-all duration-300 text-lg"
                                 onkeypress="if(event.key === 'Enter') performAISearch()"
                             >
                             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                <button onclick="startVoiceSearch()" class="p-3 bg-purple-600/80 hover:bg-purple-600 rounded-xl transition-all duration-200 hover:scale-110" title="음성 검색">
+                                <button onclick="startVoiceSearch()" class="p-3 bg-purple-600/80 hover:bg-purple-600 rounded-xl transition-all duration-200 hover:scale-110" title="${t('main.voice_search', lang)}">
                                     <i class="fas fa-microphone text-white text-lg"></i>
                                 </button>
-                                <button onclick="performAISearch()" class="p-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 rounded-xl transition-all duration-200 hover:scale-110" title="AI 검색">
+                                <button onclick="performAISearch()" class="p-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 rounded-xl transition-all duration-200 hover:scale-110" title="${t('main.ai_search', lang)}">
                                     <i class="fas fa-search text-white text-lg"></i>
                                 </button>
                             </div>
@@ -8317,9 +8317,9 @@ app.get('/', async (c) => {
     </script>
     `;
     
-    return c.html(getLayout(content))
+    return c.html(getLayout(content, 'GALLERYPIA - NFT Art Museum', lang))
   } catch (error: any) {
-    return c.html(getLayout('<div class="py-20 text-center text-red-500">데이터를 불러오는데 실패했습니다.</div>'))
+    return c.html(getLayout('<div class="py-20 text-center text-red-500">' + t('common.error', lang) + '</div>', 'Error', lang))
   }
 })
 
