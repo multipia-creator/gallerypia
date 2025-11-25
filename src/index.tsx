@@ -2536,10 +2536,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
               >
                 <div class="flex items-center space-x-3">
                   <span class="text-2xl">\${lang.flag}</span>
-                  <div>
-                    <div class="font-medium \${lang.code === currentLang ? 'text-white' : 'text-gray-200'}">\${lang.nativeName}</div>
-                    <div class="text-xs text-gray-400">\${lang.name}</div>
-                  </div>
+                  <div class="font-medium \${lang.code === currentLang ? 'text-white' : 'text-gray-200'}">\${lang.nativeName}</div>
                 </div>
                 \${lang.code === currentLang ? '<i class="fas fa-check text-purple-400"></i>' : ''}
               </button>
@@ -2563,10 +2560,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
             >
               <div class="flex items-center space-x-3">
                 <span class="text-2xl">\${lang.flag}</span>
-                <div>
-                  <div class="font-medium \${lang.code === currentLang ? 'text-white' : 'text-gray-200'}">\${lang.nativeName}</div>
-                  <div class="text-xs text-gray-400">\${lang.name}</div>
-                </div>
+                <div class="font-medium \${lang.code === currentLang ? 'text-white' : 'text-gray-200'}">\${lang.nativeName}</div>
               </div>
               \${lang.code === currentLang ? '<i class="fas fa-check text-purple-400"></i>' : ''}
             </button>
