@@ -2450,10 +2450,10 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         
         const systemGuide = document.querySelector('a[href="/valuation-system"]');
         if (systemGuide) {
-          const guideSpan = systemGuide.querySelector('span') || systemGuide;
-          if (guideSpan.textContent.includes('시스템') || guideSpan.textContent.includes('System')) {
-            const icon = systemGuide.innerHTML.match(/<i[^>]*><\/i>/)?.[0] || '';
-            systemGuide.innerHTML = icon + window.i18n.t('main.system_guide');
+          const iconEl = systemGuide.querySelector('i');
+          const iconHTML = iconEl ? iconEl.outerHTML : '';
+          if (systemGuide.textContent.includes('시스템') || systemGuide.textContent.includes('System')) {
+            systemGuide.innerHTML = iconHTML + ' ' + window.i18n.t('main.system_guide');
           }
         }
         
