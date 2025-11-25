@@ -72,7 +72,10 @@ class PerformanceMonitor {
   }
   
   monitorFetch() {
-    const originalFetch = window.fetch
+    if (!window._originalFetch) {
+      window._originalFetch = window.fetch;
+    }
+    const originalFetch = window._originalFetch;
     window.fetch = async (...args) => {
       const start = performance.now()
       const url = typeof args[0] === 'string' ? args[0] : args[0].url

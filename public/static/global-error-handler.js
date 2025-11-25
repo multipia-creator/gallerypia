@@ -85,7 +85,10 @@ window.addEventListener('unhandledrejection', (event) => {
 /**
  * Network error handler (fetch failures)
  */
-const originalFetch = window.fetch;
+if (!window._originalFetch) {
+  window._originalFetch = window.fetch;
+}
+const originalFetch = window._originalFetch;
 window.fetch = async (...args) => {
   try {
     const response = await originalFetch(...args);
