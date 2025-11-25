@@ -11,6 +11,7 @@ import notifications from './routes/notifications'
 import analytics from './routes/analytics'
 import recommendations from './routes/recommendations'
 import seo from './routes/seo'
+import bcrypt from 'bcryptjs'
 
 const app = new Hono<{ Bindings: Bindings }>()
 
@@ -3310,8 +3311,19 @@ app.post('/api/auth/signup', async (c) => {
       }, 400)
     }
     
-    // Use password or password_hash (for backward compatibility)
-    const finalPasswordHash = password_hash || password
+    // Password strength validation (backend)
+    if (password) {
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      if (!passwordRegex.test(password)) {
+        return c.json({ 
+          success: false, 
+          error: '비밀번호는 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다' 
+        }, 400)
+      }
+    }
+    
+    // Hash password with bcrypt (SECURITY FIX)
+    const finalPasswordHash = password_hash || await bcrypt.hash(password, 10)
     
     // Check if email/username already exists
     const existing = await db.prepare(`
@@ -3427,8 +3439,11 @@ app.post('/api/auth/signup', async (c) => {
       message: successMessage,
       user_id: userId,
       role: role,
-      partnership_auto_submitted: role === 'museum' || role === 'gallery'
-    })
+      partnership_auto_submitted: role === 'museum' || role === 'gallery',
+      next_action: role === 'expert' ? 'admin_approval_required' : 'login_now',
+      redirect_url: '/login',
+      toast_type: 'success'
+    }, 201)
   } catch (error: any) {
     console.error('Signup error:', error)
     return c.json({ success: false, error: error.message || '회원가입 중 오류가 발생했습니다' }, 500)
@@ -3442,25 +3457,29 @@ app.post('/api/auth/login', async (c) => {
   try {
     const { email, password, password_hash } = await c.req.json()
     
-    // Accept either password or password_hash for backward compatibility
-    const finalPassword = password_hash || password
-    
-    if (!email || !finalPassword) {
+    if (!email || (!password && !password_hash)) {
       return c.json({ success: false, error: '이메일과 비밀번호를 입력해주세요' }, 400)
     }
     
-    // Find user
+    // Find user by email only
     const userResult = await db.prepare(`
-      SELECT * FROM users WHERE email = ? AND password_hash = ? AND is_active = 1
-    `).bind(email, finalPassword).first()
-    
-    console.log('Login query result:', userResult)
+      SELECT * FROM users WHERE email = ? AND is_active = 1
+    `).bind(email).first()
     
     if (!userResult) {
       return c.json({ success: false, error: '이메일 또는 비밀번호가 올바르지 않습니다' }, 401)
     }
     
     const user = userResult as any
+    
+    // Verify password with bcrypt (SECURITY FIX)
+    const isValidPassword = password_hash 
+      ? password_hash === user.password_hash // Backward compatibility for old hashed passwords
+      : await bcrypt.compare(password, user.password_hash)
+    
+    if (!isValidPassword) {
+      return c.json({ success: false, error: '이메일 또는 비밀번호가 올바르지 않습니다' }, 401)
+    }
     
     // Generate session token
     const sessionToken = generateSessionToken()
@@ -3483,10 +3502,12 @@ app.post('/api/auth/login', async (c) => {
       VALUES (?, 'login', 'user', datetime('now'))
     `).bind(user.id).run()
     
+    // Set HttpOnly cookie (SECURITY FIX: XSS prevention)
+    c.header('Set-Cookie', `session_token=${sessionToken}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${7 * 24 * 60 * 60}`)
+    
     return c.json({ 
       success: true, 
       message: '로그인 성공',
-      session_token: sessionToken,
       user: {
         id: Number(user.id),
         email: String(user.email),
