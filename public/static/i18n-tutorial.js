@@ -202,16 +202,27 @@ window.closeTutorial = function(markAsShown) {
 };
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('[P3] 다국어 & 튜토리얼 시스템 초기화');
-  
-  // Init i18n
-  initI18n();
-  
-  // Show tutorial only on first visit (after 1 second)
-  setTimeout(() => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSystem);
+} else {
+  // DOM already loaded
+  initSystem();
+}
+
+function initSystem() {
+  try {
+    console.log('[P3] 다국어 & 튜토리얼 시스템 초기화');
+    
+    // Init i18n
+    initI18n();
+    
+    // Show tutorial only on first visit and only on homepage
     if (window.location.pathname === '/') {
-      showFirstVisitTutorial();
+      setTimeout(() => {
+        showFirstVisitTutorial();
+      }, 1500);
     }
-  }, 1000);
-});
+  } catch (err) {
+    console.error('[P3] 초기화 오류:', err);
+  }
+}

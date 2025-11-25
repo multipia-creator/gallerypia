@@ -78,7 +78,7 @@ app.use('*', async (c, next) => {
   if (c.res.headers.get('content-type')?.includes('text/html')) {
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://browser.sentry-cdn.com https://t1.daumcdn.net",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://t1.daumcdn.net",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
       "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net",
       "img-src 'self' data: https: blob:",
@@ -178,7 +178,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <meta name="author" content="서경대학교 남현우 교수">
     
     <!-- Security: Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://browser.sentry-cdn.com https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https: blob:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https: blob:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:">
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#8b5cf6">
@@ -3248,7 +3248,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     </script>
     
     <!-- Phase 8: Production Monitoring & Error Tracking -->
-    <!-- Sentry Browser SDK -->
+    <!-- Sentry Browser SDK - Disabled due to integrity check issues -->
+    <!-- 
     <script
       src="https://browser.sentry-cdn.com/8.45.0/bundle.min.js"
       integrity="sha384-/x1aHz0nKRd6zVUazsV6CbQvjJvr6zQL2CHbQZaiQnd3Ybp8tLbSMl7rZH4dWvUx"
@@ -3271,6 +3272,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         });
       }
     </script>
+    -->
     
     <!-- Performance & Error Monitoring -->
     <script src="/static/monitoring.js"></script>
@@ -14974,7 +14976,7 @@ app.get('/login', (c) => {
               <!-- P2: 간편 로그인 우선 (상단 배치) -->
               <div class="mb-6">
                   <div class="text-center mb-4">
-                      <p class="text-gray-400 text-sm">간편하게 시작하기</p>
+                      <p class="text-gray-400 text-sm font-semibold">소셜 계정으로 간편 로그인</p>
                   </div>
                   <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                       <button type="button" onclick="loginWithGoogle()" class="py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
