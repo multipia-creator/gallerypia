@@ -88,9 +88,23 @@ const translations = {
     'main.voice_search': '음성 검색',
     'main.ai_search': 'AI 검색',
     'main.quick_categories': '빠른 카테고리',
-    'main.vr_gallery': 'VR 갤러리 체험',
-    'main.vr_description': '메타버스에서 NFT 작품을 감상하세요',
-    'main.explore_vr': 'VR로 탐험하기',
+    'main.category_painting': '회화',
+    'main.category_digital': '디지털아트',
+    'main.category_photo': '사진',
+    'main.category_sculpture': '조각',
+    'main.category_abstract': '추상화',
+    'main.category_3d': '3D 아트',
+    'main.btn_explore': 'NFT 컬렉션 탐색',
+    'main.btn_valuation': '셀프가치산정 시스템',
+    'main.btn_valuation_info': '시스템 안내',
+    'main.btn_expert': '전문가 신청/평가',
+    'main.btn_partnership': 'Partnership',
+    'main.partnership_subtitle': '미술관·갤러리·딜러',
+    'main.btn_signup': '회원가입',
+    'main.btn_install_app': '앱 설치',
+    'main.btn_install_tooltip': '홈 화면에 앱 추가',
+    'main.btn_mint': 'NFT 민팅',
+    'main.btn_wallet': '지갑 연결',
     'main.stats_artworks': 'NFT 작품',
     'main.stats_artists': '아티스트',
     'main.stats_minted': '민팅 완료',
@@ -242,9 +256,23 @@ const translations = {
     'main.voice_search': 'Voice Search',
     'main.ai_search': 'AI Search',
     'main.quick_categories': 'Quick Categories',
-    'main.vr_gallery': 'VR Gallery Experience',
-    'main.vr_description': 'Experience NFT artworks in the metaverse',
-    'main.explore_vr': 'Explore in VR',
+    'main.category_painting': 'Painting',
+    'main.category_digital': 'Digital Art',
+    'main.category_photo': 'Photography',
+    'main.category_sculpture': 'Sculpture',
+    'main.category_abstract': 'Abstract',
+    'main.category_3d': '3D Art',
+    'main.btn_explore': 'Explore NFT Collection',
+    'main.btn_valuation': 'Self-Valuation System',
+    'main.btn_valuation_info': 'System Guide',
+    'main.btn_expert': 'Expert Application',
+    'main.btn_partnership': 'Partnership',
+    'main.partnership_subtitle': 'Museum·Gallery·Dealer',
+    'main.btn_signup': 'Sign Up',
+    'main.btn_install_app': 'Install App',
+    'main.btn_install_tooltip': 'Add to Home Screen',
+    'main.btn_mint': 'Mint NFT',
+    'main.btn_wallet': 'Connect Wallet',
     'main.stats_artworks': 'NFT Artworks',
     'main.stats_artists': 'Artists',
     'main.stats_minted': 'Minted',
@@ -396,9 +424,23 @@ const translations = {
     'main.voice_search': '语音搜索',
     'main.ai_search': 'AI搜索',
     'main.quick_categories': '快速分类',
-    'main.vr_gallery': 'VR画廊体验',
-    'main.vr_description': '在元宇宙中欣赏NFT作品',
-    'main.explore_vr': '用VR探索',
+    'main.category_painting': '绘画',
+    'main.category_digital': '数字艺术',
+    'main.category_photo': '摄影',
+    'main.category_sculpture': '雕塑',
+    'main.category_abstract': '抽象',
+    'main.category_3d': '3D艺术',
+    'main.btn_explore': '探索NFT收藏',
+    'main.btn_valuation': '自助估值系统',
+    'main.btn_valuation_info': '系统指南',
+    'main.btn_expert': '专家申请',
+    'main.btn_partnership': 'Partnership',
+    'main.partnership_subtitle': '博物馆·画廊·经销商',
+    'main.btn_signup': '注册',
+    'main.btn_install_app': '安装应用',
+    'main.btn_install_tooltip': '添加到主屏幕',
+    'main.btn_mint': '铸造NFT',
+    'main.btn_wallet': '连接钱包',
     'main.stats_artworks': 'NFT作品',
     'main.stats_artists': '艺术家',
     'main.stats_minted': '已铸造',
@@ -550,9 +592,23 @@ const translations = {
     'main.voice_search': '音声検索',
     'main.ai_search': 'AI検索',
     'main.quick_categories': 'クイックカテゴリ',
-    'main.vr_gallery': 'VRギャラリー体験',
-    'main.vr_description': 'メタバースでNFT作品を鑑賞',
-    'main.explore_vr': 'VRで探索',
+    'main.category_painting': '絵画',
+    'main.category_digital': 'デジタルアート',
+    'main.category_photo': '写真',
+    'main.category_sculpture': '彫刻',
+    'main.category_abstract': '抽象',
+    'main.category_3d': '3Dアート',
+    'main.btn_explore': 'NFTコレクションを探索',
+    'main.btn_valuation': 'セルフ価値評価システム',
+    'main.btn_valuation_info': 'システムガイド',
+    'main.btn_expert': '専門家申請',
+    'main.btn_partnership': 'Partnership',
+    'main.partnership_subtitle': '美術館·ギャラリー·ディーラー',
+    'main.btn_signup': '新規登録',
+    'main.btn_install_app': 'アプリインストール',
+    'main.btn_install_tooltip': 'ホーム画面に追加',
+    'main.btn_mint': 'NFTミント',
+    'main.btn_wallet': 'ウォレット接続',
     'main.stats_artworks': 'NFT作品',
     'main.stats_artists': 'アーティスト',
     'main.stats_minted': 'ミント済み',
@@ -7597,22 +7653,22 @@ app.get('/', async (c) => {
                         <!-- 카테고리 빠른 검색 -->
                         <div class="flex flex-wrap gap-2 mt-4 justify-center">
                             <a href="/gallery?category=painting" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-full text-sm text-gray-300 hover:text-white transition-all">
-                                <i class="fas fa-paint-brush mr-1"></i>회화
+                                <i class="fas fa-paint-brush mr-1"></i>${t('main.category_painting', lang)}
                             </a>
                             <a href="/gallery?category=digital" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-full text-sm text-gray-300 hover:text-white transition-all">
-                                <i class="fas fa-laptop-code mr-1"></i>디지털아트
+                                <i class="fas fa-laptop-code mr-1"></i>${t('main.category_digital', lang)}
                             </a>
                             <a href="/gallery?category=photography" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-full text-sm text-gray-300 hover:text-white transition-all">
-                                <i class="fas fa-camera mr-1"></i>사진
+                                <i class="fas fa-camera mr-1"></i>${t('main.category_photo', lang)}
                             </a>
                             <a href="/gallery?category=sculpture" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-full text-sm text-gray-300 hover:text-white transition-all">
-                                <i class="fas fa-cube mr-1"></i>조각
+                                <i class="fas fa-cube mr-1"></i>${t('main.category_sculpture', lang)}
                             </a>
                             <a href="/gallery?category=abstract" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-full text-sm text-gray-300 hover:text-white transition-all">
-                                <i class="fas fa-palette mr-1"></i>추상화
+                                <i class="fas fa-palette mr-1"></i>${t('main.category_abstract', lang)}
                             </a>
                             <a href="/gallery?category=3d" class="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-full text-sm text-gray-300 hover:text-white transition-all">
-                                <i class="fas fa-cube-alt mr-1"></i>3D 아트
+                                <i class="fas fa-cube-alt mr-1"></i>${t('main.category_3d', lang)}
                             </a>
                         </div>
                     </div>
@@ -7674,25 +7730,25 @@ app.get('/', async (c) => {
                 <!-- NFT 작품 카드 -->
                 <div class="group rounded-3xl p-6 md:p-8 text-center bg-gradient-to-br from-purple-900/40 via-purple-800/30 to-indigo-900/40 backdrop-blur-xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20 cursor-pointer">
                     <div class="text-3xl md:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400 mb-2 group-hover:scale-110 transition-transform duration-300">${stats.data?.total_artworks || 0}</div>
-                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">NFT 작품</div>
+                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">${t('main.stats_artworks', lang)}</div>
                 </div>
                 
                 <!-- 아티스트 카드 -->
                 <div class="group rounded-3xl p-6 md:p-8 text-center bg-gradient-to-br from-amber-900/40 via-orange-800/30 to-yellow-900/40 backdrop-blur-xl border border-amber-500/20 hover:border-amber-400/40 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-amber-500/20 cursor-pointer">
                     <div class="text-3xl md:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-yellow-300 mb-2 group-hover:scale-110 transition-transform duration-300">${stats.data?.total_artists || 0}</div>
-                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">아티스트</div>
+                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">${t('main.stats_artists', lang)}</div>
                 </div>
                 
                 <!-- 민팅 완료 카드 -->
                 <div class="group rounded-3xl p-6 md:p-8 text-center bg-gradient-to-br from-cyan-900/40 via-blue-800/30 to-teal-900/40 backdrop-blur-xl border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-cyan-500/20 cursor-pointer">
                     <div class="text-3xl md:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 mb-2 group-hover:scale-110 transition-transform duration-300">${stats.data?.minted_nfts || 0}</div>
-                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">민팅 완료</div>
+                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">${t('main.stats_minted', lang)}</div>
                 </div>
                 
                 <!-- 총 가치 카드 -->
                 <div class="group rounded-3xl p-6 md:p-8 text-center bg-gradient-to-br from-emerald-900/40 via-green-800/30 to-teal-900/40 backdrop-blur-xl border border-emerald-500/20 hover:border-emerald-400/40 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-emerald-500/20 cursor-pointer">
                     <div class="text-3xl md:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-green-300 mb-2 group-hover:scale-110 transition-transform duration-300">${((stats.data?.total_value || 0) / 100000000).toFixed(0)}억</div>
-                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">총 가치</div>
+                    <div class="text-gray-300 font-semibold text-xs md:text-sm tracking-wide">${t('main.stats_total_value', lang)}</div>
                 </div>
             </div>
         </div>
