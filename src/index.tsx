@@ -76,8 +76,8 @@ app.use('/api/*', cors(corsConfig()))
 app.use('/api/admin/*', async (c, next) => {
   const path = c.req.path
   
-  // Allow login and logout without authentication
-  if (path === '/api/admin/login' || path === '/api/admin/logout') {
+  // Allow login, logout, and verify-access without authentication (verify-access will check session internally)
+  if (path === '/api/admin/login' || path === '/api/admin/logout' || path === '/api/admin/verify-access') {
     return next()
   }
   
@@ -3932,11 +3932,54 @@ app.post('/api/auth/logout', async (c) => {
 })
 
 // ============================================
-// 🆕 C3-1: Token Verification API
+// 🆕 C3-1: Session Verification APIs
 // ============================================
+
+// Verify user session (for dashboard access)
+app.get('/api/auth/verify-session', async (c) => {
+  const db = c.env.DB
+  
+  // ✅ FIX: Read session token from HttpOnly cookie
+  const token = getCookie(c, 'session_token')
+  
+  if (!token) {
+    return c.json({ success: false, error: '인증 토큰이 없습니다' }, 401)
+  }
+  
+  try {
+    // Verify session is valid
+    const session = await db.prepare(`
+      SELECT s.*, u.email, u.username, u.full_name, u.role, u.profile_image
+      FROM user_sessions s
+      JOIN users u ON s.user_id = u.id
+      WHERE s.session_token = ? AND s.expires_at > datetime('now')
+    `).bind(token).first() as any
+    
+    if (!session) {
+      return c.json({ success: false, error: '유효하지 않은 세션입니다' }, 401)
+    }
+    
+    return c.json({ 
+      success: true, 
+      user: {
+        id: Number(session.user_id),
+        email: String(session.email),
+        username: String(session.username),
+        full_name: String(session.full_name),
+        role: String(session.role),
+        profile_image: session.profile_image ? String(session.profile_image) : null
+      }
+    })
+  } catch (error: any) {
+    console.error('Session verification error:', error)
+    return c.json({ success: false, error: '세션 확인 중 오류가 발생했습니다' }, 500)
+  }
+})
+
+// Legacy verification API (backward compatibility)
 app.get('/api/auth/verify', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
   
   if (!token) {
     return c.json({ success: false, error: '인증 토큰이 없습니다' }, 401)
@@ -4393,6 +4436,54 @@ app.post('/api/auth/delete-account', requireAuth, async (c) => {
       success: false, 
       error: '계정 삭제 중 오류가 발생했습니다' 
     }, 500)
+  }
+})
+
+// ============================================
+// 🔒 C6-1: Admin Access Verification API
+// ============================================
+app.get('/api/admin/verify-access', async (c) => {
+  const db = c.env.DB
+  
+  // ✅ FIX: Read session token from HttpOnly cookie
+  const token = getCookie(c, 'session_token')
+  
+  if (!token) {
+    return c.json({ success: false, error: 'Unauthorized' }, 401)
+  }
+  
+  try {
+    // Verify admin session
+    const session = await db.prepare(`
+      SELECT s.*, u.email, u.username, u.full_name, u.role
+      FROM user_sessions s
+      JOIN users u ON s.user_id = u.id
+      WHERE s.session_token = ? AND s.expires_at > datetime('now')
+    `).bind(token).first() as any
+    
+    if (!session) {
+      return c.json({ success: false, error: 'Invalid or expired session' }, 401)
+    }
+    
+    // Check admin role
+    const allowedRoles = ['admin', 'super_admin']
+    if (!allowedRoles.includes(session.role)) {
+      return c.json({ success: false, error: 'Admin access required' }, 403)
+    }
+    
+    return c.json({ 
+      success: true,
+      user: {
+        id: Number(session.user_id),
+        email: String(session.email),
+        username: String(session.username),
+        full_name: String(session.full_name),
+        role: String(session.role)
+      }
+    })
+  } catch (error: any) {
+    console.error('Admin verification error:', error)
+    return c.json({ success: false, error: 'Verification failed' }, 500)
   }
 })
 
