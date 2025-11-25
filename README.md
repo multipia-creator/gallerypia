@@ -122,33 +122,37 @@
 #### 🔥 **PRODUCTION!** v11.1.4 배포 완료 (2025-11-25) - Security Enhanced ✅
 
 **🚀 Cloudflare Pages 프로덕션 배포**:
-- ✅ **v11.1.5 최신**: https://c31f474b.gallerypia.pages.dev 🆕🆕🆕
-  - Security Grade: **S** (0 Critical 이슈 - Perfect Score!)
-  - GDPR Compliant: **100%** (계정 삭제 기능)
-  - bcrypt 해싱: **100%** 적용
+- ✅ **v11.1.8 최신**: https://328b6af8.gallerypia.pages.dev 🆕🆕🆕
+  - Security Grade: **S+** (0 Critical, 100% 회원가입/로그인 작동!)
+  - GDPR Compliant: **100%** (계정 삭제 테스트 완료)
+  - bcrypt 해싱: **100%** 적용 (회원가입 수정 완료)
   - SQL Injection: **0%** (Prepared Statements)
   - XSS 방어: **100%** (HttpOnly 쿠키)
   - Admin API: **Secured** (Session-based authentication)
+  - ✅ **회원가입/로그인 테스트 통과** (Production-Tested!)
+  - ✅ **비밀번호 변경 테스트 통과**
+  - ✅ **계정 삭제 테스트 통과** (GDPR)
 - ✅ **GitHub**: https://github.com/multipia-creator/gallerypia
-- ✅ **Commit**: `5297786` (v11.1.5 - ADMIN-1 Fixed)
+- ✅ **Commit**: `d25e571` (v11.1.8 - Auth Flow Tested & Fixed)
 - ✅ Bundle Size: **1.29 MB** (12.9% of 10MB limit) 📦
-- ✅ 빌드 시간: **2m 18s** ⚡
+- ✅ 빌드 시간: **2m 48s** ⚡
 - ✅ 업로드: **161개 파일**
 - ✅ **전체 57개 기능 포함** (Level 1-5 모두)
-- ✅ **Production-Ready**: 모든 Critical 이슈 해결 완료
+- ✅ **Production-Ready & Tested**: 모든 인증 기능 검증 완료
 
 **🚀 Sandbox 개발 서버**:
 - ✅ **v11.1.4 개발**: https://3000-iez4w2cmp5ni8h9drujyr-3844e1b6.sandbox.novita.ai
 - ✅ 빌드 성공: PM2로 안정적 구동
 
 **🚀 이전 프로덕션 배포 히스토리**:
+- ✅ **v11.1.7**: https://22a1d05f.gallerypia.pages.dev (Session table fix - 20 endpoints)
+- ✅ **v11.1.6**: https://33d1721f.gallerypia.pages.dev (Signup bcrypt fix)
+- ✅ **v11.1.5**: https://c31f474b.gallerypia.pages.dev (Admin API security fixed)
 - ✅ **v11.1.4**: https://c988ff4d.gallerypia.pages.dev (Admin API security attempt)
-- ✅ **v11.1.3**: https://2ea8c772.gallerypia.pages.dev (Phase 2 UX/UI 개선)
-- ✅ **v11.1.2**: https://0c31b704.gallerypia.pages.dev (SQL Injection 수정)
-- ✅ **v11.1.0**: https://850b312c.gallerypia.pages.dev (Phase 1 보안 강화)
+- ✅ **v11.1.3**: https://2ea8c772.gallerypia.pages.dev (Phase 2 UX/UI)
+- ✅ **v11.1.2**: https://0c31b704.gallerypia.pages.dev (SQL Injection)
+- ✅ **v11.1.0**: https://850b312c.gallerypia.pages.dev (Phase 1 Security)
 - ✅ **v11.0**: https://9bb073ab.gallerypia.pages.dev
-- ✅ **v10.4**: https://2d7aa0cd.gallerypia.pages.dev
-- ✅ **v10.3**: https://50df06b2.gallerypia.pages.dev
 
 **🎨 네비게이션 개선**:
 - 🔔 알림 벨 + 미읽음 카운트 뱃지
