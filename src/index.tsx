@@ -9930,6 +9930,7 @@ app.get('/gallery', async (c) => {
 // 작품 상세 페이지 - 가치평가 정보 포함
 app.get('/artwork/:id', async (c) => {
   try {
+    const lang = getUserLanguage(c) // Get user's preferred language
     const id = c.req.param('id')
     const db = c.env.DB
     
@@ -9948,7 +9949,7 @@ app.get('/artwork/:id', async (c) => {
     `).bind(id).first()
     
     if (!art) {
-      return c.html(getLayout('<div class="py-20 text-center text-red-500">작품을 찾을 수 없습니다.</div>'))
+      return c.html(getLayout('<div class="py-20 text-center text-red-500">작품을 찾을 수 없습니다.</div>', 'Artwork Not Found', lang))
     }
     
     // Get valuation history
@@ -11242,10 +11243,10 @@ app.get('/artwork/:id', async (c) => {
     </script>
     `;
     
-    return c.html(getLayout(content, `${art.title} - GALLERYPIA`))
+    return c.html(getLayout(content, `${art.title} - GALLERYPIA`, lang))
   } catch (error: any) {
     console.error('Artwork detail error:', error)
-    return c.html(getLayout(`<div class="py-20 text-center text-red-500">작품을 불러오는데 실패했습니다.<br/><small>${error.message || String(error)}</small></div>`))
+    return c.html(getLayout(`<div class="py-20 text-center text-red-500">작품을 불러오는데 실패했습니다.<br/><small>${error.message || String(error)}</small></div>`, 'Error', lang))
   }
 })
 
@@ -11264,7 +11265,7 @@ app.get('/evaluate/:id', async (c) => {
     `).bind(id).first()
     
     if (!artwork) {
-      return c.html(getLayout('<div class="py-20 text-center text-red-500">작품을 찾을 수 없습니다.</div>'))
+      return c.html(getLayout('<div class="py-20 text-center text-red-500">작품을 찾을 수 없습니다.</div>', 'Artwork Not Found', lang))
     }
     
     const content = `
