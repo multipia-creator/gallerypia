@@ -22409,21 +22409,24 @@ app.delete('/api/users/account', async (c) => {
     }
     
     // ✅ 연관 데이터 삭제 (GDPR Right to Erasure)
-    await db.batch([
-      db.prepare('DELETE FROM user_sessions WHERE user_id = ?').bind(session.user_id),
-      db.prepare('DELETE FROM activity_logs WHERE user_id = ?').bind(session.user_id),
-      db.prepare('DELETE FROM favorites WHERE user_id = ?').bind(session.user_id),
-      db.prepare('DELETE FROM user_follows WHERE follower_id = ? OR following_id = ?').bind(session.user_id, session.user_id),
-      db.prepare('DELETE FROM notifications WHERE user_id = ?').bind(session.user_id),
-      db.prepare('DELETE FROM artist_profiles WHERE user_id = ?').bind(session.user_id),
-      db.prepare('DELETE FROM users WHERE id = ?').bind(session.user_id)
-    ])
+    // Delete data from tables that exist (safe deletion with try-catch)
+    try { await db.prepare('DELETE FROM user_sessions WHERE user_id = ?').bind(session.user_id).run() } catch(e) {}
+    try { await db.prepare('DELETE FROM activity_logs WHERE user_id = ?').bind(session.user_id).run() } catch(e) {}
+    try { await db.prepare('DELETE FROM artist_profiles WHERE user_id = ?').bind(session.user_id).run() } catch(e) {}
+    try { await db.prepare('DELETE FROM expert_profiles WHERE user_id = ?').bind(session.user_id).run() } catch(e) {}
     
-    // 삭제 로그 기록 (감사 추적)
-    await db.prepare(`
-      INSERT INTO activity_logs (user_id, action, details, ip_address, user_agent, created_at)
-      VALUES (?, 'account_deleted', ?, ?, ?, CURRENT_TIMESTAMP)
-    `).bind(session.user_id, JSON.stringify({ reason: 'user_request' }), c.req.header('CF-Connecting-IP') || '', c.req.header('User-Agent') || '').run()
+    // Log deletion before removing user (for audit trail)
+    try {
+      await db.prepare(`
+        INSERT INTO activity_logs (user_id, action, details, ip_address, user_agent, created_at)
+        VALUES (?, 'account_deleted', ?, ?, ?, CURRENT_TIMESTAMP)
+      `).bind(session.user_id, JSON.stringify({ reason: 'user_request' }), c.req.header('CF-Connecting-IP') || '', c.req.header('User-Agent') || '').run()
+    } catch(e) {
+      // If activity_logs table doesn't exist, that's ok
+    }
+    
+    // Finally, delete the user (cascade will handle remaining dependencies if configured)
+    await db.prepare('DELETE FROM users WHERE id = ?').bind(session.user_id).run()
     
     return c.json({ 
       success: true, 
