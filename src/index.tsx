@@ -184,9 +184,31 @@ const translations = {
     'main.popular_coming_soon': '많은 관심을 받는 작품이 곧 추가됩니다.',
     // 신규 작품 섹션
     'main.recent_title': '신규 작품',
-    'main.recent_subtitle': '최근 등록된 신선한 컬렉션',
+    'main.recent_subtitle': '최근 등록된 따끈따끈한 신작',
     'main.recent_no_artworks': '최근 등록된 작품이 없습니다.',
     'main.recent_coming_soon': '새로운 작품이 곧 등록됩니다.',
+    'main.recent_badge': 'NEW',
+    // 가치산정 시스템 섹션
+    'main.valuation_title': '셀프가치산정 시스템',
+    'main.valuation_subtitle': '전문가 패널의 정성평가와 데이터 기반의 정량평가를 결합하여 투명하고 객관적인 NFT 미술품 가치산정을 제공합니다',
+    'main.valuation_quantitative': '정량적 평가',
+    'main.valuation_quantitative_en': 'Quantitative Analysis',
+    'main.valuation_qualitative': '정성적 평가',
+    'main.valuation_qualitative_en': 'Qualitative Evaluation',
+    'main.valuation_market_demand': '시장 수요도',
+    'main.valuation_market_demand_desc': 'NFT 마켓 트렌드 및 거래량 분석',
+    'main.valuation_rarity': '희소성',
+    'main.valuation_rarity_desc': '에디션 수 및 유사 NFT 비교 분석',
+    'main.valuation_transaction_history': '거래 이력',
+    'main.valuation_transaction_history_desc': '과거 거래 내역 및 가격 변동 추이',
+    'main.valuation_design_quality': '디자인 품질',
+    'main.valuation_design_quality_desc': '디자인 품질 및 미적 완성도 평가',
+    'main.valuation_originality': '독창성',
+    'main.valuation_originality_desc': '컨셉의 신선함과 독창적인 표현',
+    'main.valuation_artist_style': '작가 스타일',
+    'main.valuation_artist_style_desc': '작가의 독특한 스타일과 창의성',
+    'main.valuation_expert_panel': '전문가 패널',
+    'main.valuation_expert_panel_desc': '검증된 전문가 패널의 종합 평가',
     
     // Welcome Tutorial
     'tutorial.welcome_title': '갤러리피아에 오신 것을 환영합니다! 🎨',
@@ -391,9 +413,10 @@ const translations = {
     'main.popular_no_artworks': 'No popular artworks.',
     'main.popular_coming_soon': 'Artworks receiving much attention will be added soon.',
     'main.recent_title': 'New Artworks',
-    'main.recent_subtitle': 'Recently registered fresh collection',
+    'main.recent_subtitle': 'Recently registered brand new works',
     'main.recent_no_artworks': 'No recently registered artworks.',
     'main.recent_coming_soon': 'New artworks will be registered soon.',
+    'main.recent_badge': 'NEW',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'Welcome to GalleryPia! 🎨',
@@ -598,9 +621,10 @@ const translations = {
     'main.popular_no_artworks': '暂无热门作品。',
     'main.popular_coming_soon': '受到很多关注的作品即将添加。',
     'main.recent_title': '新作品',
-    'main.recent_subtitle': '最近注册的新鲜收藏',
+    'main.recent_subtitle': '最近注册的新鲜作品',
     'main.recent_no_artworks': '暂无最近注册的作品。',
     'main.recent_coming_soon': '新作品即将注册。',
+    'main.recent_badge': 'NEW',
     
     // Welcome Tutorial
     'tutorial.welcome_title': '欢迎来到GalleryPia！🎨',
@@ -805,9 +829,10 @@ const translations = {
     'main.popular_no_artworks': '人気作品がありません。',
     'main.popular_coming_soon': '多くの注目を集める作品が間もなく追加されます。',
     'main.recent_title': '新作品',
-    'main.recent_subtitle': '最近登録されたフレッシュなコレクション',
+    'main.recent_subtitle': '最近登録されたホットな新作',
     'main.recent_no_artworks': '最近登録された作品がありません。',
     'main.recent_coming_soon': '新しい作品が間もなく登録されます。',
+    'main.recent_badge': 'NEW',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'GalleryPiaへようこそ！🎨',
@@ -8198,12 +8223,12 @@ app.get('/', async (c) => {
             <div class="flex justify-between items-center mb-12">
                 <div>
                     <h2 class="text-5xl font-black mb-3">
-                        <span class="text-gradient">인기</span> <span class="text-white">작품</span>
+                        <span class="text-gradient">${t('main.popular_title', lang).split(' ')[0]}</span> <span class="text-white">${t('main.popular_title', lang).split(' ')[1] || ''}</span>
                     </h2>
-                    <p class="text-gray-500">가장 많은 관심을 받고 있는 작품</p>
+                    <p class="text-gray-500">${t('main.popular_subtitle', lang)}</p>
                 </div>
                 <a href="/gallery?filter=popular" class="text-gradient hover:opacity-80 font-bold flex items-center group">
-                    전체 보기
+                    ${t('main.featured_view_all', lang)}
                     <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
@@ -8224,7 +8249,7 @@ app.get('/', async (c) => {
                             </div>
                             <div class="absolute top-4 left-4">
                                 <span class="px-3 py-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold rounded-full flex items-center">
-                                    <i class="fas fa-fire mr-1.5"></i>인기
+                                    <i class="fas fa-fire mr-1.5"></i>${t('main.popular_title', lang)}
                                 </span>
                             </div>
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
@@ -8251,7 +8276,7 @@ app.get('/', async (c) => {
                             </div>
                         </div>
                     </a>
-                `).join('') || '<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-fire text-6xl mb-4 opacity-20"></i><p class="text-xl">인기 작품이 없습니다.</p><p class="text-sm mt-2">조회수와 좋아요가 많은 작품이 곧 추가됩니다.</p></div>'}
+                `).join('') || `<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-fire text-6xl mb-4 opacity-20"></i><p class="text-xl">${t('main.popular_no_artworks', lang)}</p><p class="text-sm mt-2">${t('main.popular_coming_soon', lang)}</p></div>`}
             </div>
         </div>
     </section>
@@ -8262,12 +8287,12 @@ app.get('/', async (c) => {
             <div class="flex justify-between items-center mb-12">
                 <div>
                     <h2 class="text-5xl font-black mb-3">
-                        <span class="text-gradient">신규</span> <span class="text-white">작품</span>
+                        <span class="text-gradient">${t('main.recent_title', lang).split(' ')[0]}</span> <span class="text-white">${t('main.recent_title', lang).split(' ')[1] || ''}</span>
                     </h2>
-                    <p class="text-gray-500">최근 등록된 따끈따끈한 신작</p>
+                    <p class="text-gray-500">${t('main.recent_subtitle', lang)}</p>
                 </div>
                 <a href="/gallery?filter=recent" class="text-gradient hover:opacity-80 font-bold flex items-center group">
-                    전체 보기
+                    ${t('main.featured_view_all', lang)}
                     <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
@@ -8315,7 +8340,7 @@ app.get('/', async (c) => {
                             </div>
                         </div>
                     </a>
-                `).join('') || '<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-sparkles text-6xl mb-4 opacity-20"></i><p class="text-xl">신규 작품이 없습니다.</p><p class="text-sm mt-2">곧 새로운 작품이 등록됩니다.</p></div>'}
+                `).join('') || `<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-sparkles text-6xl mb-4 opacity-20"></i><p class="text-xl">${t('main.recent_no_artworks', lang)}</p><p class="text-sm mt-2">${t('main.recent_coming_soon', lang)}</p></div>`}
             </div>
         </div>
     </section>
