@@ -109,10 +109,18 @@ class RealtimeChatSystem {
       </div>
 
       <!-- Messages Area -->
-      <div id="chatMessagesContainer" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
-        <div class="text-center text-gray-500 text-sm py-8">
-          <i class="fas fa-comments text-4xl mb-2"></i>
-          <p>작품에 대해 대화를 시작하세요!</p>
+      <div id="chatMessagesContainer" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 text-gray-900">
+        <!-- P7: Welcome message and customer service info -->
+        <div class="text-center text-gray-600 text-sm py-8">
+          <i class="fas fa-comments text-4xl mb-3 text-indigo-500"></i>
+          <p class="font-semibold mb-2">무엇을 도와드릴까요?</p>
+          <p class="text-xs">작품에 대해 대화를 시작하거나</p>
+          <p class="text-xs">고객센터와 상담하실 수 있습니다.</p>
+          <button 
+            onclick="window.realtimeChat.connectToCustomerService()" 
+            class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm">
+            <i class="fas fa-headset mr-2"></i>고객센터 연결
+          </button>
         </div>
       </div>
 
@@ -218,6 +226,23 @@ class RealtimeChatSystem {
     return urlParams.get('id') || null;
   }
 
+  // P7: Connect to customer service
+  connectToCustomerService() {
+    this.joinRoom('customer_service');
+    
+    // Show customer service welcome message
+    const container = document.getElementById('chatMessagesContainer');
+    if (container) {
+      container.innerHTML = `
+        <div class="text-center text-gray-600 text-sm py-4">
+          <i class="fas fa-headset text-3xl mb-2 text-indigo-500"></i>
+          <p class="font-semibold">고객센터에 연결되었습니다</p>
+          <p class="text-xs mt-1">곧 상담원이 응답할 예정입니다.</p>
+        </div>
+      `;
+    }
+  }
+
   async joinRoom(roomId) {
     this.currentRoom = roomId;
     console.log(`Joining room: ${roomId}`);
@@ -225,7 +250,13 @@ class RealtimeChatSystem {
     // Update UI
     const title = document.getElementById('chatRoomTitle');
     if (title) {
-      title.textContent = roomId.startsWith('artwork_') ? '작품 토론방' : '일반 채팅방';
+      if (roomId === 'customer_service') {
+        title.textContent = '🎧 고객센터';
+      } else if (roomId.startsWith('artwork_')) {
+        title.textContent = '작품 토론방';
+      } else {
+        title.textContent = '일반 채팅방';
+      }
     }
 
     // Try WebSocket connection first
