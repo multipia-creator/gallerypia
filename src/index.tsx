@@ -3545,11 +3545,12 @@ app.post('/api/auth/signup', async (c) => {
     
     // Password strength validation (backend)
     if (password) {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      // ✅ FIX: More flexible special characters, clear validation
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/
       if (!passwordRegex.test(password)) {
         return c.json({ 
           success: false, 
-          error: '비밀번호는 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다' 
+          error: '비밀번호는 8자 이상, 대문자, 소문자, 숫자, 특수문자를 각각 1개 이상 포함해야 합니다' 
         }, 400)
       }
     }
@@ -3720,12 +3721,13 @@ app.post('/api/auth/register', async (c) => {
       return c.json({ success: false, error: '올바른 이메일 형식이 아닙니다' }, 400)
     }
     
-    // Password strength validation (8+ chars, 1 uppercase, 1 number, 1 special)
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    // Password strength validation (8+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special)
+    // ✅ FIX: More flexible special characters, require lowercase
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/
     if (!passwordRegex.test(password)) {
       return c.json({ 
         success: false, 
-        error: '비밀번호는 8자 이상, 대문자, 숫자, 특수문자를 포함해야 합니다' 
+        error: '비밀번호는 8자 이상, 대문자, 소문자, 숫자, 특수문자를 각각 1개 이상 포함해야 합니다' 
       }, 400)
     }
     
