@@ -13409,7 +13409,7 @@ app.get('/signup', (c) => {
                               <label class="block text-sm font-medium text-gray-300 mb-2">
                                   <i class="fas fa-map-marker-alt mr-2"></i>주소
                               </label>
-                              <input type="text" name="organization_address"
+                              <input type="text" id="organization_address" name="organization_address"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="기관 주소">
                           </div>
@@ -13418,7 +13418,7 @@ app.get('/signup', (c) => {
                               <label class="block text-sm font-medium text-gray-300 mb-2">
                                   <i class="fas fa-globe mr-2"></i>웹사이트
                               </label>
-                              <input type="url" name="organization_website"
+                              <input type="url" id="organization_website" name="organization_website"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="https://museum.example.com">
                           </div>
@@ -13427,7 +13427,7 @@ app.get('/signup', (c) => {
                               <label class="block text-sm font-medium text-gray-300 mb-2">
                                   <i class="fas fa-envelope mr-2"></i>기관 이메일
                               </label>
-                              <input type="email" name="organization_contact_email"
+                              <input type="email" id="organization_contact_email" name="organization_contact_email"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="contact@museum.com">
                           </div>
@@ -13479,6 +13479,12 @@ app.get('/signup', (c) => {
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
   <script src="/static/auth-improved.js"></script>
   <script src="/static/social-login.js"></script>
+  
+  <!-- P1: Kakao Address API for Museum/Gallery -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  
+  <!-- P1: Signup Enhancements (Email check, Password toggle, Address search) -->
+  <script src="/static/signup-enhancements.js"></script>
   
   <script>
     // 계정 유형별 동적 입력 폼 표시
