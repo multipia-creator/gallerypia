@@ -145,11 +145,11 @@ recommendations.get('/trending', async (c: Context) => {
       LEFT JOIN user_activity_logs ual ON 
         ual.event_type IN ('artwork_view', 'artwork_like')
         AND CAST(json_extract(ual.event_data, '$.artworkId') AS INTEGER) = a.id
-        AND ual.created_at >= datetime('now', '-${days} days')
+        AND ual.created_at >= datetime('now', '-' || ? || ' days')
       GROUP BY a.id, a.title, a.image_url, a.category, a.current_price_krw, ar.name
       ORDER BY trending_score DESC
       LIMIT ?
-    `).bind(limit).all()
+    `).bind(days, limit).all()
 
     return c.json({ artworks: result.results || [] })
   } catch (error) {

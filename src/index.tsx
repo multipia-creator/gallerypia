@@ -7803,8 +7803,12 @@ app.get('/recommendations', (c) => {
                 const response = await fetch(url, { headers });
                 const result = await response.json();
                 
-                if (result.success && result.data.length > 0) {
-                    displayRecommendations(result.data, result.meta);
+                // API returns { artworks: [...] } or { error: '...' }
+                if (result.artworks && result.artworks.length > 0) {
+                    displayRecommendations(result.artworks, { algorithm: type, time_window_days: 7 });
+                } else if (result.error) {
+                    console.error('API Error:', result.error);
+                    document.getElementById('recommendations-empty').classList.remove('hidden');
                 } else {
                     document.getElementById('recommendations-empty').classList.remove('hidden');
                 }
