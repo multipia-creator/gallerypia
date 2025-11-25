@@ -546,8 +546,122 @@ class NotificationSystem {
   }
 
   openSettings() {
-    alert('알림 설정 모달은 곧 구현될 예정입니다.');
-    // TODO: Implement settings modal
+    // P8: Notification settings modal 100% implementation
+    this.createSettingsModal();
+  }
+
+  createSettingsModal() {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('notificationSettingsModal');
+    if (existingModal) {
+      existingModal.remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'notificationSettingsModal';
+    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+    modal.innerHTML = `
+      <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 rounded-t-2xl">
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold">
+              <i class="fas fa-cog mr-2"></i>알림 설정
+            </h2>
+            <button onclick="document.getElementById('notificationSettingsModal').remove()" class="hover:bg-white/20 rounded-full p-2 transition-colors">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Settings Content -->
+        <div class="p-6 space-y-4 max-h-[500px] overflow-y-auto">
+          <!-- Auction Notifications -->
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <div class="font-semibold text-gray-800">
+                <i class="fas fa-gavel mr-2 text-indigo-600"></i>경매 알림
+              </div>
+              <p class="text-sm text-gray-600">입찰, 낙찰 등 경매 관련 알림</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="pref-auction" ${this.preferences.auction ? 'checked' : ''} class="sr-only peer" onchange="window.notificationSystem.updatePreference('auction', this.checked)">
+              <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+
+          <!-- Message Notifications -->
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <div class="font-semibold text-gray-800">
+                <i class="fas fa-envelope mr-2 text-purple-600"></i>메시지 알림
+              </div>
+              <p class="text-sm text-gray-600">채팅 및 댓글 알림</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="pref-message" ${this.preferences.message ? 'checked' : ''} class="sr-only peer" onchange="window.notificationSystem.updatePreference('message', this.checked)">
+              <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+            </label>
+          </div>
+
+          <!-- Artwork Notifications -->
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <div class="font-semibold text-gray-800">
+                <i class="fas fa-palette mr-2 text-pink-600"></i>작품 알림
+              </div>
+              <p class="text-sm text-gray-600">관심 작품 업데이트 알림</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="pref-artwork" ${this.preferences.artwork ? 'checked' : ''} class="sr-only peer" onchange="window.notificationSystem.updatePreference('artwork', this.checked)">
+              <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-600"></div>
+            </label>
+          </div>
+
+          <!-- System Notifications -->
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <div class="font-semibold text-gray-800">
+                <i class="fas fa-bell mr-2 text-blue-600"></i>시스템 알림
+              </div>
+              <p class="text-sm text-gray-600">계정 및 보안 관련 알림</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="pref-system" ${this.preferences.system ? 'checked' : ''} class="sr-only peer" onchange="window.notificationSystem.updatePreference('system', this.checked)">
+              <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          <!-- Sound Notifications -->
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <div class="font-semibold text-gray-800">
+                <i class="fas fa-volume-up mr-2 text-green-600"></i>알림음
+              </div>
+              <p class="text-sm text-gray-600">알림 수신 시 소리 재생</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="pref-sound" ${this.preferences.sound ? 'checked' : ''} class="sr-only peer" onchange="window.notificationSystem.updatePreference('sound', this.checked)">
+              <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-6 bg-gray-50 rounded-b-2xl">
+          <button onclick="document.getElementById('notificationSettingsModal').remove()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all">
+            <i class="fas fa-check mr-2"></i>저장
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  updatePreference(key, value) {
+    this.preferences[key] = value;
+    localStorage.setItem('gallerypia_notification_preferences', JSON.stringify(this.preferences));
+    console.log(`Notification preference updated: ${key} = ${value}`);
   }
 
   loadPreferences() {
