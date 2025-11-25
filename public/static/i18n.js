@@ -143,7 +143,13 @@ class I18n {
         'footer.contact': '문의',
         'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
         
-        // Main Page
+        // Main Page - Hero Section
+        'hero.title1': 'Discover',
+        'hero.title2': 'Premium NFTs',
+        'hero.subtitle': '객관적인 가치산정 시스템으로 검증된',
+        'hero.subtitle2': '프리미엄 NFT 아트 컬렉션',
+        
+        // Main Page - Buttons
         'main.explore': 'NFT 컬렉션 탐색',
         'main.valuation': '셀프가치산정 시스템',
         'main.system_guide': '시스템 안내',
@@ -154,8 +160,41 @@ class I18n {
         'main.install': '앱 설치',
         'main.mint': 'NFT 민팅',
         'main.wallet': '지갑 연결',
+        
+        // Main Page - Stats
         'main.artworks': 'NFT 작품',
         'main.artists': '아티스트',
+        'main.minted': '민팅 완료',
+        'main.total_value': '총 가치',
+        
+        // Main Page - Features Section
+        'features.badge': '🚀 월드클래스 혁신 기술',
+        'features.title1': 'NFT 플랫폼의',
+        'features.title2': '새로운 기준',
+        'features.subtitle1': 'AI 기반 진위 검증, 완전 자동화된 로열티, 글로벌 파트너십으로',
+        'features.subtitle2': '세계 최고 수준의 NFT 거래 환경을 제공합니다',
+        
+        // Feature 1: AI Authentication
+        'feature1.title': 'AI 진위 검증',
+        'feature1.desc': '딥러닝 기반 이미지 분석과 블록체인 추적으로 작품의 진위성을 자동으로 검증합니다',
+        'feature1.item1': '실시간 위조품 탐지',
+        'feature1.item2': '블록체인 기록 자동 추적',
+        'feature1.item3': '전문가 2차 검증 시스템',
+        'feature1.link': '자세히 보기',
+        
+        // Feature 2: Auto Royalty
+        'feature2.title': '자동 로열티 시스템',
+        'feature2.desc': '스마트 컨트랙트로 2차 거래 시 아티스트에게 자동으로 수익이 분배됩니다',
+        'feature2.item1': '영구적 저작권 수익 보장',
+        'feature2.item2': '즉시 정산 시스템',
+        'feature2.item3': '투명한 거래 내역',
+        
+        // Feature 3: Global Partnership
+        'feature3.title': '글로벌 파트너십',
+        'feature3.desc': '세계 유수의 미술관, 갤러리와의 협력으로 검증된 작품만을 제공합니다',
+        'feature3.item1': '검증된 미술관 작품',
+        'feature3.item2': '큐레이터 추천 시스템',
+        'feature3.item3': '글로벌 마켓플레이스',
       },
       
       // English
@@ -243,7 +282,13 @@ class I18n {
         'footer.contact': 'Contact',
         'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
         
-        // Main Page
+        // Main Page - Hero Section
+        'hero.title1': 'Discover',
+        'hero.title2': 'Premium NFTs',
+        'hero.subtitle': 'Verified by objective valuation system',
+        'hero.subtitle2': 'Premium NFT art collection',
+        
+        // Main Page - Buttons
         'main.explore': 'Explore NFT Collection',
         'main.valuation': 'Self-Valuation System',
         'main.system_guide': 'System Guide',
@@ -254,8 +299,41 @@ class I18n {
         'main.install': 'Install App',
         'main.mint': 'Mint NFT',
         'main.wallet': 'Connect Wallet',
+        
+        // Main Page - Stats
         'main.artworks': 'NFT Artworks',
         'main.artists': 'Artists',
+        'main.minted': 'Minted',
+        'main.total_value': 'Total Value',
+        
+        // Main Page - Features Section
+        'features.badge': '🚀 World-Class Innovation',
+        'features.title1': 'New Standard for',
+        'features.title2': 'NFT Platform',
+        'features.subtitle1': 'AI-based authentication, automated royalties, global partnerships',
+        'features.subtitle2': 'Providing world-class NFT trading environment',
+        
+        // Feature 1: AI Authentication
+        'feature1.title': 'AI Authentication',
+        'feature1.desc': 'Automatically verify artwork authenticity with deep learning image analysis and blockchain tracking',
+        'feature1.item1': 'Real-time counterfeit detection',
+        'feature1.item2': 'Auto blockchain tracking',
+        'feature1.item3': 'Expert 2nd verification',
+        'feature1.link': 'Learn More',
+        
+        // Feature 2: Auto Royalty
+        'feature2.title': 'Auto Royalty System',
+        'feature2.desc': 'Smart contracts automatically distribute revenue to artists on secondary sales',
+        'feature2.item1': 'Permanent copyright income',
+        'feature2.item2': 'Instant settlement',
+        'feature2.item3': 'Transparent transactions',
+        
+        // Feature 3: Global Partnership
+        'feature3.title': 'Global Partnership',
+        'feature3.desc': 'Verified artworks only through partnerships with world-renowned museums and galleries',
+        'feature3.item1': 'Verified museum works',
+        'feature3.item2': 'Curator recommendations',
+        'feature3.item3': 'Global marketplace',
       },
       
       // Chinese (简体中文)
@@ -343,7 +421,13 @@ class I18n {
         'footer.contact': '联系',
         'footer.copyright': '© 2024 GalleryPia. 版权所有。',
         
-        // Main Page
+        // Main Page - Hero Section
+        'hero.title1': 'Discover',
+        'hero.title2': 'Premium NFTs',
+        'hero.subtitle': '通过客观估值系统验证',
+        'hero.subtitle2': '高级NFT艺术收藏',
+        
+        // Main Page - Buttons
         'main.explore': '探索NFT收藏',
         'main.valuation': '自我估值系统',
         'main.system_guide': '系统指南',
@@ -354,8 +438,41 @@ class I18n {
         'main.install': '安装应用',
         'main.mint': '铸造NFT',
         'main.wallet': '连接钱包',
+        
+        // Main Page - Stats
         'main.artworks': 'NFT作品',
         'main.artists': '艺术家',
+        'main.minted': '已铸造',
+        'main.total_value': '总价值',
+        
+        // Main Page - Features Section
+        'features.badge': '🚀 世界级创新技术',
+        'features.title1': 'NFT平台的',
+        'features.title2': '新标准',
+        'features.subtitle1': 'AI认证、自动版税、全球合作伙伴',
+        'features.subtitle2': '提供世界级NFT交易环境',
+        
+        // Feature 1: AI Authentication
+        'feature1.title': 'AI真伪验证',
+        'feature1.desc': '通过深度学习图像分析和区块链追踪自动验证作品真实性',
+        'feature1.item1': '实时假货检测',
+        'feature1.item2': '自动区块链追踪',
+        'feature1.item3': '专家二次验证',
+        'feature1.link': '了解更多',
+        
+        // Feature 2: Auto Royalty
+        'feature2.title': '自动版税系统',
+        'feature2.desc': '智能合约在二次销售时自动向艺术家分配收益',
+        'feature2.item1': '永久版权收入',
+        'feature2.item2': '即时结算',
+        'feature2.item3': '透明交易',
+        
+        // Feature 3: Global Partnership
+        'feature3.title': '全球合作伙伴',
+        'feature3.desc': '通过与世界知名博物馆和画廊合作仅提供经过验证的作品',
+        'feature3.item1': '经过验证的博物馆作品',
+        'feature3.item2': '策展人推荐',
+        'feature3.item3': '全球市场',
       },
       
       // Japanese (日本語)
@@ -443,7 +560,13 @@ class I18n {
         'footer.contact': 'お問い合わせ',
         'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
         
-        // Main Page
+        // Main Page - Hero Section
+        'hero.title1': 'Discover',
+        'hero.title2': 'Premium NFTs',
+        'hero.subtitle': '客観的評価システムで検証済み',
+        'hero.subtitle2': 'プレミアムNFTアートコレクション',
+        
+        // Main Page - Buttons
         'main.explore': 'NFTコレクション探索',
         'main.valuation': 'セルフ評価システム',
         'main.system_guide': 'システムガイド',
@@ -454,8 +577,41 @@ class I18n {
         'main.install': 'アプリインストール',
         'main.mint': 'NFTミント',
         'main.wallet': 'ウォレット接続',
+        
+        // Main Page - Stats
         'main.artworks': 'NFT作品',
         'main.artists': 'アーティスト',
+        'main.minted': 'ミント完了',
+        'main.total_value': '総価値',
+        
+        // Main Page - Features Section
+        'features.badge': '🚀 ワールドクラス革新技術',
+        'features.title1': 'NFTプラットフォームの',
+        'features.title2': '新基準',
+        'features.subtitle1': 'AI認証、自動ロイヤリティ、グローバルパートナーシップ',
+        'features.subtitle2': '世界最高水準のNFT取引環境を提供',
+        
+        // Feature 1: AI Authentication
+        'feature1.title': 'AI真贋検証',
+        'feature1.desc': 'ディープラーニング画像分析とブロックチェーン追跡で作品の真贋を自動検証',
+        'feature1.item1': 'リアルタイム偽造品検出',
+        'feature1.item2': '自動ブロックチェーン追跡',
+        'feature1.item3': '専門家二次検証',
+        'feature1.link': '詳細を見る',
+        
+        // Feature 2: Auto Royalty
+        'feature2.title': '自動ロイヤリティ',
+        'feature2.desc': 'スマートコントラクトで二次販売時にアーティストへ自動分配',
+        'feature2.item1': '永続的著作権収益',
+        'feature2.item2': '即時決済',
+        'feature2.item3': '透明な取引',
+        
+        // Feature 3: Global Partnership
+        'feature3.title': 'グローバルパートナーシップ',
+        'feature3.desc': '世界有数の美術館・ギャラリーとの協力により検証済み作品のみ提供',
+        'feature3.item1': '検証済み美術館作品',
+        'feature3.item2': 'キュレーター推薦',
+        'feature3.item3': 'グローバルマーケット',
       }
     };
   }
@@ -550,6 +706,17 @@ class I18n {
         });
       };
       
+      // === Hero Section ===
+      // Update hero subtitle lines
+      const heroSubtitles = document.querySelectorAll('.text-xl.md\\:text-2xl.text-gray-400');
+      if (heroSubtitles[0]) {
+        const lines = heroSubtitles[0].innerHTML.split('<br');
+        if (lines.length >= 2) {
+          heroSubtitles[0].innerHTML = this.t('hero.subtitle') + '<br class="hidden sm:block"/>' + this.t('hero.subtitle2');
+        }
+      }
+      
+      // === Main Action Buttons ===
       // Update NFT Collection button
       const exploreBtn = document.querySelector('a[href="/gallery"] span.text-white');
       if (exploreBtn) exploreBtn.textContent = this.t('main.explore');
@@ -600,18 +767,116 @@ class I18n {
       const walletBtn = document.getElementById('walletTextMain');
       if (walletBtn) walletBtn.textContent = this.t('main.wallet');
       
-      // Update Stats labels
-      const statsLabels = document.querySelectorAll('.text-gray-300.font-semibold');
-      statsLabels.forEach(label => {
+      // === Stats Cards ===
+      const statsLabels = document.querySelectorAll('.text-gray-300.font-semibold.text-xs');
+      statsLabels.forEach((label, index) => {
         const text = label.textContent.trim();
         if (text.includes('NFT') || text.includes('작품') || text.includes('Artworks')) {
           label.textContent = this.t('main.artworks');
         } else if (text.includes('아티스트') || text.includes('Artists')) {
           label.textContent = this.t('main.artists');
+        } else if (text.includes('민팅') || text.includes('Minted')) {
+          label.textContent = this.t('main.minted');
+        } else if (text.includes('총') || text.includes('가치') || text.includes('Value')) {
+          label.textContent = this.t('main.total_value');
         }
       });
       
-      console.log('✅ Main page buttons translated');
+      // === Features Section ===
+      // Update features badge
+      const featureBadge = document.querySelector('.text-gradient.font-bold.text-sm');
+      if (featureBadge && featureBadge.textContent.includes('혁신')) {
+        featureBadge.textContent = this.t('features.badge');
+      }
+      
+      // Update features title
+      const featureTitles = document.querySelectorAll('.text-5xl.md\\:text-6xl.font-black span');
+      if (featureTitles[0] && featureTitles[0].textContent.includes('플랫폼')) {
+        featureTitles[0].textContent = this.t('features.title1');
+      }
+      if (featureTitles[1] && featureTitles[1].classList.contains('text-gradient')) {
+        featureTitles[1].textContent = this.t('features.title2');
+      }
+      
+      // Update features subtitle
+      const featureSubtitle = document.querySelector('.text-xl.text-gray-400.max-w-3xl');
+      if (featureSubtitle && featureSubtitle.innerHTML.includes('AI 기반')) {
+        featureSubtitle.innerHTML = this.t('features.subtitle1') + '<br/>' + this.t('features.subtitle2');
+      }
+      
+      // Update Feature 1: AI Authentication
+      const feature1Title = document.querySelectorAll('.text-2xl.font-bold.text-white')[0];
+      if (feature1Title && feature1Title.textContent.includes('진위')) {
+        feature1Title.textContent = this.t('feature1.title');
+      }
+      
+      const feature1Desc = document.querySelectorAll('.text-gray-400.mb-6.leading-relaxed')[0];
+      if (feature1Desc && feature1Desc.textContent.includes('딥러닝')) {
+        feature1Desc.textContent = this.t('feature1.desc');
+      }
+      
+      const feature1Items = document.querySelectorAll('.text-sm.text-gray-300 span');
+      if (feature1Items[0] && feature1Items[0].textContent.includes('위조품')) {
+        feature1Items[0].textContent = this.t('feature1.item1');
+      }
+      if (feature1Items[1] && feature1Items[1].textContent.includes('블록체인')) {
+        feature1Items[1].textContent = this.t('feature1.item2');
+      }
+      if (feature1Items[2] && feature1Items[2].textContent.includes('전문가')) {
+        feature1Items[2].textContent = this.t('feature1.item3');
+      }
+      
+      // Update Feature 2: Auto Royalty
+      const feature2Title = document.querySelectorAll('.text-2xl.font-bold.text-white')[1];
+      if (feature2Title && feature2Title.textContent.includes('로열티')) {
+        feature2Title.textContent = this.t('feature2.title');
+      }
+      
+      const feature2Desc = document.querySelectorAll('.text-gray-400.mb-6.leading-relaxed')[1];
+      if (feature2Desc && feature2Desc.textContent.includes('스마트')) {
+        feature2Desc.textContent = this.t('feature2.desc');
+      }
+      
+      if (feature1Items[3] && feature1Items[3].textContent.includes('저작권')) {
+        feature1Items[3].textContent = this.t('feature2.item1');
+      }
+      if (feature1Items[4] && feature1Items[4].textContent.includes('정산')) {
+        feature1Items[4].textContent = this.t('feature2.item2');
+      }
+      if (feature1Items[5] && feature1Items[5].textContent.includes('투명')) {
+        feature1Items[5].textContent = this.t('feature2.item3');
+      }
+      
+      // Update Feature 3: Global Partnership
+      const feature3Title = document.querySelectorAll('.text-2xl.font-bold.text-white')[2];
+      if (feature3Title && feature3Title.textContent.includes('파트너십')) {
+        feature3Title.textContent = this.t('feature3.title');
+      }
+      
+      const feature3Desc = document.querySelectorAll('.text-gray-400.mb-6.leading-relaxed')[2];
+      if (feature3Desc && feature3Desc.textContent.includes('미술관')) {
+        feature3Desc.textContent = this.t('feature3.desc');
+      }
+      
+      if (feature1Items[6] && feature1Items[6].textContent.includes('검증된')) {
+        feature1Items[6].textContent = this.t('feature3.item1');
+      }
+      if (feature1Items[7] && feature1Items[7].textContent.includes('큐레이터')) {
+        feature1Items[7].textContent = this.t('feature3.item2');
+      }
+      if (feature1Items[8] && feature1Items[8].textContent.includes('마켓')) {
+        feature1Items[8].textContent = this.t('feature3.item3');
+      }
+      
+      // Update "Learn More" links
+      const learnMoreLinks = document.querySelectorAll('.text-purple-400.hover\\:text-purple-300.font-semibold');
+      learnMoreLinks.forEach(link => {
+        if (link.textContent.includes('자세히')) {
+          link.textContent = this.t('feature1.link');
+        }
+      });
+      
+      console.log('✅ All main page content translated');
     } catch (error) {
       console.warn('Translation warning:', error);
     }
