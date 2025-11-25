@@ -94,8 +94,8 @@ app.use('/api/admin/*', async (c, next) => {
     const session = await db.prepare(`
       SELECT s.*, u.role 
       FROM admin_sessions s
-      JOIN admin_users u ON s.user_id = u.id
-      WHERE s.session_token = ? AND s.expires_at > datetime('now') AND s.is_active = 1
+      JOIN admin_users u ON s.admin_user_id = u.id
+      WHERE s.session_token = ? AND s.expires_at > datetime('now')
     `).bind(sessionToken).first()
     
     return session || null
