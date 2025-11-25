@@ -1,106 +1,7 @@
 /**
- * GalleryPia i18n & First-Visit Tutorial
- * P3: Main Page Multi-language & Tutorial
+ * GalleryPia First-Visit Tutorial
+ * P3: First-visit tutorial only (i18n handled by existing i18n.js)
  */
-
-// i18n Translations
-const translations = {
-  ko: {
-    'gallery': '갤러리',
-    'recommendations': '추천',
-    'artists': '아티스트',
-    'valuation': '가치산정',
-    'curation': '큐레이션',
-    'academy': '아카데미',
-    'about': '소개',
-    'wallet_connect': '지갑연결',
-    'search_placeholder': 'NFT 검색...',
-    'hero_title': 'NFT 미술품 가치를',
-    'hero_title_accent': '과학적으로 산정하다',
-    'hero_subtitle': '학술 논문 기반 과학적 NFT 미술품 가치산정 시스템',
-    'start_button': '지금 시작하기',
-    'learn_more': '더 알아보기'
-  },
-  en: {
-    'gallery': 'Gallery',
-    'recommendations': 'Recommended',
-    'artists': 'Artists',
-    'valuation': 'Valuation',
-    'curation': 'Curation',
-    'academy': 'Academy',
-    'about': 'About',
-    'wallet_connect': 'Connect Wallet',
-    'search_placeholder': 'Search NFT...',
-    'hero_title': 'Scientific Valuation',
-    'hero_title_accent': 'for NFT Art',
-    'hero_subtitle': 'Academic Research-Based NFT Art Valuation System',
-    'start_button': 'Get Started',
-    'learn_more': 'Learn More'
-  }
-};
-
-// Current language
-let currentLang = localStorage.getItem('gallerypia_lang') || 'ko';
-
-// Initialize i18n
-function initI18n() {
-  // Create language selector button
-  const nav = document.querySelector('nav');
-  if (!nav) return;
-
-  const langBtn = document.createElement('button');
-  langBtn.id = 'langSelector';
-  langBtn.className = 'px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-lg font-semibold hover:opacity-90 transition text-sm flex items-center gap-2';
-  langBtn.innerHTML = `
-    <i class="fas fa-language"></i>
-    <span>${currentLang === 'ko' ? 'EN' : 'KO'}</span>
-  `;
-  langBtn.onclick = toggleLanguage;
-
-  // Insert before wallet button
-  const walletBtn = nav.querySelector('button');
-  if (walletBtn) {
-    walletBtn.parentNode.insertBefore(langBtn, walletBtn);
-  }
-
-  // Apply current language
-  applyLanguage(currentLang);
-}
-
-// Toggle language
-function toggleLanguage() {
-  currentLang = currentLang === 'ko' ? 'en' : 'ko';
-  localStorage.setItem('gallerypia_lang', currentLang);
-  applyLanguage(currentLang);
-  
-  // Update button text
-  const btn = document.getElementById('langSelector');
-  if (btn) {
-    btn.querySelector('span').textContent = currentLang === 'ko' ? 'EN' : 'KO';
-  }
-}
-
-// Apply language to page
-function applyLanguage(lang) {
-  const t = translations[lang];
-  if (!t) return;
-
-  // Translate nav items
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key]) {
-      el.textContent = t[key];
-    }
-  });
-
-  // Translate placeholders
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (t[key]) {
-      el.placeholder = t[key];
-    }
-  });
-}
 
 // First-Visit Tutorial
 function showFirstVisitTutorial() {
@@ -203,26 +104,23 @@ window.closeTutorial = function(markAsShown) {
 
 // Initialize on page load
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initSystem);
+  document.addEventListener('DOMContentLoaded', initTutorial);
 } else {
   // DOM already loaded
-  initSystem();
+  initTutorial();
 }
 
-function initSystem() {
+function initTutorial() {
   try {
-    console.log('[P3] 다국어 & 튜토리얼 시스템 초기화');
-    
-    // Init i18n
-    initI18n();
+    console.log('[P3] 첫 방문 튜토리얼 시스템 초기화');
     
     // Show tutorial only on first visit and only on homepage
     if (window.location.pathname === '/') {
       setTimeout(() => {
         showFirstVisitTutorial();
-      }, 1500);
+      }, 2000);
     }
   } catch (err) {
-    console.error('[P3] 초기화 오류:', err);
+    console.error('[P3] 튜토리얼 초기화 오류:', err);
   }
 }
