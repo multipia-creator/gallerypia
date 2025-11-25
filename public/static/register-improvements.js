@@ -10,28 +10,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initRegistrationForm() {
-  const registerForm = document.getElementById('register-form');
-  if (!registerForm) return;
-  
-  // Add role selection field after email/password fields
-  const roleField = createRoleSelectionField();
-  const additionalFields = document.createElement('div');
-  additionalFields.id = 'additional-fields';
-  additionalFields.className = 'mb-4';
-  
-  // Insert after password confirmation field
-  const passwordConfirmField = registerForm.querySelector('#confirm_password')?.parentElement;
-  if (passwordConfirmField) {
-    passwordConfirmField.after(additionalFields);
-    passwordConfirmField.after(roleField);
+  // ✅ FIX: Use correct form ID from actual HTML
+  const registerForm = document.getElementById('signupForm');
+  if (!registerForm) {
+    console.warn('Signup form not found');
+    return;
   }
   
-  // Add terms and conditions
+  // ✅ FIX: Role selection already exists in HTML, just add listener
+  const roleInputs = registerForm.querySelectorAll('input[name="role"]');
+  if (roleInputs.length === 0) {
+    console.warn('Role selection not found');
+    return;
+  }
+  
+  // Create container for organization fields
+  const additionalFields = document.createElement('div');
+  additionalFields.id = 'additional-fields';
+  additionalFields.className = 'mt-6';
+  
+  // Insert after role selection section
+  const roleSection = registerForm.querySelector('input[name="role"]')?.closest('div')?.closest('div');
+  if (roleSection) {
+    roleSection.after(additionalFields);
+  }
+  
+  // Add change event listeners to all role radio buttons
+  roleInputs.forEach(input => {
+    input.addEventListener('change', (e) => {
+      handleRoleChange({ target: { value: e.target.value } });
+    });
+  });
+  
+  // Add terms and conditions before submit button
   const termsField = createTermsField();
   const submitButton = registerForm.querySelector('button[type="submit"]');
   if (submitButton) {
     submitButton.before(termsField);
   }
+  
+  console.log('✅ Registration form initialized with dynamic organization fields');
 }
 
 function createRoleSelectionField() {
