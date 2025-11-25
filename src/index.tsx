@@ -71,7 +71,7 @@ app.use('/api/*', rateLimiters.api)
 app.use('/api/*', cors(corsConfig()))
 
 // ✅ CRITICAL: Admin API authentication middleware
-// All /api/admin/* routes require admin or super_admin role
+// All /api/admin/* routes require admin or super_admin role (session-based)
 // Exception: /api/admin/login and /api/admin/logout are public
 app.use('/api/admin/*', async (c, next) => {
   const path = c.req.path
@@ -81,8 +81,41 @@ app.use('/api/admin/*', async (c, next) => {
     return next()
   }
   
-  // For all other admin routes, require authentication
-  return requireRole(['admin', 'super_admin'])(c, next)
+  // Session-based authentication for admin routes
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'auth_token')
+  
+  if (!token) {
+    return c.json({ error: 'Unauthorized', message: '로그인이 필요합니다' }, 401)
+  }
+  
+  // Verify session using verifySession function (defined later in this file)
+  // Note: This creates a forward reference that will be resolved at runtime
+  const verifySessionFn = async (db: any, sessionToken: string) => {
+    const session = await db.prepare(`
+      SELECT s.*, u.role 
+      FROM admin_sessions s
+      JOIN admin_users u ON s.user_id = u.id
+      WHERE s.session_token = ? AND s.expires_at > datetime('now') AND s.is_active = 1
+    `).bind(sessionToken).first()
+    
+    return session || null
+  }
+  
+  const session = await verifySessionFn(c.env.DB, token)
+  
+  if (!session) {
+    return c.json({ error: 'Unauthorized', message: '유효하지 않은 세션입니다' }, 401)
+  }
+  
+  const allowedRoles = ['admin', 'super_admin']
+  if (!session.role || !allowedRoles.includes(session.role)) {
+    return c.json({ error: 'Forbidden', message: '관리자 권한이 필요합니다' }, 403)
+  }
+  
+  // Store session for later use in route handlers
+  c.set('adminSession', session)
+  
+  return next()
 })
 
 // 정적 파일 서빙
@@ -19336,9 +19369,9 @@ app.post('/api/admin/logout', async (c) => {
 })
 
 // ============================================
-// 🔐 Admin API Security Helper
+// 🔐 Admin API Security Middleware
 // ============================================
-async function requireAdminAuth(c: any) {
+async function requireAdminAuth(c: any, next?: any) {
   const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'auth_token')
   
   if (!token) {
@@ -19355,7 +19388,13 @@ async function requireAdminAuth(c: any) {
     return c.json({ error: 'Forbidden', message: '관리자 권한이 필요합니다' }, 403)
   }
   
-  return null // No error, continue
+  // If called as middleware, continue to next handler
+  if (next) {
+    c.set('adminSession', session) // Store session for later use
+    return next()
+  }
+  
+  return null // No error, continue (for manual checks)
 }
 
 // 관리자 통계 API
