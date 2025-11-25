@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { getCookie } from 'hono/cookie'
 import { serveStatic } from 'hono/cloudflare-workers'
 import type { Bindings, Artwork, ArtworkWithArtist, Artist, ApiResponse } from './types'
 import { calculateArtworkValue } from './types'
@@ -68,6 +69,21 @@ app.use('/api/*', rateLimiters.api)
 
 // Enhanced CORS configuration
 app.use('/api/*', cors(corsConfig()))
+
+// ✅ CRITICAL: Admin API authentication middleware
+// All /api/admin/* routes require admin or super_admin role
+// Exception: /api/admin/login and /api/admin/logout are public
+app.use('/api/admin/*', async (c, next) => {
+  const path = c.req.path
+  
+  // Allow login and logout without authentication
+  if (path === '/api/admin/login' || path === '/api/admin/logout') {
+    return next()
+  }
+  
+  // For all other admin routes, require authentication
+  return requireRole(['admin', 'super_admin'])(c, next)
+})
 
 // 정적 파일 서빙
 app.use('/static/*', serveStatic({ root: './public' }))
@@ -19323,7 +19339,7 @@ app.post('/api/admin/logout', async (c) => {
 // 🔐 Admin API Security Helper
 // ============================================
 async function requireAdminAuth(c: any) {
-  const token = c.req.header('Authorization')?.replace('Bearer ', '') || c.req.cookie('auth_token')
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'auth_token')
   
   if (!token) {
     return c.json({ error: 'Unauthorized', message: '로그인이 필요합니다' }, 401)
