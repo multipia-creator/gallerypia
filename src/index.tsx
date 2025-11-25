@@ -3284,6 +3284,11 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <script src="/static/performance-enhancements.js"></script> <!-- W2-H3 to W2-H8: Performance Suite -->
     <script src="/static/week3-4-batch-features.js"></script> <!-- W3-M1 to W3-M12: 12 Features -->
     
+    <!-- UX/UI Error Verification - Critical, High & Medium Improvements -->
+    <script src="/static/register-improvements.js"></script> <!-- C1-1, C1-2: Registration improvements -->
+    <script src="/static/upload-improvements.js"></script> <!-- C4-1, C4-2: Upload improvements -->
+    <script src="/static/critical-high-medium-improvements.js"></script> <!-- C2-C8, H1-H4, M1-M5: 17 improvements -->
+    
     <!-- Phase 6: UX Enhancement Scripts -->
     <!-- 성능 최적화 (필수) -->
     <script src="/static/performance-optimizer.js"></script>
@@ -3891,6 +3896,207 @@ app.post('/api/auth/logout', async (c) => {
     return c.json({ success: true, message: '로그아웃되었습니다' })
   } catch (error: any) {
     return c.json({ success: false, error: '로그아웃 중 오류가 발생했습니다' }, 500)
+  }
+})
+
+// ============================================
+// 🆕 C3-1: Token Verification API
+// ============================================
+app.get('/api/auth/verify', async (c) => {
+  const db = c.env.DB
+  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  
+  if (!token) {
+    return c.json({ success: false, error: '인증 토큰이 없습니다' }, 401)
+  }
+  
+  try {
+    const session = await verifyUserSession(db, token)
+    if (!session) {
+      return c.json({ success: false, error: '유효하지 않은 세션입니다' }, 401)
+    }
+    
+    return c.json({ 
+      success: true, 
+      user: {
+        id: session.user_id,
+        email: session.email,
+        role: session.role,
+        full_name: session.full_name
+      }
+    })
+  } catch (error: any) {
+    return c.json({ success: false, error: '토큰 검증 중 오류가 발생했습니다' }, 500)
+  }
+})
+
+// ============================================
+// 🆕 C6-1: Password Reset Request API
+// ============================================
+app.post('/api/auth/password-reset-request', async (c) => {
+  const db = c.env.DB
+  
+  try {
+    const { email } = await c.req.json()
+    
+    if (!email || !email.includes('@')) {
+      return c.json({ success: false, error: '올바른 이메일 주소를 입력해주세요' }, 400)
+    }
+    
+    // Check if user exists
+    const user = await db.prepare(`
+      SELECT id, email, full_name FROM users WHERE email = ?
+    `).bind(email).first()
+    
+    if (!user) {
+      // Don't reveal if email exists for security
+      return c.json({ 
+        success: true, 
+        message: '비밀번호 재설정 링크가 이메일로 전송되었습니다' 
+      })
+    }
+    
+    // Generate reset token
+    const resetToken = crypto.randomUUID()
+    const expiresAt = new Date(Date.now() + 3600000).toISOString() // 1 hour
+    
+    // Store reset token
+    await db.prepare(`
+      INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
+      VALUES (?, ?, ?, datetime('now'))
+    `).bind(user.id, resetToken, expiresAt).run()
+    
+    // TODO: Send email with reset link
+    // For now, just return success
+    console.log(`Password reset token for ${email}: ${resetToken}`)
+    
+    return c.json({ 
+      success: true, 
+      message: '비밀번호 재설정 링크가 이메일로 전송되었습니다',
+      // For development only - remove in production
+      _dev_token: resetToken
+    })
+  } catch (error: any) {
+    console.error('Password reset request error:', error)
+    return c.json({ success: false, error: '요청 처리 중 오류가 발생했습니다' }, 500)
+  }
+})
+
+// ============================================
+// 🆕 C6-1: Password Reset Confirm API
+// ============================================
+app.post('/api/auth/password-reset-confirm', async (c) => {
+  const db = c.env.DB
+  
+  try {
+    const { token, new_password } = await c.req.json()
+    
+    if (!token || !new_password) {
+      return c.json({ success: false, error: '필수 정보가 누락되었습니다' }, 400)
+    }
+    
+    // Password strength validation
+    if (new_password.length < 8) {
+      return c.json({ 
+        success: false, 
+        error: '비밀번호는 최소 8자 이상이어야 합니다' 
+      }, 400)
+    }
+    
+    // Verify token
+    const resetRecord = await db.prepare(`
+      SELECT user_id, expires_at FROM password_reset_tokens 
+      WHERE token = ? AND used = 0
+    `).bind(token).first()
+    
+    if (!resetRecord) {
+      return c.json({ success: false, error: '유효하지 않거나 만료된 토큰입니다' }, 400)
+    }
+    
+    // Check expiration
+    const expiresAt = new Date(resetRecord.expires_at as string)
+    if (expiresAt < new Date()) {
+      return c.json({ success: false, error: '토큰이 만료되었습니다' }, 400)
+    }
+    
+    // Hash new password
+    const newPasswordHash = await bcrypt.hash(new_password, 10)
+    
+    // Update password
+    await db.prepare(`
+      UPDATE users 
+      SET password_hash = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `).bind(newPasswordHash, resetRecord.user_id).run()
+    
+    // Mark token as used
+    await db.prepare(`
+      UPDATE password_reset_tokens SET used = 1 WHERE token = ?
+    `).bind(token).run()
+    
+    // Invalidate all sessions
+    await db.prepare(`
+      DELETE FROM user_sessions WHERE user_id = ?
+    `).bind(resetRecord.user_id).run()
+    
+    return c.json({ 
+      success: true, 
+      message: '비밀번호가 변경되었습니다. 새 비밀번호로 로그인해주세요.' 
+    })
+  } catch (error: any) {
+    console.error('Password reset confirm error:', error)
+    return c.json({ success: false, error: '비밀번호 변경 중 오류가 발생했습니다' }, 500)
+  }
+})
+
+// ============================================
+// 🆕 C7-1: Profile Image Upload API
+// ============================================
+app.post('/api/user/profile-image', requireAuth, async (c) => {
+  const db = c.env.DB
+  const user = c.get('user')
+  
+  try {
+    const formData = await c.req.formData()
+    const image = formData.get('profile_image') as File
+    
+    if (!image) {
+      return c.json({ success: false, error: '이미지 파일을 선택해주세요' }, 400)
+    }
+    
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+    if (!allowedTypes.includes(image.type)) {
+      return c.json({ 
+        success: false, 
+        error: '지원하지 않는 파일 형식입니다 (JPG, PNG, GIF, WebP만 가능)' 
+      }, 400)
+    }
+    
+    // Validate file size (5MB)
+    if (image.size > 5 * 1024 * 1024) {
+      return c.json({ success: false, error: '파일 크기는 5MB를 초과할 수 없습니다' }, 400)
+    }
+    
+    // Convert to base64 for storage
+    const buffer = await image.arrayBuffer()
+    const base64Image = `data:${image.type};base64,${btoa(String.fromCharCode(...new Uint8Array(buffer)))}`
+    
+    // Update user profile
+    await db.prepare(`
+      UPDATE users 
+      SET profile_image = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `).bind(base64Image, user.id).run()
+    
+    return c.json({ 
+      success: true, 
+      message: '프로필 이미지가 업데이트되었습니다',
+      image_url: base64Image
+    })
+  } catch (error: any) {
+    console.error('Profile image upload error:', error)
+    return c.json({ success: false, error: '이미지 업로드 중 오류가 발생했습니다' }, 500)
   }
 })
 
