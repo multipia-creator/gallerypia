@@ -217,6 +217,149 @@ class I18n {
         'common.noRecommended': '평점 4.0 이상의 추천 작품이 없습니다.',
         'common.noPopular': '인기 작품이 없습니다.',
         'common.expertEval': '전문가 평가를 받은 우수한 작품이 곧 추가됩니다.',
+        'common.close': '닫기',
+        'common.submit': '제출',
+        'common.reset': '초기화',
+        'common.filter': '필터',
+        'common.sort': '정렬',
+        'common.apply': '적용',
+        'common.clear': '지우기',
+        
+        // Navigation Common
+        'nav.skip_to_content': '메인 콘텐츠로 바로가기',
+        'nav.language_selection': '언어 선택',
+        'nav.notifications': '알림',
+        'nav.loading_notifications': '알림을 불러오는 중...',
+        'nav.no_notifications': '새로운 알림이 없습니다',
+        'nav.user': '사용자',
+        'nav.tutorial_replay': '튜토리얼 다시보기',
+        'nav.wallet_connect': '지갑연결',
+        'nav.curation': '큐레이션',
+        'nav.academy': '아카데미',
+        'nav.about': '소개',
+        
+        // Gallery Page
+        'gallery.title': '갤러리',
+        'gallery.all': '전체',
+        'gallery.painting': '회화',
+        'gallery.sculpture': '조각',
+        'gallery.photo': '사진',
+        'gallery.digital': '디지털아트',
+        'gallery.mixed': '혼합매체',
+        'gallery.installation': '설치미술',
+        'gallery.craft': '공예',
+        'gallery.design': '디자인',
+        'gallery.print': '판화',
+        'gallery.media': '미디어아트',
+        'gallery.sort_latest': '최신순',
+        'gallery.sort_popular': '인기순',
+        'gallery.sort_price_high': '높은 가격순',
+        'gallery.sort_price_low': '낮은 가격순',
+        'gallery.filter_verified': '검증된 작품만',
+        'gallery.filter_price_range': '가격 범위',
+        'gallery.search_placeholder': '작품명, 작가명 검색...',
+        'gallery.no_results': '검색 결과가 없습니다',
+        'gallery.loading': '작품을 불러오는 중...',
+        
+        // Artwork Card
+        'artwork.views': '조회',
+        'artwork.likes': '좋아요',
+        'artwork.estimated_price': '산정가',
+        'artwork.view_details': '상세 보기',
+        'artwork.add_to_favorites': '즐겨찾기 추가',
+        'artwork.share': '공유',
+        'artwork.report': '신고',
+        
+        // Valuation Page
+        'valuation.title': '가치산정',
+        'valuation.description': '학술 논문 기반 과학적 NFT 미술품 가치산정 플랫폼',
+        'valuation.system_title': '5개 모듈 기반의 과학적 가치산정 방법론',
+        'valuation.upload_artwork': 'NFT 작품 업로드',
+        'valuation.start': '가치산정 시작',
+        'valuation.history': '평가 이력',
+        
+        // Search Page
+        'search.title': '검색',
+        'search.voice_search': '음성 검색',
+        'search.ai_search': 'AI 검색',
+        'search.advanced': '고급 검색',
+        'search.recent_searches': '최근 검색',
+        'search.popular_searches': '인기 검색어',
+        
+        // Artist Page
+        'artists.title': '아티스트',
+        'artists.all': '전체 아티스트',
+        'artists.featured': '추천 아티스트',
+        'artists.new': '신규 아티스트',
+        'artists.follow': '팔로우',
+        'artists.following': '팔로잉',
+        'artists.artworks': '작품',
+        'artists.followers': '팔로워',
+        
+        // Collections
+        'collections.title': '컬렉션',
+        'collections.view': '컬렉션 보기',
+        'collections.create': '컬렉션 만들기',
+        'collections.my': '내 컬렉션',
+        
+        // Mint Page
+        'mint.title': 'NFT 민팅',
+        'mint.upload': '작품 업로드',
+        'mint.title_label': '작품명',
+        'mint.description_label': '작품 설명',
+        'mint.price_label': '가격',
+        'mint.category_label': '카테고리',
+        'mint.start_minting': '민팅 시작',
+        
+        // My Page
+        'mypage.title': '마이페이지',
+        'mypage.dashboard': '대시보드',
+        'mypage.profile': '프로필',
+        'mypage.settings': '설정',
+        'mypage.my_artworks': '내 작품',
+        'mypage.favorites': '즐겨찾기',
+        'mypage.transactions': '거래 내역',
+        
+        // Leaderboard
+        'leaderboard.title': '리더보드',
+        'leaderboard.artists': '아티스트 랭킹',
+        'leaderboard.artworks': '작품 랭킹',
+        'leaderboard.collectors': '컬렉터 랭킹',
+        
+        // Academy
+        'academy.title': 'NFT 아카데미',
+        'academy.courses': '강좌',
+        'academy.tutorials': '튜토리얼',
+        'academy.guides': '가이드',
+        
+        // Support
+        'support.title': '지원',
+        'support.faq': '자주 묻는 질문',
+        'support.contact': '문의하기',
+        'support.help': '도움말',
+        
+        // Auth
+        'auth.login': '로그인',
+        'auth.signup': '회원가입',
+        'auth.logout': '로그아웃',
+        'auth.forgot_password': '비밀번호 찾기',
+        'auth.reset_password': '비밀번호 재설정',
+        
+        // Buttons
+        'btn.buy': '구매하기',
+        'btn.bid': '입찰하기',
+        'btn.view_more': '더 보기',
+        'btn.view_all': '전체 보기',
+        'btn.go_back': '뒤로 가기',
+        'btn.download': '다운로드',
+        'btn.upload': '업로드',
+        
+        // Messages
+        'msg.loading': '로딩 중...',
+        'msg.success': '성공했습니다',
+        'msg.error': '오류가 발생했습니다',
+        'msg.no_data': '데이터가 없습니다',
+        'msg.coming_soon': '곧 출시됩니다',
         
         // Search Section
         'search.placeholder': 'AI로 작품 검색... (텍스트, 음성 지원)',
@@ -562,6 +705,151 @@ class I18n {
         'analysis.marketTrend': 'NFT market trend and trading volume analysis',
         'analysis.editionComparison': 'Edition count and similar NFT comparison',
         'analysis.artistStyle': 'Artist\'s unique style and creativity',
+        
+        // Common Terms
+        'common.close': 'Close',
+        'common.submit': 'Submit',
+        'common.reset': 'Reset',
+        'common.filter': 'Filter',
+        'common.sort': 'Sort',
+        'common.apply': 'Apply',
+        'common.clear': 'Clear',
+        
+        // Navigation Common
+        'nav.skip_to_content': 'Skip to main content',
+        'nav.language_selection': 'Language Selection',
+        'nav.notifications': 'Notifications',
+        'nav.loading_notifications': 'Loading notifications...',
+        'nav.no_notifications': 'No new notifications',
+        'nav.user': 'User',
+        'nav.tutorial_replay': 'Replay Tutorial',
+        'nav.wallet_connect': 'Connect Wallet',
+        'nav.curation': 'Curation',
+        'nav.academy': 'Academy',
+        'nav.about': 'About',
+        
+        // Gallery Page
+        'gallery.title': 'Gallery',
+        'gallery.all': 'All',
+        'gallery.painting': 'Painting',
+        'gallery.sculpture': 'Sculpture',
+        'gallery.photo': 'Photography',
+        'gallery.digital': 'Digital Art',
+        'gallery.mixed': 'Mixed Media',
+        'gallery.installation': 'Installation',
+        'gallery.craft': 'Craft',
+        'gallery.design': 'Design',
+        'gallery.print': 'Print',
+        'gallery.media': 'Media Art',
+        'gallery.sort_latest': 'Latest',
+        'gallery.sort_popular': 'Popular',
+        'gallery.sort_price_high': 'Price: High to Low',
+        'gallery.sort_price_low': 'Price: Low to High',
+        'gallery.filter_verified': 'Verified Only',
+        'gallery.filter_price_range': 'Price Range',
+        'gallery.search_placeholder': 'Search by artwork or artist...',
+        'gallery.no_results': 'No results found',
+        'gallery.loading': 'Loading artworks...',
+        
+        // Artwork Card
+        'artwork.views': 'Views',
+        'artwork.likes': 'Likes',
+        'artwork.estimated_price': 'Est. Price',
+        'artwork.view_details': 'View Details',
+        'artwork.add_to_favorites': 'Add to Favorites',
+        'artwork.share': 'Share',
+        'artwork.report': 'Report',
+        
+        // Valuation Page
+        'valuation.title': 'Valuation',
+        'valuation.description': 'Scientific NFT Art Valuation Platform',
+        'valuation.system_title': 'Scientific Valuation Based on 5 Modules',
+        'valuation.upload_artwork': 'Upload NFT Artwork',
+        'valuation.start': 'Start Valuation',
+        'valuation.history': 'Valuation History',
+        
+        // Search Page
+        'search.title': 'Search',
+        'search.voice_search': 'Voice Search',
+        'search.ai_search': 'AI Search',
+        'search.advanced': 'Advanced Search',
+        'search.recent_searches': 'Recent Searches',
+        'search.popular_searches': 'Popular Searches',
+        
+        // Artist Page
+        'artists.title': 'Artists',
+        'artists.all': 'All Artists',
+        'artists.featured': 'Featured Artists',
+        'artists.new': 'New Artists',
+        'artists.follow': 'Follow',
+        'artists.following': 'Following',
+        'artists.artworks': 'Artworks',
+        'artists.followers': 'Followers',
+        
+        // Collections
+        'collections.title': 'Collections',
+        'collections.view': 'View Collection',
+        'collections.create': 'Create Collection',
+        'collections.my': 'My Collections',
+        
+        // Mint Page
+        'mint.title': 'Mint NFT',
+        'mint.upload': 'Upload Artwork',
+        'mint.title_label': 'Artwork Title',
+        'mint.description_label': 'Description',
+        'mint.price_label': 'Price',
+        'mint.category_label': 'Category',
+        'mint.start_minting': 'Start Minting',
+        
+        // My Page
+        'mypage.title': 'My Page',
+        'mypage.dashboard': 'Dashboard',
+        'mypage.profile': 'Profile',
+        'mypage.settings': 'Settings',
+        'mypage.my_artworks': 'My Artworks',
+        'mypage.favorites': 'Favorites',
+        'mypage.transactions': 'Transactions',
+        
+        // Leaderboard
+        'leaderboard.title': 'Leaderboard',
+        'leaderboard.artists': 'Artists Ranking',
+        'leaderboard.artworks': 'Artworks Ranking',
+        'leaderboard.collectors': 'Collectors Ranking',
+        
+        // Academy
+        'academy.title': 'NFT Academy',
+        'academy.courses': 'Courses',
+        'academy.tutorials': 'Tutorials',
+        'academy.guides': 'Guides',
+        
+        // Support
+        'support.title': 'Support',
+        'support.faq': 'FAQ',
+        'support.contact': 'Contact Us',
+        'support.help': 'Help',
+        
+        // Auth
+        'auth.login': 'Login',
+        'auth.signup': 'Sign Up',
+        'auth.logout': 'Logout',
+        'auth.forgot_password': 'Forgot Password',
+        'auth.reset_password': 'Reset Password',
+        
+        // Buttons
+        'btn.buy': 'Buy Now',
+        'btn.bid': 'Place Bid',
+        'btn.view_more': 'View More',
+        'btn.view_all': 'View All',
+        'btn.go_back': 'Go Back',
+        'btn.download': 'Download',
+        'btn.upload': 'Upload',
+        
+        // Messages
+        'msg.loading': 'Loading...',
+        'msg.success': 'Success',
+        'msg.error': 'An error occurred',
+        'msg.no_data': 'No data available',
+        'msg.coming_soon': 'Coming Soon',
       },
       
       // Chinese (简体中文)
@@ -804,6 +1092,151 @@ class I18n {
         'analysis.marketTrend': 'NFT市场趋势和交易量分析',
         'analysis.editionComparison': '版数和类似NFT对比分析',
         'analysis.artistStyle': '艺术家的独特风格和创意',
+        
+        // Common Terms
+        'common.close': '关闭',
+        'common.submit': '提交',
+        'common.reset': '重置',
+        'common.filter': '筛选',
+        'common.sort': '排序',
+        'common.apply': '应用',
+        'common.clear': '清除',
+        
+        // Navigation Common
+        'nav.skip_to_content': '跳转到主要内容',
+        'nav.language_selection': '语言选择',
+        'nav.notifications': '通知',
+        'nav.loading_notifications': '正在加载通知...',
+        'nav.no_notifications': '暂无新通知',
+        'nav.user': '用户',
+        'nav.tutorial_replay': '重播教程',
+        'nav.wallet_connect': '连接钱包',
+        'nav.curation': '策展',
+        'nav.academy': '学院',
+        'nav.about': '关于',
+        
+        // Gallery Page
+        'gallery.title': '画廊',
+        'gallery.all': '全部',
+        'gallery.painting': '绘画',
+        'gallery.sculpture': '雕塑',
+        'gallery.photo': '摄影',
+        'gallery.digital': '数字艺术',
+        'gallery.mixed': '混合媒体',
+        'gallery.installation': '装置艺术',
+        'gallery.craft': '工艺',
+        'gallery.design': '设计',
+        'gallery.print': '版画',
+        'gallery.media': '媒体艺术',
+        'gallery.sort_latest': '最新',
+        'gallery.sort_popular': '热门',
+        'gallery.sort_price_high': '价格：高到低',
+        'gallery.sort_price_low': '价格：低到高',
+        'gallery.filter_verified': '仅显示已验证',
+        'gallery.filter_price_range': '价格范围',
+        'gallery.search_placeholder': '按作品或艺术家搜索...',
+        'gallery.no_results': '未找到结果',
+        'gallery.loading': '正在加载作品...',
+        
+        // Artwork Card
+        'artwork.views': '浏览',
+        'artwork.likes': '点赞',
+        'artwork.estimated_price': '估价',
+        'artwork.view_details': '查看详情',
+        'artwork.add_to_favorites': '添加到收藏',
+        'artwork.share': '分享',
+        'artwork.report': '举报',
+        
+        // Valuation Page
+        'valuation.title': '估值',
+        'valuation.description': '科学NFT艺术品估值平台',
+        'valuation.system_title': '基于5个模块的科学估值',
+        'valuation.upload_artwork': '上传NFT作品',
+        'valuation.start': '开始估值',
+        'valuation.history': '估值历史',
+        
+        // Search Page
+        'search.title': '搜索',
+        'search.voice_search': '语音搜索',
+        'search.ai_search': 'AI搜索',
+        'search.advanced': '高级搜索',
+        'search.recent_searches': '最近搜索',
+        'search.popular_searches': '热门搜索',
+        
+        // Artist Page
+        'artists.title': '艺术家',
+        'artists.all': '全部艺术家',
+        'artists.featured': '推荐艺术家',
+        'artists.new': '新艺术家',
+        'artists.follow': '关注',
+        'artists.following': '已关注',
+        'artists.artworks': '作品',
+        'artists.followers': '粉丝',
+        
+        // Collections
+        'collections.title': '收藏',
+        'collections.view': '查看收藏',
+        'collections.create': '创建收藏',
+        'collections.my': '我的收藏',
+        
+        // Mint Page
+        'mint.title': '铸造NFT',
+        'mint.upload': '上传作品',
+        'mint.title_label': '作品名称',
+        'mint.description_label': '描述',
+        'mint.price_label': '价格',
+        'mint.category_label': '类别',
+        'mint.start_minting': '开始铸造',
+        
+        // My Page
+        'mypage.title': '我的主页',
+        'mypage.dashboard': '仪表板',
+        'mypage.profile': '个人资料',
+        'mypage.settings': '设置',
+        'mypage.my_artworks': '我的作品',
+        'mypage.favorites': '收藏',
+        'mypage.transactions': '交易记录',
+        
+        // Leaderboard
+        'leaderboard.title': '排行榜',
+        'leaderboard.artists': '艺术家排名',
+        'leaderboard.artworks': '作品排名',
+        'leaderboard.collectors': '收藏家排名',
+        
+        // Academy
+        'academy.title': 'NFT学院',
+        'academy.courses': '课程',
+        'academy.tutorials': '教程',
+        'academy.guides': '指南',
+        
+        // Support
+        'support.title': '支持',
+        'support.faq': '常见问题',
+        'support.contact': '联系我们',
+        'support.help': '帮助',
+        
+        // Auth
+        'auth.login': '登录',
+        'auth.signup': '注册',
+        'auth.logout': '登出',
+        'auth.forgot_password': '忘记密码',
+        'auth.reset_password': '重置密码',
+        
+        // Buttons
+        'btn.buy': '立即购买',
+        'btn.bid': '出价',
+        'btn.view_more': '查看更多',
+        'btn.view_all': '查看全部',
+        'btn.go_back': '返回',
+        'btn.download': '下载',
+        'btn.upload': '上传',
+        
+        // Messages
+        'msg.loading': '加载中...',
+        'msg.success': '成功',
+        'msg.error': '发生错误',
+        'msg.no_data': '暂无数据',
+        'msg.coming_soon': '即将推出',
       },
       
       // Japanese (日本語)
@@ -1046,6 +1479,151 @@ class I18n {
         'analysis.marketTrend': 'NFT市場トレンドと取引量分析',
         'analysis.editionComparison': 'エディション数と類似NFT比較分析',
         'analysis.artistStyle': 'アーティストの独自のスタイルと創造性',
+        
+        // Common Terms
+        'common.close': '閉じる',
+        'common.submit': '送信',
+        'common.reset': 'リセット',
+        'common.filter': 'フィルター',
+        'common.sort': '並び替え',
+        'common.apply': '適用',
+        'common.clear': 'クリア',
+        
+        // Navigation Common
+        'nav.skip_to_content': 'メインコンテンツへスキップ',
+        'nav.language_selection': '言語選択',
+        'nav.notifications': '通知',
+        'nav.loading_notifications': '通知を読み込み中...',
+        'nav.no_notifications': '新しい通知はありません',
+        'nav.user': 'ユーザー',
+        'nav.tutorial_replay': 'チュートリアルを再生',
+        'nav.wallet_connect': 'ウォレット接続',
+        'nav.curation': 'キュレーション',
+        'nav.academy': 'アカデミー',
+        'nav.about': '概要',
+        
+        // Gallery Page
+        'gallery.title': 'ギャラリー',
+        'gallery.all': '全て',
+        'gallery.painting': '絵画',
+        'gallery.sculpture': '彫刻',
+        'gallery.photo': '写真',
+        'gallery.digital': 'デジタルアート',
+        'gallery.mixed': 'ミクストメディア',
+        'gallery.installation': 'インスタレーション',
+        'gallery.craft': '工芸',
+        'gallery.design': 'デザイン',
+        'gallery.print': '版画',
+        'gallery.media': 'メディアアート',
+        'gallery.sort_latest': '最新',
+        'gallery.sort_popular': '人気',
+        'gallery.sort_price_high': '価格：高い順',
+        'gallery.sort_price_low': '価格：安い順',
+        'gallery.filter_verified': '検証済みのみ',
+        'gallery.filter_price_range': '価格範囲',
+        'gallery.search_placeholder': '作品またはアーティストで検索...',
+        'gallery.no_results': '結果が見つかりません',
+        'gallery.loading': '作品を読み込み中...',
+        
+        // Artwork Card
+        'artwork.views': '閲覧数',
+        'artwork.likes': 'いいね',
+        'artwork.estimated_price': '見積額',
+        'artwork.view_details': '詳細を見る',
+        'artwork.add_to_favorites': 'お気に入りに追加',
+        'artwork.share': '共有',
+        'artwork.report': '報告',
+        
+        // Valuation Page
+        'valuation.title': '評価',
+        'valuation.description': '科学的NFTアート評価プラットフォーム',
+        'valuation.system_title': '5つのモジュールに基づく科学的評価',
+        'valuation.upload_artwork': 'NFT作品をアップロード',
+        'valuation.start': '評価を開始',
+        'valuation.history': '評価履歴',
+        
+        // Search Page
+        'search.title': '検索',
+        'search.voice_search': '音声検索',
+        'search.ai_search': 'AI検索',
+        'search.advanced': '詳細検索',
+        'search.recent_searches': '最近の検索',
+        'search.popular_searches': '人気の検索',
+        
+        // Artist Page
+        'artists.title': 'アーティスト',
+        'artists.all': '全アーティスト',
+        'artists.featured': 'おすすめアーティスト',
+        'artists.new': '新規アーティスト',
+        'artists.follow': 'フォロー',
+        'artists.following': 'フォロー中',
+        'artists.artworks': '作品',
+        'artists.followers': 'フォロワー',
+        
+        // Collections
+        'collections.title': 'コレクション',
+        'collections.view': 'コレクションを表示',
+        'collections.create': 'コレクションを作成',
+        'collections.my': 'マイコレクション',
+        
+        // Mint Page
+        'mint.title': 'NFTミント',
+        'mint.upload': '作品をアップロード',
+        'mint.title_label': '作品名',
+        'mint.description_label': '説明',
+        'mint.price_label': '価格',
+        'mint.category_label': 'カテゴリー',
+        'mint.start_minting': 'ミントを開始',
+        
+        // My Page
+        'mypage.title': 'マイページ',
+        'mypage.dashboard': 'ダッシュボード',
+        'mypage.profile': 'プロフィール',
+        'mypage.settings': '設定',
+        'mypage.my_artworks': 'マイ作品',
+        'mypage.favorites': 'お気に入り',
+        'mypage.transactions': '取引履歴',
+        
+        // Leaderboard
+        'leaderboard.title': 'リーダーボード',
+        'leaderboard.artists': 'アーティストランキング',
+        'leaderboard.artworks': '作品ランキング',
+        'leaderboard.collectors': 'コレクターランキング',
+        
+        // Academy
+        'academy.title': 'NFTアカデミー',
+        'academy.courses': 'コース',
+        'academy.tutorials': 'チュートリアル',
+        'academy.guides': 'ガイド',
+        
+        // Support
+        'support.title': 'サポート',
+        'support.faq': 'よくある質問',
+        'support.contact': 'お問い合わせ',
+        'support.help': 'ヘルプ',
+        
+        // Auth
+        'auth.login': 'ログイン',
+        'auth.signup': '新規登録',
+        'auth.logout': 'ログアウト',
+        'auth.forgot_password': 'パスワードを忘れた',
+        'auth.reset_password': 'パスワードリセット',
+        
+        // Buttons
+        'btn.buy': '今すぐ購入',
+        'btn.bid': '入札',
+        'btn.view_more': 'もっと見る',
+        'btn.view_all': '全て表示',
+        'btn.go_back': '戻る',
+        'btn.download': 'ダウンロード',
+        'btn.upload': 'アップロード',
+        
+        // Messages
+        'msg.loading': '読み込み中...',
+        'msg.success': '成功',
+        'msg.error': 'エラーが発生しました',
+        'msg.no_data': 'データがありません',
+        'msg.coming_soon': '近日公開',
       }
     };
   }
@@ -1469,6 +2047,152 @@ class I18n {
       if (uploadDragDrop && uploadDragDrop.textContent.includes('드래그')) {
         uploadDragDrop.textContent = this.t('upload.dragDrop');
       }
+      
+      // === Common Navigation & UI Elements (All Pages) ===
+      // Language Selection
+      const langSelection = document.querySelector('h3.text-sm');
+      if (langSelection && langSelection.textContent.includes('언어 선택')) {
+        langSelection.textContent = this.t('nav.language_selection');
+      }
+      
+      // Notifications
+      const notifications = document.querySelectorAll('h3.text-lg');
+      notifications.forEach(el => {
+        if (el.textContent.includes('알림')) {
+          el.textContent = this.t('nav.notifications');
+        }
+      });
+      
+      // Loading notifications
+      document.querySelectorAll('.text-center').forEach(el => {
+        if (el.textContent.includes('알림을 불러오는 중')) {
+          el.textContent = this.t('nav.loading_notifications');
+        } else if (el.textContent.includes('새로운 알림이 없습니다')) {
+          el.textContent = this.t('nav.no_notifications');
+        }
+      });
+      
+      // Main Navigation - translate ALL navigation items
+      const navLinks = document.querySelectorAll('nav a, header a');
+      navLinks.forEach(link => {
+        const text = link.textContent.trim();
+        // Map Korean text to translation keys
+        const navMap = {
+          '갤러리': 'nav.gallery',
+          '추천': 'nav.recommendations',
+          '아티스트': 'nav.artists',
+          '가치산정': 'valuation.title',
+          '큐레이션': 'nav.curation',
+          '아카데미': 'nav.academy',
+          '소개': 'nav.about',
+          '회원가입': 'auth.signup',
+          '로그인': 'auth.login',
+          '로그아웃': 'auth.logout',
+          '사용자': 'nav.user',
+          '대시보드': 'mypage.dashboard',
+          '프로필': 'mypage.profile',
+          '설정': 'mypage.settings',
+          '튜토리얼 다시보기': 'nav.tutorial_replay',
+          '지갑연결': 'nav.wallet_connect'
+        };
+        
+        if (navMap[text]) {
+          link.textContent = this.t(navMap[text]);
+        }
+      });
+      
+      // Gallery Page - Category Tabs
+      const categoryButtons = document.querySelectorAll('button, a');
+      categoryButtons.forEach(btn => {
+        const text = btn.textContent.trim();
+        const categoryMap = {
+          '전체': 'gallery.all',
+          '회화': 'gallery.painting',
+          '조각': 'gallery.sculpture',
+          '사진': 'gallery.photo',
+          '디지털아트': 'gallery.digital',
+          '혼합매체': 'gallery.mixed',
+          '설치미술': 'gallery.installation',
+          '공예': 'gallery.craft',
+          '디자인': 'gallery.design',
+          '판화': 'gallery.print',
+          '미디어아트': 'gallery.media'
+        };
+        
+        if (categoryMap[text]) {
+          btn.textContent = this.t(categoryMap[text]);
+        }
+      });
+      
+      // Common Buttons - translate button texts
+      document.querySelectorAll('button, a.btn, .button').forEach(btn => {
+        const text = btn.textContent.trim();
+        const buttonMap = {
+          '닫기': 'common.close',
+          '제출': 'common.submit',
+          '초기화': 'common.reset',
+          '필터': 'common.filter',
+          '정렬': 'common.sort',
+          '적용': 'common.apply',
+          '지우기': 'common.clear',
+          '구매하기': 'btn.buy',
+          '입찰하기': 'btn.bid',
+          '더 보기': 'btn.view_more',
+          '전체 보기': 'btn.view_all',
+          '뒤로 가기': 'btn.go_back',
+          '다운로드': 'btn.download',
+          '업로드': 'btn.upload'
+        };
+        
+        if (buttonMap[text]) {
+          btn.textContent = this.t(buttonMap[text]);
+        }
+      });
+      
+      // Search inputs - translate placeholders
+      document.querySelectorAll('input[type="search"], input[type="text"]').forEach(input => {
+        const placeholder = input.placeholder;
+        if (placeholder.includes('작품명') || placeholder.includes('작가명')) {
+          input.placeholder = this.t('gallery.search_placeholder');
+        } else if (placeholder.includes('검색')) {
+          input.placeholder = this.t('search.title');
+        }
+      });
+      
+      // Page-specific content
+      const pageTitle = document.title;
+      
+      // Gallery Page specific
+      if (pageTitle.includes('Gallery') || window.location.pathname.includes('/gallery')) {
+        document.querySelectorAll('.text-sm, .text-xs').forEach(el => {
+          const text = el.textContent.trim();
+          if (text.includes('조회') && !text.includes('수')) {
+            el.textContent = this.t('artwork.views');
+          } else if (text.includes('좋아요')) {
+            el.textContent = this.t('artwork.likes');
+          } else if (text.includes('산정가')) {
+            el.textContent = this.t('artwork.estimated_price');
+          }
+        });
+      }
+      
+      // Messages
+      document.querySelectorAll('.text-center, .text-gray-400, .text-gray-500').forEach(el => {
+        const text = el.textContent.trim();
+        const messageMap = {
+          '로딩 중...': 'msg.loading',
+          '로드 중...': 'msg.loading',
+          '불러오는 중...': 'msg.loading',
+          '성공했습니다': 'msg.success',
+          '오류가 발생했습니다': 'msg.error',
+          '데이터가 없습니다': 'msg.no_data',
+          '곧 출시됩니다': 'msg.coming_soon'
+        };
+        
+        if (messageMap[text]) {
+          el.textContent = this.t(messageMap[text]);
+        }
+      });
       
       console.log('✅ All main page content translated');
     } catch (error) {
