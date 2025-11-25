@@ -21162,8 +21162,8 @@ app.post('/api/auth/register', async (c) => {
       return c.json({ success: false, message: '이미 존재하는 이메일 또는 사용자명입니다' }, 400)
     }
     
-    // Hash password
-    const passwordHash = await hashPassword(password)
+    // Hash password with bcrypt (SECURITY FIX)
+    const passwordHash = await bcrypt.hash(password, 10)
     
     // Insert user
     const result = await db.prepare(`
