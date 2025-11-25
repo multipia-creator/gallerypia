@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인증 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: #fff;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgb(16, 185, 129);
+            color: rgb(16, 185, 129);
+        }
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgb(239, 68, 68);
+            color: rgb(239, 68, 68);
+        }
+    </style>
+</head>
+<body>
+    <h1>회원가입 & 로그인 테스트</h1>
+    
+    <div id="result" class="result"></div>
+    
+    <h2>회원가입</h2>
+    <form id="signupForm">
+        <div class="form-group">
+            <label>이메일:</label>
+            <input type="email" id="signup_email" required>
+        </div>
+        <div class="form-group">
+            <label>사용자명:</label>
+            <input type="text" id="signup_username" required>
+        </div>
+        <div class="form-group">
+            <label>이름:</label>
+            <input type="text" id="signup_fullname" required>
+        </div>
+        <div class="form-group">
+            <label>비밀번호:</label>
+            <input type="password" id="signup_password" required minlength="8">
+        </div>
+        <div class="form-group">
+            <label>비밀번호 확인:</label>
+            <input type="password" id="signup_confirm" required minlength="8">
+        </div>
+        <button type="submit">회원가입</button>
+    </form>
+    
+    <hr style="margin: 30px 0; border-color: #444;">
+    
+    <h2>로그인</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label>이메일:</label>
+            <input type="email" id="login_email" required>
+        </div>
+        <div class="form-group">
+            <label>비밀번호:</label>
+            <input type="password" id="login_password" required>
+        </div>
+        <button type="submit">로그인</button>
+    </form>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+        // SHA-256 Hash Function
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        function showResult(message, isSuccess) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = 'result ' + (isSuccess ? 'success' : 'error');
+            resultDiv.style.display = 'block';
+        }
+        
+        // Signup Form Handler
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('signup_email').value;
+            const username = document.getElementById('signup_username').value;
+            const fullName = document.getElementById('signup_fullname').value;
+            const password = document.getElementById('signup_password').value;
+            const confirm = document.getElementById('signup_confirm').value;
+            
+            if (password !== confirm) {
+                showResult('비밀번호가 일치하지 않습니다.', false);
+                return;
+            }
+            
+            if (password.length < 8) {
+                showResult('비밀번호는 최소 8자 이상이어야 합니다.', false);
+                return;
+            }
+            
+            try {
+                const passwordHash = await hashPassword(password);
+                console.log('Password:', password);
+                console.log('Password Hash:', passwordHash);
+                
+                const response = await axios.post('/api/auth/signup', {
+                    email: email,
+                    password_hash: passwordHash,
+                    username: username,
+                    full_name: fullName,
+                    role: 'buyer'
+                });
+                
+                console.log('Response:', response.data);
+                
+                if (response.data.success) {
+                    showResult('✅ 회원가입 성공! user_id: ' + response.data.user_id, true);
+                    // Auto-fill login form
+                    document.getElementById('login_email').value = email;
+                    document.getElementById('login_password').value = password;
+                } else {
+                    showResult('❌ ' + response.data.error, false);
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                showResult('❌ ' + (error.response?.data?.error || error.message), false);
+            }
+        });
+        
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login_email').value;
+            const password = document.getElementById('login_password').value;
+            
+            try {
+                const passwordHash = await hashPassword(password);
+                console.log('Login Password:', password);
+                console.log('Login Password Hash:', passwordHash);
+                
+                const response = await axios.post('/api/auth/login', {
+                    email: email,
+                    password_hash: passwordHash
+                });
+                
+                console.log('Login Response:', response.data);
+                
+                if (response.data.success) {
+                    showResult('✅ 로그인 성공! 사용자: ' + response.data.user.full_name + ' (역할: ' + response.data.user.role + ')', true);
+                    localStorage.setItem('session_token', response.data.session_token);
+                    localStorage.setItem('user_id', response.data.user.id);
+                } else {
+                    showResult('❌ ' + response.data.error, false);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showResult('❌ ' + (error.response?.data?.error || error.message), false);
+            }
+        });
+    </script>
+</body>
+</html>

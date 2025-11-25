@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 민팅 - GalleryPia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+            colors: {
+              primary: { 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' },
+              dark: { 900: '#0a0a0a', 800: '#1a1a1a', 700: '#2a2a2a', 600: '#3a3a3a' }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      * { font-family: 'Outfit', sans-serif; }
+      body { background: #0a0a0a; }
+      .glass-card {
+        background: rgba(26, 26, 46, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+      }
+      .upload-area {
+        border: 2px dashed rgba(139, 92, 246, 0.5);
+        transition: all 0.3s ease;
+      }
+      .upload-area:hover { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.05); }
+      .upload-area.dragover { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1); }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-dark-900">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="text-2xl font-bold"><i class="fas fa-palette mr-2 text-primary-500"></i>GalleryPia</a>
+                <div id="authNav" class="flex items-center space-x-4"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8 max-w-4xl">
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold mb-2">NFT 민팅</h1>
+            <p class="text-gray-400">작품을 업로드하고 NFT로 발행하세요</p>
+        </div>
+
+        <form id="mintForm" class="glass-card rounded-3xl p-8 space-y-6">
+            <!-- Image Upload -->
+            <div>
+                <label class="block text-lg font-semibold mb-4">작품 이미지 *</label>
+                <div id="uploadArea" class="upload-area rounded-2xl p-8 text-center cursor-pointer">
+                    <input type="file" id="artworkImage" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                    <div id="uploadPlaceholder">
+                        <i class="fas fa-cloud-upload-alt text-6xl text-primary-500 mb-4"></i>
+                        <p class="text-gray-300 text-lg font-medium mb-2">이미지를 드래그하거나 클릭하여 업로드</p>
+                        <p class="text-gray-500 text-sm">PNG, JPG, GIF (최대 10MB)</p>
+                    </div>
+                    <div id="imagePreview" class="hidden">
+                        <img id="previewImg" class="max-h-96 mx-auto rounded-xl">
+                        <button type="button" onclick="removeImage()" class="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-xl text-sm">
+                            <i class="fas fa-times mr-2"></i>이미지 제거
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basic Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium mb-2">작품명 *</label>
+                    <input type="text" id="title" required
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium mb-2">작품 설명</label>
+                    <textarea id="description" rows="4"
+                              class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white resize-none focus:border-primary-500 focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">카테고리 *</label>
+                    <select id="category" required
+                            class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                        <option value="">선택하세요</option>
+                        <option value="회화">회화</option>
+                        <option value="조각">조각</option>
+                        <option value="디지털아트">디지털아트</option>
+                        <option value="사진">사진</option>
+                        <option value="설치미술">설치미술</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">기법/재료</label>
+                    <input type="text" id="technique"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                           placeholder="예: 유화, 아크릴, 디지털">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">가로 크기 (cm)</label>
+                    <input type="number" id="width"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">세로 크기 (cm)</label>
+                    <input type="number" id="height"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">제작 연도</label>
+                    <input type="number" id="year" min="1900" max="2099"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">가격 (ETH)</label>
+                    <input type="number" id="priceEth" step="0.01"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                           placeholder="0.00" onchange="convertEthToKrw()">
+                </div>
+            </div>
+
+            <!-- Price Display -->
+            <div id="priceDisplay" class="hidden glass-card rounded-xl p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm mb-1">판매 가격</p>
+                        <p class="text-2xl font-bold text-primary-400"><span id="displayEth">0.00</span> ETH</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-400 text-sm mb-1">원화 환산</p>
+                        <p class="text-xl font-semibold text-gray-300"><span id="displayKrw">0</span> 원</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright Info -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold">저작권 정보 (선택)</h3>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">저작권 등록번호</label>
+                    <input type="text" id="copyrightReg"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">라이선스 유형</label>
+                    <select id="licenseType"
+                            class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none">
+                        <option value="">선택하세요</option>
+                        <option value="exclusive">독점 라이선스</option>
+                        <option value="non-exclusive">비독점 라이선스</option>
+                        <option value="creative_commons">크리에이티브 커먼즈</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex gap-4">
+                <button type="button" onclick="window.history.back()"
+                        class="flex-1 py-4 bg-dark-700 hover:bg-dark-600 text-white rounded-xl transition">
+                    <i class="fas fa-arrow-left mr-2"></i>취소
+                </button>
+                <button type="submit"
+                        class="flex-1 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold rounded-xl transition">
+                    <i class="fas fa-rocket mr-2"></i>NFT 민팅하기
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script src="/static/auth-improved.js"></script>
+    <script>
+        // ETH to KRW conversion rate (example - should fetch from API)
+        const ETH_TO_KRW = 3000000; // 1 ETH = 3,000,000 KRW (example rate)
+
+        // Handle image upload
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('uploadPlaceholder').classList.add('hidden');
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage() {
+            document.getElementById('artworkImage').value = '';
+            document.getElementById('uploadPlaceholder').classList.remove('hidden');
+            document.getElementById('imagePreview').classList.add('hidden');
+        }
+
+        // Drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+        uploadArea.addEventListener('click', () => document.getElementById('artworkImage').click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                document.getElementById('artworkImage').files = e.dataTransfer.files;
+                handleImageUpload({ target: { files: [file] } });
+            }
+        });
+
+        // Convert ETH to KRW
+        function convertEthToKrw() {
+            const eth = parseFloat(document.getElementById('priceEth').value) || 0;
+            const krw = Math.round(eth * ETH_TO_KRW);
+            
+            document.getElementById('displayEth').textContent = eth.toFixed(2);
+            document.getElementById('displayKrw').textContent = krw.toLocaleString();
+            document.getElementById('priceDisplay').classList.toggle('hidden', eth === 0);
+        }
+
+        // Form submission
+        document.getElementById('mintForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                category: document.getElementById('category').value,
+                technique: document.getElementById('technique').value,
+                size_width: parseInt(document.getElementById('width').value) || null,
+                size_height: parseInt(document.getElementById('height').value) || null,
+                creation_year: parseInt(document.getElementById('year').value) || null,
+                price_eth: parseFloat(document.getElementById('priceEth').value) || null,
+                image_url: 'https://via.placeholder.com/800x600?text=NFT+Artwork', // Placeholder
+                copyright_registration: document.getElementById('copyrightReg').value,
+                license_type: document.getElementById('licenseType').value
+            };
+
+            try {
+                const response = await apiCall('/api/submissions/create', {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert('NFT 민팅이 완료되었습니다!\\n\\n관리자 승인 후 갤러리에 표시됩니다.');
+                    window.location.href = '/artist-dashboard.html';
+                } else {
+                    alert('민팅 실패: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Mint error:', error);
+                alert('민팅 중 오류가 발생했습니다');
+            }
+        });
+    </script>
+</body>
+</html>

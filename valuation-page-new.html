@@ -1,0 +1,228 @@
+<!-- 새로운 가치산정 페이지 (논문 기준) -->
+<section class="py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-6xl font-black mb-4">
+                <span class="text-gradient">AI 가치산정</span> <span class="text-white">시스템</span>
+            </h1>
+            <p class="text-gray-400 text-lg">작품의 정량적/정성적 요소를 분석하여 공정한 가치를 산정합니다</p>
+        </div>
+        
+        <!-- 가치산정 입력 폼 -->
+        <div class="card-nft rounded-3xl p-8 space-y-8">
+            <form id="valuationForm" class="space-y-8">
+                
+                <!-- 정량적 평가 (30%) -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <i class="fas fa-chart-line text-cyan-400 mr-3"></i>
+                        정량적 평가 <span class="text-gray-500 text-sm ml-2">(30%)</span>
+                    </h3>
+                    
+                    <!-- 작가 업적 평가 (40%) -->
+                    <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                        <div class="flex justify-between mb-4">
+                            <label class="text-sm font-semibold text-cyan-400">작가 업적 평가 (40%)</label>
+                            <span id="artistAchievementValue" class="text-sm font-bold text-white">0/100</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-2">개인전 횟수</label>
+                                <input type="number" id="soloExhibitions" min="0" value="5" class="w-full px-3 py-2 bg-black border border-white border-opacity-10 rounded-lg text-white text-sm" onchange="calculateValue()">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-2">단체전 횟수</label>
+                                <input type="number" id="groupExhibitions" min="0" value="15" class="w-full px-3 py-2 bg-black border border-white border-opacity-10 rounded-lg text-white text-sm" onchange="calculateValue()">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-2">공모전 수상</label>
+                                <input type="number" id="competitionAwards" min="0" value="3" class="w-full px-3 py-2 bg-black border border-white border-opacity-10 rounded-lg text-white text-sm" onchange="calculateValue()">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-2">최근 전시 연도</label>
+                                <input type="number" id="latestExhibitionYear" min="2000" max="2025" value="2024" class="w-full px-3 py-2 bg-black border border-white border-opacity-10 rounded-lg text-white text-sm" onchange="calculateValue()">
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">
+                            작가업적점수 = Σ(전시점수 × 권위도가중치 × 최신성계수) + 수상가산점<br>
+                            개인전: 10점, 단체전: 5점, 수상: 15점
+                        </p>
+                    </div>
+                    
+                    <!-- 시장 수요 (30%) -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-300">시장 수요 (30%)</label>
+                            <span id="marketDemandValue" class="text-sm font-bold text-white">50/100</span>
+                        </div>
+                        <input type="range" id="marketDemand" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue('marketDemand')">
+                        <p class="text-xs text-gray-500 mt-2">거래량, 인기도, 트렌드</p>
+                    </div>
+                    
+                    <!-- 희소성 (30%) -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-300">희소성 (30%)</label>
+                            <span id="rarityValue" class="text-sm font-bold text-white">50/100</span>
+                        </div>
+                        <input type="range" id="rarity" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue('rarity')">
+                        <p class="text-xs text-gray-500 mt-2">작품 수량, 한정판 여부</p>
+                    </div>
+                </div>
+                
+                <!-- 정성적 평가 (70%) -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <i class="fas fa-palette text-purple-400 mr-3"></i>
+                        정성적 평가 <span class="text-gray-500 text-sm ml-2">(70%)</span>
+                    </h3>
+                    
+                    <!-- 예술적 완성도 (35%) -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-300">예술적 완성도 (35%)</label>
+                            <span id="artisticQualityValue" class="text-sm font-bold text-white">50/100</span>
+                        </div>
+                        <input type="range" id="artisticQuality" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue('artisticQuality')">
+                        <p class="text-xs text-gray-500 mt-2">미학적 가치, 기술적 완성도</p>
+                    </div>
+                    
+                    <!-- 독창성 (30%) -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-300">독창성 (30%)</label>
+                            <span id="originalityValue" class="text-sm font-bold text-white">50/100</span>
+                        </div>
+                        <input type="range" id="originality" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue('originality')">
+                        <p class="text-xs text-gray-500 mt-2">창의성, 혁신성</p>
+                    </div>
+                    
+                    <!-- 문화적 의의 (20%) -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-300">문화적 의의 (20%)</label>
+                            <span id="culturalSignificanceValue" class="text-sm font-bold text-white">50/100</span>
+                        </div>
+                        <input type="range" id="culturalSignificance" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue('culturalSignificance')">
+                        <p class="text-xs text-gray-500 mt-2">역사적/사회적 맥락</p>
+                    </div>
+                    
+                    <!-- 기술적 우수성 (15%) -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm font-semibold text-gray-300">기술적 우수성 (15%)</label>
+                            <span id="technicalExcellenceValue" class="text-sm font-bold text-white">50/100</span>
+                        </div>
+                        <input type="range" id="technicalExcellence" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" oninput="updateSliderValue('technicalExcellence')">
+                        <p class="text-xs text-gray-500 mt-2">제작 기법, 표현 기술</p>
+                    </div>
+                </div>
+                
+                <!-- 계산 결과 -->
+                <div class="bg-gradient-to-br from-purple-900 from-opacity-20 to-cyan-900 to-opacity-20 rounded-3xl p-8 border border-purple-500 border-opacity-30">
+                    <div class="text-center">
+                        <div class="text-sm text-gray-400 mb-2">산정된 작품 가치</div>
+                        <div id="estimatedValue" class="text-6xl font-black text-gradient mb-4">
+                            1,000만원<br><span class="text-cyan-400 text-3xl">2.2222 ETH</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 mt-6">
+                            <div class="bg-black bg-opacity-30 rounded-xl p-4">
+                                <div class="text-xs text-gray-500 mb-1">작가 업적</div>
+                                <div id="artistAchievementScore" class="text-2xl font-bold text-cyan-400">0</div>
+                            </div>
+                            <div class="bg-black bg-opacity-30 rounded-xl p-4">
+                                <div class="text-xs text-gray-500 mb-1">정량 점수</div>
+                                <div id="quantScore" class="text-2xl font-bold text-cyan-400">15.0</div>
+                            </div>
+                            <div class="bg-black bg-opacity-30 rounded-xl p-4">
+                                <div class="text-xs text-gray-500 mb-1">정성 점수</div>
+                                <div id="qualScore" class="text-2xl font-bold text-purple-400">35.0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-sm text-gray-400">
+                            <div>기본 가격: <span id="baseValue" class="text-white font-semibold">1,000만원</span></div>
+                            <div>종합 점수: <span id="totalScore" class="text-white font-semibold">50.0</span></div>
+                            <div class="text-xs mt-2">1 ETH = 4,500,000원 기준</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full btn-neon px-8 py-4 rounded-2xl text-white font-bold text-lg">
+                    <i class="fas fa-save mr-2"></i>
+                    평가 결과 저장
+                </button>
+            </form>
+        </div>
+        
+        <!-- 평가 공식 설명 -->
+        <div class="card-nft rounded-3xl p-8 mt-8">
+            <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                <i class="fas fa-info-circle text-gradient mr-3"></i>
+                가치산정 알고리즘
+            </h3>
+            <div class="space-y-4 text-sm text-gray-400">
+                <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                    <div class="font-bold text-white mb-2">1단계: 작가 업적 점수</div>
+                    <code class="text-cyan-400">작가업적점수 = Σ(전시점수 × 권위도가중치 × 최신성계수) + 수상가산점</code>
+                </div>
+                <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                    <div class="font-bold text-white mb-2">2단계: 정량적 점수 (30%)</div>
+                    <code class="text-cyan-400">정량 점수 = (작가업적 × 0.4 + 시장수요 × 0.3 + 희소성 × 0.3) × 0.3</code>
+                </div>
+                <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                    <div class="font-bold text-white mb-2">3단계: 정성적 점수 (70%)</div>
+                    <code class="text-purple-400">정성 점수 = (완성도 × 0.35 + 독창성 × 0.3 + 문화의의 × 0.2 + 기술 × 0.15) × 0.7</code>
+                </div>
+                <div class="bg-gradient-to-r from-purple-900 to-cyan-900 bg-opacity-20 rounded-xl p-4 border border-purple-500 border-opacity-30">
+                    <div class="font-bold text-white mb-2">최종: 가치 산출</div>
+                    <code class="text-gold">최종 가치 = 기본 가격(1천만원) × (1 + 종합점수/10)</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+</style>
+
+<script src="/static/valuation-new.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sliders = ['marketDemand', 'rarity', 'artisticQuality', 'originality', 'culturalSignificance', 'technicalExcellence'];
+    
+    sliders.forEach(id => {
+      const slider = document.getElementById(id);
+      slider.addEventListener('input', () => updateSliderValue(id));
+    });
+    
+    // 폼 제출
+    document.getElementById('valuationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('가치평가가 저장되었습니다!');
+    });
+    
+    // 초기 계산
+    calculateValue();
+  });
+</script>

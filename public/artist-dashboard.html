@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작가 대시보드 - GalleryPia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+            colors: {
+              primary: { 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' },
+              dark: { 900: '#0a0a0a', 800: '#1a1a1a', 700: '#2a2a2a', 600: '#3a3a3a' }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      * { font-family: 'Outfit', sans-serif; }
+      body { background: #0a0a0a; }
+      .glass-card {
+        background: rgba(26, 26, 46, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+      }
+      .hover-lift { transition: all 0.3s ease; }
+      .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2); }
+      .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Header -->
+    <header class="border-b border-gray-800 bg-dark-900">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-2xl font-bold gradient-text"><i class="fas fa-palette mr-2"></i>GalleryPia</a>
+                    <span class="text-gray-400">|</span>
+                    <span class="text-gray-300">작가 대시보드</span>
+                </div>
+                <div id="authNav" class="flex items-center space-x-4"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-4xl font-bold mb-2">내 작품</h1>
+                <p class="text-gray-400">작품을 제출하고 심사 현황을 확인하세요</p>
+            </div>
+            <button onclick="openSubmissionModal()" 
+                    class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition flex items-center">
+                <i class="fas fa-plus mr-2"></i>작품 제출
+            </button>
+        </div>
+
+        <!-- Submissions Grid -->
+        <div id="submissionsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div id="submissionModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="glass-card rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold">작품 제출</h2>
+                <button onclick="closeSubmissionModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <form id="submissionForm" class="space-y-4">
+                <input type="hidden" id="imageUrl">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">작품 이미지</label>
+                    <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)"
+                           class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    <div id="imagePreview" class="mt-4 text-center"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">작품명 *</label>
+                        <input type="text" id="artworkTitle" required
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">설명</label>
+                        <textarea id="artworkDescription" rows="3"
+                                  class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white resize-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">카테고리</label>
+                        <select id="artworkCategory"
+                                class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                            <option value="회화">회화</option>
+                            <option value="조각">조각</option>
+                            <option value="디지털아트">디지털아트</option>
+                            <option value="사진">사진</option>
+                            <option value="설치미술">설치미술</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">기법</label>
+                        <input type="text" id="artworkTechnique"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">가로 (cm)</label>
+                        <input type="number" id="artworkWidth"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">세로 (cm)</label>
+                        <input type="number" id="artworkHeight"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">제작년도</label>
+                        <input type="number" id="artworkYear" min="1900" max="2099"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">예상 가격 (원)</label>
+                        <input type="number" id="estimatedPrice"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">저작권 등록번호</label>
+                        <input type="text" id="copyrightReg"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">블록체인 해시</label>
+                        <input type="text" id="blockchainHash"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                    </div>
+
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">라이선스 유형</label>
+                        <select id="licenseType"
+                                class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white">
+                            <option value="">선택하세요</option>
+                            <option value="exclusive">독점 라이선스</option>
+                            <option value="non-exclusive">비독점 라이선스</option>
+                            <option value="creative_commons">크리에이티브 커먼즈</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition">
+                    <i class="fas fa-paper-plane mr-2"></i>제출하기
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="glass-card rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold">작품 상세</h2>
+                <button onclick="closeDetailModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div id="detailContent"></div>
+        </div>
+    </div>
+
+    <script src="/static/auth-improved.js"></script>
+    <script src="/static/artist-dashboard.js"></script>
+</body>
+</html>

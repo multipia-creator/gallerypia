@@ -1,0 +1,20 @@
+-- Insert artworks only (artists already inserted with IDs 9-14)
+INSERT INTO artworks (artist_id, title, description, category, technique, size_width, size_height, creation_year, image_url, current_price, status) VALUES
+(9, 'Bored Ape #8817', 'BAYC - 금색 모피', '디지털아트', 'Digital Art', 631, 631, 2021, 'https://i.seadn.io/gcs/files/c6b6d8f3e9e5cf8dd8a8fb8d72f8e3f0.png', 1520000000, 'minted'),
+(9, 'Bored Ape #3749', 'BAYC - 파란색 배경', '디지털아트', 'Digital Art', 631, 631, 2021, 'https://i.seadn.io/gcs/files/e8f8a8b8c8d8e8f8a8b8c8d8e8f8a8b8.png', 980000000, 'minted'),
+(9, 'Bored Ape #232', 'BAYC - 빨간색 모피', '디지털아트', 'Digital Art', 631, 631, 2021, 'https://i.seadn.io/gcs/files/a8b8c8d8e8f8a8b8c8d8e8f8a8b8c8d8.png', 1120000000, 'minted'),
+(10, 'CryptoPunk #5822', 'Alien 펑크', '디지털아트', 'Pixel Art', 24, 24, 2017, 'https://i.seadn.io/gcs/files/d6f8a8b8c8d8e8f8a8b8c8d8e8f8a8b8.png', 2380000000, 'minted'),
+(10, 'CryptoPunk #7804', 'Alien with Cap', '디지털아트', 'Pixel Art', 24, 24, 2017, 'https://i.seadn.io/gcs/files/b8c8d8e8f8a8b8c8d8e8f8a8b8c8d8e8.png', 1560000000, 'minted'),
+(10, 'CryptoPunk #3100', 'Alien with Headband', '디지털아트', 'Pixel Art', 24, 24, 2017, 'https://i.seadn.io/gcs/files/c8d8e8f8a8b8c8d8e8f8a8b8c8d8e8f8.png', 2100000000, 'minted'),
+(11, 'Azuki #9605', 'Red Clothing', '디지털아트', 'Anime Art', 1000, 1000, 2022, 'https://i.seadn.io/gcs/files/f8a8b8c8d8e8f8a8b8c8d8e8f8a8b8c8.png', 185000000, 'minted'),
+(11, 'Azuki #40', 'Golden Background', '디지털아트', 'Anime Art', 1000, 1000, 2022, 'https://i.seadn.io/gcs/files/d8e8f8a8b8c8d8e8f8a8b8c8d8e8f8a8.png', 320000000, 'minted'),
+(11, 'Azuki #2221', 'Blue Hoodie', '디지털아트', 'Anime Art', 1000, 1000, 2022, 'https://i.seadn.io/gcs/files/e8f8a8b8c8d8e8f8a8b8c8d8e8f8a8b8.png', 195000000, 'minted'),
+(12, 'Doodles #6914', 'Rainbow Background', '디지털아트', 'Cartoon Art', 500, 500, 2021, 'https://i.seadn.io/gcs/files/a8b8c8d8e8f8a8b8c8d8e8f8a8b8c8d8.png', 142000000, 'minted'),
+(12, 'Doodles #4156', 'Purple Alien', '디지털아트', 'Cartoon Art', 500, 500, 2021, 'https://i.seadn.io/gcs/files/b8c8d8e8f8a8b8c8d8e8f8a8b8c8d8e8.png', 168000000, 'minted'),
+(12, 'Doodles #1234', 'Golden Cat', '디지털아트', 'Cartoon Art', 500, 500, 2021, 'https://i.seadn.io/gcs/files/c8d8e8f8a8b8c8d8e8f8a8b8c8d8e8f8.png', 155000000, 'minted'),
+(13, 'Right-click and Save As guy', 'XCOPY 대표작', '디지털아트', 'Glitch Art', 2160, 2160, 2018, 'https://i.seadn.io/gcs/files/d8e8f8a8b8c8d8e8f8a8b8c8d8e8f8a8.png', 780000000, 'minted'),
+(13, 'GRIFTERS #1', 'Glitch Series', '디지털아트', 'Glitch Art', 2500, 2500, 2021, 'https://i.seadn.io/gcs/files/e8f8a8b8c8d8e8f8a8b8c8d8e8f8a8b8.png', 420000000, 'minted'),
+(13, 'DEATH', 'Animated Artwork', '디지털아트', 'Glitch Art', 1800, 1800, 2020, 'https://i.seadn.io/gcs/files/f8a8b8c8d8e8f8a8b8c8d8e8f8a8b8c8.png', 650000000, 'minted'),
+(14, 'The Merge', 'Mass NFT 프로젝트', '디지털아트', 'Conceptual Art', 2000, 2000, 2021, 'https://i.seadn.io/gcs/files/a8b8c8d8e8f8a8b8c8d8e8f8a8b8c8d8.png', 9180000000, 'minted'),
+(14, 'Finite', 'Limited Edition', '디지털아트', 'Conceptual Art', 2000, 2000, 2022, 'https://i.seadn.io/gcs/files/b8c8d8e8f8a8b8c8d8e8f8a8b8c8d8e8.png', 1240000000, 'minted'),
+(14, 'Lost Poets', 'Dynamic Collection', '디지털아트', 'Conceptual Art', 2000, 2000, 2021, 'https://i.seadn.io/gcs/files/c8d8e8f8a8b8c8d8e8f8a8b8c8d8e8f8.png', 860000000, 'minted');

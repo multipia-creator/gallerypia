@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 페이지를 찾을 수 없습니다 | GalleryPia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Main Container -->
+    <div class="max-w-4xl w-full">
+        <!-- 404 Message -->
+        <div class="text-center mb-12 fade-in">
+            <!-- Floating Icon -->
+            <div class="mb-8 floating">
+                <i class="fas fa-palette text-9xl text-white opacity-20"></i>
+            </div>
+            
+            <!-- 404 Text -->
+            <h1 class="text-9xl font-black text-white mb-4 drop-shadow-2xl">404</h1>
+            <h2 class="text-3xl font-bold text-white mb-4">페이지를 찾을 수 없습니다</h2>
+            <p class="text-xl text-white/80 mb-8">
+                요청하신 페이지가 존재하지 않거나 이동되었습니다.
+            </p>
+            
+            <!-- Quick Navigation -->
+            <div class="flex flex-wrap gap-4 justify-center mb-12">
+                <a href="/" class="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:bg-opacity-90 transition transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-home mr-2"></i>홈으로
+                </a>
+                <a href="/gallery" class="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-bold text-lg hover:bg-white/20 transition transform hover:scale-105 border-2 border-white/20">
+                    <i class="fas fa-images mr-2"></i>갤러리 둘러보기
+                </a>
+                <a href="/leaderboard" class="px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-bold text-lg hover:bg-white/20 transition transform hover:scale-105 border-2 border-white/20">
+                    <i class="fas fa-trophy mr-2"></i>아티스트 랭킹
+                </a>
+            </div>
+        </div>
+        
+        <!-- Search Box -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 border border-white/20 fade-in" style="animation-delay: 0.2s;">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <i class="fas fa-search mr-3"></i>찾으시는 작품이 있으신가요?
+            </h3>
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="작품명, 작가명으로 검색..." 
+                    class="w-full px-6 py-4 bg-white/20 border-2 border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white/50 transition text-lg"
+                    onkeypress="if(event.key === 'Enter') performSearch()"
+                >
+                <button 
+                    onclick="performSearch()"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 bg-white text-purple-600 rounded-lg font-bold hover:bg-opacity-90 transition">
+                    검색
+                </button>
+            </div>
+        </div>
+        
+        <!-- Featured Artworks -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 fade-in" style="animation-delay: 0.4s;">
+            <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+                <i class="fas fa-fire mr-3 text-orange-400"></i>인기 작품 추천
+            </h3>
+            <div id="featuredArtworks" class="grid md:grid-cols-3 gap-6">
+                <!-- Loading skeletons -->
+                <div class="bg-white/5 rounded-xl overflow-hidden animate-pulse">
+                    <div class="aspect-square bg-white/10"></div>
+                    <div class="p-4 space-y-2">
+                        <div class="h-4 bg-white/10 rounded w-3/4"></div>
+                        <div class="h-3 bg-white/10 rounded w-1/2"></div>
+                    </div>
+                </div>
+                <div class="bg-white/5 rounded-xl overflow-hidden animate-pulse">
+                    <div class="aspect-square bg-white/10"></div>
+                    <div class="p-4 space-y-2">
+                        <div class="h-4 bg-white/10 rounded w-3/4"></div>
+                        <div class="h-3 bg-white/10 rounded w-1/2"></div>
+                    </div>
+                </div>
+                <div class="bg-white/5 rounded-xl overflow-hidden animate-pulse">
+                    <div class="aspect-square bg-white/10"></div>
+                    <div class="p-4 space-y-2">
+                        <div class="h-4 bg-white/10 rounded w-3/4"></div>
+                        <div class="h-3 bg-white/10 rounded w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Help Links -->
+        <div class="mt-8 text-center fade-in" style="animation-delay: 0.6s;">
+            <p class="text-white/70 mb-4">도움이 필요하신가요?</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="/support" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-question-circle mr-1"></i>고객지원
+                </a>
+                <span class="text-white/40">|</span>
+                <a href="/about" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-info-circle mr-1"></i>서비스 소개
+                </a>
+                <span class="text-white/40">|</span>
+                <a href="/contact" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-envelope mr-1"></i>문의하기
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+        // Search function
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                window.location.href = `/gallery?search=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        // Load featured artworks
+        async function loadFeaturedArtworks() {
+            try {
+                const response = await axios.get('/api/artworks?limit=3&sort=popular');
+                const artworks = response.data.artworks || [];
+                
+                const container = document.getElementById('featuredArtworks');
+                
+                if (artworks.length === 0) {
+                    container.innerHTML = '<p class="text-white/60 text-center col-span-3">추천 작품이 없습니다</p>';
+                    return;
+                }
+                
+                container.innerHTML = artworks.map(art => `
+                    <a href="/artwork/${art.id}" class="group bg-white/5 hover:bg-white/10 rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105">
+                        <div class="aspect-square bg-gray-800 overflow-hidden">
+                            <img 
+                                src="${art.image_url || '/static/placeholder.jpg'}" 
+                                alt="${art.title}"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                onerror="this.src='/static/placeholder.jpg'"
+                            >
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-white font-bold truncate mb-1">${art.title}</h4>
+                            <p class="text-white/60 text-sm truncate mb-2">
+                                <i class="fas fa-user mr-1"></i>${art.artist_name || 'Unknown Artist'}
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-purple-300 font-bold">${art.current_price || '0'} ETH</span>
+                                <span class="text-white/40 text-xs">
+                                    <i class="fas fa-heart mr-1"></i>${art.like_count || 0}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load featured artworks:', error);
+                const container = document.getElementById('featuredArtworks');
+                container.innerHTML = `
+                    <div class="col-span-3 text-center py-8">
+                        <p class="text-white/60">작품을 불러올 수 없습니다</p>
+                        <button onclick="loadFeaturedArtworks()" class="mt-4 px-6 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition">
+                            <i class="fas fa-redo mr-2"></i>다시 시도
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFeaturedArtworks();
+        });
+    </script>
+</body>
+</html>

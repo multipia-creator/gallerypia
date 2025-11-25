@@ -1,0 +1,157 @@
+/**
+ * High Contrast Theme
+ * WCAG AAA compliant high contrast styles
+ * Phase 6.9 - Low Priority UX (UX-L-045: Accessibility)
+ */
+
+/* High Contrast Mode */
+[data-high-contrast="true"] {
+  /* Background and Text */
+  --bg-primary: #000000;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  
+  /* Borders */
+  --border-color: #ffffff;
+  --border-width: 2px;
+  
+  /* Links */
+  --link-color: #00ffff;
+  --link-hover: #ffff00;
+  --link-visited: #ff00ff;
+  
+  /* Interactive Elements */
+  --button-bg: #ffffff;
+  --button-text: #000000;
+  --button-border: #ffffff;
+  
+  /* Focus Indicators */
+  --focus-color: #ffff00;
+  --focus-width: 3px;
+}
+
+/* Apply High Contrast Styles */
+[data-high-contrast="true"] body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+[data-high-contrast="true"] .bg-white,
+[data-high-contrast="true"] [class*="bg-gray"] {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: var(--border-width) solid var(--border-color);
+}
+
+[data-high-contrast="true"] a {
+  color: var(--link-color) !important;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+[data-high-contrast="true"] a:hover {
+  color: var(--link-hover) !important;
+  text-decoration: none;
+}
+
+[data-high-contrast="true"] a:visited {
+  color: var(--link-visited) !important;
+}
+
+[data-high-contrast="true"] button,
+[data-high-contrast="true"] input[type="submit"],
+[data-high-contrast="true"] input[type="button"] {
+  background-color: var(--button-bg) !important;
+  color: var(--button-text) !important;
+  border: var(--border-width) solid var(--button-border) !important;
+  font-weight: 700;
+}
+
+[data-high-contrast="true"] button:hover,
+[data-high-contrast="true"] input[type="submit"]:hover {
+  background-color: var(--focus-color) !important;
+  color: var(--bg-primary) !important;
+}
+
+[data-high-contrast="true"] input,
+[data-high-contrast="true"] textarea,
+[data-high-contrast="true"] select {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: var(--border-width) solid var(--border-color) !important;
+}
+
+[data-high-contrast="true"] *:focus {
+  outline: var(--focus-width) solid var(--focus-color) !important;
+  outline-offset: 2px;
+}
+
+/* Remove all shadows */
+[data-high-contrast="true"] * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Remove all background images */
+[data-high-contrast="true"] * {
+  background-image: none !important;
+}
+
+/* Ensure images have borders */
+[data-high-contrast="true"] img {
+  border: var(--border-width) solid var(--border-color);
+}
+
+/* Icons and SVGs */
+[data-high-contrast="true"] svg,
+[data-high-contrast="true"] i {
+  color: var(--text-primary) !important;
+  fill: var(--text-primary) !important;
+}
+
+/* Tables */
+[data-high-contrast="true"] table {
+  border: var(--border-width) solid var(--border-color);
+}
+
+[data-high-contrast="true"] th,
+[data-high-contrast="true"] td {
+  border: var(--border-width) solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* Cards */
+[data-high-contrast="true"] [class*="card"],
+[data-high-contrast="true"] [class*="rounded"] {
+  border: var(--border-width) solid var(--border-color) !important;
+}
+
+/* Modals and Overlays */
+[data-high-contrast="true"] [class*="modal"],
+[data-high-contrast="true"] [class*="overlay"] {
+  background-color: var(--bg-primary) !important;
+  border: var(--border-width) solid var(--border-color) !important;
+}
+
+/* Disabled Elements */
+[data-high-contrast="true"] :disabled {
+  opacity: 1 !important;
+  background-color: var(--bg-secondary) !important;
+  color: #808080 !important;
+  border-color: #808080 !important;
+}
+
+/* Selection */
+[data-high-contrast="true"] ::selection {
+  background-color: var(--focus-color);
+  color: var(--bg-primary);
+}
+
+/* Tooltips */
+[data-high-contrast="true"] [data-tooltip]::after {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border: var(--border-width) solid var(--border-color) !important;
+}

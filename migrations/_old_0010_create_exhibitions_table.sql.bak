@@ -1,0 +1,22 @@
+-- Exhibitions table for museum/gallery exhibition information
+CREATE TABLE IF NOT EXISTS exhibitions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  description TEXT,
+  venue_name TEXT,
+  venue_address TEXT,
+  start_date TEXT,
+  end_date TEXT,
+  poster_image TEXT,
+  blockchain_hash TEXT,
+  status TEXT DEFAULT 'active',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_exhibitions_status ON exhibitions(status);
+CREATE INDEX IF NOT EXISTS idx_exhibitions_dates ON exhibitions(start_date, end_date);
+
+-- Add exhibition_id to artworks table
+ALTER TABLE artworks ADD COLUMN exhibition_id INTEGER REFERENCES exhibitions(id);
+CREATE INDEX IF NOT EXISTS idx_artworks_exhibition ON artworks(exhibition_id);

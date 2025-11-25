@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GalleryPia 아카데미 - NFT 아트와 플랫폼의 모든 것을 배우세요">
+    <meta name="keywords" content="NFT, 교육, 아카데미, 가치산정, GalleryPia">
+    <title>GalleryPia 아카데미 - NFT Art Academy</title>
+    
+    <!-- Fonts & Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Outfit', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+              },
+              accent: {
+                500: '#8b5cf6',
+                600: '#7c3aed',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      * {
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      
+      body {
+        background: #000000;
+        color: #ffffff;
+      }
+      
+      /* Gradient Utilities */
+      .gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .gradient-cyber {
+        background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      }
+      
+      .neon-border {
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+      }
+      
+      .neon-glow {
+        box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+      }
+      
+      /* Card Styles */
+      .card-nft {
+        background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .card-nft:hover {
+        transform: translateY(-12px);
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 25px 50px rgba(139, 92, 246, 0.2);
+      }
+      
+      /* Navigation Styles */
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+        transition: width 0.3s ease;
+      }
+      
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+      }
+      
+      .btn-neon {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-neon:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 30px rgba(139, 92, 246, 0.6);
+      }
+      
+      .stat-card {
+        background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        backdrop-filter: blur(10px);
+      }
+      
+      .hero-gradient {
+        background: radial-gradient(ellipse at top, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(ellipse at bottom, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+      }
+      
+      .float {
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      @keyframes glow {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      
+      .glow-pulse {
+        animation: glow 2s ease-in-out infinite;
+      }
+      
+      .text-gradient {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .bg-grid {
+        background-image: 
+          linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+      
+      /* Category Badge */
+      .category-btn {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+      }
+      
+      .category-btn:hover,
+      .category-btn.active {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        border-color: transparent;
+        transform: scale(1.05);
+      }
+      
+      /* Difficulty Badges */
+      .badge-beginner {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      }
+      
+      .badge-intermediate {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      }
+      
+      .badge-advanced {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      }
+      
+      /* Progress Bar */
+      .progress-bar {
+        background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+        box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+        transition: width 0.5s ease;
+      }
+      
+      /* Animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .fade-in-up {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+      
+      .video-thumbnail {
+        position: relative;
+        background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+        overflow: hidden;
+      }
+      
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .video-thumbnail:hover .video-overlay {
+        opacity: 1;
+      }
+      
+      .play-button {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        display: flex;
+        align-items: center;
+        justify-center;
+        transition: transform 0.3s ease;
+      }
+      
+      .video-thumbnail:hover .play-button {
+        transform: scale(1.1);
+      }
+    </style>
+</head>
+<body class="antialiased bg-black text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-xl border-b border-white border-opacity-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-12">
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <img src="/static/logo.png" alt="GALLERYPIA Logo" class="w-12 h-12 rounded-xl group-hover:scale-110 transition-transform duration-300 group-hover:rotate-6" />
+                        <div>
+                            <div class="text-xs text-gray-400 font-semibold tracking-wider uppercase">NFT Art Museum</div>
+                            <div class="text-xl font-black text-gradient">GALLERYPIA</div>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="/gallery" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">갤러리</a>
+                        <a href="/leaderboard" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">아티스트</a>
+                        <a href="/valuation-system" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">가치산정</a>
+                        <a href="/mint" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">민팅</a>
+                        <a href="/nft-academy" class="nav-link active px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">아카데미</a>
+                        <a href="/about" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">소개</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/search" class="hidden sm:flex items-center px-4 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all">
+                        <i class="fas fa-search mr-2"></i>
+                        <span class="text-sm font-medium">검색</span>
+                    </a>
+                    <button onclick="connectWallet()" class="flex items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white rounded-xl transition-all duration-300 font-medium text-sm shadow-lg hover:shadow-xl">
+                        <i class="fas fa-wallet mr-2"></i>
+                        <span class="text-sm font-medium">지갑연결</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="pt-20">
+        <div class="hero-gradient bg-grid py-24 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <div class="mb-8 fade-in-up">
+                    <span class="inline-block px-4 py-2 bg-gradient-to-r from-purple-900/50 to-cyan-900/50 border border-purple-500/30 rounded-full text-sm font-bold text-cyan-300 mb-4">
+                        <i class="fas fa-graduation-cap mr-2"></i>GalleryPia Academy
+                    </span>
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 fade-in-up" style="animation-delay: 0.1s">
+                    <span class="text-gradient">NFT 아트의 모든 것</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto fade-in-up" style="animation-delay: 0.2s">
+                    GalleryPia 플랫폼과 NFT 아트의 기초부터 실전까지<br/>
+                    체계적인 학습 경로로 전문가가 되어보세요
+                </p>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto fade-in-up" style="animation-delay: 0.3s">
+                    <div class="stat-card rounded-2xl p-6 backdrop-blur-sm">
+                        <div class="text-4xl md:text-5xl font-black mb-2">
+                            <span class="text-gradient">6</span>
+                        </div>
+                        <div class="text-gray-400 font-medium">핵심 강좌</div>
+                    </div>
+                    <div class="stat-card rounded-2xl p-6 backdrop-blur-sm">
+                        <div class="text-4xl md:text-5xl font-black mb-2">
+                            <span class="text-gradient">27</span>
+                        </div>
+                        <div class="text-gray-400 font-medium">총 레슨</div>
+                    </div>
+                    <div class="stat-card rounded-2xl p-6 backdrop-blur-sm">
+                        <div class="text-4xl md:text-5xl font-black mb-2">
+                            <span class="text-gradient">100+분</span>
+                        </div>
+                        <div class="text-gray-400 font-medium">학습 콘텐츠</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="filterCourses('all')" data-category="all" class="category-btn active px-6 py-3 rounded-xl font-bold text-sm backdrop-blur-sm transition-all">
+                    <i class="fas fa-th mr-2"></i>전체 보기
+                </button>
+                <button onclick="filterCourses('platform')" data-category="platform" class="category-btn px-6 py-3 rounded-xl font-bold text-sm backdrop-blur-sm transition-all">
+                    <i class="fas fa-cube mr-2"></i>GalleryPia 플랫폼
+                </button>
+                <button onclick="filterCourses('nft-basics')" data-category="nft-basics" class="category-btn px-6 py-3 rounded-xl font-bold text-sm backdrop-blur-sm transition-all">
+                    <i class="fas fa-lightbulb mr-2"></i>NFT 기초
+                </button>
+            </div>
+
+            <!-- Module 1: GalleryPia Platform -->
+            <div data-category-section="platform" class="mb-20">
+                <div class="flex items-center mb-8">
+                    <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl flex items-center justify-center mr-4">
+                        <i class="fas fa-cube text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-black text-white">Module 1: GalleryPia 플랫폼 이해</h2>
+                        <p class="text-gray-400">플랫폼의 핵심 기능과 가치산정 시스템을 학습합니다</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Course 1 -->
+                    <div class="course-card card-nft rounded-2xl p-6 fade-in-up" data-course-id="course-1">
+                        <div class="relative mb-6 video-thumbnail rounded-xl overflow-hidden aspect-video">
+                            <img src="/static/course-1-hero.jpg" alt="5-Module Valuation System" class="w-full h-full object-cover">
+                            <div class="video-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-book text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="badge-beginner px-3 py-1 rounded-full text-sm font-bold">초급</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3 text-white flex items-center">
+                            <i class="fas fa-lightbulb text-purple-400 mr-3"></i>
+                            플랫폼 소개 및 가치산정 시스템
+                        </h3>
+                        
+                        <p class="text-gray-400 mb-4">GalleryPia의 논문 기반 5개 모듈 가치산정 시스템을 이해합니다</p>
+                        
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                            <i class="fas fa-user-tie text-purple-400"></i>
+                            <span>남현우 교수</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6 text-sm text-gray-400">
+                            <div><i class="fas fa-clock mr-2 text-purple-400"></i> 15분</div>
+                            <div><i class="fas fa-list mr-2 text-cyan-400"></i> 4 레슨</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-400">진행률</span>
+                                <span class="font-bold text-purple-400 progress-text">0%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                                <div class="progress-bar h-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openCourseModal('course-1')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold hover:from-purple-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg">
+                            수강 시작 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- Course 2 -->
+                    <div class="course-card card-nft rounded-2xl p-6 fade-in-up" data-course-id="course-2" style="animation-delay: 0.1s">
+                        <div class="relative mb-6 video-thumbnail rounded-xl overflow-hidden aspect-video">
+                            <img src="/static/course-2-hero.jpg" alt="Module Weight Distribution" class="w-full h-full object-cover">
+                            <div class="video-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-book text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="badge-intermediate px-3 py-1 rounded-full text-sm font-bold">중급</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3 text-white flex items-center">
+                            <i class="fas fa-chart-bar text-orange-400 mr-3"></i>
+                            5개 모듈 평가 방법론 심화
+                        </h3>
+                        
+                        <p class="text-gray-400 mb-4">각 모듈별 평가 기준과 가중치 체계를 상세히 학습합니다</p>
+                        
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                            <i class="fas fa-user-tie text-orange-400"></i>
+                            <span>남현우 교수</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6 text-sm text-gray-400">
+                            <div><i class="fas fa-clock mr-2 text-orange-400"></i> 20분</div>
+                            <div><i class="fas fa-list mr-2 text-cyan-400"></i> 5 레슨</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-400">진행률</span>
+                                <span class="font-bold text-purple-400 progress-text">0%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                                <div class="progress-bar h-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openCourseModal('course-2')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold hover:from-purple-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg">
+                            수강 시작 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- Course 3 -->
+                    <div class="course-card card-nft rounded-2xl p-6 fade-in-up" data-course-id="course-3" style="animation-delay: 0.2s">
+                        <div class="relative mb-6 video-thumbnail rounded-xl overflow-hidden aspect-video">
+                            <img src="/static/course-3-hero.jpg" alt="Artist Ranking System" class="w-full h-full object-cover">
+                            <div class="video-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-book text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="badge-intermediate px-3 py-1 rounded-full text-sm font-bold">중급</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3 text-white flex items-center">
+                            <i class="fas fa-crown text-yellow-400 mr-3"></i>
+                            작가 랭킹 시스템 완벽 가이드
+                        </h3>
+                        
+                        <p class="text-gray-400 mb-4">GalleryPia의 작가 랭킹 시스템과 베스트 아티스트 선정 기준을 학습합니다</p>
+                        
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                            <i class="fas fa-user-tie text-yellow-400"></i>
+                            <span>남현우 교수</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6 text-sm text-gray-400">
+                            <div><i class="fas fa-clock mr-2 text-yellow-400"></i> 15분</div>
+                            <div><i class="fas fa-list mr-2 text-cyan-400"></i> 4 레슨</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-400">진행률</span>
+                                <span class="font-bold text-purple-400 progress-text">0%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                                <div class="progress-bar h-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openCourseModal('course-3')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold hover:from-purple-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg">
+                            수강 시작 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 2: NFT Basics -->
+            <div data-category-section="nft-basics" class="mb-20">
+                <div class="flex items-center mb-8">
+                    <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                        <i class="fas fa-lightbulb text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-black text-white">Module 2: NFT 아트 기초</h2>
+                        <p class="text-gray-400">NFT의 기본 개념부터 민팅까지 실전 학습</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Course 4 -->
+                    <div class="course-card card-nft rounded-2xl p-6 fade-in-up" data-course-id="course-4">
+                        <div class="relative mb-6 video-thumbnail rounded-xl overflow-hidden aspect-video">
+                            <img src="/static/course-4-hero.jpg" alt="NFT Basics and Blockchain" class="w-full h-full object-cover">
+                            <div class="video-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-book text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="badge-beginner px-3 py-1 rounded-full text-sm font-bold">초급</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3 text-white flex items-center">
+                            <i class="fas fa-graduation-cap text-cyan-400 mr-3"></i>
+                            NFT 기초 이론
+                        </h3>
+                        
+                        <p class="text-gray-400 mb-4">NFT의 기본 개념과 블록체인 기술을 이해합니다</p>
+                        
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                            <i class="fas fa-user-tie text-cyan-400"></i>
+                            <span>남현우 교수</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6 text-sm text-gray-400">
+                            <div><i class="fas fa-clock mr-2 text-cyan-400"></i> 12분</div>
+                            <div><i class="fas fa-list mr-2 text-cyan-400"></i> 4 레슨</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-400">진행률</span>
+                                <span class="font-bold text-purple-400 progress-text">0%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                                <div class="progress-bar h-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openCourseModal('course-4')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold hover:from-purple-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg">
+                            수강 시작 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- Course 5 -->
+                    <div class="course-card card-nft rounded-2xl p-6 fade-in-up" data-course-id="course-5" style="animation-delay: 0.1s">
+                        <div class="relative mb-6 video-thumbnail rounded-xl overflow-hidden aspect-video">
+                            <img src="/static/course-5-hero.jpg" alt="Wallet Setup Guide" class="w-full h-full object-cover">
+                            <div class="video-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-book text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="badge-beginner px-3 py-1 rounded-full text-sm font-bold">초급</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3 text-white flex items-center">
+                            <i class="fas fa-wallet text-blue-400 mr-3"></i>
+                            지갑 및 계정 설정
+                        </h3>
+                        
+                        <p class="text-gray-400 mb-4">암호화폐 지갑 설정과 GalleryPia 계정 연동 방법을 학습합니다</p>
+                        
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                            <i class="fas fa-user-tie text-blue-400"></i>
+                            <span>남현우 교수</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6 text-sm text-gray-400">
+                            <div><i class="fas fa-clock mr-2 text-blue-400"></i> 18분</div>
+                            <div><i class="fas fa-list mr-2 text-cyan-400"></i> 5 레슨</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-400">진행률</span>
+                                <span class="font-bold text-purple-400 progress-text">0%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                                <div class="progress-bar h-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openCourseModal('course-5')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold hover:from-purple-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg">
+                            수강 시작 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- Course 6 -->
+                    <div class="course-card card-nft rounded-2xl p-6 fade-in-up" data-course-id="course-6" style="animation-delay: 0.2s">
+                        <div class="relative mb-6 video-thumbnail rounded-xl overflow-hidden aspect-video">
+                            <img src="/static/course-6-hero.jpg" alt="NFT Minting Process" class="w-full h-full object-cover">
+                            <div class="video-overlay">
+                                <div class="play-button">
+                                    <i class="fas fa-book text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="badge-beginner px-3 py-1 rounded-full text-sm font-bold">초급</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-3 text-white flex items-center">
+                            <i class="fas fa-magic text-pink-400 mr-3"></i>
+                            첫 NFT 민팅 실습
+                        </h3>
+                        
+                        <p class="text-gray-400 mb-4">작품 업로드부터 NFT 민팅까지 전 과정을 실습합니다</p>
+                        
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                            <i class="fas fa-user-tie text-pink-400"></i>
+                            <span>남현우 교수</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-6 text-sm text-gray-400">
+                            <div><i class="fas fa-clock mr-2 text-pink-400"></i> 15분</div>
+                            <div><i class="fas fa-list mr-2 text-cyan-400"></i> 5 레슨</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-400">진행률</span>
+                                <span class="font-bold text-purple-400 progress-text">0%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+                                <div class="progress-bar h-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openCourseModal('course-6')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold hover:from-purple-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg">
+                            수강 시작 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 border-y border-purple-500/30 py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-black mb-6 text-white">
+                    지금 바로 시작하세요
+                </h2>
+                <p class="text-xl text-gray-300 mb-8">
+                    GalleryPia 아카데미에서 NFT 아트의 전문가가 되어보세요
+                </p>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-bold rounded-xl transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-rocket mr-2"></i>강좌 둘러보기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white border-opacity-10 py-16 mt-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-cube text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="text-xl font-bold text-gradient">GALLERYPIA</div>
+                            <div class="text-xs text-gray-500">NFT Art Museum</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-4 leading-relaxed text-sm">
+                        미술품 가치산정 기반의 투명하고 신뢰할 수 있는 NFT 플랫폼
+                    </p>
+                    <div class="mb-6 p-4 bg-gradient-to-r from-purple-900/20 to-cyan-900/20 rounded-xl border border-purple-500/20">
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            <i class="fas fa-envelope text-purple-400 mr-2"></i>
+                            <strong class="text-white">기술이전 문의:</strong><br/>
+                            <span class="ml-6">서경대학교 남현우 교수</span><br/>
+                            <a href="mailto:gallerypia@gmail.com" class="ml-6 text-cyan-400 hover:text-cyan-300 transition-colors">gallerypia@gmail.com</a>
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">플랫폼</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="/gallery" class="hover:text-white transition-colors"><i class="fas fa-images mr-2 text-purple-400"></i>NFT 갤러리</a></li>
+                        <li><a href="/leaderboard" class="hover:text-white transition-colors"><i class="fas fa-trophy mr-2 text-yellow-400"></i>NFT 랭킹시스템</a></li>
+                        <li><a href="/valuation-system" class="hover:text-white transition-colors"><i class="fas fa-chart-line mr-2 text-green-400"></i>NFT 가치산정</a></li>
+                        <li><a href="/mint" class="hover:text-white transition-colors"><i class="fas fa-magic mr-2 text-pink-400"></i>NFT 민팅</a></li>
+                        <li><a href="/nft-academy" class="hover:text-white transition-colors"><i class="fas fa-graduation-cap mr-2 text-cyan-400"></i>NFT 아카데미</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">지원</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="/support" class="hover:text-white transition-colors">지원</a></li>
+                        <li><a href="/help" class="hover:text-white transition-colors">도움말</a></li>
+                        <li><a href="/contact" class="hover:text-white transition-colors">문의하기</a></li>
+                        <li><a href="/privacy" class="hover:text-white transition-colors">개인정보보호</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-10 mt-12 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Imageroot All rights reserved. Powered by Hyunwoo Nam Professor.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="/static/academy.js"></script>
+    <script>
+        // Wallet connection placeholder
+        function connectWallet() {
+            alert('지갑 연결 기능은 메인 페이지에서 사용 가능합니다.');
+        }
+    </script>
+</body>
+</html>

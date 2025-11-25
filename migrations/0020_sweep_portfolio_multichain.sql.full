@@ -1,0 +1,588 @@
+-- Migration 0020: Sweep, Portfolio Tracker, Multi-chain Support
+-- Version: v8.16
+-- Date: 2025-11-16
+-- Description: Advanced features - Sweep purchases, Portfolio tracking, Multi-chain, WalletConnect
+
+-- ============================================
+-- 1. SWEEP PURCHASES (일괄 구매)
+-- ============================================
+
+-- 스윕 장바구니 테이블 (여러 작품을 한 번에 구매)
+CREATE TABLE IF NOT EXISTS sweep_cart (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  
+  -- 카트 정보
+  cart_status TEXT DEFAULT 'active',  -- active, checked_out, expired
+  
+  -- 가격 정보
+  total_price_eth REAL DEFAULT 0,
+  total_items INTEGER DEFAULT 0,
+  
+  -- 최적화 정보
+  estimated_gas_eth REAL,  -- 예상 가스비
+  bulk_discount_percentage REAL DEFAULT 0,  -- 대량 구매 할인
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME,  -- 장바구니 만료 시간 (기본 24시간)
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 스윕 장바구니 아이템
+CREATE TABLE IF NOT EXISTS sweep_cart_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cart_id INTEGER NOT NULL,
+  artwork_id INTEGER NOT NULL,
+  listing_id INTEGER,  -- artwork_listings 참조
+  
+  -- 가격 (장바구니 추가 시점의 가격 고정)
+  price_eth REAL NOT NULL,
+  price_krw INTEGER,
+  
+  -- 상태
+  is_available BOOLEAN DEFAULT 1,  -- 구매 가능 여부 (판매 취소 시 false)
+  
+  added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (cart_id) REFERENCES sweep_cart(id) ON DELETE CASCADE,
+  FOREIGN KEY (artwork_id) REFERENCES artworks(id) ON DELETE CASCADE,
+  FOREIGN KEY (listing_id) REFERENCES artwork_listings(id) ON DELETE SET NULL,
+  
+  UNIQUE(cart_id, artwork_id)
+);
+
+-- 스윕 거래 기록
+CREATE TABLE IF NOT EXISTS sweep_transactions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cart_id INTEGER NOT NULL,
+  buyer_id INTEGER NOT NULL,
+  
+  -- 거래 정보
+  total_amount_eth REAL NOT NULL,
+  total_items_purchased INTEGER NOT NULL,
+  gas_paid_eth REAL,
+  
+  -- 블록체인 정보
+  transaction_hash TEXT,
+  block_number INTEGER,
+  
+  -- 상태
+  status TEXT DEFAULT 'pending',  -- pending, completed, failed, partial
+  error_message TEXT,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  completed_at DATETIME,
+  
+  FOREIGN KEY (cart_id) REFERENCES sweep_cart(id) ON DELETE CASCADE,
+  FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_sweep_cart_user ON sweep_cart(user_id, cart_status);
+CREATE INDEX IF NOT EXISTS idx_sweep_cart_items ON sweep_cart_items(cart_id);
+CREATE INDEX IF NOT EXISTS idx_sweep_transactions ON sweep_transactions(buyer_id, created_at DESC);
+
+
+-- ============================================
+-- 2. PORTFOLIO TRACKER (포트폴리오 추적)
+-- ============================================
+
+-- 사용자 포트폴리오 스냅샷 (일일 집계)
+CREATE TABLE IF NOT EXISTS user_portfolio_snapshots (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  snapshot_date DATE NOT NULL,
+  
+  -- 보유 자산 통계
+  total_value_eth REAL DEFAULT 0,  -- 총 자산 가치
+  total_value_krw INTEGER DEFAULT 0,
+  total_items INTEGER DEFAULT 0,  -- 보유 NFT 수
+  
+  -- 손익 분석
+  total_cost_eth REAL DEFAULT 0,  -- 총 매입 비용
+  unrealized_pnl_eth REAL DEFAULT 0,  -- 미실현 손익 (보유 중)
+  unrealized_pnl_percentage REAL DEFAULT 0,
+  realized_pnl_eth REAL DEFAULT 0,  -- 실현 손익 (판매 완료)
+  realized_pnl_percentage REAL DEFAULT 0,
+  
+  -- 거래 통계
+  total_purchases INTEGER DEFAULT 0,
+  total_sales INTEGER DEFAULT 0,
+  total_spent_eth REAL DEFAULT 0,
+  total_earned_eth REAL DEFAULT 0,
+  
+  -- 다각화 지표
+  unique_artists INTEGER DEFAULT 0,
+  unique_collections INTEGER DEFAULT 0,
+  avg_holding_period_days REAL,  -- 평균 보유 기간
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  
+  UNIQUE(user_id, snapshot_date)
+);
+
+-- 개별 NFT 투자 추적
+CREATE TABLE IF NOT EXISTS nft_investment_tracking (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  artwork_id INTEGER NOT NULL,
+  
+  -- 매입 정보
+  purchase_price_eth REAL NOT NULL,
+  purchase_date DATETIME NOT NULL,
+  purchase_transaction_hash TEXT,
+  
+  -- 현재 가치
+  current_value_eth REAL,  -- 현재 시장 가격 (floor price 기반)
+  last_valuation_date DATETIME,
+  
+  -- 손익 계산
+  unrealized_pnl_eth REAL,  -- current_value - purchase_price
+  unrealized_pnl_percentage REAL,
+  
+  -- 판매 정보 (판매 시 업데이트)
+  sale_price_eth REAL,
+  sale_date DATETIME,
+  sale_transaction_hash TEXT,
+  realized_pnl_eth REAL,  -- sale_price - purchase_price - fees
+  realized_pnl_percentage REAL,
+  
+  -- 상태
+  status TEXT DEFAULT 'holding',  -- holding, sold, transferred
+  
+  -- 메모
+  notes TEXT,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (artwork_id) REFERENCES artworks(id) ON DELETE CASCADE
+);
+
+-- 포트폴리오 알림 설정
+CREATE TABLE IF NOT EXISTS portfolio_alerts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  
+  -- 알림 조건
+  alert_type TEXT NOT NULL,  -- price_drop, price_increase, sale_opportunity, floor_alert
+  artwork_id INTEGER,  -- 특정 작품용 (NULL이면 전체 포트폴리오)
+  collection_id INTEGER,  -- 특정 컬렉션용
+  
+  -- 임계값
+  threshold_percentage REAL,  -- 가격 변동 임계값 (예: -10% = 10% 하락 시)
+  threshold_eth REAL,  -- 절대 가격 임계값
+  
+  -- 상태
+  is_active BOOLEAN DEFAULT 1,
+  last_triggered_at DATETIME,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (artwork_id) REFERENCES artworks(id) ON DELETE CASCADE,
+  FOREIGN KEY (collection_id) REFERENCES artwork_collections(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_portfolio_snapshots ON user_portfolio_snapshots(user_id, snapshot_date DESC);
+CREATE INDEX IF NOT EXISTS idx_investment_tracking ON nft_investment_tracking(user_id, status);
+CREATE INDEX IF NOT EXISTS idx_portfolio_alerts ON portfolio_alerts(user_id, is_active);
+
+
+-- ============================================
+-- 3. MULTI-CHAIN SUPPORT (멀티체인 지원)
+-- ============================================
+
+-- 지원 블록체인 네트워크 테이블
+CREATE TABLE IF NOT EXISTS blockchain_networks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  
+  -- 네트워크 정보
+  chain_id INTEGER UNIQUE NOT NULL,  -- EIP-155 chain ID (1=Ethereum, 137=Polygon, 42161=Arbitrum)
+  chain_name TEXT NOT NULL,  -- Ethereum Mainnet, Polygon, Arbitrum One
+  chain_slug TEXT UNIQUE NOT NULL,  -- ethereum, polygon, arbitrum
+  
+  -- RPC & Explorer
+  rpc_url TEXT NOT NULL,
+  explorer_url TEXT,  -- Etherscan, Polygonscan 등
+  
+  -- 네이티브 토큰
+  native_currency_symbol TEXT NOT NULL,  -- ETH, MATIC, ETH
+  native_currency_name TEXT,
+  native_currency_decimals INTEGER DEFAULT 18,
+  
+  -- 컨트랙트 주소
+  nft_contract_address TEXT,  -- 체인별 NFT 컨트랙트
+  marketplace_contract_address TEXT,
+  
+  -- 설정
+  is_testnet BOOLEAN DEFAULT 0,
+  is_active BOOLEAN DEFAULT 1,
+  avg_block_time_seconds INTEGER,  -- 평균 블록 생성 시간
+  
+  -- 가스 정보
+  avg_gas_price_gwei REAL,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- artworks 테이블에 체인 정보 추가
+ALTER TABLE artworks ADD COLUMN chain_id INTEGER DEFAULT 1;  -- 기본값: Ethereum
+ALTER TABLE artworks ADD COLUMN chain_name TEXT DEFAULT 'Ethereum';
+
+-- nft_transactions 테이블에 체인 정보 추가
+ALTER TABLE nft_transactions ADD COLUMN chain_id INTEGER DEFAULT 1;
+ALTER TABLE nft_transactions ADD COLUMN chain_name TEXT DEFAULT 'Ethereum';
+
+-- 크로스 체인 브릿지 기록
+CREATE TABLE IF NOT EXISTS cross_chain_bridges (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  artwork_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  
+  -- 브릿지 정보
+  from_chain_id INTEGER NOT NULL,
+  to_chain_id INTEGER NOT NULL,
+  
+  -- 트랜잭션
+  source_transaction_hash TEXT,
+  destination_transaction_hash TEXT,
+  
+  -- 상태
+  status TEXT DEFAULT 'pending',  -- pending, in_progress, completed, failed
+  
+  -- 비용
+  bridge_fee_eth REAL,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  completed_at DATETIME,
+  
+  FOREIGN KEY (artwork_id) REFERENCES artworks(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (from_chain_id) REFERENCES blockchain_networks(chain_id),
+  FOREIGN KEY (to_chain_id) REFERENCES blockchain_networks(chain_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_artworks_chain ON artworks(chain_id);
+CREATE INDEX IF NOT EXISTS idx_bridges_user ON cross_chain_bridges(user_id, created_at DESC);
+
+
+-- ============================================
+-- 4. WALLET MANAGEMENT (지갑 관리)
+-- ============================================
+
+-- 사용자 다중 지갑 지원 (기존 user_wallets와 별도)
+CREATE TABLE IF NOT EXISTS user_multiple_wallets (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  
+  -- 지갑 정보
+  wallet_address TEXT NOT NULL,
+  wallet_type TEXT NOT NULL,  -- metamask, walletconnect, coinbase, ledger, trezor
+  wallet_name TEXT,  -- 사용자 지정 이름 (예: "My Main Wallet")
+  
+  -- 체인 지원
+  supported_chains TEXT,  -- JSON array: ["1", "137", "42161"]
+  
+  -- 상태
+  is_primary BOOLEAN DEFAULT 0,  -- 주 지갑 여부
+  is_verified BOOLEAN DEFAULT 0,  -- 서명 검증 완료 여부
+  last_connected_at DATETIME,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  
+  UNIQUE(user_id, wallet_address)
+);
+
+-- WalletConnect 세션 관리
+CREATE TABLE IF NOT EXISTS walletconnect_sessions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  wallet_id INTEGER,
+  
+  -- WalletConnect 정보
+  session_topic TEXT UNIQUE NOT NULL,
+  peer_metadata TEXT,  -- JSON: wallet app metadata
+  
+  -- 체인 & 계정
+  active_chain_id INTEGER,
+  accounts TEXT,  -- JSON array of addresses
+  
+  -- 상태
+  is_active BOOLEAN DEFAULT 1,
+  expires_at DATETIME,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  last_activity_at DATETIME,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (wallet_id) REFERENCES user_multiple_wallets(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_multiple_wallets ON user_multiple_wallets(user_id, is_primary);
+CREATE INDEX IF NOT EXISTS idx_wc_sessions ON walletconnect_sessions(user_id, is_active);
+
+
+-- ============================================
+-- 5. ACTIVITY FEED (활동 피드)
+-- ============================================
+
+-- 사용자 활동 피드
+CREATE TABLE IF NOT EXISTS activity_feed (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  
+  -- 활동 정보
+  activity_type TEXT NOT NULL,  -- follow, like, purchase, sale, mint, bid, offer, list
+  target_type TEXT NOT NULL,  -- user, artwork, collection, bundle
+  target_id INTEGER NOT NULL,
+  
+  -- 활동 주체
+  actor_id INTEGER,  -- 활동을 수행한 사용자 (NULL이면 시스템)
+  
+  -- 추가 데이터 (JSON)
+  metadata TEXT,  -- {"price_eth": 1.5, "collection_name": "Beeple", ...}
+  
+  -- 가시성
+  is_public BOOLEAN DEFAULT 1,
+  is_read BOOLEAN DEFAULT 0,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (actor_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- 팔로우 시스템
+CREATE TABLE IF NOT EXISTS user_follows (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  follower_id INTEGER NOT NULL,  -- 팔로우하는 사람
+  following_id INTEGER NOT NULL,  -- 팔로우 받는 사람 (작가, 컬렉터 등)
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE,
+  
+  UNIQUE(follower_id, following_id)
+);
+
+-- 컬렉션 팔로우
+CREATE TABLE IF NOT EXISTS collection_follows (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  collection_id INTEGER NOT NULL,
+  
+  -- 알림 설정
+  notify_on_new_items BOOLEAN DEFAULT 1,
+  notify_on_price_changes BOOLEAN DEFAULT 1,
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (collection_id) REFERENCES artwork_collections(id) ON DELETE CASCADE,
+  
+  UNIQUE(user_id, collection_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_activity_feed ON activity_feed(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_user_follows_follower ON user_follows(follower_id);
+CREATE INDEX IF NOT EXISTS idx_user_follows_following ON user_follows(following_id);
+CREATE INDEX IF NOT EXISTS idx_collection_follows ON collection_follows(user_id);
+
+
+-- ============================================
+-- 6. VIEWS - 포트폴리오 & 활동
+-- ============================================
+
+-- 현재 포트폴리오 뷰 (최신 스냅샷)
+CREATE VIEW IF NOT EXISTS v_current_portfolio AS
+SELECT 
+  ps.*,
+  u.name as user_name,
+  u.email as user_email,
+  CASE 
+    WHEN ps.unrealized_pnl_eth >= 0 THEN 'profit'
+    ELSE 'loss'
+  END as portfolio_status
+FROM user_portfolio_snapshots ps
+JOIN users u ON ps.user_id = u.id
+WHERE ps.snapshot_date = (
+  SELECT MAX(snapshot_date)
+  FROM user_portfolio_snapshots ps2
+  WHERE ps2.user_id = ps.user_id
+);
+
+-- 보유 자산 상세 뷰
+CREATE VIEW IF NOT EXISTS v_holdings_detail AS
+SELECT 
+  nit.*,
+  a.title as artwork_title,
+  a.image_url,
+  a.category,
+  ar.name as artist_name,
+  ac.collection_name,
+  CASE 
+    WHEN nit.status = 'holding' THEN 
+      ROUND((nit.current_value_eth - nit.purchase_price_eth) / nit.purchase_price_eth * 100, 2)
+    WHEN nit.status = 'sold' THEN nit.realized_pnl_percentage
+    ELSE 0
+  END as pnl_percentage,
+  CASE 
+    WHEN nit.status = 'holding' THEN 
+      julianday('now') - julianday(nit.purchase_date)
+    WHEN nit.status = 'sold' THEN 
+      julianday(nit.sale_date) - julianday(nit.purchase_date)
+    ELSE 0
+  END as holding_days
+FROM nft_investment_tracking nit
+JOIN artworks a ON nit.artwork_id = a.id
+JOIN artists ar ON a.artist_id = ar.id
+LEFT JOIN artwork_collections ac ON a.collection_id = ac.id;
+
+-- 활동 피드 상세 뷰
+CREATE VIEW IF NOT EXISTS v_activity_feed_detail AS
+SELECT 
+  af.*,
+  u.name as user_name,
+  u.avatar as user_avatar,
+  actor.name as actor_name,
+  actor.avatar as actor_avatar,
+  CASE af.target_type
+    WHEN 'artwork' THEN (SELECT title FROM artworks WHERE id = af.target_id)
+    WHEN 'collection' THEN (SELECT collection_name FROM artwork_collections WHERE id = af.target_id)
+    WHEN 'user' THEN (SELECT name FROM users WHERE id = af.target_id)
+    ELSE NULL
+  END as target_name
+FROM activity_feed af
+JOIN users u ON af.user_id = u.id
+LEFT JOIN users actor ON af.actor_id = actor.id
+ORDER BY af.created_at DESC;
+
+
+-- ============================================
+-- 7. INITIAL DATA - 지원 블록체인 네트워크
+-- ============================================
+
+-- 주요 블록체인 네트워크 추가
+INSERT OR IGNORE INTO blockchain_networks (chain_id, chain_name, chain_slug, rpc_url, explorer_url, native_currency_symbol, native_currency_name, is_active, avg_block_time_seconds, avg_gas_price_gwei)
+VALUES 
+  (1, 'Ethereum Mainnet', 'ethereum', 'https://eth.llamarpc.com', 'https://etherscan.io', 'ETH', 'Ether', 1, 12, 30.0),
+  (137, 'Polygon', 'polygon', 'https://polygon-rpc.com', 'https://polygonscan.com', 'MATIC', 'Matic', 1, 2, 50.0),
+  (42161, 'Arbitrum One', 'arbitrum', 'https://arb1.arbitrum.io/rpc', 'https://arbiscan.io', 'ETH', 'Ether', 1, 1, 0.1),
+  (10, 'Optimism', 'optimism', 'https://mainnet.optimism.io', 'https://optimistic.etherscan.io', 'ETH', 'Ether', 1, 2, 0.001),
+  (8453, 'Base', 'base', 'https://mainnet.base.org', 'https://basescan.org', 'ETH', 'Ether', 1, 2, 0.001);
+
+-- Testnet networks (개발용)
+INSERT OR IGNORE INTO blockchain_networks (chain_id, chain_name, chain_slug, rpc_url, explorer_url, native_currency_symbol, is_testnet, is_active)
+VALUES 
+  (11155111, 'Sepolia', 'sepolia', 'https://rpc.sepolia.org', 'https://sepolia.etherscan.io', 'ETH', 1, 0),
+  (80002, 'Polygon Amoy', 'polygon-amoy', 'https://rpc-amoy.polygon.technology', 'https://amoy.polygonscan.com', 'MATIC', 1, 0);
+
+
+-- ============================================
+-- 8. TRIGGERS - 자동 업데이트
+-- ============================================
+
+-- 트리거 1: 작품 구매 시 투자 추적 자동 생성
+CREATE TRIGGER IF NOT EXISTS trg_create_investment_tracking
+AFTER INSERT ON nft_transactions
+WHEN NEW.transaction_type = 'sale'
+BEGIN
+  INSERT INTO nft_investment_tracking (
+    user_id, 
+    artwork_id, 
+    purchase_price_eth, 
+    purchase_date,
+    purchase_transaction_hash,
+    status
+  )
+  VALUES (
+    NEW.buyer_id,
+    NEW.artwork_id,
+    NEW.amount_eth,
+    NEW.created_at,
+    NEW.transaction_hash,
+    'holding'
+  );
+END;
+
+-- 트리거 2: 작품 판매 시 투자 추적 업데이트
+CREATE TRIGGER IF NOT EXISTS trg_update_investment_on_sale
+AFTER INSERT ON nft_transactions
+WHEN NEW.transaction_type = 'sale' AND NEW.seller_id IS NOT NULL
+BEGIN
+  UPDATE nft_investment_tracking
+  SET 
+    status = 'sold',
+    sale_price_eth = NEW.amount_eth,
+    sale_date = NEW.created_at,
+    sale_transaction_hash = NEW.transaction_hash,
+    realized_pnl_eth = NEW.amount_eth - purchase_price_eth - (NEW.platform_fee + NEW.creator_royalty),
+    realized_pnl_percentage = ROUND(
+      (NEW.amount_eth - purchase_price_eth - (NEW.platform_fee + NEW.creator_royalty)) / purchase_price_eth * 100, 
+      2
+    ),
+    updated_at = datetime('now')
+  WHERE user_id = NEW.seller_id
+    AND artwork_id = NEW.artwork_id
+    AND status = 'holding';
+END;
+
+-- 트리거 3: Sweep 장바구니 총액 자동 계산
+CREATE TRIGGER IF NOT EXISTS trg_update_sweep_cart_total
+AFTER INSERT ON sweep_cart_items
+BEGIN
+  UPDATE sweep_cart
+  SET 
+    total_price_eth = (
+      SELECT COALESCE(SUM(price_eth), 0)
+      FROM sweep_cart_items
+      WHERE cart_id = NEW.cart_id AND is_available = 1
+    ),
+    total_items = (
+      SELECT COUNT(*)
+      FROM sweep_cart_items
+      WHERE cart_id = NEW.cart_id AND is_available = 1
+    ),
+    updated_at = datetime('now')
+  WHERE id = NEW.cart_id;
+END;
+
+-- 트리거 4: 활동 피드 자동 생성 (팔로우 시)
+CREATE TRIGGER IF NOT EXISTS trg_activity_on_follow
+AFTER INSERT ON user_follows
+BEGIN
+  INSERT INTO activity_feed (user_id, activity_type, target_type, target_id, actor_id)
+  VALUES (NEW.following_id, 'follow', 'user', NEW.following_id, NEW.follower_id);
+END;
+
+-- 트리거 5: 활동 피드 자동 생성 (좋아요 시)
+-- 참고: artworks 테이블에 likes 업데이트 시 트리거 발동
+-- 실제 구현 시 별도 likes 테이블 생성 권장
+
+
+-- ============================================
+-- 9. 통계 & 성능 최적화
+-- ============================================
+
+-- 자주 사용되는 쿼리 최적화를 위한 추가 인덱스
+CREATE INDEX IF NOT EXISTS idx_artworks_chain_price ON artworks(chain_id, price_eth DESC);
+CREATE INDEX IF NOT EXISTS idx_transactions_chain ON nft_transactions(chain_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_investment_tracking_status ON nft_investment_tracking(user_id, status, unrealized_pnl_eth DESC);
+
+
+-- Migration 완료
+-- Total: 15 tables, 3 views, 5 triggers, 20+ indexes
+-- 신규 테이블: sweep_cart, sweep_cart_items, sweep_transactions,
+--              user_portfolio_snapshots, nft_investment_tracking, portfolio_alerts,
+--              blockchain_networks, cross_chain_bridges, user_multiple_wallets, walletconnect_sessions,
+--              activity_feed, user_follows, collection_follows
+-- 컬럼 추가: artworks (chain_id, chain_name), nft_transactions (chain_id, chain_name)

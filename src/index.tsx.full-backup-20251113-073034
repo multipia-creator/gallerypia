@@ -1,0 +1,1694 @@
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { serveStatic } from 'hono/cloudflare-workers'
+import type { Bindings, Artwork, ArtworkWithArtist, Artist, ApiResponse } from './types'
+import { calculateArtworkValue } from './types'
+
+const app = new Hono<{ Bindings: Bindings }>()
+
+// CORS 설정
+app.use('/api/*', cors())
+
+// 정적 파일 서빙
+app.use('/static/*', serveStatic({ root: './public' }))
+
+// ============================================
+// 공통 레이아웃 함수 - 블랙 테마
+// ============================================
+
+function getLayout(content: string, title: string = '갤러리피아 - NFT Art Museum') {
+  return `
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Outfit', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+              },
+              accent: {
+                500: '#8b5cf6',
+                600: '#7c3aed',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      * {
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      
+      body {
+        background: #000000;
+        color: #ffffff;
+      }
+      
+      .gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .gradient-gold {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      }
+      
+      .gradient-cyber {
+        background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      }
+      
+      .neon-border {
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+      }
+      
+      .neon-glow {
+        box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+      }
+      
+      .card-nft {
+        background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .card-nft:hover {
+        transform: translateY(-12px);
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 25px 50px rgba(139, 92, 246, 0.2);
+      }
+      
+      .img-nft {
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .card-nft:hover .img-nft {
+        transform: scale(1.08);
+      }
+      
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+        transition: width 0.3s ease;
+      }
+      
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 100%;
+      }
+      
+      .btn-neon {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-neon:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 30px rgba(139, 92, 246, 0.6);
+      }
+      
+      .stat-card {
+        background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        backdrop-filter: blur(10px);
+      }
+      
+      .hero-gradient {
+        background: radial-gradient(ellipse at top, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                    radial-gradient(ellipse at bottom, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+      }
+      
+      .float {
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      @keyframes glow {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      
+      .glow-pulse {
+        animation: glow 2s ease-in-out infinite;
+      }
+      
+      .text-gradient {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .text-gold {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .bg-grid {
+        background-image: 
+          linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+      
+      .category-badge {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+      }
+      
+      .category-badge:hover,
+      .category-badge.active {
+        background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+        border-color: transparent;
+        transform: scale(1.05);
+      }
+      
+      .score-bar {
+        background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+        box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+      }
+    </style>
+</head>
+<body class="antialiased bg-black text-white">
+    <!-- 네비게이션 -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-xl border-b border-white border-opacity-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-12">
+                    <a href="/" class="flex items-center space-x-3 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-cube text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="text-xl font-bold text-gradient">GALLERYPIA</div>
+                            <div class="text-xs text-gray-500">NFT Art Museum</div>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex space-x-8">
+                        <a href="/gallery" class="nav-link text-gray-400 hover:text-white font-medium text-sm">NFT 갤러리</a>
+                        <a href="/valuation" class="nav-link text-gray-400 hover:text-white font-medium text-sm">미술품 가치산정</a>
+                        <a href="/mint" class="nav-link text-gray-400 hover:text-white font-medium text-sm">NFT 민팅</a>
+                        <a href="/artists" class="nav-link text-gray-400 hover:text-white font-medium text-sm">아티스트</a>
+                        <a href="/collections" class="nav-link text-gray-400 hover:text-white font-medium text-sm">컬렉션</a>
+                        <a href="/about" class="nav-link text-gray-400 hover:text-white font-medium text-sm">소개</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="hidden sm:flex items-center px-4 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all">
+                        <i class="fas fa-search mr-2"></i>
+                        <span class="text-sm font-medium">검색</span>
+                    </button>
+                    <button id="connectWallet" onclick="connectMetaMask()" class="btn-neon px-6 py-2.5 text-white rounded-xl font-semibold text-sm">
+                        <i class="fas fa-wallet mr-2"></i>
+                        <span id="walletText">지갑 연결</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="pt-20">
+        ${content}
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-white border-opacity-10 py-16 mt-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-cube text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="text-xl font-bold text-gradient">GALLERYPIA</div>
+                            <div class="text-xs text-gray-500">NFT Art Museum</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-6 leading-relaxed text-sm">
+                        미술품 가치산정 기반의 투명하고 신뢰할 수 있는 NFT 플랫폼
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-xl flex items-center justify-center transition-all border border-white border-opacity-10">
+                            <i class="fab fa-twitter text-gray-400"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-xl flex items-center justify-center transition-all border border-white border-opacity-10">
+                            <i class="fab fa-discord text-gray-400"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-xl flex items-center justify-center transition-all border border-white border-opacity-10">
+                            <i class="fab fa-opensea text-gray-400"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">플랫폼</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="/gallery" class="hover:text-white transition-colors">갤러리</a></li>
+                        <li><a href="/artists" class="hover:text-white transition-colors">아티스트</a></li>
+                        <li><a href="/collections" class="hover:text-white transition-colors">컬렉션</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-white">지원</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">도움말</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">가치산정 시스템</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">문의하기</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-10 mt-12 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 GALLERYPIA. All rights reserved. Powered by Blockchain Technology.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script>
+      let web3;
+      let currentAccount;
+      
+      // 메타마스크 연결
+      async function connectMetaMask() {
+        if (typeof window.ethereum !== 'undefined') {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            currentAccount = accounts[0];
+            web3 = new Web3(window.ethereum);
+            
+            // UI 업데이트
+            const walletText = document.getElementById('walletText');
+            if (walletText) {
+              walletText.textContent = currentAccount.substring(0, 6) + '...' + currentAccount.substring(38);
+            }
+            
+            // 로컬 스토리지에 저장
+            localStorage.setItem('walletAddress', currentAccount);
+            
+            console.log('Connected:', currentAccount);
+            
+            // 계정 변경 감지
+            window.ethereum.on('accountsChanged', function (accounts) {
+              currentAccount = accounts[0];
+              if (walletText) {
+                walletText.textContent = currentAccount ? currentAccount.substring(0, 6) + '...' + currentAccount.substring(38) : '지갑 연결';
+              }
+              if (currentAccount) {
+                localStorage.setItem('walletAddress', currentAccount);
+              } else {
+                localStorage.removeItem('walletAddress');
+              }
+            });
+            
+            return currentAccount;
+          } catch (error) {
+            console.error('메타마스크 연결 실패:', error);
+            alert('메타마스크 연결에 실패했습니다.');
+          }
+        } else {
+          alert('메타마스크를 설치해주세요! https://metamask.io');
+        }
+      }
+      
+      // 페이지 로드 시 연결 상태 확인
+      window.addEventListener('DOMContentLoaded', async function() {
+        const savedAddress = localStorage.getItem('walletAddress');
+        if (savedAddress && typeof window.ethereum !== 'undefined') {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length > 0) {
+              currentAccount = accounts[0];
+              web3 = new Web3(window.ethereum);
+              const walletText = document.getElementById('walletText');
+              if (walletText) {
+                walletText.textContent = currentAccount.substring(0, 6) + '...' + currentAccount.substring(38);
+              }
+            }
+          } catch (error) {
+            console.error('계정 확인 실패:', error);
+          }
+        }
+      });
+    </script>
+</body>
+</html>
+  `;
+}
+
+// ============================================
+// API 라우트
+// ============================================
+
+app.get('/api/artworks', async (c) => {
+  try {
+    const { category, status, sort = 'created_at', order = 'DESC', limit = '50' } = c.req.query()
+    
+    let query = `
+      SELECT 
+        a.*,
+        ar.name as artist_name,
+        ar.profile_image as artist_profile_image
+      FROM artworks a
+      LEFT JOIN artists ar ON a.artist_id = ar.id
+      WHERE 1=1
+    `
+    
+    if (category && category !== 'all') {
+      query += ` AND a.category = '${category}'`
+    }
+    
+    if (status) {
+      query += ` AND a.status = '${status}'`
+    } else {
+      query += ` AND a.status IN ('approved', 'minted')`
+    }
+    
+    query += ` ORDER BY a.${sort} ${order} LIMIT ${limit}`
+    
+    const result = await c.env.DB.prepare(query).all()
+    
+    return c.json<ApiResponse<ArtworkWithArtist[]>>({
+      success: true,
+      data: result.results as ArtworkWithArtist[]
+    })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
+app.get('/api/artworks/:id', async (c) => {
+  try {
+    const id = c.req.param('id')
+    
+    const result = await c.env.DB.prepare(`
+      SELECT 
+        a.*,
+        ar.name as artist_name,
+        ar.bio as artist_bio,
+        ar.profile_image as artist_profile_image,
+        ar.career_years,
+        ar.exhibitions_count,
+        ar.awards_count
+      FROM artworks a
+      LEFT JOIN artists ar ON a.artist_id = ar.id
+      WHERE a.id = ?
+    `).bind(id).first()
+    
+    if (!result) {
+      return c.json<ApiResponse>({ success: false, error: '작품을 찾을 수 없습니다.' }, 404)
+    }
+    
+    await c.env.DB.prepare(`UPDATE artworks SET views_count = views_count + 1 WHERE id = ?`).bind(id).run()
+    
+    return c.json<ApiResponse>({ success: true, data: result })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
+app.get('/api/artists', async (c) => {
+  try {
+    const result = await c.env.DB.prepare(`SELECT * FROM artists ORDER BY exhibitions_count DESC`).all()
+    return c.json<ApiResponse<Artist[]>>({ success: true, data: result.results as Artist[] })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
+app.get('/api/collections', async (c) => {
+  try {
+    const result = await c.env.DB.prepare(`SELECT * FROM collections ORDER BY created_at DESC`).all()
+    return c.json<ApiResponse>({ success: true, data: result.results })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
+app.get('/api/stats', async (c) => {
+  try {
+    const totalArtworks = await c.env.DB.prepare('SELECT COUNT(*) as count FROM artworks').first()
+    const totalArtists = await c.env.DB.prepare('SELECT COUNT(*) as count FROM artists').first()
+    const mintedNFTs = await c.env.DB.prepare('SELECT COUNT(*) as count FROM artworks WHERE is_minted = 1').first()
+    const totalValue = await c.env.DB.prepare('SELECT SUM(estimated_value) as total FROM artworks').first()
+    
+    return c.json<ApiResponse>({
+      success: true,
+      data: {
+        total_artworks: totalArtworks?.count || 0,
+        total_artists: totalArtists?.count || 0,
+        minted_nfts: mintedNFTs?.count || 0,
+        total_value: totalValue?.total || 0
+      }
+    })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
+// 가치평가 이력 조회
+app.get('/api/valuation-history/:artworkId', async (c) => {
+  try {
+    const artworkId = c.req.param('artworkId')
+    const history = await c.env.DB.prepare(`
+      SELECT * FROM valuation_history 
+      WHERE artwork_id = ? 
+      ORDER BY evaluated_at DESC
+    `).bind(artworkId).all()
+    
+    return c.json<ApiResponse>({
+      success: true,
+      data: history.results
+    })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
+// ============================================
+// 페이지 라우트
+// ============================================
+
+app.get('/', async (c) => {
+  try {
+    const statsResponse = await fetch('http://localhost:3000/api/stats')
+    const stats = await statsResponse.json()
+    
+    const artworksResponse = await fetch('http://localhost:3000/api/artworks?limit=8')
+    const artworks = await artworksResponse.json()
+    
+    const content = `
+    <!-- 히어로 섹션 -->
+    <section class="relative overflow-hidden bg-grid">
+        <div class="hero-gradient absolute inset-0"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+            <div class="text-center max-w-5xl mx-auto">
+                <div class="inline-block mb-6 px-6 py-2 bg-white bg-opacity-5 backdrop-blur-sm rounded-full border border-white border-opacity-10">
+                    <span class="text-gradient font-bold text-sm">🎨 NFT Art Museum Platform</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl font-black mb-8 leading-tight">
+                    <span class="text-white">Discover</span><br/>
+                    <span class="text-gradient">Premium NFTs</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-400 mb-12 font-light leading-relaxed max-w-3xl mx-auto">
+                    객관적인 가치산정 시스템으로 검증된<br class="hidden sm:block"/>
+                    프리미엄 NFT 아트 컬렉션
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+                    <a href="/gallery" class="btn-neon px-10 py-4 rounded-2xl font-bold text-lg inline-flex items-center justify-center">
+                        <i class="fas fa-compass mr-3"></i>
+                        컬렉션 탐색
+                    </a>
+                    <a href="/about" class="px-10 py-4 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-2xl font-bold text-lg inline-flex items-center justify-center border border-white border-opacity-10 transition-all">
+                        <i class="fas fa-info-circle mr-3"></i>
+                        가치산정 시스템
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 통계 -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-gradient mb-2">${stats.data?.total_artworks || 0}</div>
+                    <div class="text-gray-500 font-semibold text-sm">NFT 작품</div>
+                </div>
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-gold mb-2">${stats.data?.total_artists || 0}</div>
+                    <div class="text-gray-500 font-semibold text-sm">아티스트</div>
+                </div>
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-gradient mb-2">${stats.data?.minted_nfts || 0}</div>
+                    <div class="text-gray-500 font-semibold text-sm">민팅 완료</div>
+                </div>
+                <div class="stat-card rounded-2xl p-6 text-center">
+                    <div class="text-4xl font-black text-gold mb-2">${((stats.data?.total_value || 0) / 100000000).toFixed(0)}억</div>
+                    <div class="text-gray-500 font-semibold text-sm">총 가치</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured NFTs -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-12">
+                <div>
+                    <h2 class="text-5xl font-black mb-3">
+                        <span class="text-gradient">Featured</span> <span class="text-white">NFTs</span>
+                    </h2>
+                    <p class="text-gray-500">가장 가치있는 프리미엄 컬렉션</p>
+                </div>
+                <a href="/gallery" class="text-gradient hover:opacity-80 font-bold flex items-center group">
+                    전체 보기
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                ${artworks.data?.map((artwork: any) => `
+                    <a href="/artwork/${artwork.id}" class="card-nft rounded-3xl overflow-hidden group">
+                        <div class="relative aspect-square bg-gray-900 overflow-hidden">
+                            <img src="${artwork.image_url}" alt="${artwork.title}" 
+                                 class="w-full h-full object-cover img-nft">
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1.5 bg-black bg-opacity-80 backdrop-blur-sm text-white text-xs font-bold rounded-full border border-white border-opacity-20">
+                                    ${artwork.category}
+                                </span>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-cyan-500 text-white text-xs font-bold rounded-full flex items-center">
+                                    <i class="fas fa-cube mr-1.5"></i>NFT
+                                </span>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-xl text-white mb-3 line-clamp-1">${artwork.title}</h3>
+                            <div class="flex items-center mb-4">
+                                <img src="${artwork.artist_profile_image}" 
+                                     class="w-8 h-8 rounded-full mr-2 object-cover border border-white border-opacity-20"
+                                     alt="${artwork.artist_name}">
+                                <span class="text-sm text-gray-400 font-medium">${artwork.artist_name}</span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value)}</div>
+                                </div>
+                                <div class="flex items-center space-x-3 text-gray-500 text-sm">
+                                    <span class="flex items-center"><i class="fas fa-eye mr-1"></i>${artwork.views_count}</span>
+                                    <span class="flex items-center"><i class="fas fa-heart mr-1"></i>${artwork.likes_count}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('') || ''}
+            </div>
+        </div>
+    </section>
+
+    <!-- 가치산정 시스템 -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="hero-gradient absolute inset-0"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-black mb-4">
+                    <span class="text-white">NFT</span> <span class="text-gradient">Valuation</span>
+                </h2>
+                <p class="text-gray-400 text-lg">과학적 가치산정으로 투명한 거래</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="stat-card rounded-3xl p-10 neon-border">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mr-5">
+                            <i class="fas fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-white">정량적 평가</h3>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white mb-1">시장 수요도</div>
+                                <div class="text-gray-400 text-sm">NFT 마켓 트렌드 및 거래량 분석</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white mb-1">희소성</div>
+                                <div class="text-gray-400 text-sm">에디션 수 및 유사 NFT 비교</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="stat-card rounded-3xl p-10 neon-border">
+                    <div class="flex items-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mr-5">
+                            <i class="fas fa-star text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-white">정성적 평가</h3>
+                    </div>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white mb-1">예술적 완성도</div>
+                                <div class="text-gray-400 text-sm">디자인 품질 및 미적 완성도</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white mb-1">독창성</div>
+                                <div class="text-gray-400 text-sm">아티스트의 고유한 스타일</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+      function formatPrice(price) {
+        if (price >= 100000000) return (price / 100000000).toFixed(1) + '억원';
+        else if (price >= 10000) return (price / 10000).toFixed(0) + '만원';
+        return price.toLocaleString() + '원';
+      }
+    </script>
+    `;
+    
+    return c.html(getLayout(content))
+  } catch (error: any) {
+    return c.html(getLayout('<div class="py-20 text-center text-red-500">데이터를 불러오는데 실패했습니다.</div>'))
+  }
+})
+
+// 갤러리 페이지 (계속...)
+
+app.get('/gallery', async (c) => {
+  try {
+    const artworksResponse = await fetch('http://localhost:3000/api/artworks?limit=50')
+    const artworks = await artworksResponse.json()
+    
+    const content = `
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-6xl font-black mb-4">
+                <span class="text-gradient">NFT</span> <span class="text-white">Gallery</span>
+            </h1>
+            <p class="text-gray-400 mb-12 text-lg">프리미엄 NFT 컬렉션을 탐색하세요</p>
+            
+            <div class="flex flex-wrap gap-3 mb-12">
+                <button onclick="window.location.href='/gallery'" class="category-badge px-6 py-3 bg-white bg-opacity-5 text-white rounded-full font-semibold hover:bg-opacity-10 transition-all">
+                    전체
+                </button>
+                <button class="category-badge px-6 py-3 bg-white bg-opacity-5 text-gray-400 rounded-full font-semibold hover:bg-opacity-10 transition-all">
+                    디지털아트
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                ${artworks.data?.map((artwork: any) => `
+                    <a href="/artwork/${artwork.id}" class="card-nft rounded-3xl overflow-hidden group">
+                        <div class="relative aspect-square bg-gray-900 overflow-hidden">
+                            <img src="${artwork.image_url}" alt="${artwork.title}" class="w-full h-full object-cover img-nft">
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1.5 bg-black bg-opacity-80 backdrop-blur-sm text-white text-xs font-bold rounded-full border border-white border-opacity-20">${artwork.category}</span>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-cyan-500 text-white text-xs font-bold rounded-full flex items-center">
+                                    <i class="fas fa-cube mr-1.5"></i>NFT
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-xl text-white mb-3">${artwork.title}</h3>
+                            <div class="flex items-center mb-4">
+                                <img src="${artwork.artist_profile_image}" class="w-8 h-8 rounded-full mr-2 object-cover border border-white border-opacity-20" alt="${artwork.artist_name}">
+                                <span class="text-sm text-gray-400 font-medium">${artwork.artist_name}</span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('') || ''}
+            </div>
+        </div>
+    </section>
+    <script>
+      function formatPrice(price) {
+        if (price >= 100000000) return (price / 100000000).toFixed(1) + '억원';
+        else if (price >= 10000) return (price / 10000).toFixed(0) + '만원';
+        return price.toLocaleString() + '원';
+      }
+    </script>
+    `;
+    
+    return c.html(getLayout(content, 'NFT Gallery - GALLERYPIA'))
+  } catch (error: any) {
+    return c.html(getLayout('<div class="py-20 text-center text-red-500">데이터를 불러오는데 실패했습니다.</div>'))
+  }
+})
+
+// 작품 상세 페이지 - 가치평가 정보 포함
+app.get('/artwork/:id', async (c) => {
+  try {
+    const id = c.req.param('id')
+    const artworkResponse = await fetch(`http://localhost:3000/api/artworks/${id}`)
+    const artwork = await artworkResponse.json()
+    
+    if (!artwork.data) {
+      return c.html(getLayout('<div class="py-20 text-center text-red-500">작품을 찾을 수 없습니다.</div>'))
+    }
+    
+    const art = artwork.data
+    
+    // 평가 이력 가져오기
+    const historyResponse = await fetch(`http://localhost:3000/api/valuation-history/${id}`)
+    const history = await historyResponse.json()
+    
+    const content = `
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 뒤로가기 -->
+            <a href="/gallery" class="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> 갤러리로 돌아가기
+            </a>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- 작품 이미지 -->
+                <div class="space-y-6">
+                    <div class="card-nft rounded-3xl overflow-hidden">
+                        <div class="aspect-square bg-gray-900">
+                            <img src="${art.image_url}" alt="${art.title}" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    
+                    ${art.is_minted ? `
+                    <div class="card-nft rounded-2xl p-6">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                            <i class="fas fa-cube text-gradient mr-2"></i>
+                            NFT 정보
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">블록체인</span>
+                                <span class="text-white font-semibold">${art.blockchain_network || 'Ethereum'}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">토큰 ID</span>
+                                <span class="text-white font-mono text-xs">${art.nft_token_id || 'N/A'}</span>
+                            </div>
+                            ${art.nft_contract_address ? `
+                            <div class="flex justify-between items-start">
+                                <span class="text-gray-400">컨트랙트</span>
+                                <span class="text-white font-mono text-xs break-all text-right ml-4">${art.nft_contract_address.substring(0, 10)}...${art.nft_contract_address.substring(art.nft_contract_address.length - 8)}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <!-- 작품 정보 및 가치평가 -->
+                <div class="space-y-8">
+                    <!-- 기본 정보 -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            ${art.is_minted ? '<span class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-cyan-500 text-white text-xs font-bold rounded-full flex items-center w-fit"><i class="fas fa-cube mr-1.5"></i>NFT</span>' : ''}
+                            <span class="px-3 py-1.5 bg-white bg-opacity-5 text-gray-300 text-xs font-semibold rounded-full">${art.category}</span>
+                        </div>
+                        <h1 class="text-5xl font-black text-white mb-4">${art.title}</h1>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-6">${art.description || '작품 설명이 없습니다.'}</p>
+                        
+                        <!-- 아티스트 정보 -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white bg-opacity-5 neon-border">
+                            <img src="${art.artist_profile_image}" class="w-14 h-14 rounded-full object-cover" alt="${art.artist_name}">
+                            <div>
+                                <div class="text-xs text-gray-500 mb-1">Artist</div>
+                                <div class="text-white font-bold text-lg">${art.artist_name}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 가치평가 시스템 -->
+                    <div class="card-nft rounded-3xl p-8 space-y-8">
+                        <div class="text-center border-b border-white border-opacity-10 pb-6">
+                            <div class="text-sm text-gray-400 mb-2">AI 기반 작품 가치 산정</div>
+                            <div class="text-5xl font-black text-gradient mb-2">${formatPrice(art.estimated_value)}</div>
+                            <div class="text-xs text-gray-500">Based on quantitative and qualitative analysis</div>
+                        </div>
+                        
+                        <!-- 정량적 평가 (30%) -->
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <i class="fas fa-chart-line text-cyan-400 mr-2"></i>
+                                정량적 평가 <span class="text-gray-500 text-sm ml-2">(30%)</span>
+                            </h3>
+                            <div class="space-y-4">
+                                <!-- 시장 수요 -->
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm text-gray-400">시장 수요 (50%)</span>
+                                        <span class="text-sm font-bold text-white">${art.market_demand_score}/100</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-cyan-500 to-blue-500" style="width: ${art.market_demand_score}%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 희소성 -->
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm text-gray-400">희소성 (50%)</span>
+                                        <span class="text-sm font-bold text-white">${art.rarity_score}/100</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500" style="width: ${art.rarity_score}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 정성적 평가 (70%) -->
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <i class="fas fa-palette text-purple-400 mr-2"></i>
+                                정성적 평가 <span class="text-gray-500 text-sm ml-2">(70%)</span>
+                            </h3>
+                            <div class="space-y-4">
+                                <!-- 예술적 완성도 -->
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm text-gray-400">예술적 완성도 (35%)</span>
+                                        <span class="text-sm font-bold text-white">${art.artistic_quality_score}/100</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-yellow-500 to-orange-500" style="width: ${art.artistic_quality_score}%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 독창성 -->
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm text-gray-400">독창성 (30%)</span>
+                                        <span class="text-sm font-bold text-white">${art.originality_score}/100</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-green-500 to-emerald-500" style="width: ${art.originality_score}%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 문화적 의의 -->
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm text-gray-400">문화적 의의 (20%)</span>
+                                        <span class="text-sm font-bold text-white">${art.cultural_significance_score}/100</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-pink-500 to-rose-500" style="width: ${art.cultural_significance_score}%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 기술적 우수성 -->
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-sm text-gray-400">기술적 우수성 (15%)</span>
+                                        <span class="text-sm font-bold text-white">${art.technical_excellence_score}/100</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500" style="width: ${art.technical_excellence_score}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 평가 공식 설명 -->
+                        <div class="bg-white bg-opacity-5 rounded-2xl p-6">
+                            <h4 class="text-sm font-bold text-white mb-3 flex items-center">
+                                <i class="fas fa-calculator text-gold mr-2"></i>
+                                가치 산출 공식
+                            </h4>
+                            <div class="text-xs text-gray-400 space-y-2">
+                                <div>기본 가치 = 재료비(${formatPrice(art.base_material_cost)}) + 작업시간(${art.labor_hours}h) × 50,000원</div>
+                                <div>정량 점수 = (시장수요 × 0.5 + 희소성 × 0.5) × 0.3</div>
+                                <div>정성 점수 = (완성도 × 0.35 + 독창성 × 0.3 + 문화의의 × 0.2 + 기술 × 0.15) × 0.7</div>
+                                <div class="pt-2 border-t border-white border-opacity-10 mt-2 font-bold text-white">
+                                    최종 가치 = 기본 가치 × (1 + 종합점수/10)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 평가 이력 -->
+                    ${history.data && history.data.length > 0 ? `
+                    <div class="card-nft rounded-3xl p-8">
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center">
+                            <i class="fas fa-history text-gradient mr-2"></i>
+                            가치평가 이력
+                        </h3>
+                        <div class="space-y-4">
+                            ${history.data.map((h: any) => `
+                            <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <div class="text-white font-semibold">${h.evaluator_name || '익명 평가자'}</div>
+                                        <div class="text-xs text-gray-500">${h.evaluator_role || '일반'} · ${new Date(h.evaluated_at).toLocaleDateString('ko-KR')}</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-400">평가액</div>
+                                        <div class="font-bold text-gradient">${formatPrice(h.estimated_value)}</div>
+                                    </div>
+                                </div>
+                                ${h.evaluation_notes ? `<p class="text-sm text-gray-400 italic">&quot;${h.evaluation_notes}&quot;</p>` : ''}
+                            </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <!-- 작품 상세 정보 -->
+                    <div class="card-nft rounded-3xl p-8">
+                        <h3 class="text-lg font-bold text-white mb-6">작품 상세 정보</h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <div class="text-gray-500 mb-1">제작 연도</div>
+                                <div class="text-white font-semibold">${art.creation_year || 'N/A'}</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-500 mb-1">기법</div>
+                                <div class="text-white font-semibold">${art.technique || 'N/A'}</div>
+                            </div>
+                            ${art.size_width && art.size_height ? `
+                            <div>
+                                <div class="text-gray-500 mb-1">크기</div>
+                                <div class="text-white font-semibold">${art.size_width} × ${art.size_height} cm</div>
+                            </div>
+                            ` : ''}
+                            <div>
+                                <div class="text-gray-500 mb-1">상태</div>
+                                <div class="text-white font-semibold">${art.status === 'approved' ? '승인됨' : art.status === 'minted' ? 'NFT 발행' : '검토중'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 액션 버튼 -->
+                    <div class="flex gap-4">
+                        <button class="flex-1 btn-neon px-8 py-4 rounded-2xl text-white font-bold text-lg">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            구매하기
+                        </button>
+                        <button class="px-8 py-4 rounded-2xl bg-white bg-opacity-5 text-white font-bold hover:bg-opacity-10 transition-all neon-border">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+      function formatPrice(price) {
+        if (price >= 100000000) return (price / 100000000).toFixed(1) + '억원';
+        else if (price >= 10000) return (price / 10000).toFixed(0) + '만원';
+        return price.toLocaleString() + '원';
+      }
+    </script>
+    `;
+    
+    return c.html(getLayout(content, `${art.title} - GALLERYPIA`))
+  } catch (error: any) {
+    return c.html(getLayout('<div class="py-20 text-center text-red-500">작품을 불러오는데 실패했습니다.</div>'))
+  }
+})
+
+// 가치산정 페이지
+app.get('/valuation', async (c) => {
+  const content = `
+  <section class="py-16">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+              <h1 class="text-6xl font-black mb-4">
+                  <span class="text-gradient">AI 가치산정</span> <span class="text-white">시스템</span>
+              </h1>
+              <p class="text-gray-400 text-lg">작품의 정량적/정성적 요소를 분석하여 공정한 가치를 산정합니다</p>
+          </div>
+          
+          <!-- 가치산정 입력 폼 -->
+          <div class="card-nft rounded-3xl p-8 space-y-8">
+              <form id="valuationForm" class="space-y-8">
+                  <!-- 기본 정보 -->
+                  <div class="space-y-6">
+                      <h3 class="text-xl font-bold text-white flex items-center">
+                          <i class="fas fa-info-circle text-gradient mr-3"></i>
+                          기본 정보
+                      </h3>
+                      
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                              <label class="block text-sm font-semibold text-gray-300 mb-2">재료비 (원)</label>
+                              <input type="number" id="materialCost" class="w-full px-4 py-3 bg-black border border-white border-opacity-10 rounded-xl text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" placeholder="예: 500000" value="500000">
+                          </div>
+                          <div>
+                              <label class="block text-sm font-semibold text-gray-300 mb-2">작업 시간 (시간)</label>
+                              <input type="number" id="laborHours" class="w-full px-4 py-3 bg-black border border-white border-opacity-10 rounded-xl text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all" placeholder="예: 100" value="100">
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <!-- 정량적 평가 (30%) -->
+                  <div class="space-y-6">
+                      <h3 class="text-xl font-bold text-white flex items-center">
+                          <i class="fas fa-chart-line text-cyan-400 mr-3"></i>
+                          정량적 평가 <span class="text-gray-500 text-sm ml-2">(30%)</span>
+                      </h3>
+                      
+                      <!-- 시장 수요 -->
+                      <div>
+                          <div class="flex justify-between mb-2">
+                              <label class="text-sm font-semibold text-gray-300">시장 수요 (50%)</label>
+                              <span id="marketDemandValue" class="text-sm font-bold text-white">50/100</span>
+                          </div>
+                          <input type="range" id="marketDemand" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer slider">
+                          <p class="text-xs text-gray-500 mt-2">거래량, 인기도, 트렌드 반영</p>
+                      </div>
+                      
+                      <!-- 희소성 -->
+                      <div>
+                          <div class="flex justify-between mb-2">
+                              <label class="text-sm font-semibold text-gray-300">희소성 (50%)</label>
+                              <span id="rarityValue" class="text-sm font-bold text-white">50/100</span>
+                          </div>
+                          <input type="range" id="rarity" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer slider">
+                          <p class="text-xs text-gray-500 mt-2">작품 수량, 한정판 여부</p>
+                      </div>
+                  </div>
+                  
+                  <!-- 정성적 평가 (70%) -->
+                  <div class="space-y-6">
+                      <h3 class="text-xl font-bold text-white flex items-center">
+                          <i class="fas fa-palette text-purple-400 mr-3"></i>
+                          정성적 평가 <span class="text-gray-500 text-sm ml-2">(70%)</span>
+                      </h3>
+                      
+                      <!-- 예술적 완성도 -->
+                      <div>
+                          <div class="flex justify-between mb-2">
+                              <label class="text-sm font-semibold text-gray-300">예술적 완성도 (35%)</label>
+                              <span id="artisticQualityValue" class="text-sm font-bold text-white">50/100</span>
+                          </div>
+                          <input type="range" id="artisticQuality" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer slider">
+                          <p class="text-xs text-gray-500 mt-2">미학적 가치, 기술적 완성도</p>
+                      </div>
+                      
+                      <!-- 독창성 -->
+                      <div>
+                          <div class="flex justify-between mb-2">
+                              <label class="text-sm font-semibold text-gray-300">독창성 (30%)</label>
+                              <span id="originalityValue" class="text-sm font-bold text-white">50/100</span>
+                          </div>
+                          <input type="range" id="originality" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer slider">
+                          <p class="text-xs text-gray-500 mt-2">창의성, 혁신성</p>
+                      </div>
+                      
+                      <!-- 문화적 의의 -->
+                      <div>
+                          <div class="flex justify-between mb-2">
+                              <label class="text-sm font-semibold text-gray-300">문화적 의의 (20%)</label>
+                              <span id="culturalSignificanceValue" class="text-sm font-bold text-white">50/100</span>
+                          </div>
+                          <input type="range" id="culturalSignificance" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer slider">
+                          <p class="text-xs text-gray-500 mt-2">역사적/사회적 맥락</p>
+                      </div>
+                      
+                      <!-- 기술적 우수성 -->
+                      <div>
+                          <div class="flex justify-between mb-2">
+                              <label class="text-sm font-semibold text-gray-300">기술적 우수성 (15%)</label>
+                              <span id="technicalExcellenceValue" class="text-sm font-bold text-white">50/100</span>
+                          </div>
+                          <input type="range" id="technicalExcellence" min="0" max="100" value="50" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer slider">
+                          <p class="text-xs text-gray-500 mt-2">제작 기법, 표현 기술</p>
+                      </div>
+                  </div>
+                  
+                  <!-- 계산 결과 -->
+                  <div class="bg-gradient-to-br from-purple-900 from-opacity-20 to-cyan-900 to-opacity-20 rounded-3xl p-8 border border-purple-500 border-opacity-30">
+                      <div class="text-center">
+                          <div class="text-sm text-gray-400 mb-2">산정된 작품 가치</div>
+                          <div id="estimatedValue" class="text-6xl font-black text-gradient mb-4">5,500,000원</div>
+                          
+                          <div class="grid grid-cols-2 gap-4 mt-6">
+                              <div class="bg-black bg-opacity-30 rounded-xl p-4">
+                                  <div class="text-xs text-gray-500 mb-1">정량 점수</div>
+                                  <div id="quantScore" class="text-2xl font-bold text-cyan-400">15.0</div>
+                              </div>
+                              <div class="bg-black bg-opacity-30 rounded-xl p-4">
+                                  <div class="text-xs text-gray-500 mb-1">정성 점수</div>
+                                  <div id="qualScore" class="text-2xl font-bold text-purple-400">35.0</div>
+                              </div>
+                          </div>
+                          
+                          <div class="mt-4 text-sm text-gray-400">
+                              <div>기본 가치: <span id="baseValue" class="text-white font-semibold">5,500,000원</span></div>
+                              <div>종합 점수: <span id="totalScore" class="text-white font-semibold">50.0</span></div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <button type="submit" class="w-full btn-neon px-8 py-4 rounded-2xl text-white font-bold text-lg">
+                      <i class="fas fa-save mr-2"></i>
+                      평가 결과 저장
+                  </button>
+              </form>
+          </div>
+          
+          <!-- 평가 공식 설명 -->
+          <div class="card-nft rounded-3xl p-8 mt-8">
+              <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                  <i class="fas fa-info-circle text-gradient mr-3"></i>
+                  가치산정 알고리즘
+              </h3>
+              <div class="space-y-4 text-sm text-gray-400">
+                  <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                      <div class="font-bold text-white mb-2">1단계: 기본 가치 계산</div>
+                      <code class="text-cyan-400">기본 가치 = 재료비 + (작업시간 × 50,000원)</code>
+                  </div>
+                  <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                      <div class="font-bold text-white mb-2">2단계: 정량적 점수 (30%)</div>
+                      <code class="text-cyan-400">정량 점수 = (시장수요 × 0.5 + 희소성 × 0.5) × 0.3</code>
+                  </div>
+                  <div class="bg-white bg-opacity-5 rounded-xl p-4">
+                      <div class="font-bold text-white mb-2">3단계: 정성적 점수 (70%)</div>
+                      <code class="text-purple-400">정성 점수 = (완성도 × 0.35 + 독창성 × 0.3 + 문화의의 × 0.2 + 기술 × 0.15) × 0.7</code>
+                  </div>
+                  <div class="bg-gradient-to-r from-purple-900 to-cyan-900 bg-opacity-20 rounded-xl p-4 border border-purple-500 border-opacity-30">
+                      <div class="font-bold text-white mb-2">최종: 가치 산출</div>
+                      <code class="text-gold">최종 가치 = 기본 가치 × (1 + 종합점수/10)</code>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <style>
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    }
+  </style>
+  
+  <script>
+    // 실시간 가치 계산
+    function calculateValue() {
+      // 입력값 가져오기
+      const materialCost = parseFloat(document.getElementById('materialCost').value) || 0;
+      const laborHours = parseFloat(document.getElementById('laborHours').value) || 0;
+      const marketDemand = parseFloat(document.getElementById('marketDemand').value) || 0;
+      const rarity = parseFloat(document.getElementById('rarity').value) || 0;
+      const artisticQuality = parseFloat(document.getElementById('artisticQuality').value) || 0;
+      const originality = parseFloat(document.getElementById('originality').value) || 0;
+      const culturalSignificance = parseFloat(document.getElementById('culturalSignificance').value) || 0;
+      const technicalExcellence = parseFloat(document.getElementById('technicalExcellence').value) || 0;
+      
+      // 기본 가치
+      const baseValue = materialCost + (laborHours * 50000);
+      
+      // 정량적 점수 (30%)
+      const quantScore = ((marketDemand * 0.5 + rarity * 0.5) * 0.3);
+      
+      // 정성적 점수 (70%)
+      const qualScore = ((artisticQuality * 0.35 + originality * 0.3 + culturalSignificance * 0.2 + technicalExcellence * 0.15) * 0.7);
+      
+      // 종합 점수
+      const totalScore = quantScore + qualScore;
+      
+      // 최종 가치
+      const estimatedValue = Math.round(baseValue * (1 + totalScore / 10));
+      
+      // UI 업데이트
+      document.getElementById('baseValue').textContent = formatPrice(baseValue);
+      document.getElementById('quantScore').textContent = quantScore.toFixed(1);
+      document.getElementById('qualScore').textContent = qualScore.toFixed(1);
+      document.getElementById('totalScore').textContent = totalScore.toFixed(1);
+      document.getElementById('estimatedValue').textContent = formatPrice(estimatedValue);
+    }
+    
+    // 슬라이더 값 업데이트
+    function updateSliderValue(id) {
+      const slider = document.getElementById(id);
+      const valueDisplay = document.getElementById(id + 'Value');
+      valueDisplay.textContent = slider.value + '/100';
+      calculateValue();
+    }
+    
+    // 가격 포맷팅
+    function formatPrice(price) {
+      if (price >= 100000000) return (price / 100000000).toFixed(1) + '억원';
+      else if (price >= 10000) return (price / 10000).toFixed(0) + '만원';
+      return price.toLocaleString() + '원';
+    }
+    
+    // 이벤트 리스너 등록
+    document.addEventListener('DOMContentLoaded', function() {
+      const sliders = ['marketDemand', 'rarity', 'artisticQuality', 'originality', 'culturalSignificance', 'technicalExcellence'];
+      
+      sliders.forEach(id => {
+        const slider = document.getElementById(id);
+        slider.addEventListener('input', () => updateSliderValue(id));
+      });
+      
+      document.getElementById('materialCost').addEventListener('input', calculateValue);
+      document.getElementById('laborHours').addEventListener('input', calculateValue);
+      
+      // 폼 제출
+      document.getElementById('valuationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('가치평가가 저장되었습니다!');
+      });
+      
+      // 초기 계산
+      calculateValue();
+    });
+  </script>
+  `;
+  
+  return c.html(getLayout(content, 'AI 가치산정 시스템 - GALLERYPIA'))
+})
+
+app.post('/api/mint-nft', async (c) => {
+  try {
+    const { artwork_id, wallet_address, price } = await c.req.json()
+    
+    // 작품 상태 업데이트
+    await c.env.DB.prepare(`
+      UPDATE artworks 
+      SET is_minted = 1,
+          nft_token_id = ?,
+          blockchain_network = 'Ethereum',
+          status = 'minted',
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `).bind(`TOKEN_${Date.now()}`, artwork_id).run()
+    
+    // 트랜잭션 기록
+    await c.env.DB.prepare(`
+      INSERT INTO transactions (artwork_id, transaction_type, to_address, price, currency, blockchain_network, status)
+      VALUES (?, 'mint', ?, ?, 'ETH', 'Ethereum', 'completed')
+    `).bind(artwork_id, wallet_address, price / 1000000).run()
+    
+    return c.json({ success: true, message: 'NFT 민팅이 완료되었습니다.' })
+  } catch (error: any) {
+    return c.json({ success: false, error: error.message }, 500)
+  }
+})
+
+// NFT 민팅 페이지
+app.get('/mint', (c) => {
+  const content = `
+  <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+              <h1 class="text-6xl font-black mb-4">
+                  <span class="text-gradient">NFT</span> <span class="text-white">민팅</span>
+              </h1>
+              <p class="text-gray-400 text-lg">가치평가가 완료된 작품을 NFT로 발행하세요</p>
+          </div>
+          
+          <div id="mintContent" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              <p class="text-gray-400 text-center col-span-full">로딩 중...</p>
+          </div>
+      </div>
+  </section>
+  
+  <script>
+    async function loadMintableArtworks() {
+      try {
+        const response = await axios.get('/api/artworks?status=approved&limit=20');
+        const artworks = response.data.data || [];
+        
+        const content = document.getElementById('mintContent');
+        if (artworks.length === 0) {
+          content.innerHTML = '<p class="text-gray-400 text-center col-span-full">민팅 가능한 작품이 없습니다.</p>';
+          return;
+        }
+        
+        content.innerHTML = artworks.map(artwork => \`
+          <div class="card-nft rounded-3xl overflow-hidden">
+              <div class="relative aspect-square bg-gray-900 overflow-hidden">
+                  <img src="\${artwork.image_url}" alt="\${artwork.title}" class="w-full h-full object-cover img-nft">
+                  \${artwork.is_minted ? \`
+                  <div class="absolute top-4 left-4">
+                      <span class="px-3 py-1.5 bg-green-600 text-white text-xs font-bold rounded-full flex items-center">
+                          <i class="fas fa-check-circle mr-1.5"></i>민팅 완료
+                      </span>
+                  </div>
+                  \` : \`
+                  <div class="absolute top-4 left-4">
+                      <span class="px-3 py-1.5 bg-yellow-600 text-white text-xs font-bold rounded-full flex items-center">
+                          <i class="fas fa-clock mr-1.5"></i>민팅 가능
+                      </span>
+                  </div>
+                  \`}
+              </div>
+              <div class="p-6">
+                  <h3 class="font-bold text-xl text-white mb-3">\${artwork.title}</h3>
+                  <div class="flex items-center mb-4">
+                      <img src="\${artwork.artist_profile_image}" class="w-8 h-8 rounded-full mr-2 object-cover border border-white border-opacity-20">
+                      <span class="text-sm text-gray-400 font-medium">\${artwork.artist_name}</span>
+                  </div>
+                  
+                  <div class="bg-white bg-opacity-5 rounded-xl p-4 mb-4">
+                      <div class="text-xs text-gray-500 mb-2">AI 산정가</div>
+                      <div class="font-black text-lg text-gradient mb-3">\${formatPrice(artwork.estimated_value)}</div>
+                  </div>
+                  
+                  \${!artwork.is_minted ? \`
+                  <button onclick="mintNFT(\${artwork.id}, '\${artwork.title}', \${artwork.estimated_value})" class="w-full btn-neon px-4 py-3 rounded-xl text-white font-bold text-sm">
+                      <i class="fas fa-hammer mr-2"></i>
+                      NFT 민팅하기
+                  </button>
+                  \` : \`
+                  <a href="/artwork/\${artwork.id}" class="block w-full text-center px-4 py-3 rounded-xl bg-white bg-opacity-5 text-white font-bold text-sm hover:bg-opacity-10 transition-all neon-border">
+                      <i class="fas fa-eye mr-2"></i>
+                      상세보기
+                  </a>
+                  \`}
+              </div>
+          </div>
+        \`).join('');
+      } catch (error) {
+        document.getElementById('mintContent').innerHTML = '<p class="text-red-500 text-center col-span-full">데이터를 불러오는데 실패했습니다.</p>';
+      }
+    }
+    
+    function formatPrice(price) {
+      if (price >= 100000000) return (price / 100000000).toFixed(1) + '억원';
+      else if (price >= 10000) return (price / 10000).toFixed(0) + '만원';
+      return price.toLocaleString() + '원';
+    }
+    
+    async function mintNFT(artworkId, title, price) {
+      if (!currentAccount) {
+        alert('먼저 메타마스크 지갑을 연결해주세요.');
+        await connectMetaMask();
+        return;
+      }
+      
+      try {
+        const confirm = window.confirm(\`"\${title}"을(를) NFT로 민팅하시겠습니까?\\n\\n산정가: \${formatPrice(price)}\\n가스비가 발생할 수 있습니다.\`);
+        if (!confirm) return;
+        
+        alert('NFT 민팅이 시작되었습니다.');
+        
+        const response = await axios.post('/api/mint-nft', {
+          artwork_id: artworkId,
+          wallet_address: currentAccount,
+          price: price
+        });
+        
+        if (response.data.success) {
+          alert('NFT 민팅이 완료되었습니다!');
+          location.reload();
+        }
+      } catch (error) {
+        console.error('민팅 실패:', error);
+        alert('NFT 민팅에 실패했습니다. 다시 시도해주세요.');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadMintableArtworks);
+  </script>
+  `;
+  
+  return c.html(getLayout(content, 'NFT 민팅 - GALLERYPIA'))
+})
+
+app.get('/artists', (c) => {
+  const content = `
+  <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 class="text-6xl font-black mb-4">
+              <span class="text-gradient">아티스트</span>
+          </h1>
+          <p class="text-gray-400 mb-12 text-lg">블록체인 기반 NFT 작품을 창작하는 아티스트들</p>
+          
+          <div id="artistsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <p class="text-gray-400 text-center col-span-full">로딩 중...</p>
+          </div>
+      </div>
+  </section>
+  
+  <script>
+    async function loadArtists() {
+      try {
+        const response = await axios.get('/api/artists');
+        const artists = response.data.data || [];
+        
+        const list = document.getElementById('artistsList');
+        if (artists.length === 0) {
+          list.innerHTML = '<p class="text-gray-400 text-center col-span-full">등록된 아티스트가 없습니다.</p>';
+          return;
+        }
+        
+        list.innerHTML = artists.map(artist => \`
+          <div class="card-nft rounded-3xl overflow-hidden">
+              <div class="relative h-48 bg-gradient-to-br from-purple-900 to-cyan-900">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+              </div>
+              <div class="p-6 -mt-16 relative z-10">
+                  <div class="w-24 h-24 rounded-full border-4 border-black mb-4 overflow-hidden bg-gray-800">
+                      <img src="\${artist.profile_image}" alt="\${artist.name}" class="w-full h-full object-cover">
+                  </div>
+                  <h3 class="font-bold text-2xl text-white mb-2">\${artist.name}</h3>
+                  <p class="text-gray-400 text-sm mb-4">\${artist.bio || '아티스트 소개'}</p>
+                  
+                  <div class="grid grid-cols-3 gap-4 mb-4">
+                      <div class="text-center">
+                          <div class="text-2xl font-bold text-gradient">\${artist.artwork_count || 0}</div>
+                          <div class="text-xs text-gray-500">작품</div>
+                      </div>
+                      <div class="text-center">
+                          <div class="text-2xl font-bold text-gradient">\${artist.exhibitions_count || 0}</div>
+                          <div class="text-xs text-gray-500">전시</div>
+                      </div>
+                      <div class="text-center">
+                          <div class="text-2xl font-bold text-gradient">\${artist.awards_count || 0}</div>
+                          <div class="text-xs text-gray-500">수상</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        \`).join('');
+      } catch (error) {
+        document.getElementById('artistsList').innerHTML = '<p class="text-red-500 text-center col-span-full">데이터를 불러오는데 실패했습니다.</p>';
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadArtists);
+  </script>
+  `;
+  
+  return c.html(getLayout(content, '아티스트 - GALLERYPIA'))
+})
+
+app.get('/collections', (c) => {
+  const content = `
+  <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 class="text-6xl font-black mb-4">
+              <span class="text-gradient">컬렉션</span>
+          </h1>
+          <p class="text-gray-400 mb-12 text-lg">큐레이터가 엄선한 NFT 작품 컬렉션</p>
+          
+          <div id="collectionsList" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <p class="text-gray-400 text-center col-span-full">로딩 중...</p>
+          </div>
+      </div>
+  </section>
+  
+  <script>
+    async function loadCollections() {
+      try {
+        const response = await axios.get('/api/collections');
+        const collections = response.data.data || [];
+        
+        const list = document.getElementById('collectionsList');
+        if (collections.length === 0) {
+          list.innerHTML = '<p class="text-gray-400 text-center col-span-full">등록된 컬렉션이 없습니다.</p>';
+          return;
+        }
+        
+        list.innerHTML = collections.map(collection => \`
+          <div class="card-nft rounded-3xl overflow-hidden">
+              <div class="relative h-64 bg-gray-900">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                  <div class="absolute bottom-4 left-4 right-4">
+                      <h3 class="font-bold text-3xl text-white mb-2">\${collection.name}</h3>
+                  </div>
+              </div>
+              <div class="p-6">
+                  <p class="text-gray-400 mb-4">\${collection.description || '컬렉션 설명'}</p>
+                  
+                  <div class="flex items-center justify-between mb-4">
+                      <div>
+                          <div class="text-xs text-gray-500 mb-1">큐레이터</div>
+                          <div class="text-white font-semibold">\${collection.curator_name || '익명'}</div>
+                      </div>
+                      <div class="text-right">
+                          <div class="text-xs text-gray-500 mb-1">작품 수</div>
+                          <div class="text-2xl font-black text-gradient">\${collection.artwork_count || 0}</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        \`).join('');
+      } catch (error) {
+        document.getElementById('collectionsList').innerHTML = '<p class="text-red-500 text-center col-span-full">데이터를 불러오는데 실패했습니다.</p>';
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadCollections);
+  </script>
+  `;
+  
+  return c.html(getLayout(content, '컬렉션 - GALLERYPIA'))
+})
+
+app.get('/about', (c) => {
+  const content = `
+  <section class="py-16">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16">
+              <h1 class="text-6xl font-black mb-4">
+                  <span class="text-gradient">GALLERYPIA</span>
+              </h1>
+              <p class="text-xl text-gray-400">NFT Art Museum Platform</p>
+          </div>
+          
+          <div class="card-nft rounded-3xl p-12 mb-12">
+              <h2 class="text-3xl font-bold text-white mb-6 text-center">Our Mission</h2>
+              <p class="text-gray-300 text-lg leading-relaxed text-center">
+                  갤러리피아는 블록체인 기술을 활용하여 미술품의 가치를 정량적, 정성적으로 평가하고<br>
+                  투명하고 신뢰할 수 있는 NFT 거래 플랫폼을 제공합니다.
+              </p>
+          </div>
+          
+          <div class="mb-16">
+              <h2 class="text-3xl font-bold text-white mb-8 text-center">Core Features</h2>
+              <div class="grid md:grid-cols-3 gap-8">
+                  <div class="card-nft rounded-2xl p-8 text-center">
+                      <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                          <i class="fas fa-calculator text-white text-2xl"></i>
+                      </div>
+                      <h3 class="text-xl font-bold text-white mb-3">AI 가치산정</h3>
+                      <p class="text-gray-400 text-sm">정량적/정성적 평가를 통한 공정한 작품 가치 산정</p>
+                  </div>
+                  
+                  <div class="card-nft rounded-2xl p-8 text-center">
+                      <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                          <i class="fas fa-cube text-white text-2xl"></i>
+                      </div>
+                      <h3 class="text-xl font-bold text-white mb-3">NFT 민팅</h3>
+                      <p class="text-gray-400 text-sm">블록체인 기반의 안전한 NFT 발행 시스템</p>
+                  </div>
+                  
+                  <div class="card-nft rounded-2xl p-8 text-center">
+                      <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                          <i class="fas fa-shield-alt text-white text-2xl"></i>
+                      </div>
+                      <h3 class="text-xl font-bold text-white mb-3">저작권 보호</h3>
+                      <p class="text-gray-400 text-sm">블록체인을 통한 투명한 저작권 관리</p>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="card-nft rounded-3xl p-12 mb-12">
+              <h2 class="text-3xl font-bold text-white mb-6">Research Background</h2>
+              <div class="space-y-6 text-gray-300">
+                  <p class="leading-relaxed">갤러리피아는 블록체인 기반의 미술품 가치 평가 프레임워크 연구를 기반으로 개발되었습니다.</p>
+                  <div class="bg-white bg-opacity-5 rounded-xl p-6">
+                      <h3 class="text-xl font-bold text-white mb-4">주요 연구 성과</h3>
+                      <ul class="space-y-3 text-sm">
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>미술품 가치 기반의 NFT 프레임워크 연구 (2024)</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>블록체인 기반의 미술 콘텐츠 저작권 관리 시스템 (2021)</span></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="text-center">
+              <h2 class="text-3xl font-bold text-white mb-8">Research Team</h2>
+              <div class="card-nft rounded-2xl p-8 inline-block">
+                  <div class="text-2xl font-bold text-gradient mb-2">남현우 교수</div>
+                  <div class="text-gray-400 mb-4">블록체인 및 NFT 연구</div>
+                  <div class="text-sm text-gray-500">한국디자인리서치 저널 게재<br>YeongJu 148 Art Square International Design Exhibition</div>
+              </div>
+          </div>
+      </div>
+  </section>
+  `;
+  
+  return c.html(getLayout(content, '소개 - GALLERYPIA'))
+})
+
+app.get('/collections', (c) => c.html(getLayout('<div class="py-20 text-center"><h1 class="text-4xl font-bold text-white mb-4">컬렉션</h1><p class="text-gray-400">준비 중입니다.</p></div>')))
+app.get('/about', (c) => c.html(getLayout('<div class="py-20 text-center"><h1 class="text-4xl font-bold text-white mb-4">소개</h1><p class="text-gray-400">준비 중입니다.</p></div>')))
+
+function formatPrice(price: number): string {
+  if (price >= 100000000) return (price / 100000000).toFixed(1) + '억원';
+  else if (price >= 10000) return (price / 10000).toFixed(0) + '만원';
+  return price.toLocaleString() + '원';
+}
+
+export default app

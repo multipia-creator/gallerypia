@@ -1,0 +1,69 @@
+# prod
+dist/
+
+# dev
+.yarn/
+!.yarn/releases
+.vscode/*
+!.vscode/launch.json
+!.vscode/*.code-snippets
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf
+
+# deps
+node_modules/
+.wrangler
+
+# env
+.env
+.env.production
+.dev.vars
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# misc
+.DS_Store
+Thumbs.db
+
+# Security - NEVER COMMIT
+*.key
+*.pem
+*.crt
+secrets/
+.env.local
+.env.development
+
+# State files
+.dns-state
+pre-migration-schema.sql
+post-migration-tables.txt
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+
+# Backup files
+*.backup
+*.bak
+*.tar.gz
+*.zip
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE extras
+*.swp
+*.swo
+*~
+.env.cloudflare

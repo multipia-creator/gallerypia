@@ -1,0 +1,128 @@
+{
+  "name": "갤러리피아 - NFT 미술품 가치산정 플랫폼",
+  "short_name": "갤러리피아",
+  "description": "AI 기반 NFT 미술품 가치 산정 및 아티스트 육성 플랫폼",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["art", "nft", "auction", "marketplace"],
+  "lang": "ko-KR",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "갤러리피아 홈 화면"
+    },
+    {
+      "src": "/screenshots/gallery.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "작품 갤러리"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "갤러리",
+      "short_name": "갤러리",
+      "description": "작품 갤러리 보기",
+      "url": "/gallery",
+      "icons": [{ "src": "/icons/shortcut-gallery.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "경매",
+      "short_name": "경매",
+      "description": "진행중인 경매 보기",
+      "url": "/auctions",
+      "icons": [{ "src": "/icons/shortcut-auction.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "랭킹",
+      "short_name": "랭킹",
+      "description": "아티스트 랭킹 보기",
+      "url": "/leaderboard",
+      "icons": [{ "src": "/icons/shortcut-ranking.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "내 프로필",
+      "short_name": "프로필",
+      "description": "내 프로필 보기",
+      "url": "/profile",
+      "icons": [{ "src": "/icons/shortcut-profile.png", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "image",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  }
+}

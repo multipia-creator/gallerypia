@@ -1,0 +1,271 @@
+/**
+ * Text Accessibility Styles
+ * Font size controls, line height, dyslexia-friendly fonts
+ * Phase 6.9 - Low Priority UX (UX-L-045: Accessibility)
+ */
+
+/* Base Font Size Variables */
+:root {
+  --base-font-size: 16px;
+  --font-scale: 1;
+  --line-height: 1.5;
+  --letter-spacing: normal;
+  --word-spacing: normal;
+}
+
+/* Font Size Levels */
+[data-font-size="small"] {
+  --font-scale: 0.875; /* 14px */
+}
+
+[data-font-size="medium"] {
+  --font-scale: 1; /* 16px */
+}
+
+[data-font-size="large"] {
+  --font-scale: 1.125; /* 18px */
+}
+
+[data-font-size="x-large"] {
+  --font-scale: 1.25; /* 20px */
+}
+
+[data-font-size="xx-large"] {
+  --font-scale: 1.5; /* 24px */
+}
+
+/* Apply Font Scaling */
+[data-font-size] body {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+}
+
+[data-font-size] h1 {
+  font-size: calc(2.5rem * var(--font-scale));
+}
+
+[data-font-size] h2 {
+  font-size: calc(2rem * var(--font-scale));
+}
+
+[data-font-size] h3 {
+  font-size: calc(1.75rem * var(--font-scale));
+}
+
+[data-font-size] h4 {
+  font-size: calc(1.5rem * var(--font-scale));
+}
+
+[data-font-size] h5 {
+  font-size: calc(1.25rem * var(--font-scale));
+}
+
+[data-font-size] h6 {
+  font-size: calc(1rem * var(--font-scale));
+}
+
+[data-font-size] p,
+[data-font-size] li,
+[data-font-size] td,
+[data-font-size] th {
+  font-size: calc(1rem * var(--font-scale));
+}
+
+[data-font-size] small,
+[data-font-size] .text-sm {
+  font-size: calc(0.875rem * var(--font-scale));
+}
+
+/* Increased Line Height Mode */
+[data-line-height="increased"] {
+  --line-height: 1.8;
+}
+
+[data-line-height="increased"] body,
+[data-line-height="increased"] p,
+[data-line-height="increased"] li {
+  line-height: var(--line-height);
+}
+
+/* Increased Letter Spacing Mode */
+[data-letter-spacing="increased"] {
+  --letter-spacing: 0.05em;
+}
+
+[data-letter-spacing="increased"] body,
+[data-letter-spacing="increased"] p,
+[data-letter-spacing="increased"] li,
+[data-letter-spacing="increased"] h1,
+[data-letter-spacing="increased"] h2,
+[data-letter-spacing="increased"] h3 {
+  letter-spacing: var(--letter-spacing);
+}
+
+/* Increased Word Spacing Mode */
+[data-word-spacing="increased"] {
+  --word-spacing: 0.2em;
+}
+
+[data-word-spacing="increased"] body,
+[data-word-spacing="increased"] p,
+[data-word-spacing="increased"] li {
+  word-spacing: var(--word-spacing);
+}
+
+/* Dyslexia-Friendly Font */
+[data-dyslexia-font="true"] {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', 'Arial', sans-serif;
+}
+
+[data-dyslexia-font="true"] * {
+  font-family: inherit;
+}
+
+/* Text Justification Control */
+[data-text-align="left"] p,
+[data-text-align="left"] li,
+[data-text-align="left"] td {
+  text-align: left !important;
+  text-justify: none;
+}
+
+/* Paragraph Spacing */
+[data-paragraph-spacing="increased"] p {
+  margin-bottom: 1.5em;
+}
+
+[data-paragraph-spacing="increased"] li {
+  margin-bottom: 0.75em;
+}
+
+/* Heading Spacing */
+[data-heading-spacing="increased"] h1,
+[data-heading-spacing="increased"] h2,
+[data-heading-spacing="increased"] h3,
+[data-heading-spacing="increased"] h4,
+[data-heading-spacing="increased"] h5,
+[data-heading-spacing="increased"] h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+/* Reading Width Limit */
+[data-reading-width="limited"] p,
+[data-reading-width="limited"] li,
+[data-reading-width="limited"] .content {
+  max-width: 70ch; /* Optimal reading width: 45-75 characters */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Focus Reading Mode - Highlight current paragraph */
+[data-focus-reading="true"] p:hover {
+  background-color: rgba(255, 255, 0, 0.1);
+  padding: 0.5em;
+  border-radius: 4px;
+}
+
+/* Underline Links for Better Visibility */
+[data-underline-links="true"] a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+[data-underline-links="true"] a:hover {
+  text-decoration: none;
+}
+
+/* Remove Text Hyphenation */
+[data-no-hyphenation="true"] {
+  hyphens: none;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+}
+
+/* Monospace Font for Code */
+[data-monospace-code="true"] code,
+[data-monospace-code="true"] pre {
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: calc(0.9rem * var(--font-scale));
+}
+
+/* Text Transform Reset */
+[data-no-text-transform="true"] * {
+  text-transform: none !important;
+}
+
+/* Prevent Text Selection (for specific elements) */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+/* Allow Text Selection (override) */
+.allow-select {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+}
+
+/* Font Weight Adjustments */
+[data-font-weight="light"] {
+  font-weight: 300;
+}
+
+[data-font-weight="normal"] {
+  font-weight: 400;
+}
+
+[data-font-weight="bold"] {
+  font-weight: 700;
+}
+
+/* Print-Friendly Text */
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+    background: #ffffff;
+  }
+  
+  a {
+    text-decoration: underline;
+    color: #000000;
+  }
+  
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
+
+/* Screen Reader Only Text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip to Main Content Link */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1em;
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.skip-to-main:focus {
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+}

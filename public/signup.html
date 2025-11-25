@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - GalleryPia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+            colors: {
+              primary: { 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9' },
+              dark: { 900: '#0a0a0a', 800: '#1a1a1a', 700: '#2a2a2a' }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      * { font-family: 'Outfit', sans-serif; }
+      body { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); min-height: 100vh; }
+      .glass-card {
+        background: rgba(26, 26, 46, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1);
+      }
+      .input-glow:focus {
+        border-color: #8b5cf6;
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .btn-gradient {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-gradient:hover {
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+      }
+      .social-btn {
+        transition: all 0.3s ease;
+      }
+      .social-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+      .fade-in {
+        animation: fadeIn 0.3s ease-in;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl">
+        <!-- Logo & Title -->
+        <div class="text-center mb-8">
+            <div class="inline-block p-4 glass-card rounded-2xl mb-4">
+                <i class="fas fa-palette text-5xl gradient-text"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-white mb-2">GalleryPia</h1>
+            <p class="text-gray-400">NFT Art Museum에 오신 것을 환영합니다</p>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">회원가입</h2>
+            
+            <!-- Alert Message -->
+            <div id="alertMessage" class="hidden"></div>
+            
+            <!-- Social Login Buttons (Top Priority) -->
+            <div class="mb-8">
+                <p class="text-sm text-gray-400 text-center mb-4">
+                    <i class="fas fa-bolt mr-2 text-yellow-400"></i>간편 회원가입
+                </p>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Google -->
+                    <button onclick="loginWithGoogle()" 
+                            class="social-btn flex items-center justify-center px-4 py-3 bg-white text-gray-800 rounded-xl font-medium">
+                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span class="text-sm">Google</span>
+                    </button>
+
+                    <!-- Kakao -->
+                    <button onclick="loginWithKakao()" 
+                            class="social-btn flex items-center justify-center px-4 py-3 rounded-xl font-medium"
+                            style="background-color: #FEE500; color: #000000;">
+                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3C6.48 3 2 6.58 2 11c0 2.89 1.97 5.43 4.93 6.85-.2.73-.77 2.76-.89 3.2-.14.52.19.51.4.37.17-.11 2.59-1.79 3.57-2.47.65.09 1.31.13 1.99.13 5.52 0 10-3.58 10-8S17.52 3 12 3z"/>
+                        </svg>
+                        <span class="text-sm">카카오톡</span>
+                    </button>
+
+                    <!-- Naver -->
+                    <button onclick="loginWithNaver()" 
+                            class="social-btn flex items-center justify-center px-4 py-3 rounded-xl font-medium"
+                            style="background-color: #03C75A; color: white;">
+                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727v12.845z"/>
+                        </svg>
+                        <span class="text-sm">네이버</span>
+                    </button>
+
+                    <!-- Instagram -->
+                    <button onclick="loginWithInstagram()" 
+                            class="social-btn flex items-center justify-center px-4 py-3 rounded-xl font-medium text-white"
+                            style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">
+                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                        <span class="text-sm">Instagram</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-700"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 text-gray-400 bg-transparent">또는 이메일로 가입</span>
+                </div>
+            </div>
+            
+            <form id="signupForm" class="space-y-5">
+                <!-- Account Type (Role) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        <i class="fas fa-user-tag mr-2"></i>계정 유형
+                    </label>
+                    <select id="role" required onchange="handleRoleChange()"
+                            class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none">
+                        <option value="">선택하세요</option>
+                        <option value="buyer">구매자 (Buyer) - 일반 회원</option>
+                        <option value="artist">작가 (Artist) - NFT 작품 등록</option>
+                        <option value="expert">전문가 (Expert) - 작품 평가</option>
+                        <option value="museum">뮤지엄 (Museum) - 전시 기획</option>
+                        <option value="gallery">갤러리 (Gallery) - 작품 큐레이션</option>
+                    </select>
+                </div>
+
+                <!-- Basic Fields (All Users) -->
+                <div id="basicFields">
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-envelope mr-2"></i>이메일
+                        </label>
+                        <input type="email" id="email" required
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="your@email.com">
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-user mr-2"></i>사용자명
+                        </label>
+                        <input type="text" id="username" required
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="username">
+                    </div>
+
+                    <!-- Full Name / Organization Name -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2" id="nameLabel">
+                            <i class="fas fa-id-card mr-2"></i>이름
+                        </label>
+                        <input type="text" id="full_name" required
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="홍길동">
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-phone mr-2"></i>전화번호
+                        </label>
+                        <input type="tel" id="phone"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="010-1234-5678">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-lock mr-2"></i>비밀번호
+                        </label>
+                        <input type="password" id="password" required
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="••••••••">
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-lock mr-2"></i>비밀번호 확인
+                        </label>
+                        <input type="password" id="confirm_password" required
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="••••••••">
+                    </div>
+                </div>
+
+                <!-- Museum/Gallery Specific Fields -->
+                <div id="organizationFields" class="hidden fade-in space-y-4">
+                    <div class="bg-purple-500 bg-opacity-10 border border-purple-500 border-opacity-30 rounded-lg p-4">
+                        <p class="text-sm text-purple-400 font-semibold mb-1">
+                            <i class="fas fa-building mr-2"></i>기관 정보
+                        </p>
+                        <p class="text-xs text-gray-400">뮤지엄/갤러리 운영을 위한 사업자 정보를 입력해주세요</p>
+                    </div>
+
+                    <!-- Organization Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-building mr-2"></i>기관 유형
+                        </label>
+                        <select id="organization_type"
+                                class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none">
+                            <option value="">선택하세요</option>
+                            <option value="public">공공 기관</option>
+                            <option value="private">사립 기관</option>
+                            <option value="commercial">상업 갤러리</option>
+                            <option value="nonprofit">비영리 단체</option>
+                        </select>
+                    </div>
+
+                    <!-- Organization Address -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-map-marker-alt mr-2"></i>기관 주소
+                        </label>
+                        <input type="text" id="organization_address"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="서울특별시 종로구...">
+                    </div>
+
+                    <!-- Organization Website -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-globe mr-2"></i>기관 웹사이트
+                        </label>
+                        <input type="url" id="organization_website"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="https://example.com">
+                    </div>
+
+                    <!-- Organization Contact Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-envelope-open-text mr-2"></i>기관 대표 이메일
+                        </label>
+                        <input type="email" id="organization_contact_email"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="contact@example.com">
+                    </div>
+
+                    <!-- Organization Phone -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-phone-office mr-2"></i>기관 대표 전화
+                        </label>
+                        <input type="tel" id="organization_phone"
+                               class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none"
+                               placeholder="02-1234-5678">
+                    </div>
+
+                    <!-- Organization Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-align-left mr-2"></i>기관 소개
+                        </label>
+                        <textarea id="organization_description" rows="3"
+                                  class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none resize-none"
+                                  placeholder="기관의 소개 및 운영 방침을 입력해주세요"></textarea>
+                    </div>
+                </div>
+
+                <!-- Individual User Bio -->
+                <div id="bioField" class="hidden fade-in">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        <i class="fas fa-align-left mr-2"></i>소개 (선택)
+                    </label>
+                    <textarea id="bio" rows="3"
+                              class="w-full px-4 py-3 bg-dark-800 border border-gray-700 rounded-xl text-white input-glow transition focus:outline-none resize-none"
+                              placeholder="자기소개를 입력해주세요"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" 
+                        class="w-full py-4 btn-gradient text-white font-semibold rounded-xl mt-6">
+                    <i class="fas fa-user-plus mr-2"></i>회원가입
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-400">
+                    이미 계정이 있으신가요?
+                    <a href="/login" class="text-primary-500 hover:text-primary-400 font-semibold ml-1">
+                        로그인 →
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="/" class="text-gray-400 hover:text-white transition">
+                <i class="fas fa-arrow-left mr-2"></i>홈으로 돌아가기
+            </a>
+        </div>
+    </div>
+
+    <script>
+      // Handle role change to show/hide organization fields
+      function handleRoleChange() {
+        const role = document.getElementById('role').value;
+        const organizationFields = document.getElementById('organizationFields');
+        const bioField = document.getElementById('bioField');
+        const nameLabel = document.getElementById('nameLabel');
+        const fullNameInput = document.getElementById('full_name');
+        
+        if (role === 'museum' || role === 'gallery') {
+          // Show organization fields
+          organizationFields.classList.remove('hidden');
+          bioField.classList.add('hidden');
+          
+          // Change label to organization name
+          nameLabel.innerHTML = '<i class="fas fa-building mr-2"></i>기관명';
+          fullNameInput.placeholder = '예) 서울 미술관, ABC 갤러리';
+        } else if (role !== '') {
+          // Show bio field for individual users
+          organizationFields.classList.add('hidden');
+          bioField.classList.remove('hidden');
+          
+          // Change label back to name
+          nameLabel.innerHTML = '<i class="fas fa-id-card mr-2"></i>이름';
+          fullNameInput.placeholder = '홍길동';
+        } else {
+          // Hide all extra fields if no role selected
+          organizationFields.classList.add('hidden');
+          bioField.classList.add('hidden');
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="/static/auth-improved.js"></script>
+    <script src="/static/social-login.js"></script>
+</body>
+</html>

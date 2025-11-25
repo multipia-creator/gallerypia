@@ -1,0 +1,5 @@
+-- Sample exhibition data
+INSERT OR IGNORE INTO exhibitions (id, title, description, venue_name, venue_address, start_date, end_date, poster_image, blockchain_hash, status) VALUES
+(1, 'Digital Renaissance 2025', 'NFT 미술의 새로운 시대를 여는 디지털 르네상스 특별전. 세계적인 NFT 아티스트들의 작품을 한자리에서 만나보세요.', '서울현대미술관', '서울특별시 종로구 삼청로 30', '2025-01-01', '2025-03-31', 'https://via.placeholder.com/800x600/1a1a1a/8b5cf6?text=Digital+Renaissance', '0x1234...abcd', 'active'),
+(2, 'Korean NFT Masters', '한국 대표 작가들의 NFT 작품전. 전통과 현대가 만나는 디지털 아트의 향연.', '국립현대미술관', '서울특별시 종로구 삼청로 30', '2025-02-01', '2025-04-30', 'https://via.placeholder.com/800x600/1a1a1a/06b6d4?text=Korean+Masters', '0x5678...efgh', 'active'),
+(3, 'Metaverse Gallery', '메타버스에서 펼쳐지는 가상 전시. 디지털 공간에서 경험하는 새로운 미술.', '메타버스 갤러리', 'Virtual Space', '2025-01-15', '2025-12-31', 'https://via.placeholder.com/800x600/1a1a1a/f59e0b?text=Metaverse+Gallery', '0x9abc...ijkl', 'active');

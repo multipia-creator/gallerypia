@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 대시보드 - 갤러리피아</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-shield-alt text-blue-500 text-2xl"></i>
+                    <h1 class="text-2xl font-bold">관리자 대시보드</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="adminName" class="text-gray-400">관리자</span>
+                    <button onclick="logout()" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>로그아웃
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Users -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">총 사용자</p>
+                        <p id="totalUsers" class="text-3xl font-bold text-white mt-2">-</p>
+                    </div>
+                    <div class="bg-blue-500 bg-opacity-20 p-4 rounded-full">
+                        <i class="fas fa-users text-blue-500 text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-4">
+                    <i class="fas fa-arrow-up"></i>
+                    <span id="usersGrowth">0%</span> 이번 주
+                </p>
+            </div>
+
+            <!-- Total Artworks -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">총 작품</p>
+                        <p id="totalArtworks" class="text-3xl font-bold text-white mt-2">-</p>
+                    </div>
+                    <div class="bg-purple-500 bg-opacity-20 p-4 rounded-full">
+                        <i class="fas fa-palette text-purple-500 text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-4">
+                    <i class="fas fa-arrow-up"></i>
+                    <span id="artworksGrowth">0%</span> 이번 주
+                </p>
+            </div>
+
+            <!-- Pending Approvals -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">승인 대기</p>
+                        <p id="pendingApprovals" class="text-3xl font-bold text-white mt-2">-</p>
+                    </div>
+                    <div class="bg-yellow-500 bg-opacity-20 p-4 rounded-full">
+                        <i class="fas fa-clock text-yellow-500 text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-yellow-500 text-sm mt-4">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    즉시 처리 필요
+                </p>
+            </div>
+
+            <!-- System Health -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">시스템 상태</p>
+                        <p id="systemHealth" class="text-3xl font-bold text-green-500 mt-2">정상</p>
+                    </div>
+                    <div class="bg-green-500 bg-opacity-20 p-4 rounded-full">
+                        <i class="fas fa-heartbeat text-green-500 text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm mt-4">
+                    <span id="uptime">99.9%</span> Uptime
+                </p>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- User Growth Chart -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-bold mb-4">사용자 증가 추세</h3>
+                <canvas id="userGrowthChart"></canvas>
+            </div>
+
+            <!-- Artwork Status Chart -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h3 class="text-xl font-bold mb-4">작품 상태 분포</h3>
+                <canvas id="artworkStatusChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="bg-gray-800 rounded-lg border border-gray-700 mb-8">
+            <div class="flex border-b border-gray-700">
+                <button onclick="switchTab('users')" id="tab-users" class="tab-btn px-6 py-4 font-semibold border-b-2 border-blue-500 text-blue-500">
+                    <i class="fas fa-users mr-2"></i>사용자 관리
+                </button>
+                <button onclick="switchTab('artworks')" id="tab-artworks" class="tab-btn px-6 py-4 font-semibold text-gray-400 hover:text-white">
+                    <i class="fas fa-palette mr-2"></i>작품 승인
+                </button>
+                <button onclick="switchTab('system')" id="tab-system" class="tab-btn px-6 py-4 font-semibold text-gray-400 hover:text-white">
+                    <i class="fas fa-cog mr-2"></i>시스템 설정
+                </button>
+                <button onclick="switchTab('logs')" id="tab-logs" class="tab-btn px-6 py-4 font-semibold text-gray-400 hover:text-white">
+                    <i class="fas fa-list mr-2"></i>로그
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="p-6">
+                <!-- Users Tab -->
+                <div id="content-users" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">사용자 목록</h3>
+                        <div class="flex space-x-4">
+                            <input type="text" id="userSearch" placeholder="사용자 검색..." 
+                                class="px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-blue-500">
+                            <button onclick="refreshUsers()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">
+                                <i class="fas fa-sync-alt mr-2"></i>새로고침
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-700">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">ID</th>
+                                    <th class="px-4 py-3 text-left">이메일</th>
+                                    <th class="px-4 py-3 text-left">이름</th>
+                                    <th class="px-4 py-3 text-left">역할</th>
+                                    <th class="px-4 py-3 text-left">가입일</th>
+                                    <th class="px-4 py-3 text-left">작업</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody" class="divide-y divide-gray-700">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Artworks Tab -->
+                <div id="content-artworks" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">작품 승인 대기</h3>
+                        <select id="artworkFilter" onchange="filterArtworks()" class="px-4 py-2 bg-gray-700 border border-gray-600 rounded">
+                            <option value="all">전체</option>
+                            <option value="pending">승인 대기</option>
+                            <option value="approved">승인됨</option>
+                            <option value="rejected">거부됨</option>
+                        </select>
+                    </div>
+                    <div id="artworkGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Artworks will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- System Tab -->
+                <div id="content-system" class="tab-content hidden">
+                    <h3 class="text-xl font-bold mb-6">시스템 설정</h3>
+                    <div class="space-y-6">
+                        <!-- Backup Settings -->
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h4 class="text-lg font-semibold mb-4">
+                                <i class="fas fa-database mr-2 text-blue-500"></i>백업 관리
+                            </h4>
+                            <div class="flex items-center justify-between mb-4">
+                                <span>마지막 백업: <span id="lastBackup" class="text-gray-400">-</span></span>
+                                <button onclick="triggerBackup()" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded transition">
+                                    <i class="fas fa-save mr-2"></i>수동 백업 실행
+                                </button>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                <p>자동 백업: 매일 새벽 2시 (UTC)</p>
+                                <p>보존 기간: 7일</p>
+                            </div>
+                        </div>
+
+                        <!-- Rate Limiting -->
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h4 class="text-lg font-semibold mb-4">
+                                <i class="fas fa-tachometer-alt mr-2 text-yellow-500"></i>Rate Limiting 설정
+                            </h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm mb-2">일반 API (요청/분)</label>
+                                    <input type="number" value="100" class="w-full px-4 py-2 bg-gray-600 border border-gray-500 rounded">
+                                </div>
+                                <div>
+                                    <label class="block text-sm mb-2">인증 API (요청/15분)</label>
+                                    <input type="number" value="5" class="w-full px-4 py-2 bg-gray-600 border border-gray-500 rounded">
+                                </div>
+                                <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">
+                                    설정 저장
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h4 class="text-lg font-semibold mb-4">
+                                <i class="fas fa-shield-alt mr-2 text-red-500"></i>보안 설정
+                            </h4>
+                            <div class="space-y-3">
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" checked class="form-checkbox h-5 w-5 text-blue-500">
+                                    <span>이중 인증 (2FA) 활성화</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" checked class="form-checkbox h-5 w-5 text-blue-500">
+                                    <span>로그인 시도 제한</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" checked class="form-checkbox h-5 w-5 text-blue-500">
+                                    <span>의심스러운 활동 알림</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Tab -->
+                <div id="content-logs" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">시스템 로그</h3>
+                        <button onclick="refreshLogs()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded transition">
+                            <i class="fas fa-sync-alt mr-2"></i>새로고침
+                        </button>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 font-mono text-sm overflow-y-auto" style="max-height: 500px;">
+                        <div id="logContent" class="space-y-1">
+                            <!-- Logs will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/admin-dashboard.js"></script>
+</body>
+</html>

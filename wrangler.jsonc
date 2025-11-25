@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gallerypia",
+  "compatibility_date": "2025-11-13",
+  "pages_build_output_dir": "./dist",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gallerypia-production",
+      "database_id": "b805e17e-4d81-43e5-9336-709a52c2baec"
+    }
+  ]
+}
