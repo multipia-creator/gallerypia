@@ -39,6 +39,46 @@ const translations = {
     'nav.curation': '큐레이션',
     'nav.academy': '아카데미',
     'nav.about': '소개',
+    'nav.valuation': '가치산정',
+    'nav.wallet_connect': '지갑연결',
+    'nav.mobile_menu': '모바일 메뉴',
+    
+    // Notifications
+    'notification.loading': '알림을 불러오는 중...',
+    'notification.empty': '새로운 알림이 없습니다',
+    'notification.mark_all_read': '모두 읽음 표시',
+    'notification.view_all': '모든 알림 보기',
+    
+    // User Menu
+    'user.tutorial_restart': '튜토리얼 다시보기',
+    'user.transactions': '거래 내역',
+    'user.favorites': '관심작품',
+    'user.help': '도움말',
+    
+    // Footer
+    'footer.platform_title': 'NFT 플랫폼',
+    'footer.support_title': '이용방법/지원',
+    'footer.gallery': 'NFT 갤러리',
+    'footer.artists': 'NFT 아티스트',
+    'footer.ranking': 'NFT 랭킹시스템',
+    'footer.collections': 'NFT 컬렉션',
+    'footer.ai_recommendation': 'NFT AI 추천 시스템',
+    'footer.valuation': 'NFT 미술품 가치산정 시스템',
+    'footer.usage_guide': '사이트 이용하기',
+    'footer.help': '도움말',
+    'footer.valuation_system': '가치산정 시스템',
+    'footer.support': '지원',
+    'footer.contact': '문의하기',
+    'footer.privacy': '개인정보보호',
+    'footer.description': '미술품 가치산정 기반의 투명하고 신뢰할 수 있는 NFT 플랫폼',
+    'footer.tech_transfer': '기술이전 문의:',
+    'footer.professor': '서경대학교 남현우 교수',
+    'footer.copyright': '© 2025 Imageroot All rights reserved. Powered by Hyunwoo Nam Professor.',
+    
+    // Meta
+    'meta.description': '갤러리피아 - 학술 논문 기반 과학적 NFT 미술품 가치산정 시스템. 5개 모듈 통합 평가로 투명하고 공정한 NFT 거래를 실현합니다.',
+    'meta.keywords': 'NFT, 미술품, 가치산정, 블록체인, 디지털아트, NFT갤러리, 아티스트랭킹, 큐레이션',
+    'meta.og_description': '학술 논문 기반 과학적 NFT 미술품 가치산정 플랫폼',
     
     // Gallery
     'gallery.title': '갤러리',
@@ -53,6 +93,7 @@ const translations = {
     'gallery.sort_popular': '인기순',
     'gallery.sort_price_high': '가격 높은순',
     'gallery.sort_price_low': '가격 낮은순',
+    'gallery.error': '데이터를 불러오는데 실패했습니다',
     
     // Auth
     'auth.login': '로그인',
@@ -92,6 +133,46 @@ const translations = {
     'nav.curation': 'Curation',
     'nav.academy': 'Academy',
     'nav.about': 'About',
+    'nav.valuation': 'Valuation',
+    'nav.wallet_connect': 'Connect Wallet',
+    'nav.mobile_menu': 'Mobile Menu',
+    
+    // Notifications
+    'notification.loading': 'Loading notifications...',
+    'notification.empty': 'No new notifications',
+    'notification.mark_all_read': 'Mark all as read',
+    'notification.view_all': 'View all notifications',
+    
+    // User Menu
+    'user.tutorial_restart': 'Restart Tutorial',
+    'user.transactions': 'Transaction History',
+    'user.favorites': 'Favorites',
+    'user.help': 'Help',
+    
+    // Footer
+    'footer.platform_title': 'NFT Platform',
+    'footer.support_title': 'Usage & Support',
+    'footer.gallery': 'NFT Gallery',
+    'footer.artists': 'NFT Artists',
+    'footer.ranking': 'NFT Ranking System',
+    'footer.collections': 'NFT Collections',
+    'footer.ai_recommendation': 'NFT AI Recommendation System',
+    'footer.valuation': 'NFT Art Valuation System',
+    'footer.usage_guide': 'User Guide',
+    'footer.help': 'Help',
+    'footer.valuation_system': 'Valuation System',
+    'footer.support': 'Support',
+    'footer.contact': 'Contact Us',
+    'footer.privacy': 'Privacy Policy',
+    'footer.description': 'Transparent and reliable NFT platform based on art valuation',
+    'footer.tech_transfer': 'Technology Transfer Inquiry:',
+    'footer.professor': 'Professor Hyunwoo Nam, Seokyeong University',
+    'footer.copyright': '© 2025 Imageroot All rights reserved. Powered by Hyunwoo Nam Professor.',
+    
+    // Meta
+    'meta.description': 'GalleryPia - Scientific NFT Art Valuation System Based on Academic Research. Realizes transparent and fair NFT trading with 5-module integrated evaluation.',
+    'meta.keywords': 'NFT, Art, Valuation, Blockchain, Digital Art, NFT Gallery, Artist Ranking, Curation',
+    'meta.og_description': 'Scientific NFT Art Valuation Platform Based on Academic Research',
     
     // Gallery
     'gallery.title': 'Gallery',
@@ -106,6 +187,7 @@ const translations = {
     'gallery.sort_popular': 'Popular',
     'gallery.sort_price_high': 'Price: High to Low',
     'gallery.sort_price_low': 'Price: Low to High',
+    'gallery.error': 'Failed to load data',
     
     // Auth
     'auth.login': 'Login',
@@ -145,6 +227,46 @@ const translations = {
     'nav.curation': '策展',
     'nav.academy': '学院',
     'nav.about': '关于',
+    'nav.valuation': '估值',
+    'nav.wallet_connect': '连接钱包',
+    'nav.mobile_menu': '移动菜单',
+    
+    // Notifications
+    'notification.loading': '加载通知中...',
+    'notification.empty': '没有新通知',
+    'notification.mark_all_read': '全部标记为已读',
+    'notification.view_all': '查看所有通知',
+    
+    // User Menu
+    'user.tutorial_restart': '重新开始教程',
+    'user.transactions': '交易记录',
+    'user.favorites': '收藏作品',
+    'user.help': '帮助',
+    
+    // Footer
+    'footer.platform_title': 'NFT平台',
+    'footer.support_title': '使用方法/支持',
+    'footer.gallery': 'NFT画廊',
+    'footer.artists': 'NFT艺术家',
+    'footer.ranking': 'NFT排名系统',
+    'footer.collections': 'NFT收藏',
+    'footer.ai_recommendation': 'NFT AI推荐系统',
+    'footer.valuation': 'NFT艺术品估值系统',
+    'footer.usage_guide': '网站使用指南',
+    'footer.help': '帮助',
+    'footer.valuation_system': '估值系统',
+    'footer.support': '支持',
+    'footer.contact': '联系我们',
+    'footer.privacy': '隐私政策',
+    'footer.description': '基于艺术品估值的透明可靠NFT平台',
+    'footer.tech_transfer': '技术转让咨询：',
+    'footer.professor': '韩国庆大学南贤宇教授',
+    'footer.copyright': '© 2025 Imageroot 版权所有。由南贤宇教授提供技术支持。',
+    
+    // Meta
+    'meta.description': 'GalleryPia - 基于学术研究的科学NFT艺术品估值系统。通过5模块综合评估实现透明公平的NFT交易。',
+    'meta.keywords': 'NFT, 艺术品, 估值, 区块链, 数字艺术, NFT画廊, 艺术家排名, 策展',
+    'meta.og_description': '基于学术研究的科学NFT艺术品估值平台',
     
     // Gallery
     'gallery.title': '画廊',
@@ -159,6 +281,7 @@ const translations = {
     'gallery.sort_popular': '热门',
     'gallery.sort_price_high': '价格：高到低',
     'gallery.sort_price_low': '价格：低到高',
+    'gallery.error': '加载数据失败',
     
     // Auth
     'auth.login': '登录',
@@ -198,6 +321,46 @@ const translations = {
     'nav.curation': 'キュレーション',
     'nav.academy': 'アカデミー',
     'nav.about': '概要',
+    'nav.valuation': '価値評価',
+    'nav.wallet_connect': 'ウォレット接続',
+    'nav.mobile_menu': 'モバイルメニュー',
+    
+    // Notifications
+    'notification.loading': '通知を読み込み中...',
+    'notification.empty': '新しい通知はありません',
+    'notification.mark_all_read': 'すべて既読にする',
+    'notification.view_all': 'すべての通知を表示',
+    
+    // User Menu
+    'user.tutorial_restart': 'チュートリアルを再開',
+    'user.transactions': '取引履歴',
+    'user.favorites': 'お気に入り作品',
+    'user.help': 'ヘルプ',
+    
+    // Footer
+    'footer.platform_title': 'NFTプラットフォーム',
+    'footer.support_title': '利用方法/サポート',
+    'footer.gallery': 'NFTギャラリー',
+    'footer.artists': 'NFTアーティスト',
+    'footer.ranking': 'NFTランキングシステム',
+    'footer.collections': 'NFTコレクション',
+    'footer.ai_recommendation': 'NFT AIレコメンデーションシステム',
+    'footer.valuation': 'NFTアート価値評価システム',
+    'footer.usage_guide': 'サイト利用ガイド',
+    'footer.help': 'ヘルプ',
+    'footer.valuation_system': '価値評価システム',
+    'footer.support': 'サポート',
+    'footer.contact': 'お問い合わせ',
+    'footer.privacy': 'プライバシーポリシー',
+    'footer.description': 'アート評価に基づく透明で信頼できるNFTプラットフォーム',
+    'footer.tech_transfer': '技術移転のお問い合わせ：',
+    'footer.professor': '瑞慶大学ナム・ヒョヌ教授',
+    'footer.copyright': '© 2025 Imageroot 無断複写・転載を禁じます。ナム・ヒョヌ教授による技術提供。',
+    
+    // Meta
+    'meta.description': 'GalleryPia - 学術研究に基づく科学的NFTアート価値評価システム。5モジュール統合評価により透明で公正なNFT取引を実現。',
+    'meta.keywords': 'NFT, アート, 価値評価, ブロックチェーン, デジタルアート, NFTギャラリー, アーティストランキング, キュレーション',
+    'meta.og_description': '学術研究に基づく科学的NFTアート価値評価プラットフォーム',
     
     // Gallery
     'gallery.title': 'ギャラリー',
@@ -212,6 +375,7 @@ const translations = {
     'gallery.sort_popular': '人気',
     'gallery.sort_price_high': '価格：高い順',
     'gallery.sort_price_low': '価格：安い順',
+    'gallery.error': 'データの読み込みに失敗しました',
     
     // Auth
     'auth.login': 'ログイン',
@@ -408,15 +572,15 @@ app.get('/artist-dashboard.html', (c) => {
 // 공통 레이아웃 함수 - 블랙 테마
 // ============================================
 
-function getLayout(content: string, title: string = '갤러리피아 - NFT Art Museum') {
+function getLayout(content: string, title: string = '갤러리피아 - NFT Art Museum', lang: string = 'ko') {
   return `
 <!DOCTYPE html>
-<html lang="ko" class="dark">
+<html lang="${lang}" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="갤러리피아 - 학술 논문 기반 과학적 NFT 미술품 가치산정 시스템. 5개 모듈 통합 평가로 투명하고 공정한 NFT 거래를 실현합니다.">
-    <meta name="keywords" content="NFT, 미술품, 가치산정, 블록체인, 디지털아트, NFT갤러리, 아티스트랭킹, 큐레이션">
+    <meta name="description" content="${t('meta.description', lang)}">
+    <meta name="keywords" content="${t('meta.keywords', lang)}">
     <meta name="author" content="서경대학교 남현우 교수">
     
     <!-- Security: Content Security Policy -->
@@ -440,13 +604,13 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="${title}">
-    <meta property="og:description" content="학술 논문 기반 과학적 NFT 미술품 가치산정 플랫폼">
+    <meta property="og:description" content="${t('meta.og_description', lang)}">
     <meta property="og:image" content="/static/logo.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:title" content="${title}">
-    <meta property="twitter:description" content="학술 논문 기반 과학적 NFT 미술품 가치산정 플랫폼">
+    <meta property="twitter:description" content="${t('meta.og_description', lang)}">
     
     <title>${title}</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1027,13 +1191,13 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                         </div>
                     </a>
                     <div class="hidden md:flex items-center space-x-1">
-                        <a href="/gallery" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">갤러리</a>
-                        <a href="/recommendations" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">추천</a>
-                        <a href="/leaderboard" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">아티스트</a>
-                        <a href="/valuation-system" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">가치산정</a>
-                        <a href="/curation" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">큐레이션</a>
-                        <a href="/nft-academy" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">아카데미</a>
-                        <a href="/about" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">소개</a>
+                        <a href="/gallery" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.gallery', lang)}</a>
+                        <a href="/recommendations" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.recommendations', lang)}</a>
+                        <a href="/leaderboard" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.artists', lang)}</a>
+                        <a href="/valuation-system" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.valuation', lang)}</a>
+                        <a href="/curation" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.curation', lang)}</a>
+                        <a href="/nft-academy" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.academy', lang)}</a>
+                        <a href="/about" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.about', lang)}</a>
                     </div>
                 </div>
                 <div id="authNav" class="flex items-center space-x-3">
@@ -1052,7 +1216,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                         <!-- 언어 드롭다운 -->
                         <div id="languageMenu" class="hidden absolute right-0 mt-2 w-56 bg-gray-900 rounded-2xl shadow-2xl border border-white border-opacity-10 overflow-hidden z-50">
                             <div class="p-4 border-b border-white border-opacity-10">
-                                <h3 class="text-sm font-bold text-white mb-1">언어 선택</h3>
+                                <h3 class="text-sm font-bold text-white mb-1">${t('nav.language_selection', lang)}</h3>
                                 <p class="text-xs text-gray-400">Select Language</p>
                             </div>
                             <div class="p-2 space-y-1" id="languageList">
@@ -1073,16 +1237,16 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                         <!-- 알림 드롭다운 -->
                         <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-96 bg-gray-900 rounded-2xl shadow-2xl border border-white border-opacity-10 overflow-hidden z-50 max-h-96 overflow-y-auto">
                             <div class="p-4 border-b border-white border-opacity-10 flex justify-between items-center">
-                                <h3 class="text-lg font-bold text-white">알림</h3>
+                                <h3 class="text-lg font-bold text-white">${t('nav.notifications', lang)}</h3>
                                 <button onclick="markAllNotificationsRead()" class="text-xs text-purple-400 hover:text-purple-300 transition">
-                                    모두 읽음 표시
+                                    ${t('notification.mark_all_read', lang)}
                                 </button>
                             </div>
                             
                             <!-- 로딩 상태 -->
                             <div id="notificationsLoading" class="p-8 text-center">
                                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mx-auto mb-2"></div>
-                                <p class="text-sm text-gray-400">알림을 불러오는 중...</p>
+                                <p class="text-sm text-gray-400">${t('notification.loading', lang)}</p>
                             </div>
                             
                             <!-- 알림 목록 -->
@@ -1091,12 +1255,12 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                             <!-- 빈 상태 -->
                             <div id="notificationsEmpty" class="hidden p-8 text-center text-gray-400">
                                 <i class="fas fa-bell-slash text-4xl mb-3 opacity-50"></i>
-                                <p>새로운 알림이 없습니다</p>
+                                <p>${t('notification.empty', lang)}</p>
                             </div>
                             
                             <div class="p-3 border-t border-white border-opacity-10 text-center">
                                 <a href="/notifications" class="text-sm text-purple-400 hover:text-purple-300 font-semibold">
-                                    모든 알림 보기 →
+                                    ${t('notification.view_all', lang)} →
                                 </a>
                             </div>
                         </div>
@@ -1122,31 +1286,31 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                         </button>
                         <div id="userMenu" class="absolute right-0 mt-2 w-56 bg-gray-900 rounded-xl shadow-lg border border-white border-opacity-10 overflow-hidden hidden">
                             <div class="px-4 py-3 border-b border-white border-opacity-10">
-                                <p class="text-sm font-semibold text-white" id="userName">사용자</p>
+                                <p class="text-sm font-semibold text-white" id="userName">${t('nav.user', lang)}</p>
                                 <p class="text-xs text-gray-400" id="userEmail">user@example.com</p>
                             </div>
                             <div class="py-2">
                                 <a href="/dashboard" class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-white hover:bg-opacity-5 hover:text-white transition-all">
                                     <i class="fas fa-tachometer-alt w-5"></i>
-                                    <span class="ml-3">대시보드</span>
+                                    <span class="ml-3">${t('nav.dashboard', lang)}</span>
                                 </a>
                                 <a href="/profile" class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-white hover:bg-opacity-5 hover:text-white transition-all">
                                     <i class="fas fa-user w-5"></i>
-                                    <span class="ml-3">프로필</span>
+                                    <span class="ml-3">${t('nav.profile', lang)}</span>
                                 </a>
                                 <a href="/settings" class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-white hover:bg-opacity-5 hover:text-white transition-all">
                                     <i class="fas fa-cog w-5"></i>
-                                    <span class="ml-3">설정</span>
+                                    <span class="ml-3">${t('nav.settings', lang)}</span>
                                 </a>
                                 <button onclick="restartTutorial()" class="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-white hover:bg-opacity-5 hover:text-white transition-all">
                                     <i class="fas fa-graduation-cap w-5"></i>
-                                    <span class="ml-3">튜토리얼 다시보기</span>
+                                    <span class="ml-3">${t('user.tutorial_restart', lang)}</span>
                                 </button>
                             </div>
                             <div class="border-t border-white border-opacity-10 py-2">
                                 <button id="logoutBtn" class="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-red-500 hover:bg-opacity-10 hover:text-red-300 transition-all">
                                     <i class="fas fa-sign-out-alt w-5"></i>
-                                    <span class="ml-3">로그아웃</span>
+                                    <span class="ml-3">${t('nav.logout', lang)}</span>
                                 </button>
                             </div>
                         </div>
@@ -1155,17 +1319,17 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                     <!-- 비로그인 시에만 표시 -->
                     <a href="/signup" id="signupBtn" class="signup-btn flex items-center px-4 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all">
                         <i class="fas fa-user-plus mr-2"></i>
-                        <span class="text-sm font-medium">회원가입</span>
+                        <span class="text-sm font-medium">${t('nav.signup', lang)}</span>
                     </a>
                     <a href="/login" id="loginBtn" class="login-btn flex items-center px-4 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all">
                         <i class="fas fa-sign-in-alt mr-2"></i>
-                        <span class="text-sm font-medium">로그인</span>
+                        <span class="text-sm font-medium">${t('nav.login', lang)}</span>
                     </a>
                     
                     <!-- 지갑연결 버튼 -->
                     <button onclick="connectWallet()" id="walletBtn" class="wallet-btn hidden items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white rounded-xl transition-all duration-300 font-medium text-sm shadow-lg hover:shadow-xl">
                         <i class="fas fa-wallet mr-2"></i>
-                        <span class="text-sm font-medium">지갑연결</span>
+                        <span class="text-sm font-medium">${t('nav.wallet_connect', lang)}</span>
                     </button>
                     
                     <!-- 모바일 햄버거 메뉴 버튼 -->
@@ -1194,7 +1358,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                             <span id="mobileUserInitial">U</span>
                         </div>
                         <div>
-                            <p class="text-white font-semibold" id="mobileUserName">사용자</p>
+                            <p class="text-white font-semibold" id="mobileUserName">${t('nav.user', lang)}</p>
                             <p class="text-xs text-gray-400" id="mobileUserEmail">user@example.com</p>
                         </div>
                     </div>
@@ -1203,26 +1367,26 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                 <!-- 네비게이션 링크 -->
                 <nav class="space-y-2">
                     <a href="/gallery" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-images w-6 mr-3"></i>갤러리
+                        <i class="fas fa-images w-6 mr-3"></i>${t('nav.gallery', lang)}
                     </a>
                     <a href="/leaderboard" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-trophy w-6 mr-3"></i>아티스트
+                        <i class="fas fa-trophy w-6 mr-3"></i>${t('nav.artists', lang)}
                     </a>
                     <a href="/valuation-system" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-balance-scale w-6 mr-3"></i>가치산정
+                        <i class="fas fa-balance-scale w-6 mr-3"></i>${t('nav.valuation', lang)}
                     </a>
 
                     <a href="/curation" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-users w-6 mr-3"></i>큐레이션
+                        <i class="fas fa-users w-6 mr-3"></i>${t('nav.curation', lang)}
                     </a>
                     <a href="/nft-academy" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-graduation-cap w-6 mr-3"></i>아카데미
+                        <i class="fas fa-graduation-cap w-6 mr-3"></i>${t('nav.academy', lang)}
                     </a>
                     <a href="/about" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-info-circle w-6 mr-3"></i>소개
+                        <i class="fas fa-info-circle w-6 mr-3"></i>${t('nav.about', lang)}
                     </a>
                     <button onclick="restartTutorial(); closeMobileMenuFunc();" class="w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-question-circle w-6 mr-3"></i>도움말
+                        <i class="fas fa-question-circle w-6 mr-3"></i>${t('user.help', lang)}
                     </button>
                     
                     <div class="border-t border-white border-opacity-10 my-4"></div>
@@ -1230,35 +1394,35 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                     <!-- 로그인 시 메뉴 -->
                     <div id="mobileAuthMenu" class="hidden space-y-2">
                         <a href="/dashboard" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                            <i class="fas fa-tachometer-alt w-6 mr-3"></i>대시보드
+                            <i class="fas fa-tachometer-alt w-6 mr-3"></i>${t('nav.dashboard', lang)}
                         </a>
                         <a href="/profile" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                            <i class="fas fa-user w-6 mr-3"></i>프로필
+                            <i class="fas fa-user w-6 mr-3"></i>${t('nav.profile', lang)}
                         </a>
                         <a href="/favorites" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                            <i class="fas fa-heart w-6 mr-3 text-red-500"></i>관심작품
+                            <i class="fas fa-heart w-6 mr-3 text-red-500"></i>${t('user.favorites', lang)}
                         </a>
                         <a href="/transactions" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                            <i class="fas fa-exchange-alt w-6 mr-3"></i>거래 내역
+                            <i class="fas fa-exchange-alt w-6 mr-3"></i>${t('user.transactions', lang)}
                         </a>
                         <a href="/settings" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                            <i class="fas fa-cog w-6 mr-3"></i>설정
+                            <i class="fas fa-cog w-6 mr-3"></i>${t('nav.settings', lang)}
                         </a>
                         <button onclick="restartTutorial(); closeMobileMenuFunc();" class="w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                            <i class="fas fa-graduation-cap w-6 mr-3"></i>튜토리얼 다시보기
+                            <i class="fas fa-graduation-cap w-6 mr-3"></i>${t('user.tutorial_restart', lang)}
                         </button>
                         <button id="mobileLogoutBtn" class="w-full text-left px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500 hover:bg-opacity-10 rounded-xl transition-all">
-                            <i class="fas fa-sign-out-alt w-6 mr-3"></i>로그아웃
+                            <i class="fas fa-sign-out-alt w-6 mr-3"></i>${t('nav.logout', lang)}
                         </button>
                     </div>
                     
                     <!-- 비로그인 시 메뉴 -->
                     <div id="mobileGuestMenu" class="space-y-2">
                         <a href="/login" class="block px-4 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-center rounded-xl font-semibold hover:from-purple-700 hover:to-cyan-700 transition-all">
-                            <i class="fas fa-sign-in-alt mr-2"></i>로그인
+                            <i class="fas fa-sign-in-alt mr-2"></i>${t('nav.login', lang)}
                         </a>
                         <a href="/signup" class="block px-4 py-3 bg-white bg-opacity-5 text-white text-center rounded-xl font-semibold hover:bg-opacity-10 transition-all">
-                            <i class="fas fa-user-plus mr-2"></i>회원가입
+                            <i class="fas fa-user-plus mr-2"></i>${t('nav.signup', lang)}
                         </a>
                     </div>
                 </nav>
@@ -1289,42 +1453,42 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                         </div>
                     </div>
                     <p class="text-gray-400 mb-4 leading-relaxed text-sm">
-                        미술품 가치산정 기반의 투명하고 신뢰할 수 있는 NFT 플랫폼
+                        ${t('footer.description', lang)}
                     </p>
                     <div class="mb-6 p-4 bg-gradient-to-r from-purple-900/20 to-cyan-900/20 rounded-xl border border-purple-500/20">
                         <p class="text-gray-300 text-sm leading-relaxed">
                             <i class="fas fa-envelope text-purple-400 mr-2"></i>
-                            <strong class="text-white">기술이전 문의:</strong><br/>
-                            <span class="ml-6">서경대학교 남현우 교수</span><br/>
+                            <strong class="text-white">${t('footer.tech_transfer', lang)}</strong><br/>
+                            <span class="ml-6">${t('footer.professor', lang)}</span><br/>
                             <a href="mailto:gallerypia@gmail.com" class="ml-6 text-cyan-400 hover:text-cyan-300 transition-colors">gallerypia@gmail.com</a>
                         </p>
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-bold mb-4 text-white">NFT 플랫폼</h4>
+                    <h4 class="font-bold mb-4 text-white">${t('footer.platform_title', lang)}</h4>
                     <ul class="space-y-3 text-gray-400 text-sm">
-                        <li><a href="/gallery" class="hover:text-white transition-colors"><i class="fas fa-images mr-2 text-purple-400"></i>NFT 갤러리</a></li>
-                        <li><a href="/artists" class="hover:text-white transition-colors"><i class="fas fa-palette mr-2 text-blue-400"></i>NFT 아티스트</a></li>
-                        <li><a href="/leaderboard" class="hover:text-white transition-colors"><i class="fas fa-trophy mr-2 text-yellow-400"></i>NFT 랭킹시스템</a></li>
-                        <li><a href="/collections" class="hover:text-white transition-colors"><i class="fas fa-layer-group mr-2 text-cyan-400"></i>NFT 컬렉션</a></li>
-                        <li><a href="/search" class="hover:text-white transition-colors"><i class="fas fa-robot mr-2 text-pink-400"></i>NFT AI 추천 시스템</a></li>
-                        <li><a href="/valuation-system" class="hover:text-white transition-colors"><i class="fas fa-chart-line mr-2 text-green-400"></i>NFT 미술품 가치산정 시스템</a></li>
+                        <li><a href="/gallery" class="hover:text-white transition-colors"><i class="fas fa-images mr-2 text-purple-400"></i>${t('footer.gallery', lang)}</a></li>
+                        <li><a href="/artists" class="hover:text-white transition-colors"><i class="fas fa-palette mr-2 text-blue-400"></i>${t('footer.artists', lang)}</a></li>
+                        <li><a href="/leaderboard" class="hover:text-white transition-colors"><i class="fas fa-trophy mr-2 text-yellow-400"></i>${t('footer.ranking', lang)}</a></li>
+                        <li><a href="/collections" class="hover:text-white transition-colors"><i class="fas fa-layer-group mr-2 text-cyan-400"></i>${t('footer.collections', lang)}</a></li>
+                        <li><a href="/search" class="hover:text-white transition-colors"><i class="fas fa-robot mr-2 text-pink-400"></i>${t('footer.ai_recommendation', lang)}</a></li>
+                        <li><a href="/valuation-system" class="hover:text-white transition-colors"><i class="fas fa-chart-line mr-2 text-green-400"></i>${t('footer.valuation', lang)}</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold mb-4 text-white">이용방법/지원</h4>
+                    <h4 class="font-bold mb-4 text-white">${t('footer.support_title', lang)}</h4>
                     <ul class="space-y-3 text-gray-400 text-sm">
-                        <li><a href="/usage-guide" class="hover:text-white transition-colors"><i class="fas fa-book mr-2 text-cyan-400"></i>사이트 이용하기</a></li>
-                        <li><a href="/help" class="hover:text-white transition-colors"><i class="fas fa-question-circle mr-2 text-blue-400"></i>도움말</a></li>
-                        <li><a href="/valuation-system" class="hover:text-white transition-colors"><i class="fas fa-chart-line mr-2 text-green-400"></i>가치산정 시스템</a></li>
-                        <li><a href="/support" class="hover:text-white transition-colors"><i class="fas fa-headset mr-2 text-purple-400"></i>지원</a></li>
-                        <li><a href="/contact" class="hover:text-white transition-colors"><i class="fas fa-envelope mr-2 text-pink-400"></i>문의하기</a></li>
-                        <li><a href="/privacy" class="hover:text-white transition-colors"><i class="fas fa-shield-alt mr-2 text-amber-400"></i>개인정보보호</a></li>
+                        <li><a href="/usage-guide" class="hover:text-white transition-colors"><i class="fas fa-book mr-2 text-cyan-400"></i>${t('footer.usage_guide', lang)}</a></li>
+                        <li><a href="/help" class="hover:text-white transition-colors"><i class="fas fa-question-circle mr-2 text-blue-400"></i>${t('footer.help', lang)}</a></li>
+                        <li><a href="/valuation-system" class="hover:text-white transition-colors"><i class="fas fa-chart-line mr-2 text-green-400"></i>${t('footer.valuation_system', lang)}</a></li>
+                        <li><a href="/support" class="hover:text-white transition-colors"><i class="fas fa-headset mr-2 text-purple-400"></i>${t('footer.support', lang)}</a></li>
+                        <li><a href="/contact" class="hover:text-white transition-colors"><i class="fas fa-envelope mr-2 text-pink-400"></i>${t('footer.contact', lang)}</a></li>
+                        <li><a href="/privacy" class="hover:text-white transition-colors"><i class="fas fa-shield-alt mr-2 text-amber-400"></i>${t('footer.privacy', lang)}</a></li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-white border-opacity-10 mt-12 pt-8 text-center text-gray-500 text-sm">
-                <p>&copy; 2025 Imageroot All rights reserved. Powered by Hyunwoo Nam Professor.</p>
+                <p>${t('footer.copyright', lang)}</p>
             </div>
         </div>
     </footer>
@@ -9184,9 +9348,9 @@ app.get('/gallery', async (c) => {
     </style>
     `;
     
-    return c.html(getLayout(content, 'NFT Gallery - GALLERYPIA'))
+    return c.html(getLayout(content, 'NFT Gallery - GALLERYPIA', lang))
   } catch (error: any) {
-    return c.html(getLayout('<div class="py-20 text-center text-red-500">데이터를 불러오는데 실패했습니다: ' + error.message + '</div>'))
+    return c.html(getLayout('<div class="py-20 text-center text-red-500">' + t('gallery.error', lang) + ': ' + error.message + '</div>', 'Error', lang))
   }
 })
 
@@ -15274,7 +15438,7 @@ app.get('/login', (c) => {
   <script src="/static/social-login.js"></script>
   `;
   
-  return c.html(getLayout(content, `${t('auth.login', lang)} - GALLERYPIA`))
+  return c.html(getLayout(content, `${t('auth.login', lang)} - GALLERYPIA`, lang))
 })
 
 // ============================================
