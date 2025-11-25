@@ -218,8 +218,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <!-- A-Frame must load BEFORE AR.js -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     
     <script>
       tailwind.config = {
@@ -13163,31 +13164,23 @@ app.get('/signup', (c) => {
           <div class="card-nft rounded-3xl p-8 md:p-12">
               <div id="alertMessage" class="hidden mb-6"></div>
               
-              <!-- SNS 로그인 우선 -->
+              <!-- 소셜 계정으로 간편 가입 -->
               <div class="mb-8">
                   <div class="text-center mb-4">
-                      <p class="text-gray-400 text-sm">간편하게 시작하기</p>
+                      <p class="text-gray-400 text-sm font-semibold">소셜 계정으로 간편 가입</p>
                   </div>
-                  <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-                      <button type="button" onclick="loginWithGoogle()" class="py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                  <div class="grid grid-cols-3 gap-4 mb-6">
+                      <button type="button" onclick="loginWithGoogle()" class="py-4 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
                           <i class="fab fa-google mr-2 text-red-500"></i>
-                          <span class="hidden md:inline">Google</span>
+                          <span>Google</span>
                       </button>
-                      <button type="button" onclick="loginWithKakao()" class="py-3 px-4 bg-yellow-400 hover:bg-yellow-500 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                      <button type="button" onclick="loginWithKakao()" class="py-4 px-4 bg-yellow-400 hover:bg-yellow-500 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
                           <i class="fas fa-comment mr-2"></i>
-                          <span class="hidden md:inline">Kakao</span>
+                          <span>Kakao</span>
                       </button>
-                      <button type="button" onclick="loginWithNaver()" class="py-3 px-4 bg-green-500 hover:bg-green-600 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                      <button type="button" onclick="loginWithNaver()" class="py-4 px-4 bg-green-500 hover:bg-green-600 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
                           <span class="font-bold mr-2">N</span>
-                          <span class="hidden md:inline">Naver</span>
-                      </button>
-                      <button type="button" onclick="loginWithApple()" class="py-3 px-4 bg-black hover:bg-gray-900 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl border border-white border-opacity-20">
-                          <i class="fab fa-apple mr-2"></i>
-                          <span class="hidden md:inline">Apple</span>
-                      </button>
-                      <button type="button" onclick="loginWithFacebook()" class="py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
-                          <i class="fab fa-facebook-f mr-2"></i>
-                          <span class="hidden md:inline">Facebook</span>
+                          <span>Naver</span>
                       </button>
                   </div>
                   <div class="relative">
@@ -14973,31 +14966,23 @@ app.get('/login', (c) => {
               
               <div id="alertMessage" class="hidden mb-6"></div>
               
-              <!-- P2: 간편 로그인 우선 (상단 배치) -->
+              <!-- 간편 로그인 (상단 배치) -->
               <div class="mb-6">
                   <div class="text-center mb-4">
                       <p class="text-gray-400 text-sm font-semibold">소셜 계정으로 간편 로그인</p>
                   </div>
-                  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                      <button type="button" onclick="loginWithGoogle()" class="py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                  <div class="grid grid-cols-3 gap-4">
+                      <button type="button" onclick="loginWithGoogle()" class="py-4 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
                           <i class="fab fa-google mr-2 text-red-500"></i>
-                          <span class="hidden md:inline">Google</span>
+                          <span>Google</span>
                       </button>
-                      <button type="button" onclick="loginWithKakao()" class="py-3 px-4 bg-yellow-400 hover:bg-yellow-500 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                      <button type="button" onclick="loginWithKakao()" class="py-4 px-4 bg-yellow-400 hover:bg-yellow-500 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
                           <i class="fas fa-comment mr-2"></i>
-                          <span class="hidden md:inline">Kakao</span>
+                          <span>Kakao</span>
                       </button>
-                      <button type="button" onclick="loginWithNaver()" class="py-3 px-4 bg-green-500 hover:bg-green-600 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                      <button type="button" onclick="loginWithNaver()" class="py-4 px-4 bg-green-500 hover:bg-green-600 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
                           <span class="font-bold mr-2">N</span>
-                          <span class="hidden md:inline">Naver</span>
-                      </button>
-                      <button type="button" onclick="loginWithApple()" class="py-3 px-4 bg-black hover:bg-gray-900 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl border border-white border-opacity-20">
-                          <i class="fab fa-apple mr-2"></i>
-                          <span class="hidden md:inline">Apple</span>
-                      </button>
-                      <button type="button" onclick="loginWithFacebook()" class="py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
-                          <i class="fab fa-facebook-f mr-2"></i>
-                          <span class="hidden md:inline">Facebook</span>
+                          <span>Naver</span>
                       </button>
                   </div>
                   <div class="relative mt-6">
