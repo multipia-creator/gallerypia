@@ -14793,6 +14793,58 @@ app.get('/about', (c) => {
               </div>
               
               <div class="space-y-6">
+                  <!-- v11.1.2 Critical Security Patch -->
+                  <div class="card-nft rounded-2xl p-6 border-2 border-red-500/40 hover:border-red-500/60 transition-all bg-red-900/10">
+                      <div class="flex items-start gap-4 mb-4">
+                          <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-red-600 to-pink-600 rounded-xl flex items-center justify-center animate-pulse">
+                              <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+                          </div>
+                          <div class="flex-1">
+                              <div class="flex items-center gap-3 mb-2">
+                                  <h3 class="text-xl font-bold text-white">v11.1.2 Critical Security Patch</h3>
+                                  <span class="px-2 py-1 bg-red-600/30 text-red-300 rounded-full text-xs font-bold">2025-11-25</span>
+                                  <span class="px-2 py-1 bg-yellow-600/30 text-yellow-300 rounded-full text-xs font-bold">URGENT</span>
+                              </div>
+                              <p class="text-sm text-gray-400 mb-3">심각한 보안 취약점 긴급 패치 (모든 사용자 비밀번호 재설정 권장)</p>
+                              <div class="grid md:grid-cols-2 gap-3 text-sm">
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-shield text-red-400 mt-1"></i>
+                                      <span class="text-gray-300"><strong class="text-red-300">bcrypt 비밀번호 해싱</strong> (평문 저장 취약점 수정)</span>
+                                  </div>
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-cookie-bite text-red-400 mt-1"></i>
+                                      <span class="text-gray-300"><strong class="text-red-300">HttpOnly 쿠키</strong> 세션 토큰 (XSS 방지)</span>
+                                  </div>
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-lock text-red-400 mt-1"></i>
+                                      <span class="text-gray-300">백엔드 비밀번호 강도 검증 (8자+대소문자+숫자+특수문자)</span>
+                                  </div>
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-database text-red-400 mt-1"></i>
+                                      <span class="text-gray-300">이메일/유저명 Unique Constraint (중복 방지)</span>
+                                  </div>
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-user-shield text-red-400 mt-1"></i>
+                                      <span class="text-gray-300">Timing Attack 방지 (안전한 비밀번호 비교)</span>
+                                  </div>
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-check-double text-red-400 mt-1"></i>
+                                      <span class="text-gray-300">OWASP Top 10 보안 기준 준수</span>
+                                  </div>
+                              </div>
+                              <div class="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-xl">
+                                  <div class="flex items-start gap-2">
+                                      <i class="fas fa-info-circle text-yellow-400 mt-0.5"></i>
+                                      <div class="text-xs text-gray-300">
+                                          <strong class="text-yellow-300">Breaking Change:</strong> 기존 사용자는 비밀번호 재설정이 필요합니다. 
+                                          새로운 bcrypt 해싱으로 보안이 대폭 강화되었습니다.
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
                   <!-- v11.1 Security & UX Update -->
                   <div class="card-nft rounded-2xl p-6 border border-cyan-500/20 hover:border-cyan-500/40 transition-all">
                       <div class="flex items-start gap-4 mb-4">
