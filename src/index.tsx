@@ -19399,10 +19399,7 @@ async function requireAdminAuth(c: any, next?: any) {
 
 // 관리자 통계 API
 app.get('/api/admin/stats', async (c) => {
-  // ✅ Admin authentication check
-  const authError = await requireAdminAuth(c)
-  if (authError) return authError
-  
+  // ✅ Authentication handled by middleware (line 76)
   const db = c.env.DB
   
   const totalArtworks = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
@@ -19424,9 +19421,7 @@ app.get('/api/admin/stats', async (c) => {
 
 // 작품 목록 조회 API (관리자용)
 app.get('/api/admin/artworks', async (c) => {
-  // ✅ Admin authentication check
-  const authError = await requireAdminAuth(c)
-  if (authError) return authError
+  // ✅ Authentication handled by middleware (line 76)
   
   const db = c.env.DB
   
@@ -19445,9 +19440,7 @@ app.get('/api/admin/artworks', async (c) => {
 
 // 작가 목록 조회 API (관리자용)
 app.get('/api/admin/artists', async (c) => {
-  // ✅ Admin authentication check
-  const authError = await requireAdminAuth(c)
-  if (authError) return authError
+  // ✅ Authentication handled by middleware (line 76)
   
   const db = c.env.DB
   
@@ -19466,9 +19459,7 @@ app.get('/api/admin/artists', async (c) => {
 
 // 단일 작품 조회 API
 app.get('/api/admin/artworks/:id', async (c) => {
-  // ✅ Admin authentication check
-  const authError = await requireAdminAuth(c)
-  if (authError) return authError
+  // ✅ Authentication handled by middleware (line 76)
   
   const id = c.req.param('id')
   const db = c.env.DB
@@ -19489,9 +19480,7 @@ app.get('/api/admin/artworks/:id', async (c) => {
 
 // 작품 추가 API
 app.post('/api/admin/artworks', async (c) => {
-  // ✅ Admin authentication check
-  const authError = await requireAdminAuth(c)
-  if (authError) return authError
+  // ✅ Authentication handled by middleware (line 76)
   
   const data = await c.req.json()
   const db = c.env.DB
