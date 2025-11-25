@@ -15618,7 +15618,7 @@ app.get('/dashboard/artist', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id, role FROM sessions WHERE token = ?
+      SELECT user_id, role FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -15802,7 +15802,7 @@ app.get('/dashboard/expert', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id, role FROM sessions WHERE token = ?
+      SELECT user_id, role FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -15996,7 +15996,7 @@ app.get('/admin/dashboard', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id, role FROM sessions WHERE token = ?
+      SELECT user_id, role FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session || (session.role !== 'admin' && session.role !== 'super_admin')) {
@@ -21959,7 +21959,7 @@ app.get('/api/artworks/favorites', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -21994,7 +21994,7 @@ app.get('/api/recommendations/artworks', async (c) => {
     
     if (token) {
       const session = await db.prepare(`
-        SELECT user_id FROM sessions WHERE token = ?
+        SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
       `).bind(token).first()
       userId = session ? session.user_id as number : null
     }
@@ -22027,7 +22027,7 @@ app.get('/api/purchases', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22062,7 +22062,7 @@ app.get('/api/exhibitions', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22098,7 +22098,7 @@ app.get('/api/museum/stats', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22145,7 +22145,7 @@ app.put('/api/users/profile', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22202,7 +22202,7 @@ app.get('/api/users/notification-settings', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22246,7 +22246,7 @@ app.put('/api/users/notification-settings', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22290,7 +22290,7 @@ app.put('/api/users/password', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22347,7 +22347,7 @@ app.put('/api/users/wallet', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22452,7 +22452,7 @@ app.post('/api/artworks/:id/favorite', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22507,7 +22507,7 @@ app.get('/api/artworks/:id/favorite-status', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22540,7 +22540,7 @@ app.get('/api/notifications', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22575,7 +22575,7 @@ app.get('/api/notifications/unread-count', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22606,7 +22606,7 @@ app.put('/api/notifications/:id/read', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22636,7 +22636,7 @@ app.put('/api/notifications/mark-all-read', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
@@ -22670,7 +22670,7 @@ app.get('/api/transactions', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id FROM sessions WHERE token = ?
+      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
