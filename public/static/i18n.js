@@ -1394,9 +1394,16 @@ class I18n {
       }
       
       // === Artwork Sections ===
-      updateText('h2:contains("추천 작품")', 'section.recommended');
-      updateText('h2:contains("인기 작품")', 'section.popular');
-      updateText('h2:contains("신규 작품")', 'section.new');
+      const artworkSectionTitles = document.querySelectorAll('h2.text-3xl.font-bold');
+      artworkSectionTitles.forEach(title => {
+        if (title.textContent.includes('추천 작품')) {
+          title.textContent = this.t('section.recommended');
+        } else if (title.textContent.includes('인기 작품')) {
+          title.textContent = this.t('section.popular');
+        } else if (title.textContent.includes('신규 작품')) {
+          title.textContent = this.t('section.new');
+        }
+      });
       
       const noRecommended = document.querySelector('.text-center.text-gray-400');
       if (noRecommended && noRecommended.textContent.includes('추천 작품이 없습니다')) {
