@@ -3282,6 +3282,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <script src="/static/global-error-handler.js"></script> <!-- W2-H1: Global Error Handler -->
     <script src="/static/loading-states.js"></script> <!-- W2-H2: Consistent Loading States -->
     <script src="/static/performance-enhancements.js"></script> <!-- W2-H3 to W2-H8: Performance Suite -->
+    <script src="/static/week3-4-batch-features.js"></script> <!-- W3-M1 to W3-M12: 12 Features -->
     
     <!-- Phase 6: UX Enhancement Scripts -->
     <!-- 성능 최적화 (필수) -->
