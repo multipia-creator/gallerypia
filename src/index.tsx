@@ -3398,6 +3398,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         }
       });
     </script>
+    
+    <!-- P3: Multi-language & First-Visit Tutorial -->
+    <script src="/static/i18n-tutorial.js"></script>
 </body>
 </html>
   `;
