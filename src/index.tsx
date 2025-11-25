@@ -5943,6 +5943,10 @@ app.get('/', async (c) => {
                             <i class="fas fa-handshake mr-2 text-lg group-hover:rotate-12 transition-transform"></i>
                             <span>파트너 신청</span>
                         </a>
+                        <a href="/mint" class="group px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-magic mr-2 text-lg group-hover:rotate-12 transition-transform"></i>
+                            <span>NFT 민팅</span>
+                        </a>
                         <button onclick="connectMetaMask()" class="group px-10 py-4 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white rounded-xl font-bold text-base inline-flex items-center justify-center border border-gray-700 hover:border-gray-600 shadow-lg shadow-gray-900/50 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-wallet mr-2 text-lg group-hover:scale-110 transition-transform"></i>
                             <span id="walletTextMain">지갑 연결</span>
