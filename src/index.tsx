@@ -6,6 +6,7 @@ import { calculateArtworkValue } from './types'
 import { initSentry, sentryErrorHandler } from './middleware/sentry'
 import { rateLimiters } from './middleware/rate-limiter'
 import { securityHeaders, corsConfig } from './middleware/security-headers'
+import { requireRole } from './middleware/auth'
 import admin from './routes/admin'
 import notifications from './routes/notifications'
 import analytics from './routes/analytics'
@@ -19321,8 +19322,6 @@ app.post('/api/admin/logout', async (c) => {
 // ============================================
 // 🔐 Admin API Security Middleware
 // ============================================
-import { requireRole } from './middleware/auth'
-
 // ✅ Apply authentication middleware to all /api/admin/* endpoints
 app.use('/api/admin/*', requireRole(['admin', 'super_admin']))
 
