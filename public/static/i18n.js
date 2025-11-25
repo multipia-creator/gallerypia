@@ -142,6 +142,20 @@ class I18n {
         'footer.privacy': '개인정보처리방침',
         'footer.contact': '문의',
         'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
+        
+        // Main Page
+        'main.explore': 'NFT 컬렉션 탐색',
+        'main.valuation': '셀프가치산정 시스템',
+        'main.system_guide': '시스템 안내',
+        'main.expert_apply': '전문가 신청/평가',
+        'main.partnership': 'Partnership',
+        'main.partnership_sub': '미술관·갤러리·딜러',
+        'main.signup': '회원가입',
+        'main.install': '앱 설치',
+        'main.mint': 'NFT 민팅',
+        'main.wallet': '지갑 연결',
+        'main.artworks': 'NFT 작품',
+        'main.artists': '아티스트',
       },
       
       // English
@@ -228,6 +242,20 @@ class I18n {
         'footer.privacy': 'Privacy',
         'footer.contact': 'Contact',
         'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
+        
+        // Main Page
+        'main.explore': 'Explore NFT Collection',
+        'main.valuation': 'Self-Valuation System',
+        'main.system_guide': 'System Guide',
+        'main.expert_apply': 'Expert Application',
+        'main.partnership': 'Partnership',
+        'main.partnership_sub': 'Museum·Gallery·Dealer',
+        'main.signup': 'Sign Up',
+        'main.install': 'Install App',
+        'main.mint': 'Mint NFT',
+        'main.wallet': 'Connect Wallet',
+        'main.artworks': 'NFT Artworks',
+        'main.artists': 'Artists',
       },
       
       // Chinese (简体中文)
@@ -314,6 +342,20 @@ class I18n {
         'footer.privacy': '隐私',
         'footer.contact': '联系',
         'footer.copyright': '© 2024 GalleryPia. 版权所有。',
+        
+        // Main Page
+        'main.explore': '探索NFT收藏',
+        'main.valuation': '自我估值系统',
+        'main.system_guide': '系统指南',
+        'main.expert_apply': '专家申请',
+        'main.partnership': 'Partnership',
+        'main.partnership_sub': '博物馆·画廊·经销商',
+        'main.signup': '注册',
+        'main.install': '安装应用',
+        'main.mint': '铸造NFT',
+        'main.wallet': '连接钱包',
+        'main.artworks': 'NFT作品',
+        'main.artists': '艺术家',
       },
       
       // Japanese (日本語)
@@ -400,6 +442,20 @@ class I18n {
         'footer.privacy': 'プライバシー',
         'footer.contact': 'お問い合わせ',
         'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
+        
+        // Main Page
+        'main.explore': 'NFTコレクション探索',
+        'main.valuation': 'セルフ評価システム',
+        'main.system_guide': 'システムガイド',
+        'main.expert_apply': '専門家申請',
+        'main.partnership': 'Partnership',
+        'main.partnership_sub': '美術館·ギャラリー·ディーラー',
+        'main.signup': '新規登録',
+        'main.install': 'アプリインストール',
+        'main.mint': 'NFTミント',
+        'main.wallet': 'ウォレット接続',
+        'main.artworks': 'NFT作品',
+        'main.artists': 'アーティスト',
       }
     };
   }

@@ -2406,16 +2406,118 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           const languages = window.i18n.getAllLanguages();
           const lang = languages.find(l => l.code === langCode);
           if (lang) {
-            document.getElementById('currentLanguageFlag').textContent = lang.flag;
+            const flagEl = document.getElementById('currentLanguageFlag');
+            if (flagEl) flagEl.textContent = lang.flag;
           }
           
           // Close menu
-          document.getElementById('languageMenu').classList.add('hidden');
+          const menu = document.getElementById('languageMenu');
+          if (menu) menu.classList.add('hidden');
           
-          // Reload page to apply translations
-          window.location.reload();
+          // Update main page texts dynamically (without reload)
+          updateMainPageTexts();
+          
+          console.log('🌍 Language changed to: ' + langCode);
         }
       };
+      
+      function updateMainPageTexts() {
+        if (!window.i18n) return;
+        
+        // Helper function to update text content
+        const updateText = (selector, i18nKey) => {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(el => {
+            if (el && i18nKey) {
+              el.textContent = window.i18n.t(i18nKey);
+            }
+          });
+        };
+        
+        // Update navigation
+        updateText('a[href="/"] .hidden.md\\:inline', 'nav.home');
+        updateText('a[href="/gallery"] .hidden.md\\:inline', 'nav.gallery');
+        updateText('a[href="/auctions"]', 'nav.auctions');
+        updateText('a[href="/artists"]', 'nav.artists');
+        updateText('a[href="/leaderboard"]', 'nav.leaderboard');
+        updateText('a[href="/recommendations"]', 'nav.recommendations');
+        updateText('a[href="/analytics"]', 'nav.analytics');
+        updateText('a[href="/login"]:not(.group)', 'nav.login');
+        
+        // Update main action buttons (specific texts only)
+        const explorBtn = document.querySelector('a[href="/gallery"] span.text-white');
+        if (explorBtn && explorBtn.textContent.includes('NFT')) {
+          explorBtn.textContent = window.i18n.t('main.explore');
+        }
+        
+        const valuationTitle = document.querySelector('a[href="/valuation"] span.text-white');
+        if (valuationTitle && valuationTitle.textContent.includes('셀프') || valuationTitle?.textContent.includes('Self')) {
+          valuationTitle.textContent = window.i18n.t('main.valuation');
+        }
+        
+        const systemGuide = document.querySelector('a[href="/valuation-system"]');
+        if (systemGuide) {
+          const guideSpan = systemGuide.querySelector('span') || systemGuide;
+          if (guideSpan.textContent.includes('시스템') || guideSpan.textContent.includes('System')) {
+            const icon = systemGuide.innerHTML.match(/<i[^>]*><\/i>/)?.[0] || '';
+            systemGuide.innerHTML = icon + window.i18n.t('main.system_guide');
+          }
+        }
+        
+        const expertBtn = document.querySelector('a[href="/expert/apply"] span.text-white');
+        if (expertBtn && expertBtn.textContent.includes('전문가') || expertBtn?.textContent.includes('Expert')) {
+          expertBtn.textContent = window.i18n.t('main.expert_apply');
+        }
+        
+        // Partnership button texts
+        const partnershipBtns = document.querySelectorAll('a[href="/signup"].group span.text-white');
+        partnershipBtns.forEach(btn => {
+          if (btn.textContent === 'Partnership') {
+            btn.textContent = window.i18n.t('main.partnership');
+          }
+        });
+        
+        const partnershipSub = document.querySelector('a[href="/signup"].group span.text-amber-300');
+        if (partnershipSub) {
+          partnershipSub.textContent = window.i18n.t('main.partnership_sub');
+        }
+        
+        // Sign up button
+        const signupBtns = document.querySelectorAll('a[href="/signup"]:not(.group) span');
+        signupBtns.forEach(btn => {
+          if (btn.textContent.includes('회원가입') || btn.textContent.includes('Sign Up')) {
+            btn.textContent = window.i18n.t('main.signup');
+          }
+        });
+        
+        // Install app button
+        const installBtn = document.querySelector('#pwa-install-hero-button span');
+        if (installBtn && (installBtn.textContent.includes('앱') || installBtn.textContent.includes('Install'))) {
+          installBtn.textContent = window.i18n.t('main.install');
+        }
+        
+        // Mint NFT button
+        const mintBtn = document.querySelector('a[href="/mint"] span');
+        if (mintBtn && (mintBtn.textContent.includes('민팅') || mintBtn.textContent.includes('Mint'))) {
+          mintBtn.textContent = window.i18n.t('main.mint');
+        }
+        
+        // Wallet button
+        const walletBtn = document.getElementById('walletTextMain');
+        if (walletBtn && (walletBtn.textContent.includes('지갑') || walletBtn.textContent.includes('Wallet'))) {
+          walletBtn.textContent = window.i18n.t('main.wallet');
+        }
+        
+        // Stats labels
+        const statsLabels = document.querySelectorAll('.text-gray-300.font-semibold');
+        statsLabels.forEach(label => {
+          if (label.textContent.includes('NFT 작품') || label.textContent.includes('NFT Artworks')) {
+            label.textContent = window.i18n.t('main.artworks');
+          } else if (label.textContent.includes('아티스트') || label.textContent.includes('Artists')) {
+            label.textContent = window.i18n.t('main.artists');
+          }
+        });
+      }
       
       // Initialize language switcher on page load
       document.addEventListener('DOMContentLoaded', () => {
@@ -28754,21 +28856,6 @@ app.get('/museum/apply', async (c) => {
                       <input type="text" id="museum_name" required
                              class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-purple-500 focus:outline-none"
                              placeholder="예: 국립현대미술관">
-                  </div>
-                  
-                  <div>
-                      <label class="block text-white font-bold mb-2">
-                          <span id="type_label">기관 유형</span> *
-                      </label>
-                      <select id="museum_type" required
-                              class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-purple-500 focus:outline-none">
-                          <option value="national">국립</option>
-                          <option value="public">공립</option>
-                          <option value="private">사립</option>
-                          <option value="university">대학</option>
-                          <option value="corporate">기업</option>
-                          <option value="other">기타</option>
-                      </select>
                   </div>
                   
                   <div>
