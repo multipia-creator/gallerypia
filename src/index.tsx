@@ -2601,10 +2601,68 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         init3DViewer(imageUrl);
       };
       
-      // 3D 뷰어 초기화 (Three.js)
+      // ============================================
+      // 🔧 W1-C7: 3D Viewer Memory Leak Fix - Cleanup Function
+      // ============================================
+      window.cleanup3DViewer = function() {
+        if (window.artwork3DRenderer) {
+          // Stop animation loop
+          if (window.artwork3DAnimationId) {
+            cancelAnimationFrame(window.artwork3DAnimationId);
+            window.artwork3DAnimationId = null;
+          }
+          
+          // Dispose geometries and materials
+          if (window.artwork3DScene) {
+            window.artwork3DScene.traverse((object) => {
+              if (object.geometry) {
+                object.geometry.dispose();
+              }
+              if (object.material) {
+                if (Array.isArray(object.material)) {
+                  object.material.forEach(mat => {
+                    if (mat.map) mat.map.dispose();
+                    mat.dispose();
+                  });
+                } else {
+                  if (object.material.map) object.material.map.dispose();
+                  object.material.dispose();
+                }
+              }
+            });
+          }
+          
+          // Dispose renderer
+          window.artwork3DRenderer.dispose();
+          
+          // Remove canvas from DOM
+          const container = document.getElementById('3d-canvas-container');
+          if (container) {
+            while (container.firstChild) {
+              container.removeChild(container.firstChild);
+            }
+          }
+          
+          // Clear references
+          window.artwork3DScene = null;
+          window.artwork3DCamera = null;
+          window.artwork3DRenderer = null;
+          window.artwork3DMesh = null;
+          window.artwork3DControls = null;
+          
+          console.log('✅ 3D Viewer cleaned up successfully');
+        }
+      };
+      
+      // 3D 뷰어 초기화 (Three.js) - with automatic cleanup
       window.init3DViewer = function(imageUrl) {
         const container = document.getElementById('3d-canvas-container');
         if (!container || typeof THREE === 'undefined') return;
+        
+        // Cleanup existing viewer first (W1-C7: Memory leak fix)
+        if (window.cleanup3DViewer) {
+          window.cleanup3DViewer();
+        }
         
         // Scene setup
         const scene = new THREE.Scene();
@@ -2664,9 +2722,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           window.artwork3DControls = controls;
         }
         
-        // Animation loop
+        // Animation loop (W1-C7: Store animation ID for cleanup)
         function animate() {
-          requestAnimationFrame(animate);
+          window.artwork3DAnimationId = requestAnimationFrame(animate);
           if (window.artwork3DControls) {
             window.artwork3DControls.update();
           }
@@ -3220,6 +3278,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <script src="/static/form-validation.js"></script> <!-- Real-time validation -->
     <script src="/static/loading-skeleton.js"></script> <!-- Loading states -->
     <script src="/static/toast-system.js"></script> <!-- Toast notifications -->
+    <script src="/static/ui-improvements.js"></script> <!-- W1-C15 & W1-C16: Toast Deduplication + Modal Scroll Lock -->
     
     <!-- Phase 6: UX Enhancement Scripts -->
     <!-- 성능 최적화 (필수) -->
@@ -3303,6 +3362,93 @@ async function verifyUserSession(db: any, token: string) {
   `).bind(token).first()
   
   return result
+}
+
+// ============================================
+// 🔐 W1-C10: Admin Authorization Middleware
+// ============================================
+async function requireAdminRole(c: any, next: any) {
+  const db = c.env.DB
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || 
+                c.req.cookie('session_token')
+  
+  if (!token) {
+    return c.json({ success: false, error: '인증이 필요합니다' }, 401)
+  }
+  
+  const session = await verifyUserSession(db, token)
+  
+  if (!session) {
+    return c.json({ success: false, error: '세션이 만료되었습니다' }, 401)
+  }
+  
+  // Check if user has admin role
+  if (session.role !== 'admin' && session.role !== 'super_admin') {
+    return c.json({ success: false, error: '관리자 권한이 필요합니다' }, 403)
+  }
+  
+  // Attach user to context for further use
+  c.set('user', session)
+  
+  await next()
+}
+
+// ============================================
+// 🔐 Authentication Middleware (any authenticated user)
+// ============================================
+async function requireAuth(c: any, next: any) {
+  const db = c.env.DB
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || 
+                c.req.cookie('session_token')
+  
+  if (!token) {
+    return c.json({ success: false, error: '인증이 필요합니다' }, 401)
+  }
+  
+  const session = await verifyUserSession(db, token)
+  
+  if (!session) {
+    return c.json({ success: false, error: '세션이 만료되었습니다' }, 401)
+  }
+  
+  // Attach user to context
+  c.set('user', session)
+  
+  await next()
+}
+
+// ============================================
+// 🔐 Role-based Authorization Middleware Factory
+// ============================================
+function requireRole(...allowedRoles: string[]) {
+  return async (c: any, next: any) => {
+    const db = c.env.DB
+    const token = c.req.header('Authorization')?.replace('Bearer ', '') || 
+                  c.req.cookie('session_token')
+    
+    if (!token) {
+      return c.json({ success: false, error: '인증이 필요합니다' }, 401)
+    }
+    
+    const session = await verifyUserSession(db, token)
+    
+    if (!session) {
+      return c.json({ success: false, error: '세션이 만료되었습니다' }, 401)
+    }
+    
+    // Check if user has required role
+    if (!allowedRoles.includes(session.role)) {
+      return c.json({ 
+        success: false, 
+        error: `이 작업은 ${allowedRoles.join(', ')} 권한이 필요합니다` 
+      }, 403)
+    }
+    
+    // Attach user to context
+    c.set('user', session)
+    
+    await next()
+  }
 }
 
 // Check Email Availability API (for real-time validation)
@@ -3500,6 +3646,155 @@ app.post('/api/auth/signup', async (c) => {
   }
 })
 
+// ============================================
+// 🔐 W1-C1: Register API - Complete Implementation
+// ============================================
+app.post('/api/auth/register', async (c) => {
+  const db = c.env.DB
+  
+  try {
+    const data = await c.req.json()
+    const { 
+      email, 
+      password, 
+      username = data.email?.split('@')[0], // Auto-generate username from email if not provided
+      full_name, 
+      role = 'buyer',
+      phone,
+      organization_name,
+      organization_type,
+      organization_address,
+      organization_website,
+      organization_contact_email,
+      organization_phone,
+      organization_description
+    } = data
+    
+    // 1. Input validation
+    if (!email || !password || !full_name) {
+      return c.json({ 
+        success: false, 
+        error: '모든 필드를 입력해주세요 (이메일, 비밀번호, 이름)' 
+      }, 400)
+    }
+    
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return c.json({ success: false, error: '올바른 이메일 형식이 아닙니다' }, 400)
+    }
+    
+    // Password strength validation (8+ chars, 1 uppercase, 1 number, 1 special)
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    if (!passwordRegex.test(password)) {
+      return c.json({ 
+        success: false, 
+        error: '비밀번호는 8자 이상, 대문자, 숫자, 특수문자를 포함해야 합니다' 
+      }, 400)
+    }
+    
+    // Role validation (W1-C2)
+    const validRoles = ['buyer', 'artist', 'expert', 'museum', 'admin']
+    if (!validRoles.includes(role)) {
+      return c.json({ success: false, error: '올바르지 않은 역할입니다' }, 400)
+    }
+    
+    // 2. Check if user already exists (SQL Injection Prevention with Prepared Statements - W1-C5)
+    const existingUser = await db.prepare(`
+      SELECT id FROM users WHERE email = ? OR username = ?
+    `).bind(email, username).first()
+    
+    if (existingUser) {
+      return c.json({ 
+        success: false, 
+        error: '이미 사용 중인 이메일 또는 사용자명입니다' 
+      }, 409)
+    }
+    
+    // 3. Hash password with bcrypt (W1-C4)
+    const passwordHash = await bcrypt.hash(password, 10)
+    
+    // 4. Insert new user (Prepared Statements - W1-C5)
+    const result = await db.prepare(`
+      INSERT INTO users (
+        email, password_hash, username, full_name, role,
+        is_verified, is_active, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, 0, 1, datetime('now'), datetime('now'))
+    `).bind(email, passwordHash, username, full_name, role).run()
+    
+    const userId = result.meta.last_row_id
+    
+    // 5. Create default profile based on role
+    if (role === 'artist') {
+      await db.prepare(`
+        INSERT INTO artist_profiles (
+          user_id, bio, specialties, created_at, updated_at
+        ) VALUES (?, '새로운 아티스트입니다', '미술', datetime('now'), datetime('now'))
+      `).bind(userId).run()
+    } else if (role === 'expert') {
+      await db.prepare(`
+        INSERT INTO expert_profiles (
+          user_id, specialties, experience_years, created_at, updated_at
+        ) VALUES (?, '미술 감정', 0, datetime('now'), datetime('now'))
+      `).bind(userId).run()
+    } else if (role === 'museum' && organization_name) {
+      // Create organization profile for museum/gallery
+      await db.prepare(`
+        INSERT INTO organizations (
+          user_id, name, type, address, website, contact_email, phone, description,
+          created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+      `).bind(
+        userId, 
+        organization_name, 
+        organization_type || 'museum',
+        organization_address || '',
+        organization_website || '',
+        organization_contact_email || email,
+        organization_phone || phone || '',
+        organization_description || ''
+      ).run()
+    }
+    
+    // 6. Log activity
+    await db.prepare(`
+      INSERT INTO activity_logs (user_id, action_type, entity_type, created_at)
+      VALUES (?, 'register', 'user', datetime('now'))
+    `).bind(userId).run()
+    
+    // 7. Generate session token for auto-login
+    const sessionToken = generateSessionToken()
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+    
+    await db.prepare(`
+      INSERT INTO user_sessions (user_id, session_token, expires_at, created_at)
+      VALUES (?, ?, ?, datetime('now'))
+    `).bind(userId, sessionToken, expiresAt.toISOString()).run()
+    
+    // 8. Set HttpOnly cookie (W1-C12: XSS prevention)
+    c.header('Set-Cookie', `session_token=${sessionToken}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${7 * 24 * 60 * 60}`)
+    
+    return c.json({ 
+      success: true, 
+      message: '회원가입 성공',
+      user: {
+        id: Number(userId),
+        email,
+        username,
+        full_name,
+        role,
+        is_verified: false
+      }
+    })
+  } catch (error: any) {
+    console.error('Register error:', error)
+    return c.json({ 
+      success: false, 
+      error: '회원가입 중 오류가 발생했습니다' 
+    }, 500)
+  }
+})
+
 // Login API
 app.post('/api/auth/login', async (c) => {
   const db = c.env.DB
@@ -3592,6 +3887,270 @@ app.post('/api/auth/logout', async (c) => {
     return c.json({ success: true, message: '로그아웃되었습니다' })
   } catch (error: any) {
     return c.json({ success: false, error: '로그아웃 중 오류가 발생했습니다' }, 500)
+  }
+})
+
+// ============================================
+// 🔐 W1-C14: Change Password API (with current password verification)
+// ============================================
+app.post('/api/auth/change-password', requireAuth, async (c) => {
+  const db = c.env.DB
+  const user = c.get('user')
+  
+  try {
+    const { current_password, new_password } = await c.req.json()
+    
+    if (!current_password || !new_password) {
+      return c.json({ 
+        success: false, 
+        error: '현재 비밀번호와 새 비밀번호를 입력해주세요' 
+      }, 400)
+    }
+    
+    // Password strength validation for new password
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    if (!passwordRegex.test(new_password)) {
+      return c.json({ 
+        success: false, 
+        error: '새 비밀번호는 8자 이상, 대문자, 숫자, 특수문자를 포함해야 합니다' 
+      }, 400)
+    }
+    
+    // Get user's current password hash
+    const userData = await db.prepare(`
+      SELECT password_hash FROM users WHERE id = ?
+    `).bind(user.id).first()
+    
+    if (!userData) {
+      return c.json({ success: false, error: '사용자를 찾을 수 없습니다' }, 404)
+    }
+    
+    // Verify current password (CRITICAL SECURITY FIX - W1-C14)
+    const isValidCurrentPassword = await bcrypt.compare(
+      current_password, 
+      userData.password_hash as string
+    )
+    
+    if (!isValidCurrentPassword) {
+      return c.json({ 
+        success: false, 
+        error: '현재 비밀번호가 올바르지 않습니다' 
+      }, 401)
+    }
+    
+    // Hash new password
+    const newPasswordHash = await bcrypt.hash(new_password, 10)
+    
+    // Update password
+    await db.prepare(`
+      UPDATE users 
+      SET password_hash = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `).bind(newPasswordHash, user.id).run()
+    
+    // Log activity
+    await db.prepare(`
+      INSERT INTO activity_logs (user_id, action_type, entity_type, created_at)
+      VALUES (?, 'password_change', 'user', datetime('now'))
+    `).bind(user.id).run()
+    
+    // Invalidate all other sessions for security
+    await db.prepare(`
+      DELETE FROM user_sessions 
+      WHERE user_id = ? AND session_token != ?
+    `).bind(user.id, c.req.header('Authorization')?.replace('Bearer ', '')).run()
+    
+    return c.json({ 
+      success: true, 
+      message: '비밀번호가 성공적으로 변경되었습니다' 
+    })
+  } catch (error: any) {
+    console.error('Change password error:', error)
+    return c.json({ 
+      success: false, 
+      error: '비밀번호 변경 중 오류가 발생했습니다' 
+    }, 500)
+  }
+})
+
+// ============================================
+// 🔐 W1-C13: Profile Update with Proper Response Handling
+// ============================================
+app.post('/api/user/profile', requireAuth, async (c) => {
+  const db = c.env.DB
+  const user = c.get('user')
+  
+  try {
+    const { 
+      full_name, 
+      phone, 
+      bio, 
+      website, 
+      profile_image 
+    } = await c.req.json()
+    
+    // Build dynamic UPDATE query
+    const updates = []
+    const bindings = []
+    
+    if (full_name) {
+      updates.push('full_name = ?')
+      bindings.push(full_name)
+    }
+    if (phone) {
+      updates.push('phone = ?')
+      bindings.push(phone)
+    }
+    if (bio !== undefined) {
+      updates.push('bio = ?')
+      bindings.push(bio)
+    }
+    if (website !== undefined) {
+      updates.push('website = ?')
+      bindings.push(website)
+    }
+    if (profile_image !== undefined) {
+      updates.push('profile_image = ?')
+      bindings.push(profile_image)
+    }
+    
+    if (updates.length === 0) {
+      return c.json({ 
+        success: false, 
+        error: '업데이트할 필드가 없습니다' 
+      }, 400)
+    }
+    
+    // Add updated_at
+    updates.push("updated_at = datetime('now')")
+    bindings.push(user.id)
+    
+    // Execute update (W1-C13: Proper response handling)
+    await db.prepare(`
+      UPDATE users 
+      SET ${updates.join(', ')}
+      WHERE id = ?
+    `).bind(...bindings).run()
+    
+    // Fetch updated user data
+    const updatedUser = await db.prepare(`
+      SELECT 
+        id, email, username, full_name, role, 
+        phone, bio, website, profile_image, is_verified
+      FROM users 
+      WHERE id = ?
+    `).bind(user.id).first()
+    
+    if (!updatedUser) {
+      return c.json({ 
+        success: false, 
+        error: '업데이트된 사용자 정보를 가져올 수 없습니다' 
+      }, 500)
+    }
+    
+    // Log activity
+    await db.prepare(`
+      INSERT INTO activity_logs (user_id, action_type, entity_type, created_at)
+      VALUES (?, 'profile_update', 'user', datetime('now'))
+    `).bind(user.id).run()
+    
+    // Return updated user data (W1-C13)
+    return c.json({ 
+      success: true, 
+      message: '프로필이 성공적으로 업데이트되었습니다',
+      user: {
+        id: Number(updatedUser.id),
+        email: String(updatedUser.email),
+        username: String(updatedUser.username),
+        full_name: String(updatedUser.full_name),
+        role: String(updatedUser.role),
+        phone: updatedUser.phone ? String(updatedUser.phone) : null,
+        bio: updatedUser.bio ? String(updatedUser.bio) : null,
+        website: updatedUser.website ? String(updatedUser.website) : null,
+        profile_image: updatedUser.profile_image ? String(updatedUser.profile_image) : null,
+        is_verified: Boolean(updatedUser.is_verified)
+      }
+    })
+  } catch (error: any) {
+    console.error('Profile update error:', error)
+    return c.json({ 
+      success: false, 
+      error: '프로필 업데이트 중 오류가 발생했습니다' 
+    }, 500)
+  }
+})
+
+// ============================================
+// 🔐 W1-C11: Soft Delete User (deactivate instead of hard delete)
+// ============================================
+app.post('/api/auth/delete-account', requireAuth, async (c) => {
+  const db = c.env.DB
+  const user = c.get('user')
+  
+  try {
+    const { current_password, reason } = await c.req.json()
+    
+    if (!current_password) {
+      return c.json({ 
+        success: false, 
+        error: '계정 삭제를 위해 비밀번호를 입력해주세요' 
+      }, 400)
+    }
+    
+    // Get user's current password hash
+    const userData = await db.prepare(`
+      SELECT password_hash FROM users WHERE id = ?
+    `).bind(user.id).first()
+    
+    if (!userData) {
+      return c.json({ success: false, error: '사용자를 찾을 수 없습니다' }, 404)
+    }
+    
+    // Verify current password
+    const isValidPassword = await bcrypt.compare(
+      current_password, 
+      userData.password_hash as string
+    )
+    
+    if (!isValidPassword) {
+      return c.json({ 
+        success: false, 
+        error: '비밀번호가 올바르지 않습니다' 
+      }, 401)
+    }
+    
+    // Soft delete (W1-C11: Set is_active = 0 instead of DELETE)
+    await db.prepare(`
+      UPDATE users 
+      SET 
+        is_active = 0,
+        deleted_at = datetime('now'),
+        updated_at = datetime('now')
+      WHERE id = ?
+    `).bind(user.id).run()
+    
+    // Log account deletion with reason
+    await db.prepare(`
+      INSERT INTO activity_logs (
+        user_id, action_type, entity_type, description, created_at
+      ) VALUES (?, 'account_delete', 'user', ?, datetime('now'))
+    `).bind(user.id, reason || '사용자 요청').run()
+    
+    // Delete all user sessions (logout from all devices)
+    await db.prepare(`
+      DELETE FROM user_sessions WHERE user_id = ?
+    `).bind(user.id).run()
+    
+    return c.json({ 
+      success: true, 
+      message: '계정이 비활성화되었습니다. 30일 이내에 고객센터로 연락하시면 복구가 가능합니다.' 
+    })
+  } catch (error: any) {
+    console.error('Delete account error:', error)
+    return c.json({ 
+      success: false, 
+      error: '계정 삭제 중 오류가 발생했습니다' 
+    }, 500)
   }
 })
 
@@ -5134,8 +5693,63 @@ app.post('/api/artworks', async (c) => {
     const category = formData.get('category') as string
     const current_price = formData.get('current_price') as string
     
-    if (!image || !title || !category || !current_price) {
-      return c.json({ success: false, error: '필수 정보를 입력해주세요' }, 400)
+    // ============================================
+    // 🔧 W1-C9: Metadata Required Field Validation (Enhanced)
+    // ============================================
+    const missingFields = []
+    if (!image) missingFields.push('작품 이미지')
+    if (!title || title.trim() === '') missingFields.push('작품 제목')
+    if (!category || category.trim() === '') missingFields.push('카테고리')
+    if (!current_price) missingFields.push('가격')
+    
+    if (missingFields.length > 0) {
+      return c.json({ 
+        success: false, 
+        error: `필수 정보를 입력해주세요: ${missingFields.join(', ')}` 
+      }, 400)
+    }
+    
+    // Validate title length (W1-C9)
+    if (title.trim().length < 2) {
+      return c.json({ 
+        success: false, 
+        error: '작품 제목은 2자 이상이어야 합니다' 
+      }, 400)
+    }
+    
+    if (title.trim().length > 200) {
+      return c.json({ 
+        success: false, 
+        error: '작품 제목은 200자를 초과할 수 없습니다' 
+      }, 400)
+    }
+    
+    // Validate category (W1-C9)
+    const validCategories = [
+      '회화', '조각', '사진', '디지털아트', '설치미술', 
+      '판화', '서예', '공예', '일러스트', '기타'
+    ]
+    if (!validCategories.includes(category)) {
+      return c.json({ 
+        success: false, 
+        error: `올바른 카테고리를 선택해주세요 (${validCategories.join(', ')})` 
+      }, 400)
+    }
+    
+    // Validate price (W1-C9)
+    const price = parseFloat(current_price)
+    if (isNaN(price) || price < 0) {
+      return c.json({ 
+        success: false, 
+        error: '올바른 가격을 입력해주세요 (0 이상)' 
+      }, 400)
+    }
+    
+    if (price > 1000000000) {
+      return c.json({ 
+        success: false, 
+        error: '가격은 10억원을 초과할 수 없습니다' 
+      }, 400)
     }
     
     // Validate image type
@@ -5143,7 +5757,7 @@ app.post('/api/artworks', async (c) => {
       return c.json({ success: false, error: '이미지 파일만 업로드 가능합니다' }, 400)
     }
     
-    // Validate image size (max 10MB)
+    // Validate image size (max 10MB) - W1-C8 already implemented
     if (image.size > 10 * 1024 * 1024) {
       return c.json({ success: false, error: '이미지 크기는 10MB를 초과할 수 없습니다' }, 400)
     }

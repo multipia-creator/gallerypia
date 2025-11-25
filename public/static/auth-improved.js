@@ -318,7 +318,8 @@ async function handleSignupImproved(event) {
       requestData.organization_description = document.getElementById('organization_description')?.value
     }
     
-    const response = await axios.post('/api/auth/signup', requestData)
+    // W1-C1: Use new register endpoint
+    const response = await axios.post('/api/auth/register', requestData)
     
     if (response.data.success) {
       showSuccess('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.')
