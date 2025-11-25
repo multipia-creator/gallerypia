@@ -142,6 +142,51 @@ const translations = {
     'main.estimated_value': '산정가',
     'main.views': '조회',
     'main.likes': '좋아요',
+    // 특징 섹션 추가
+    'main.feature_ai_auth': 'AI 진위 검증',
+    'main.feature_ai_auth_desc': '딥러닝 기반 자동 검증 시스템',
+    'main.feature_ai_auth_detail': '딥러닝 기반 이미지 분석과 블록체인 추적으로 작품의 진위성을 자동으로 검증합니다',
+    'main.feature_ai_auth_item1': '실시간 위조품 탐지',
+    'main.feature_ai_auth_item2': '블록체인 기록 자동 추적',
+    'main.feature_ai_auth_item3': '전문가 2차 검증 시스템',
+    'main.feature_royalty': '로열티 자동화',
+    'main.feature_royalty_desc': '블록체인 기록 자동 추적',
+    'main.feature_royalty_detail': '스마트 컨트랙트 기반 자동 분배로 작가와 중개인의 수익을 실시간 정산합니다',
+    'main.feature_royalty_item1': '거래 즉시 자동 정산',
+    'main.feature_royalty_item2': '투명한 수익 배분',
+    'main.feature_royalty_item3': '실시간 수익 대시보드',
+    'main.feature_partnership_title': '글로벌 파트너십',
+    'main.feature_partnership_detail': '세계적인 박물관 및 갤러리와의 파트너십을 통해 검증된 작품만을 제공합니다',
+    'main.feature_partnership_item1': '세계적 미술관 연계',
+    'main.feature_partnership_item2': '전문 갤러리 큐레이션',
+    'main.feature_partnership_item3': '검증된 아트딜러 네트워크',
+    'main.feature_partnership_link': '파트너 신청',
+    'main.feature_learn_more': '자세히 보기',
+    // 신뢰 배지
+    'main.trust_verified': '100% 검증된 작품',
+    'main.trust_blockchain': '블록체인 보안',
+    'main.trust_global': '글로벌 네트워크',
+    // Featured NFTs 섹션
+    'main.featured_nfts': 'Featured NFTs',
+    'main.featured_subtitle': '가장 가치있는 프리미엄 컬렉션',
+    'main.featured_view_all': '전체 보기',
+    'main.featured_no_artworks': '등록된 작품이 없습니다.',
+    // 추천 작품 섹션
+    'main.recommended_title': '추천 작품',
+    'main.recommended_subtitle': '전문가 평가가 우수한 엄선된 컬렉션',
+    'main.recommended_badge': '추천',
+    'main.recommended_no_artworks': '평점 4.0 이상의 추천 작품이 없습니다.',
+    'main.recommended_coming_soon': '전문가 평가를 받은 우수한 작품이 곧 추가됩니다.',
+    // 인기 작품 섹션
+    'main.popular_title': '인기 작품',
+    'main.popular_subtitle': '가장 많은 관심을 받고 있는 작품',
+    'main.popular_no_artworks': '인기 작품이 없습니다.',
+    'main.popular_coming_soon': '많은 관심을 받는 작품이 곧 추가됩니다.',
+    // 신규 작품 섹션
+    'main.recent_title': '신규 작품',
+    'main.recent_subtitle': '최근 등록된 신선한 컬렉션',
+    'main.recent_no_artworks': '최근 등록된 작품이 없습니다.',
+    'main.recent_coming_soon': '새로운 작품이 곧 등록됩니다.',
     
     // Welcome Tutorial
     'tutorial.welcome_title': '갤러리피아에 오신 것을 환영합니다! 🎨',
@@ -310,6 +355,45 @@ const translations = {
     'main.estimated_value': 'Estimated Value',
     'main.views': 'Views',
     'main.likes': 'Likes',
+    'main.feature_ai_auth': 'AI Authentication',
+    'main.feature_ai_auth_desc': 'Deep learning-based automatic verification system',
+    'main.feature_ai_auth_detail': 'Automatically verifies the authenticity of artworks through deep learning-based image analysis and blockchain tracking',
+    'main.feature_ai_auth_item1': 'Real-time counterfeit detection',
+    'main.feature_ai_auth_item2': 'Automatic blockchain record tracking',
+    'main.feature_ai_auth_item3': 'Expert secondary verification system',
+    'main.feature_royalty': 'Royalty Automation',
+    'main.feature_royalty_desc': 'Automatic blockchain record tracking',
+    'main.feature_royalty_detail': 'Real-time settlement of artists and intermediaries revenue through smart contract-based automatic distribution',
+    'main.feature_royalty_item1': 'Instant settlement upon transaction',
+    'main.feature_royalty_item2': 'Transparent revenue distribution',
+    'main.feature_royalty_item3': 'Real-time revenue dashboard',
+    'main.feature_partnership_title': 'Global Partnership',
+    'main.feature_partnership_detail': 'Providing only verified artworks through partnerships with world-class museums and galleries',
+    'main.feature_partnership_item1': 'World-class museum collaboration',
+    'main.feature_partnership_item2': 'Professional gallery curation',
+    'main.feature_partnership_item3': 'Verified art dealer network',
+    'main.feature_partnership_link': 'Apply for Partnership',
+    'main.feature_learn_more': 'Learn More',
+    'main.trust_verified': '100% Verified Artworks',
+    'main.trust_blockchain': 'Blockchain Security',
+    'main.trust_global': 'Global Network',
+    'main.featured_nfts': 'Featured NFTs',
+    'main.featured_subtitle': 'The most valuable premium collection',
+    'main.featured_view_all': 'View All',
+    'main.featured_no_artworks': 'No registered artworks.',
+    'main.recommended_title': 'Recommended Artworks',
+    'main.recommended_subtitle': 'Curated collection with excellent expert reviews',
+    'main.recommended_badge': 'Recommended',
+    'main.recommended_no_artworks': 'No recommended artworks with rating 4.0 or above.',
+    'main.recommended_coming_soon': 'Excellent artworks with expert reviews will be added soon.',
+    'main.popular_title': 'Popular Artworks',
+    'main.popular_subtitle': 'Artworks receiving the most attention',
+    'main.popular_no_artworks': 'No popular artworks.',
+    'main.popular_coming_soon': 'Artworks receiving much attention will be added soon.',
+    'main.recent_title': 'New Artworks',
+    'main.recent_subtitle': 'Recently registered fresh collection',
+    'main.recent_no_artworks': 'No recently registered artworks.',
+    'main.recent_coming_soon': 'New artworks will be registered soon.',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'Welcome to GalleryPia! 🎨',
@@ -478,6 +562,45 @@ const translations = {
     'main.estimated_value': '估价',
     'main.views': '浏览',
     'main.likes': '点赞',
+    'main.feature_ai_auth': 'AI鉴定',
+    'main.feature_ai_auth_desc': '基于深度学习的自动验证系统',
+    'main.feature_ai_auth_detail': '通过基于深度学习的图像分析和区块链追踪自动验证作品真伪',
+    'main.feature_ai_auth_item1': '实时伪造检测',
+    'main.feature_ai_auth_item2': '区块链记录自动追踪',
+    'main.feature_ai_auth_item3': '专家二次验证系统',
+    'main.feature_royalty': '自动版税',
+    'main.feature_royalty_desc': '区块链记录自动追踪',
+    'main.feature_royalty_detail': '通过基于智能合约的自动分配实时结算艺术家和中介的收益',
+    'main.feature_royalty_item1': '交易立即自动结算',
+    'main.feature_royalty_item2': '透明的收益分配',
+    'main.feature_royalty_item3': '实时收益仪表板',
+    'main.feature_partnership_title': '全球合作',
+    'main.feature_partnership_detail': '通过与世界级博物馆和画廊的合作仅提供经过验证的作品',
+    'main.feature_partnership_item1': '世界级博物馆合作',
+    'main.feature_partnership_item2': '专业画廊策展',
+    'main.feature_partnership_item3': '经过验证的艺术经纪人网络',
+    'main.feature_partnership_link': '申请合作',
+    'main.feature_learn_more': '了解更多',
+    'main.trust_verified': '100%经过验证的作品',
+    'main.trust_blockchain': '区块链安全',
+    'main.trust_global': '全球网络',
+    'main.featured_nfts': 'Featured NFTs',
+    'main.featured_subtitle': '最有价值的高级收藏',
+    'main.featured_view_all': '查看全部',
+    'main.featured_no_artworks': '暂无注册作品。',
+    'main.recommended_title': '推荐作品',
+    'main.recommended_subtitle': '经过专家评估的精选收藏',
+    'main.recommended_badge': '推荐',
+    'main.recommended_no_artworks': '没有评分4.0以上的推荐作品。',
+    'main.recommended_coming_soon': '经过专家评估的优秀作品即将添加。',
+    'main.popular_title': '热门作品',
+    'main.popular_subtitle': '最受关注的作品',
+    'main.popular_no_artworks': '暂无热门作品。',
+    'main.popular_coming_soon': '受到很多关注的作品即将添加。',
+    'main.recent_title': '新作品',
+    'main.recent_subtitle': '最近注册的新鲜收藏',
+    'main.recent_no_artworks': '暂无最近注册的作品。',
+    'main.recent_coming_soon': '新作品即将注册。',
     
     // Welcome Tutorial
     'tutorial.welcome_title': '欢迎来到GalleryPia！🎨',
@@ -646,6 +769,45 @@ const translations = {
     'main.estimated_value': '評価額',
     'main.views': '閲覧',
     'main.likes': 'いいね',
+    'main.feature_ai_auth': 'AI鑑定',
+    'main.feature_ai_auth_desc': 'ディープラーニングベースの自動検証システム',
+    'main.feature_ai_auth_detail': 'ディープラーニングベースの画像分析とブロックチェーン追跡で作品の真偽を自動検証します',
+    'main.feature_ai_auth_item1': 'リアルタイム偽造品検出',
+    'main.feature_ai_auth_item2': 'ブロックチェーン記録の自動追跡',
+    'main.feature_ai_auth_item3': '専門家2次検証システム',
+    'main.feature_royalty': 'ロイヤリティ自動化',
+    'main.feature_royalty_desc': 'ブロックチェーン記録の自動追跡',
+    'main.feature_royalty_detail': 'スマートコントラクトベースの自動分配で作家と仲介の収益をリアルタイム精算します',
+    'main.feature_royalty_item1': '取引直後自動精算',
+    'main.feature_royalty_item2': '透明な収益配分',
+    'main.feature_royalty_item3': 'リアルタイム収益ダッシュボード',
+    'main.feature_partnership_title': 'グローバルパートナーシップ',
+    'main.feature_partnership_detail': '世界級の博物館およびギャラリーとのパートナーシップを通じて検証済み作品のみを提供します',
+    'main.feature_partnership_item1': '世界的な美術館との連携',
+    'main.feature_partnership_item2': '専門ギャラリーキュレーション',
+    'main.feature_partnership_item3': '検証済みアートディーラーネットワーク',
+    'main.feature_partnership_link': 'パートナー申請',
+    'main.feature_learn_more': '詳しく見る',
+    'main.trust_verified': '100%検証済み作品',
+    'main.trust_blockchain': 'ブロックチェーンセキュリティ',
+    'main.trust_global': 'グローバルネットワーク',
+    'main.featured_nfts': 'Featured NFTs',
+    'main.featured_subtitle': '最も価値のあるプレミアムコレクション',
+    'main.featured_view_all': 'すべて見る',
+    'main.featured_no_artworks': '登録された作品がありません。',
+    'main.recommended_title': 'おすすめ作品',
+    'main.recommended_subtitle': '専門家評価が優れた厳選コレクション',
+    'main.recommended_badge': 'おすすめ',
+    'main.recommended_no_artworks': '評価4.0以上のおすすめ作品がありません。',
+    'main.recommended_coming_soon': '専門家評価を受けた優れた作品が間もなく追加されます。',
+    'main.popular_title': '人気作品',
+    'main.popular_subtitle': '最も注目を集めている作品',
+    'main.popular_no_artworks': '人気作品がありません。',
+    'main.popular_coming_soon': '多くの注目を集める作品が間もなく追加されます。',
+    'main.recent_title': '新作品',
+    'main.recent_subtitle': '最近登録されたフレッシュなコレクション',
+    'main.recent_no_artworks': '最近登録された作品がありません。',
+    'main.recent_coming_soon': '新しい作品が間もなく登録されます。',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'GalleryPiaへようこそ！🎨',
@@ -7707,19 +7869,19 @@ app.get('/', async (c) => {
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
                         <a href="/signup" class="group px-10 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-user-plus mr-2 text-lg group-hover:rotate-12 transition-transform"></i>
-                            <span>회원가입</span>
+                            <span>${t('main.btn_signup', lang)}</span>
                         </a>
-                        <button id="pwa-install-hero-button" onclick="installPWA()" class="group px-10 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105" style="display: none;" title="홈 화면에 앱 추가">
+                        <button id="pwa-install-hero-button" onclick="installPWA()" class="group px-10 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105" style="display: none;" title="${t('main.btn_install_tooltip', lang)}">
                             <i class="fas fa-download mr-2 text-lg group-hover:scale-110 transition-transform"></i>
-                            <span>앱 설치</span>
+                            <span>${t('main.btn_install_app', lang)}</span>
                         </button>
                         <a href="/mint" class="group px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-magic mr-2 text-lg group-hover:rotate-12 transition-transform"></i>
-                            <span>NFT 민팅</span>
+                            <span>${t('main.btn_mint', lang)}</span>
                         </a>
                         <button onclick="connectMetaMask()" class="group px-10 py-4 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white rounded-xl font-bold text-base inline-flex items-center justify-center border border-gray-700 hover:border-gray-600 shadow-lg shadow-gray-900/50 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-wallet mr-2 text-lg group-hover:scale-110 transition-transform"></i>
-                            <span id="walletTextMain">지갑 연결</span>
+                            <span id="walletTextMain">${t('main.btn_wallet', lang)}</span>
                         </button>
                     </div>
                 </div>
@@ -7779,26 +7941,26 @@ app.get('/', async (c) => {
                         <div class="w-16 h-16 mb-6 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
                             <i class="fas fa-robot text-3xl text-white"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">AI 진위 검증</h3>
+                        <h3 class="text-2xl font-bold text-white mb-4">${t('main.feature_ai_auth', lang)}</h3>
                         <p class="text-gray-400 mb-6 leading-relaxed">
-                            딥러닝 기반 이미지 분석과 블록체인 추적으로 작품의 진위성을 자동으로 검증합니다
+                            ${t('main.feature_ai_auth_detail', lang)}
                         </p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-purple-400 mr-2 mt-1"></i>
-                                <span>실시간 위조품 탐지</span>
+                                <span>${t('main.feature_ai_auth_item1', lang)}</span>
                             </li>
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-purple-400 mr-2 mt-1"></i>
-                                <span>블록체인 기록 자동 추적</span>
+                                <span>${t('main.feature_ai_auth_item2', lang)}</span>
                             </li>
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-purple-400 mr-2 mt-1"></i>
-                                <span>전문가 2차 검증 시스템</span>
+                                <span>${t('main.feature_ai_auth_item3', lang)}</span>
                             </li>
                         </ul>
                         <a href="/admin/authenticity" class="inline-flex items-center text-purple-400 hover:text-purple-300 font-semibold group/link">
-                            자세히 보기
+                            ${t('main.feature_learn_more', lang)}
                             <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
@@ -7811,26 +7973,26 @@ app.get('/', async (c) => {
                         <div class="w-16 h-16 mb-6 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
                             <i class="fas fa-coins text-3xl text-white"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">로열티 자동화</h3>
+                        <h3 class="text-2xl font-bold text-white mb-4">${t('main.feature_royalty', lang)}</h3>
                         <p class="text-gray-400 mb-6 leading-relaxed">
-                            스마트 컨트랙트 기반 자동 분배로 작가와 중개인의 수익을 실시간 정산합니다
+                            ${t('main.feature_royalty_detail', lang)}
                         </p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-blue-400 mr-2 mt-1"></i>
-                                <span>거래 즉시 자동 정산</span>
+                                <span>${t('main.feature_royalty_item1', lang)}</span>
                             </li>
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-blue-400 mr-2 mt-1"></i>
-                                <span>투명한 수익 배분</span>
+                                <span>${t('main.feature_royalty_item2', lang)}</span>
                             </li>
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-blue-400 mr-2 mt-1"></i>
-                                <span>실시간 수익 대시보드</span>
+                                <span>${t('main.feature_royalty_item3', lang)}</span>
                             </li>
                         </ul>
                         <a href="/admin/royalty" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group/link">
-                            자세히 보기
+                            ${t('main.feature_learn_more', lang)}
                             <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
@@ -7843,26 +8005,26 @@ app.get('/', async (c) => {
                         <div class="w-16 h-16 mb-6 bg-gradient-to-br from-amber-600 to-orange-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
                             <i class="fas fa-handshake text-3xl text-white"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">글로벌 파트너십</h3>
+                        <h3 class="text-2xl font-bold text-white mb-4">${t('main.feature_partnership_title', lang)}</h3>
                         <p class="text-gray-400 mb-6 leading-relaxed">
-                            미술관, 갤러리, 아트딜러와 협력하여 검증된 작품만을 큐레이션합니다
+                            ${t('main.feature_partnership_detail', lang)}
                         </p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-amber-400 mr-2 mt-1"></i>
-                                <span>세계적 미술관 연계</span>
+                                <span>${t('main.feature_partnership_item1', lang)}</span>
                             </li>
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-amber-400 mr-2 mt-1"></i>
-                                <span>전문 갤러리 큐레이션</span>
+                                <span>${t('main.feature_partnership_item2', lang)}</span>
                             </li>
                             <li class="flex items-start text-sm text-gray-300">
                                 <i class="fas fa-check text-amber-400 mr-2 mt-1"></i>
-                                <span>검증된 아트딜러 네트워크</span>
+                                <span>${t('main.feature_partnership_item3', lang)}</span>
                             </li>
                         </ul>
                         <a href="/museum/apply" class="inline-flex items-center text-amber-400 hover:text-amber-300 font-semibold group/link">
-                            파트너 신청
+                            ${t('main.feature_partnership_link', lang)}
                             <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
@@ -7874,15 +8036,15 @@ app.get('/', async (c) => {
                 <div class="inline-flex items-center gap-8 px-8 py-4 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
                     <div class="flex items-center gap-2">
                         <i class="fas fa-shield-check text-2xl text-green-400"></i>
-                        <span class="text-white font-semibold">100% 검증된 작품</span>
+                        <span class="text-white font-semibold">${t('main.trust_verified', lang)}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fas fa-lock text-2xl text-blue-400"></i>
-                        <span class="text-white font-semibold">블록체인 보안</span>
+                        <span class="text-white font-semibold">${t('main.trust_blockchain', lang)}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fas fa-globe text-2xl text-purple-400"></i>
-                        <span class="text-white font-semibold">글로벌 네트워크</span>
+                        <span class="text-white font-semibold">${t('main.trust_global', lang)}</span>
                     </div>
                 </div>
             </div>
@@ -7897,10 +8059,10 @@ app.get('/', async (c) => {
                     <h2 class="text-5xl font-black mb-3">
                         <span class="text-gradient">Featured</span> <span class="text-white">NFTs</span>
                     </h2>
-                    <p class="text-gray-500">가장 가치있는 프리미엄 컬렉션</p>
+                    <p class="text-gray-500">${t('main.featured_subtitle', lang)}</p>
                 </div>
                 <a href="/gallery" class="text-gradient hover:opacity-80 font-bold flex items-center group">
-                    전체 보기
+                    ${t('main.featured_view_all', lang)}
                     <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
@@ -7951,7 +8113,7 @@ app.get('/', async (c) => {
                             </div>
                             <div class="flex justify-between items-end">
                                 <div>
-                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                     <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value)}</div>
                                 </div>
                                 <div class="flex items-center space-x-3 text-gray-500 text-sm">
@@ -7961,7 +8123,7 @@ app.get('/', async (c) => {
                             </div>
                         </div>
                     </a>
-                `).join('') || '<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-image text-6xl mb-4 opacity-20"></i><p class="text-xl">등록된 작품이 없습니다.</p></div>'}
+                `).join('') || `<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-image text-6xl mb-4 opacity-20"></i><p class="text-xl">${t('main.featured_no_artworks', lang)}</p></div>`}
             </div>
         </div>
     </section>
@@ -7972,12 +8134,12 @@ app.get('/', async (c) => {
             <div class="flex justify-between items-center mb-12">
                 <div>
                     <h2 class="text-5xl font-black mb-3">
-                        <span class="text-gradient">추천</span> <span class="text-white">작품</span>
+                        <span class="text-gradient">${t('main.recommended_title', lang).split(' ')[0]}</span> <span class="text-white">${t('main.recommended_title', lang).split(' ')[1] || ''}</span>
                     </h2>
-                    <p class="text-gray-500">전문가 평가가 우수한 엄선된 컬렉션</p>
+                    <p class="text-gray-500">${t('main.recommended_subtitle', lang)}</p>
                 </div>
                 <a href="/gallery?filter=recommended" class="text-gradient hover:opacity-80 font-bold flex items-center group">
-                    전체 보기
+                    ${t('main.featured_view_all', lang)}
                     <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
@@ -7998,7 +8160,7 @@ app.get('/', async (c) => {
                             </div>
                             <div class="absolute top-4 left-4">
                                 <span class="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold rounded-full flex items-center">
-                                    <i class="fas fa-star mr-1.5"></i>추천
+                                    <i class="fas fa-star mr-1.5"></i>${t('main.recommended_badge', lang)}
                                 </span>
                             </div>
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
@@ -8015,7 +8177,7 @@ app.get('/', async (c) => {
                             </div>
                             <div class="flex justify-between items-end">
                                 <div>
-                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                     <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value)}</div>
                                 </div>
                                 <div class="flex items-center space-x-3 text-gray-500 text-sm">
@@ -8025,7 +8187,7 @@ app.get('/', async (c) => {
                             </div>
                         </div>
                     </a>
-                `).join('') || '<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-star text-6xl mb-4 opacity-20"></i><p class="text-xl">평점 4.0 이상의 추천 작품이 없습니다.</p><p class="text-sm mt-2">전문가 평가를 받은 우수한 작품이 곧 추가됩니다.</p></div>'}
+                `).join('') || `<div class="col-span-full text-center text-gray-500 py-20"><i class="fas fa-star text-6xl mb-4 opacity-20"></i><p class="text-xl">${t('main.recommended_no_artworks', lang)}</p><p class="text-sm mt-2">${t('main.recommended_coming_soon', lang)}</p></div>`}
             </div>
         </div>
     </section>
@@ -8079,7 +8241,7 @@ app.get('/', async (c) => {
                             </div>
                             <div class="flex justify-between items-end">
                                 <div>
-                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                     <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value)}</div>
                                 </div>
                                 <div class="flex items-center space-x-3 text-gray-500 text-sm">
@@ -8143,7 +8305,7 @@ app.get('/', async (c) => {
                             </div>
                             <div class="flex justify-between items-end">
                                 <div>
-                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                     <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value)}</div>
                                 </div>
                                 <div class="flex items-center space-x-3 text-gray-500 text-sm">
@@ -8880,7 +9042,7 @@ app.get('/gallery', async (c) => {
                                 
                                 <div class="flex justify-between items-end">
                                     <div>
-                                        <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                        <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                         <div class="price-value font-black text-lg text-gradient" data-price="${artwork.estimated_value || 0}">${formatPrice(artwork.estimated_value || 0)}</div>
                                     </div>
                                     ${artwork.current_price > 0 ? `
@@ -8965,7 +9127,7 @@ app.get('/gallery', async (c) => {
                                 
                                 <div class="flex justify-between items-end">
                                     <div>
-                                        <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                        <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                         <div class="price-value font-black text-lg text-gradient" data-price="${artwork.estimated_value || 0}">${formatPrice(artwork.estimated_value || 0)}</div>
                                     </div>
                                     ${artwork.current_price > 0 ? `
@@ -9048,7 +9210,7 @@ app.get('/gallery', async (c) => {
                                 
                                 <div class="flex justify-between items-end">
                                     <div>
-                                        <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                        <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                         <div class="price-value font-black text-lg text-gradient" data-price="${artwork.estimated_value || 0}">${formatPrice(artwork.estimated_value || 0)}</div>
                                     </div>
                                     ${artwork.current_price > 0 ? `
@@ -9133,7 +9295,7 @@ app.get('/gallery', async (c) => {
                                 
                                 <div class="flex justify-between items-end">
                                     <div>
-                                        <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                        <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                         <div class="price-value font-black text-lg text-gradient" data-price="${artwork.estimated_value || 0}">${formatPrice(artwork.estimated_value || 0)}</div>
                                     </div>
                                     ${artwork.current_price > 0 ? `
@@ -9318,7 +9480,7 @@ app.get('/gallery', async (c) => {
                             <!-- 가격 -->
                             <div class="flex justify-between items-end">
                                 <div>
-                                    <div class="text-xs text-gray-500 mb-1">산정가</div>
+                                    <div class="text-xs text-gray-500 mb-1">${t('main.estimated_value', lang)}</div>
                                     <div class="font-black text-lg text-gradient">${formatPrice(artwork.estimated_value || 0)}</div>
                                 </div>
                                 ${artwork.current_price > 0 ? `
