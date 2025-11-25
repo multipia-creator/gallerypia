@@ -1167,8 +1167,15 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       
       // 사용자 네비게이션 초기화
       async function initUserNavigation() {
-        const token = localStorage.getItem('auth_token');
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        // ✅ FIX C2-1: Use unified session check (supports both localStorage and sessionStorage)
+        const user = window.getUser ? window.getUser() : (function() {
+          try {
+            const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+            return userStr ? JSON.parse(userStr) : null;
+          } catch (e) { return null; }
+        })();
+        
+        // Note: Session token is in HttpOnly cookie, automatically sent by browser
         
         // DOM 요소
         const signupBtn = document.getElementById('signupBtn');
@@ -1183,7 +1190,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         const adminLink = document.getElementById('adminLink');
         const logoutBtn = document.getElementById('logoutBtn');
         
-        if (token && user) {
+        if (user) {
           // 로그인 상태
           if (signupBtn) signupBtn.style.display = 'none';
           if (loginBtn) loginBtn.style.display = 'none';
@@ -1212,8 +1219,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           
           // 알림 개수 가져오기
           try {
+            // ✅ FIX: HttpOnly cookie is automatically sent
             const response = await fetch('/api/notifications/unread-count', {
-              headers: { 'Authorization': \`Bearer \${token}\` }
+              credentials: 'include'
             });
             if (response.ok) {
               const data = await response.json();
@@ -1248,15 +1256,21 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
               try {
+                // ✅ FIX: HttpOnly cookie is automatically sent
                 await fetch('/api/auth/logout', {
                   method: 'POST',
-                  headers: { 'Authorization': \`Bearer \${token}\` }
+                  credentials: 'include'
                 });
               } catch (error) {
                 console.error('로그아웃 실패:', error);
               } finally {
-                localStorage.removeItem('auth_token');
-                localStorage.removeItem('user');
+                // ✅ FIX: Clear user data (token is cleared by server via cookie)
+                if (window.clearUser) {
+                  window.clearUser();
+                } else {
+                  localStorage.removeItem('user');
+                  sessionStorage.removeItem('user');
+                }
                 window.location.href = '/';
               }
             });
@@ -1300,8 +1314,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       
       // 알림 목록 로드
       window.loadNotifications = async function() {
-        const token = localStorage.getItem('auth_token');
-        if (!token) return;
+        // ✅ FIX: Check user session instead of token
+        const user = window.getUser ? window.getUser() : null;
+        if (!user) return;
         
         const loading = document.getElementById('notificationsLoading');
         const list = document.getElementById('notificationsList');
@@ -1312,8 +1327,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           list.classList.add('hidden');
           empty.classList.add('hidden');
           
+          // ✅ FIX: HttpOnly cookie is automatically sent
           const response = await fetch('/api/notifications?limit=10', {
-            headers: { 'Authorization': \`Bearer \${token}\` }
+            credentials: 'include'
           });
           
           if (!response.ok) throw new Error('Failed to load notifications');
@@ -3096,14 +3112,19 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       
       // 모바일 사용자 정보 업데이트
       function updateMobileUserInfo() {
-        const token = localStorage.getItem('auth_token');
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        // ✅ FIX C2-1: Use unified session check
+        const user = window.getUser ? window.getUser() : (function() {
+          try {
+            const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+            return userStr ? JSON.parse(userStr) : null;
+          } catch (e) { return null; }
+        })();
         
         const mobileUserInfo = document.getElementById('mobileUserInfo');
         const mobileAuthMenu = document.getElementById('mobileAuthMenu');
         const mobileGuestMenu = document.getElementById('mobileGuestMenu');
         
-        if (token && user) {
+        if (user) {
           // 로그인 상태
           if (mobileUserInfo) {
             mobileUserInfo.classList.remove('hidden');
@@ -3119,15 +3140,21 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           if (mobileLogoutBtn) {
             mobileLogoutBtn.addEventListener('click', async () => {
               try {
+                // ✅ FIX: HttpOnly cookie is automatically sent
                 await fetch('/api/auth/logout', {
                   method: 'POST',
-                  headers: { 'Authorization': \`Bearer \${token}\` }
+                  credentials: 'include'
                 });
               } catch (error) {
-                console.error('\ub85c\uadf8\uc544\uc6c3 \uc2e4\ud328:', error);
+                console.error('로그아웃 실패:', error);
               } finally {
-                localStorage.removeItem('auth_token');
-                localStorage.removeItem('user');
+                // ✅ FIX: Clear user data
+                if (window.clearUser) {
+                  window.clearUser();
+                } else {
+                  localStorage.removeItem('user');
+                  sessionStorage.removeItem('user');
+                }
                 window.location.href = '/';
               }
             });
@@ -3881,7 +3908,9 @@ app.post('/api/auth/login', async (c) => {
 // Logout API
 app.post('/api/auth/logout', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  
+  // ✅ FIX C2-1: Read session token from HttpOnly cookie
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
   
   if (!token) {
     return c.json({ success: false, error: '인증 토큰이 없습니다' }, 401)
@@ -3892,6 +3921,9 @@ app.post('/api/auth/logout', async (c) => {
     await db.prepare(`
       DELETE FROM user_sessions WHERE session_token = ?
     `).bind(token).run()
+    
+    // Clear HttpOnly cookie
+    c.header('Set-Cookie', 'session_token=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0')
     
     return c.json({ success: true, message: '로그아웃되었습니다' })
   } catch (error: any) {

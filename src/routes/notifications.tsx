@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import type { Context } from 'hono'
+import { getCookie } from 'hono/cookie'
 
 interface Bindings {
   DB: D1Database
@@ -10,13 +11,26 @@ const notifications = new Hono<{ Bindings: Bindings }>()
 // 알림 조회 (사용자별)
 notifications.get('/', async (c: Context) => {
   try {
-    const userId = c.req.query('userId')
+    // ✅ SECURITY FIX: Get userId from session token instead of query parameter
+    const sessionToken = getCookie(c, 'session_token')
+    
+    if (!sessionToken) {
+      return c.json({ error: 'Unauthorized' }, 401)
+    }
+    
+    // Verify session and get user ID
+    const session = await c.env.DB.prepare(`
+      SELECT user_id FROM user_sessions 
+      WHERE session_token = ? AND expires_at > datetime('now')
+    `).bind(sessionToken).first() as any
+    
+    if (!session) {
+      return c.json({ error: 'Invalid or expired session' }, 401)
+    }
+    
+    const userId = session.user_id
     const limit = parseInt(c.req.query('limit') || '20')
     const unreadOnly = c.req.query('unreadOnly') === 'true'
-
-    if (!userId) {
-      return c.json({ error: 'userId is required' }, 400)
-    }
 
     let query = `
       SELECT 
@@ -49,17 +63,28 @@ notifications.get('/', async (c: Context) => {
 // 읽지 않은 알림 개수
 notifications.get('/unread-count', async (c: Context) => {
   try {
-    const userId = c.req.query('userId')
-
-    if (!userId) {
-      return c.json({ error: 'userId is required' }, 400)
+    // ✅ SECURITY FIX: Get userId from session token
+    const sessionToken = getCookie(c, 'session_token')
+    
+    if (!sessionToken) {
+      return c.json({ error: 'Unauthorized' }, 401)
+    }
+    
+    // Verify session and get user ID
+    const session = await c.env.DB.prepare(`
+      SELECT user_id FROM user_sessions 
+      WHERE session_token = ? AND expires_at > datetime('now')
+    `).bind(sessionToken).first() as any
+    
+    if (!session) {
+      return c.json({ error: 'Invalid or expired session' }, 401)
     }
 
     const result = await c.env.DB.prepare(`
       SELECT COUNT(*) as count
       FROM notifications
       WHERE user_id = ? AND is_read = 0
-    `).bind(userId).first()
+    `).bind(session.user_id).first()
 
     return c.json({ count: result?.count || 0 })
   } catch (error) {
@@ -72,32 +97,55 @@ notifications.get('/unread-count', async (c: Context) => {
 notifications.put('/:id/read', async (c: Context) => {
   try {
     const id = c.req.param('id')
-    const userId = c.req.query('userId')
-
-    if (!userId) {
-      return c.json({ error: 'userId is required' }, 400)
+    
+    // ✅ SECURITY FIX: Get userId from session token
+    const sessionToken = getCookie(c, 'session_token')
+    
+    if (!sessionToken) {
+      return c.json({ error: 'Unauthorized' }, 401)
+    }
+    
+    // Verify session and get user ID
+    const session = await c.env.DB.prepare(`
+      SELECT user_id FROM user_sessions 
+      WHERE session_token = ? AND expires_at > datetime('now')
+    `).bind(sessionToken).first() as any
+    
+    if (!session) {
+      return c.json({ error: 'Invalid or expired session' }, 401)
     }
 
     await c.env.DB.prepare(`
       UPDATE notifications
       SET is_read = 1, updated_at = CURRENT_TIMESTAMP
-      WHERE id = ? AND user_id = ?
-    `).bind(id, userId).run()
+      WHERE user_id = ?
+    `).bind(session.user_id).run()
 
     return c.json({ success: true })
   } catch (error) {
-    console.error('❌ Mark as read error:', error)
-    return c.json({ error: 'Failed to mark as read' }, 500)
+    console.error('❌ Mark read-all error:', error)
+    return c.json({ error: 'Failed to mark all as read' }, 500)
   }
 })
 
 // 모든 알림 읽음 처리
 notifications.put('/read-all', async (c: Context) => {
   try {
-    const userId = c.req.query('userId')
-
-    if (!userId) {
-      return c.json({ error: 'userId is required' }, 400)
+    // ✅ SECURITY FIX: Get userId from session token
+    const sessionToken = getCookie(c, 'session_token')
+    
+    if (!sessionToken) {
+      return c.json({ error: 'Unauthorized' }, 401)
+    }
+    
+    // Verify session and get user ID
+    const session = await c.env.DB.prepare(`
+      SELECT user_id FROM user_sessions 
+      WHERE session_token = ? AND expires_at > datetime('now')
+    `).bind(sessionToken).first() as any
+    
+    if (!session) {
+      return c.json({ error: 'Invalid or expired session' }, 401)
     }
 
     await c.env.DB.prepare(`
