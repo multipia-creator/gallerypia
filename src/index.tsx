@@ -177,6 +177,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <meta name="keywords" content="NFT, 미술품, 가치산정, 블록체인, 디지털아트, NFT갤러리, 아티스트랭킹, 큐레이션">
     <meta name="author" content="서경대학교 남현우 교수">
     
+    <!-- Security: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://browser.sentry-cdn.com https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https: blob:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:">
+    
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#8b5cf6">
     <meta name="apple-mobile-web-app-capable" content="yes">
