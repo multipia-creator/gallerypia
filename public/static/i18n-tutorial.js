@@ -16,6 +16,9 @@ function showFirstVisitTutorial() {
   modal.className = 'fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4';
   modal.style.animation = 'fadeIn 0.3s ease-out';
 
+  // Get i18n instance
+  const i18n = window.i18n || { t: (key) => key };
+  
   modal.innerHTML = `
     <div class="bg-gradient-to-br from-gray-900 via-purple-900/50 to-gray-900 rounded-3xl max-w-3xl w-full p-8 md:p-12 shadow-2xl border border-purple-500/30" style="animation: slideUp 0.5s ease-out;">
       <div class="text-center mb-8">
@@ -23,10 +26,10 @@ function showFirstVisitTutorial() {
           <i class="fas fa-magic text-white text-4xl"></i>
         </div>
         <h2 class="text-4xl font-black text-white mb-4">
-          <span class="text-gradient">GalleryPia</span>에 오신 것을 환영합니다!
+          ${i18n.t('tutorial.welcome_title')}
         </h2>
         <p class="text-gray-300 text-lg">
-          학술 논문 기반 NFT 미술품 가치산정 플랫폼
+          ${i18n.t('tutorial.welcome_subtitle')}
         </p>
       </div>
 
@@ -61,13 +64,13 @@ function showFirstVisitTutorial() {
           onclick="closeTutorial(true)"
           class="flex-1 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-bold text-lg rounded-xl transition-all hover:scale-105 shadow-lg"
         >
-          시작하기
+          ${i18n.t('tutorial.start_tour')}
         </button>
         <button 
           onclick="closeTutorial(false)"
           class="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold rounded-xl transition-all"
         >
-          다시 보지 않기
+          ${i18n.t('tutorial.skip')}
         </button>
       </div>
     </div>

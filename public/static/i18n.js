@@ -463,6 +463,21 @@ class I18n {
         'analysis.marketTrend': 'NFT 마켓 트렌드 및 거래량 분석',
         'analysis.editionComparison': '에디션 수 및 유사 NFT 비교 분석',
         'analysis.artistStyle': '아티스트의 고유한 스타일과 창의성',
+        
+        // Main Page
+        'main.hero_title_1': 'Discover',
+        'main.hero_title_2': 'Premium NFTs',
+        'main.hero_subtitle': '객관적인 가치산정 시스템으로 검증된 프리미엄 NFT 아트 컬렉션',
+        'main.search_placeholder': 'AI로 작품 검색... (텍스트, 음성 지원)',
+        'main.voice_search': '음성 검색',
+        'main.ai_search': 'AI 검색',
+        
+        // Welcome Tutorial
+        'tutorial.welcome_title': '갤러리피아에 오신 것을 환영합니다! 🎨',
+        'tutorial.welcome_subtitle': 'NFT 아트의 새로운 세계로',
+        'tutorial.welcome_description': '갤러리피아는 AI 기반 가치산정 시스템을 갖춘 차세대 NFT 아트 플랫폼입니다. 주요 기능을 빠르게 둘러보시겠어요?',
+        'tutorial.start_tour': '투어 시작하기',
+        'tutorial.skip': '건너뛰기',
       },
       
       // English
@@ -705,6 +720,21 @@ class I18n {
         'analysis.marketTrend': 'NFT market trend and trading volume analysis',
         'analysis.editionComparison': 'Edition count and similar NFT comparison',
         'analysis.artistStyle': 'Artist\'s unique style and creativity',
+        
+        // Main Page
+        'main.hero_title_1': 'Discover',
+        'main.hero_title_2': 'Premium NFTs',
+        'main.hero_subtitle': 'Premium NFT art collection verified by objective valuation system',
+        'main.search_placeholder': 'Search with AI... (Text, Voice supported)',
+        'main.voice_search': 'Voice Search',
+        'main.ai_search': 'AI Search',
+        
+        // Welcome Tutorial
+        'tutorial.welcome_title': 'Welcome to GalleryPia! 🎨',
+        'tutorial.welcome_subtitle': 'Into the new world of NFT Art',
+        'tutorial.welcome_description': 'GalleryPia is a next-generation NFT art platform with an AI-based valuation system. Would you like a quick tour of the main features?',
+        'tutorial.start_tour': 'Start Tour',
+        'tutorial.skip': 'Skip',
         
         // Common Terms
         'common.close': 'Close',
@@ -1093,6 +1123,21 @@ class I18n {
         'analysis.editionComparison': '版数和类似NFT对比分析',
         'analysis.artistStyle': '艺术家的独特风格和创意',
         
+        // Main Page
+        'main.hero_title_1': '发现',
+        'main.hero_title_2': '优质NFT',
+        'main.hero_subtitle': '经客观估值系统验证的优质NFT艺术收藏',
+        'main.search_placeholder': '使用AI搜索... (支持文字、语音)',
+        'main.voice_search': '语音搜索',
+        'main.ai_search': 'AI搜索',
+        
+        // Welcome Tutorial
+        'tutorial.welcome_title': '欢迎来到GalleryPia！🎨',
+        'tutorial.welcome_subtitle': '进入NFT艺术的新世界',
+        'tutorial.welcome_description': 'GalleryPia是一个具有AI估值系统的下一代NFT艺术平台。想快速浏览主要功能吗？',
+        'tutorial.start_tour': '开始导览',
+        'tutorial.skip': '跳过',
+        
         // Common Terms
         'common.close': '关闭',
         'common.submit': '提交',
@@ -1479,6 +1524,21 @@ class I18n {
         'analysis.marketTrend': 'NFT市場トレンドと取引量分析',
         'analysis.editionComparison': 'エディション数と類似NFT比較分析',
         'analysis.artistStyle': 'アーティストの独自のスタイルと創造性',
+        
+        // Main Page
+        'main.hero_title_1': '発見する',
+        'main.hero_title_2': 'プレミアムNFT',
+        'main.hero_subtitle': '客観的な価値評価システムで検証されたプレミアムNFTアートコレクション',
+        'main.search_placeholder': 'AIで作品を検索... (テキスト、音声対応)',
+        'main.voice_search': '音声検索',
+        'main.ai_search': 'AI検索',
+        
+        // Welcome Tutorial
+        'tutorial.welcome_title': 'GalleryPiaへようこそ！🎨',
+        'tutorial.welcome_subtitle': 'NFTアートの新しい世界へ',
+        'tutorial.welcome_description': 'GalleryPiaはAIベースの価値評価システムを備えた次世代NFTアートプラットフォームです。主要機能を簡単にご案内しましょうか？',
+        'tutorial.start_tour': 'ツアーを開始',
+        'tutorial.skip': 'スキップ',
         
         // Common Terms
         'common.close': '閉じる',
