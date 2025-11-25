@@ -70,6 +70,27 @@ app.use('/api/*', rateLimiters.api)
 // Enhanced CORS configuration
 app.use('/api/*', cors(corsConfig()))
 
+// ✅ SECURITY: Content Security Policy for ALL pages
+app.use('*', async (c, next) => {
+  await next()
+  
+  // Set CSP header for HTML responses
+  if (c.res.headers.get('content-type')?.includes('text/html')) {
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://browser.sentry-cdn.com https://t1.daumcdn.net",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
+      "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net",
+      "img-src 'self' data: https: blob:",
+      "connect-src 'self' https:",
+      "frame-src 'self' https:",
+      "worker-src 'self' blob:"
+    ].join('; ')
+    
+    c.res.headers.set('Content-Security-Policy', csp)
+  }
+})
+
 // ✅ CRITICAL: Admin API authentication middleware
 // All /api/admin/* routes require admin or super_admin role (session-based)
 // Exception: /api/admin/login and /api/admin/logout are public
