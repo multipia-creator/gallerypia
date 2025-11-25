@@ -14964,6 +14964,43 @@ app.get('/login', (c) => {
               
               <div id="alertMessage" class="hidden mb-6"></div>
               
+              <!-- P2: 간편 로그인 우선 (상단 배치) -->
+              <div class="mb-6">
+                  <div class="text-center mb-4">
+                      <p class="text-gray-400 text-sm">간편하게 시작하기</p>
+                  </div>
+                  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                      <button type="button" onclick="loginWithGoogle()" class="py-3 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                          <i class="fab fa-google mr-2 text-red-500"></i>
+                          <span class="hidden md:inline">Google</span>
+                      </button>
+                      <button type="button" onclick="loginWithKakao()" class="py-3 px-4 bg-yellow-400 hover:bg-yellow-500 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                          <i class="fas fa-comment mr-2"></i>
+                          <span class="hidden md:inline">Kakao</span>
+                      </button>
+                      <button type="button" onclick="loginWithNaver()" class="py-3 px-4 bg-green-500 hover:bg-green-600 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                          <span class="font-bold mr-2">N</span>
+                          <span class="hidden md:inline">Naver</span>
+                      </button>
+                      <button type="button" onclick="loginWithApple()" class="py-3 px-4 bg-black hover:bg-gray-900 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl border border-white border-opacity-20">
+                          <i class="fab fa-apple mr-2"></i>
+                          <span class="hidden md:inline">Apple</span>
+                      </button>
+                      <button type="button" onclick="loginWithFacebook()" class="py-3 px-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold text-white flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
+                          <i class="fab fa-facebook-f mr-2"></i>
+                          <span class="hidden md:inline">Facebook</span>
+                      </button>
+                  </div>
+                  <div class="relative mt-6">
+                      <div class="absolute inset-0 flex items-center">
+                          <div class="w-full border-t border-white border-opacity-10"></div>
+                      </div>
+                      <div class="relative flex justify-center text-sm">
+                          <span class="px-4 bg-black text-gray-500">또는 이메일로 로그인</span>
+                      </div>
+                  </div>
+              </div>
+              
               <form id="loginForm" class="space-y-6">
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
@@ -15011,21 +15048,6 @@ app.get('/login', (c) => {
                       아직 계정이 없으신가요?
                       <a href="/signup" class="text-purple-400 hover:text-purple-300 font-semibold ml-1">회원가입</a>
                   </p>
-              </div>
-              
-              <div class="mt-8 pt-6 border-t border-white border-opacity-10">
-                  <p class="text-xs text-gray-500 text-center mb-4">또는 다른 방법으로 로그인</p>
-                  <div class="grid grid-cols-3 gap-3">
-                      <button onclick="showSocialLoginInfo('Google')" class="py-3 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-lg transition" title="Google 로그인">
-                          <i class="fab fa-google text-xl text-red-400"></i>
-                      </button>
-                      <button onclick="showSocialLoginInfo('Facebook')" class="py-3 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-lg transition" title="Facebook 로그인">
-                          <i class="fab fa-facebook text-xl text-blue-400"></i>
-                      </button>
-                      <button onclick="loginWithMetaMask()" class="py-3 bg-white bg-opacity-5 hover:bg-opacity-10 rounded-lg transition" title="MetaMask 로그인">
-                          <i class="fas fa-wallet text-xl text-orange-400"></i>
-                      </button>
-                  </div>
               </div>
           </div>
       </div>
