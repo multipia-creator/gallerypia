@@ -15,6 +15,248 @@ import recommendations from './routes/recommendations'
 import seo from './routes/seo'
 import bcrypt from 'bcryptjs'
 
+// ===== Server-Side i18n System =====
+// Translation keys for all languages
+const translations = {
+  ko: {
+    // Navigation
+    'nav.home': '홈',
+    'nav.gallery': '갤러리',
+    'nav.auctions': '경매',
+    'nav.artists': '아티스트',
+    'nav.leaderboard': '리더보드',
+    'nav.recommendations': '추천',
+    'nav.login': '로그인',
+    'nav.signup': '회원가입',
+    'nav.logout': '로그아웃',
+    'nav.skip_to_content': '메인 콘텐츠로 바로가기',
+    'nav.language_selection': '언어 선택',
+    'nav.notifications': '알림',
+    'nav.user': '사용자',
+    'nav.dashboard': '대시보드',
+    'nav.profile': '프로필',
+    'nav.settings': '설정',
+    'nav.curation': '큐레이션',
+    'nav.academy': '아카데미',
+    'nav.about': '소개',
+    
+    // Gallery
+    'gallery.title': '갤러리',
+    'gallery.all': '전체',
+    'gallery.painting': '회화',
+    'gallery.sculpture': '조각',
+    'gallery.photo': '사진',
+    'gallery.digital': '디지털아트',
+    'gallery.mixed': '혼합매체',
+    'gallery.search_placeholder': '작품명, 작가명 검색...',
+    'gallery.sort_latest': '최신순',
+    'gallery.sort_popular': '인기순',
+    'gallery.sort_price_high': '가격 높은순',
+    'gallery.sort_price_low': '가격 낮은순',
+    
+    // Auth
+    'auth.login': '로그인',
+    'auth.signup': '회원가입',
+    'auth.logout': '로그아웃',
+    'auth.email': '이메일',
+    'auth.password': '비밀번호',
+    'auth.forgot_password': '비밀번호 찾기',
+    'auth.remember_me': '로그인 상태 유지',
+    'auth.or_login_with': '또는 이메일로 로그인',
+    'auth.welcome': '갤러리피아에 오신 것을 환영합니다',
+    
+    // Common
+    'common.search': '검색',
+    'common.close': '닫기',
+    'common.loading': '로딩 중...',
+    'common.no_data': '데이터가 없습니다',
+  },
+  en: {
+    // Navigation
+    'nav.home': 'Home',
+    'nav.gallery': 'Gallery',
+    'nav.auctions': 'Auctions',
+    'nav.artists': 'Artists',
+    'nav.leaderboard': 'Leaderboard',
+    'nav.recommendations': 'Recommendations',
+    'nav.login': 'Login',
+    'nav.signup': 'Sign Up',
+    'nav.logout': 'Logout',
+    'nav.skip_to_content': 'Skip to main content',
+    'nav.language_selection': 'Language Selection',
+    'nav.notifications': 'Notifications',
+    'nav.user': 'User',
+    'nav.dashboard': 'Dashboard',
+    'nav.profile': 'Profile',
+    'nav.settings': 'Settings',
+    'nav.curation': 'Curation',
+    'nav.academy': 'Academy',
+    'nav.about': 'About',
+    
+    // Gallery
+    'gallery.title': 'Gallery',
+    'gallery.all': 'All',
+    'gallery.painting': 'Painting',
+    'gallery.sculpture': 'Sculpture',
+    'gallery.photo': 'Photography',
+    'gallery.digital': 'Digital Art',
+    'gallery.mixed': 'Mixed Media',
+    'gallery.search_placeholder': 'Search by artwork or artist...',
+    'gallery.sort_latest': 'Latest',
+    'gallery.sort_popular': 'Popular',
+    'gallery.sort_price_high': 'Price: High to Low',
+    'gallery.sort_price_low': 'Price: Low to High',
+    
+    // Auth
+    'auth.login': 'Login',
+    'auth.signup': 'Sign Up',
+    'auth.logout': 'Logout',
+    'auth.email': 'Email',
+    'auth.password': 'Password',
+    'auth.forgot_password': 'Forgot Password',
+    'auth.remember_me': 'Remember me',
+    'auth.or_login_with': 'Or login with email',
+    'auth.welcome': 'Welcome to GalleryPia',
+    
+    // Common
+    'common.search': 'Search',
+    'common.close': 'Close',
+    'common.loading': 'Loading...',
+    'common.no_data': 'No data available',
+  },
+  zh: {
+    // Navigation
+    'nav.home': '首页',
+    'nav.gallery': '画廊',
+    'nav.auctions': '拍卖',
+    'nav.artists': '艺术家',
+    'nav.leaderboard': '排行榜',
+    'nav.recommendations': '推荐',
+    'nav.login': '登录',
+    'nav.signup': '注册',
+    'nav.logout': '登出',
+    'nav.skip_to_content': '跳转到主要内容',
+    'nav.language_selection': '语言选择',
+    'nav.notifications': '通知',
+    'nav.user': '用户',
+    'nav.dashboard': '仪表板',
+    'nav.profile': '个人资料',
+    'nav.settings': '设置',
+    'nav.curation': '策展',
+    'nav.academy': '学院',
+    'nav.about': '关于',
+    
+    // Gallery
+    'gallery.title': '画廊',
+    'gallery.all': '全部',
+    'gallery.painting': '绘画',
+    'gallery.sculpture': '雕塑',
+    'gallery.photo': '摄影',
+    'gallery.digital': '数字艺术',
+    'gallery.mixed': '混合媒体',
+    'gallery.search_placeholder': '按作品或艺术家搜索...',
+    'gallery.sort_latest': '最新',
+    'gallery.sort_popular': '热门',
+    'gallery.sort_price_high': '价格：高到低',
+    'gallery.sort_price_low': '价格：低到高',
+    
+    // Auth
+    'auth.login': '登录',
+    'auth.signup': '注册',
+    'auth.logout': '登出',
+    'auth.email': '电子邮件',
+    'auth.password': '密码',
+    'auth.forgot_password': '忘记密码',
+    'auth.remember_me': '记住我',
+    'auth.or_login_with': '或使用电子邮件登录',
+    'auth.welcome': '欢迎来到GalleryPia',
+    
+    // Common
+    'common.search': '搜索',
+    'common.close': '关闭',
+    'common.loading': '加载中...',
+    'common.no_data': '暂无数据',
+  },
+  ja: {
+    // Navigation
+    'nav.home': 'ホーム',
+    'nav.gallery': 'ギャラリー',
+    'nav.auctions': 'オークション',
+    'nav.artists': 'アーティスト',
+    'nav.leaderboard': 'リーダーボード',
+    'nav.recommendations': 'おすすめ',
+    'nav.login': 'ログイン',
+    'nav.signup': '新規登録',
+    'nav.logout': 'ログアウト',
+    'nav.skip_to_content': 'メインコンテンツへスキップ',
+    'nav.language_selection': '言語選択',
+    'nav.notifications': '通知',
+    'nav.user': 'ユーザー',
+    'nav.dashboard': 'ダッシュボード',
+    'nav.profile': 'プロフィール',
+    'nav.settings': '設定',
+    'nav.curation': 'キュレーション',
+    'nav.academy': 'アカデミー',
+    'nav.about': '概要',
+    
+    // Gallery
+    'gallery.title': 'ギャラリー',
+    'gallery.all': '全て',
+    'gallery.painting': '絵画',
+    'gallery.sculpture': '彫刻',
+    'gallery.photo': '写真',
+    'gallery.digital': 'デジタルアート',
+    'gallery.mixed': 'ミクストメディア',
+    'gallery.search_placeholder': '作品またはアーティストで検索...',
+    'gallery.sort_latest': '最新',
+    'gallery.sort_popular': '人気',
+    'gallery.sort_price_high': '価格：高い順',
+    'gallery.sort_price_low': '価格：安い順',
+    
+    // Auth
+    'auth.login': 'ログイン',
+    'auth.signup': '新規登録',
+    'auth.logout': 'ログアウト',
+    'auth.email': 'メールアドレス',
+    'auth.password': 'パスワード',
+    'auth.forgot_password': 'パスワードを忘れた',
+    'auth.remember_me': 'ログイン状態を保持',
+    'auth.or_login_with': 'またはメールでログイン',
+    'auth.welcome': 'GalleryPiaへようこそ',
+    
+    // Common
+    'common.search': '検索',
+    'common.close': '閉じる',
+    'common.loading': '読み込み中...',
+    'common.no_data': 'データがありません',
+  }
+}
+
+// Server-side translation function
+function t(key: string, lang: string = 'ko'): string {
+  return translations[lang as keyof typeof translations]?.[key] || translations.ko[key] || key
+}
+
+// Get user's preferred language from cookie or browser
+function getUserLanguage(c: any): string {
+  // Try to get from cookie
+  const cookieLang = getCookie(c, 'gallerypia_language')
+  if (cookieLang && ['ko', 'en', 'zh', 'ja'].includes(cookieLang)) {
+    return cookieLang
+  }
+  
+  // Try to get from Accept-Language header
+  const acceptLang = c.req.header('Accept-Language')
+  if (acceptLang) {
+    if (acceptLang.includes('en')) return 'en'
+    if (acceptLang.includes('zh')) return 'zh'
+    if (acceptLang.includes('ja')) return 'ja'
+  }
+  
+  // Default to Korean
+  return 'ko'
+}
+
 const app = new Hono<{ Bindings: Bindings }>()
 
 // Sentry 초기화 (환경변수에서 DSN 읽기)
@@ -7919,6 +8161,7 @@ app.get('/recommendations', (c) => {
 app.get('/gallery', async (c) => {
   try {
     const db = c.env.DB
+    const lang = getUserLanguage(c) // Get user's preferred language
     
     // 모든 작품 가져오기
     const artworksResult = await db.prepare(`
@@ -7961,11 +8204,11 @@ app.get('/gallery', async (c) => {
                     <span class="text-gradient font-bold text-sm">🎨 NFT ART GALLERY</span>
                 </div>
                 <h1 class="text-6xl md:text-7xl font-black mb-6">
-                    <span class="text-white">NFT 미술품</span><br/>
-                    <span class="text-gradient">갤러리</span>
+                    <span class="text-white">${lang === 'ko' ? 'NFT 미술품' : lang === 'en' ? 'NFT Artworks' : lang === 'zh' ? 'NFT艺术品' : 'NFT作品'}</span><br/>
+                    <span class="text-gradient">${t('gallery.title', lang)}</span>
                 </h1>
                 <p class="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed mb-8">
-                    가치산정 시스템과 연동된 프리미엄 NFT 작품을 만나보세요
+                    ${lang === 'ko' ? '가치산정 시스템과 연동된 프리미엄 NFT 작품을 만나보세요' : lang === 'en' ? 'Discover premium NFT artworks integrated with valuation system' : lang === 'zh' ? '发现与估值系统集成的优质NFT作品' : '評価システムと統合されたプレミアムNFT作品を発見'}
                 </p>
                 
                 <!-- AI 검색 인터페이스 -->
@@ -7976,15 +8219,15 @@ app.get('/gallery', async (c) => {
                             <input 
                                 type="text" 
                                 id="gallerySearchInput"
-                                placeholder="작품 검색... (텍스트, 음성 지원)"
+                                placeholder="${t('gallery.search_placeholder', lang)}"
                                 class="w-full px-6 py-4 pr-32 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:bg-white/10 transition-all duration-300"
                                 onkeypress="if(event.key === 'Enter') performGallerySearch()"
                             >
                             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                <button onclick="startGalleryVoiceSearch()" class="p-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-xl transition-all duration-200 hover:scale-110" title="음성 검색">
+                                <button onclick="startGalleryVoiceSearch()" class="p-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-xl transition-all duration-200 hover:scale-110" title="${lang === 'ko' ? '음성 검색' : lang === 'en' ? 'Voice Search' : lang === 'zh' ? '语音搜索' : '音声検索'}">
                                     <i class="fas fa-microphone text-white"></i>
                                 </button>
-                                <button onclick="performGallerySearch()" class="p-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 rounded-xl transition-all duration-200 hover:scale-110" title="검색">
+                                <button onclick="performGallerySearch()" class="p-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 rounded-xl transition-all duration-200 hover:scale-110" title="${t('common.search', lang)}">
                                     <i class="fas fa-search text-white"></i>
                                 </button>
                             </div>
@@ -7999,22 +8242,22 @@ app.get('/gallery', async (c) => {
                     <!-- 카테고리 필터 -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-400 mb-3">
-                            <i class="fas fa-tag mr-2"></i>카테고리
+                            <i class="fas fa-tag mr-2"></i>${lang === 'ko' ? '카테고리' : lang === 'en' ? 'Category' : lang === 'zh' ? '类别' : 'カテゴリー'}
                         </label>
                         <select id="categoryFilter" class="w-full px-4 py-3 bg-gray-800/80 border border-gray-700 rounded-xl text-white focus:border-purple-500 focus:outline-none transition-colors" onchange="applyFilters()">
-                            <option value="all">전체</option>
-                            <option value="painting">회화</option>
-                            <option value="sculpture">조각</option>
-                            <option value="photography">사진</option>
-                            <option value="digital">디지털아트</option>
-                            <option value="mixed">혼합매체</option>
+                            <option value="all">${t('gallery.all', lang)}</option>
+                            <option value="painting">${t('gallery.painting', lang)}</option>
+                            <option value="sculpture">${t('gallery.sculpture', lang)}</option>
+                            <option value="photography">${t('gallery.photo', lang)}</option>
+                            <option value="digital">${t('gallery.digital', lang)}</option>
+                            <option value="mixed">${t('gallery.mixed', lang)}</option>
                         </select>
                     </div>
                     
                     <!-- 가격 범위 필터 -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-400 mb-3">
-                            <i class="fas fa-won-sign mr-2"></i>가격 범위
+                            <i class="fas fa-won-sign mr-2"></i>${lang === 'ko' ? '가격 범위' : lang === 'en' ? 'Price Range' : lang === 'zh' ? '价格范围' : '価格範囲'}
                         </label>
                         <select id="priceFilter" class="w-full px-4 py-3 bg-gray-800/80 border border-gray-700 rounded-xl text-white focus:border-purple-500 focus:outline-none transition-colors" onchange="applyFilters()">
                             <option value="all">전체</option>
@@ -8028,29 +8271,29 @@ app.get('/gallery', async (c) => {
                     <!-- 상태 필터 -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-400 mb-3">
-                            <i class="fas fa-filter mr-2"></i>상태
+                            <i class="fas fa-filter mr-2"></i>${lang === 'ko' ? '상태' : lang === 'en' ? 'Status' : lang === 'zh' ? '状态' : 'ステータス'}
                         </label>
                         <select id="statusFilter" class="w-full px-4 py-3 bg-gray-800/80 border border-gray-700 rounded-xl text-white focus:border-purple-500 focus:outline-none transition-colors" onchange="applyFilters()">
-                            <option value="all">전체</option>
-                            <option value="minted">NFT 민팅됨</option>
-                            <option value="not-minted">미민팅</option>
-                            <option value="on-sale">판매중</option>
+                            <option value="all">${t('gallery.all', lang)}</option>
+                            <option value="minted">${lang === 'ko' ? 'NFT 민팅됨' : lang === 'en' ? 'NFT Minted' : lang === 'zh' ? 'NFT已铸造' : 'NFTミント済み'}</option>
+                            <option value="not-minted">${lang === 'ko' ? '미민팅' : lang === 'en' ? 'Not Minted' : lang === 'zh' ? '未铸造' : '未ミント'}</option>
+                            <option value="on-sale">${lang === 'ko' ? '판매중' : lang === 'en' ? 'On Sale' : lang === 'zh' ? '在售' : '販売中'}</option>
                         </select>
                     </div>
                     
                     <!-- 정렬 필터 -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-400 mb-3">
-                            <i class="fas fa-sort mr-2"></i>정렬
+                            <i class="fas fa-sort mr-2"></i>${lang === 'ko' ? '정렬' : lang === 'en' ? 'Sort' : lang === 'zh' ? '排序' : '並び替え'}
                         </label>
                         <select id="sortFilter" class="w-full px-4 py-3 bg-gray-800/80 border border-gray-700 rounded-xl text-white focus:border-purple-500 focus:outline-none transition-colors" onchange="applyFilters()">
-                            <option value="created_desc">최신순</option>
-                            <option value="created_asc">오래된순</option>
-                            <option value="price_desc">가격 높은순</option>
-                            <option value="price_asc">가격 낮은순</option>
-                            <option value="views_desc">조회수 높은순</option>
-                            <option value="likes_desc">좋아요 많은순</option>
-                            <option value="score_desc">평점 높은순</option>
+                            <option value="created_desc">${t('gallery.sort_latest', lang)}</option>
+                            <option value="created_asc">${lang === 'ko' ? '오래된순' : lang === 'en' ? 'Oldest' : lang === 'zh' ? '最旧' : '古い順'}</option>
+                            <option value="price_desc">${t('gallery.sort_price_high', lang)}</option>
+                            <option value="price_asc">${t('gallery.sort_price_low', lang)}</option>
+                            <option value="views_desc">${lang === 'ko' ? '조회수 높은순' : lang === 'en' ? 'Most Viewed' : lang === 'zh' ? '浏览量高' : '閲覧数順'}</option>
+                            <option value="likes_desc">${lang === 'ko' ? '좋아요 많은순' : lang === 'en' ? 'Most Liked' : lang === 'zh' ? '点赞最多' : 'いいね順'}</option>
+                            <option value="score_desc">${lang === 'ko' ? '평점 높은순' : lang === 'en' ? 'Highest Rated' : lang === 'zh' ? '评分最高' : '評価順'}</option>
                         </select>
                     </div>
                 </div>
@@ -8059,7 +8302,7 @@ app.get('/gallery', async (c) => {
                 <div class="mt-4 flex justify-end">
                     <button onclick="resetFilters()" class="px-6 py-2 bg-gray-700/50 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition-colors flex items-center gap-2">
                         <i class="fas fa-redo-alt"></i>
-                        <span>필터 초기화</span>
+                        <span>${lang === 'ko' ? '필터 초기화' : lang === 'en' ? 'Reset Filters' : lang === 'zh' ? '重置筛选' : 'フィルターリセット'}</span>
                     </button>
                 </div>
             </div>
@@ -8068,11 +8311,11 @@ app.get('/gallery', async (c) => {
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
                 <div class="card-nft rounded-2xl p-6 text-center bg-gradient-to-br from-purple-900/30 to-pink-900/20 border border-purple-500/30">
                     <div class="text-4xl font-black text-gradient mb-2">${stats.total}</div>
-                    <div class="text-xs text-gray-400 uppercase font-semibold">전체 작품</div>
+                    <div class="text-xs text-gray-400 uppercase font-semibold">${lang === 'ko' ? '전체 작품' : lang === 'en' ? 'Total Artworks' : lang === 'zh' ? '全部作品' : '全作品'}</div>
                 </div>
                 <div class="card-nft rounded-2xl p-6 text-center bg-gradient-to-br from-cyan-900/30 to-emerald-900/20 border border-cyan-500/30">
                     <div class="text-4xl font-black text-gradient mb-2">${stats.minted}</div>
-                    <div class="text-xs text-gray-400 uppercase font-semibold">NFT 민팅</div>
+                    <div class="text-xs text-gray-400 uppercase font-semibold">${lang === 'ko' ? 'NFT 민팅' : lang === 'en' ? 'NFT Minted' : lang === 'zh' ? 'NFT已铸造' : 'NFTミント済'}</div>
                 </div>
                 <div class="card-nft rounded-2xl p-6 text-center bg-gradient-to-br from-amber-900/30 to-orange-900/20 border border-amber-500/30">
                     <div class="text-4xl font-black text-gradient mb-2">${(stats.totalValue / 100000000).toFixed(1)}억</div>
@@ -14930,6 +15173,7 @@ app.get('/analytics-dashboard', (c) => {
 // 로그인 페이지
 // ============================================
 app.get('/login', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section id="main-content" class="min-h-screen flex items-center justify-center py-20" tabindex="-1">
       <div class="w-full max-w-md px-4">
@@ -14938,8 +15182,8 @@ app.get('/login', (c) => {
                   <div class="inline-block p-4 rounded-full gradient-primary mb-4">
                       <i class="fas fa-sign-in-alt text-4xl text-white"></i>
                   </div>
-                  <h1 class="text-3xl font-bold text-white mb-2">로그인</h1>
-                  <p class="text-gray-400">갤러리피아에 오신 것을 환영합니다</p>
+                  <h1 class="text-3xl font-bold text-white mb-2">${t('auth.login', lang)}</h1>
+                  <p class="text-gray-400">${t('auth.welcome', lang)}</p>
               </div>
               
               <div id="alertMessage" class="hidden mb-6"></div>
@@ -14947,7 +15191,7 @@ app.get('/login', (c) => {
               <!-- 간편 로그인 (상단 배치) -->
               <div class="mb-6">
                   <div class="text-center mb-4">
-                      <p class="text-gray-400 text-sm font-semibold">소셜 계정으로 간편 로그인</p>
+                      <p class="text-gray-400 text-sm font-semibold">${lang === 'ko' ? '소셜 계정으로 간편 로그인' : lang === 'en' ? 'Quick login with social account' : lang === 'zh' ? '使用社交账户快速登录' : 'ソーシャルアカウントで簡単ログイン'}</p>
                   </div>
                   <div class="grid grid-cols-3 gap-4">
                       <button type="button" onclick="loginWithGoogle()" class="py-4 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
@@ -14968,7 +15212,7 @@ app.get('/login', (c) => {
                           <div class="w-full border-t border-white border-opacity-10"></div>
                       </div>
                       <div class="relative flex justify-center text-sm">
-                          <span class="px-4 bg-black text-gray-500">또는 이메일로 로그인</span>
+                          <span class="px-4 bg-black text-gray-500">${t('auth.or_login_with', lang)}</span>
                       </div>
                   </div>
               </div>
@@ -14976,7 +15220,7 @@ app.get('/login', (c) => {
               <form id="loginForm" class="space-y-6">
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
-                          <i class="fas fa-envelope mr-2"></i>이메일
+                          <i class="fas fa-envelope mr-2"></i>${t('auth.email', lang)}
                       </label>
                       <input 
                           type="email" 
@@ -14989,36 +15233,36 @@ app.get('/login', (c) => {
                   
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
-                          <i class="fas fa-lock mr-2"></i>비밀번호
+                          <i class="fas fa-lock mr-2"></i>${t('auth.password', lang)}
                       </label>
                       <input 
                           type="password" 
                           name="password" 
                           required
                           class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                          placeholder="비밀번호를 입력하세요"
+                          placeholder="${lang === 'ko' ? '비밀번호를 입력하세요' : lang === 'en' ? 'Enter your password' : lang === 'zh' ? '输入密码' : 'パスワードを入力'}"
                       />
                   </div>
                   
                   <div class="flex items-center justify-between">
                       <label class="flex items-center">
                           <input type="checkbox" class="w-4 h-4 rounded bg-white bg-opacity-5 border-white border-opacity-10 text-purple-600 focus:ring-purple-500">
-                          <span class="ml-2 text-sm text-gray-400">로그인 상태 유지</span>
+                          <span class="ml-2 text-sm text-gray-400">${t('auth.remember_me', lang)}</span>
                       </label>
-                      <a href="/forgot-password" class="text-sm text-purple-400 hover:text-purple-300">비밀번호 찾기</a>
+                      <a href="/forgot-password" class="text-sm text-purple-400 hover:text-purple-300">${t('auth.forgot_password', lang)}</a>
                   </div>
                   
                   <button 
                       type="submit" 
                       class="w-full gradient-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition transform hover:scale-105">
-                      <i class="fas fa-sign-in-alt mr-2"></i>로그인
+                      <i class="fas fa-sign-in-alt mr-2"></i>${t('auth.login', lang)}
                   </button>
               </form>
               
               <div class="mt-6 text-center">
                   <p class="text-sm text-gray-400">
-                      아직 계정이 없으신가요?
-                      <a href="/signup" class="text-purple-400 hover:text-purple-300 font-semibold ml-1">회원가입</a>
+                      ${lang === 'ko' ? '아직 계정이 없으신가요?' : lang === 'en' ? "Don't have an account yet?" : lang === 'zh' ? '还没有账户?' : 'まだアカウントをお持ちではありませんか？'}
+                      <a href="/signup" class="text-purple-400 hover:text-purple-300 font-semibold ml-1">${t('auth.signup', lang)}</a>
                   </p>
               </div>
           </div>
@@ -15030,7 +15274,7 @@ app.get('/login', (c) => {
   <script src="/static/social-login.js"></script>
   `;
   
-  return c.html(getLayout(content, '로그인 - GALLERYPIA'))
+  return c.html(getLayout(content, `${t('auth.login', lang)} - GALLERYPIA`))
 })
 
 // ============================================
