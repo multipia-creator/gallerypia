@@ -2434,15 +2434,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           });
         };
         
-        // Update navigation
-        updateText('a[href="/"] .hidden.md\\:inline', 'nav.home');
-        updateText('a[href="/gallery"] .hidden.md\\:inline', 'nav.gallery');
-        updateText('a[href="/auctions"]', 'nav.auctions');
-        updateText('a[href="/artists"]', 'nav.artists');
-        updateText('a[href="/leaderboard"]', 'nav.leaderboard');
-        updateText('a[href="/recommendations"]', 'nav.recommendations');
-        updateText('a[href="/analytics"]', 'nav.analytics');
-        updateText('a[href="/login"]:not(.group)', 'nav.login');
+        // Update navigation - using data-i18n attributes for elements that have them
+        // Note: Most navigation is handled by i18n.applyLanguage() with data-i18n attributes
         
         // Update main action buttons (specific texts only)
         const explorBtn = document.querySelector('a[href="/gallery"] span.text-white');
