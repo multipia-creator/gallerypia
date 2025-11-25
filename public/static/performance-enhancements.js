@@ -320,14 +320,13 @@ function isCacheValid(cachedData) {
 }
 
 // Enhanced fetch with caching
-if (!window._originalFetch) {
-  window._originalFetch = window.fetch;
+if (!window._window._originalFetch) {
+  window._window._originalFetch = window.fetch;
 }
-const originalFetch = window._originalFetch;
 window.cachedFetch = async function(url, options = {}) {
   // Only cache GET requests
   if (options.method && options.method !== 'GET') {
-    return originalFetch(url, options);
+    return window._window._originalFetch(url, options);
   }
   
   // Check cache
@@ -344,7 +343,7 @@ window.cachedFetch = async function(url, options = {}) {
   
   // Fetch from network
   try {
-    const response = await originalFetch(url, options);
+    const response = await window._originalFetch(url, options);
     const clone = response.clone();
     const data = await clone.json();
     

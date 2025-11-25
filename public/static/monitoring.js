@@ -75,13 +75,12 @@ class PerformanceMonitor {
     if (!window._originalFetch) {
       window._originalFetch = window.fetch;
     }
-    const originalFetch = window._originalFetch;
     window.fetch = async (...args) => {
       const start = performance.now()
       const url = typeof args[0] === 'string' ? args[0] : args[0].url
       
       try {
-        const response = await originalFetch(...args)
+        const response = await window._originalFetch(...args)
         const duration = performance.now() - start
         
         this.reportAPICall(url, response.status, duration)
