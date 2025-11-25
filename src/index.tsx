@@ -3279,6 +3279,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <script src="/static/loading-skeleton.js"></script> <!-- Loading states -->
     <script src="/static/toast-system.js"></script> <!-- Toast notifications -->
     <script src="/static/ui-improvements.js"></script> <!-- W1-C15 & W1-C16: Toast Deduplication + Modal Scroll Lock -->
+    <script src="/static/global-error-handler.js"></script> <!-- W2-H1: Global Error Handler -->
+    <script src="/static/loading-states.js"></script> <!-- W2-H2: Consistent Loading States -->
+    <script src="/static/performance-enhancements.js"></script> <!-- W2-H3 to W2-H8: Performance Suite -->
     
     <!-- Phase 6: UX Enhancement Scripts -->
     <!-- 성능 최적화 (필수) -->
