@@ -320,13 +320,13 @@ function isCacheValid(cachedData) {
 }
 
 // Enhanced fetch with caching
-if (!window._window._originalFetch) {
-  window._window._originalFetch = window.fetch;
+if (!window._originalFetch) {
+  window._originalFetch = window.fetch;
 }
 window.cachedFetch = async function(url, options = {}) {
   // Only cache GET requests
   if (options.method && options.method !== 'GET') {
-    return window._window._originalFetch(url, options);
+    return window._originalFetch(url, options);
   }
   
   // Check cache

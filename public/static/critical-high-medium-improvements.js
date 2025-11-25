@@ -1093,7 +1093,7 @@ window.PurchaseFlow = PurchaseFlow;
 // H4: Artwork Comparison UI
 // ============================================
 
-const ArtworkComparison = {
+const ArtworkComparisonV2 = {
   selectedArtworks: [],
   maxComparisons: 3,
   
@@ -1146,7 +1146,7 @@ const ArtworkComparison = {
         badge.remove();
       } else {
         badge.innerHTML = `
-          <button onclick="ArtworkComparison.showComparisonView()" 
+          <button onclick="ArtworkComparisonV2.showComparisonView()" 
                   class="bg-purple-600 text-white px-6 py-3 rounded-full shadow-2xl hover:bg-purple-700 transition-all hover:scale-110 flex items-center gap-2">
             <i class="fas fa-balance-scale"></i>
             <span class="font-bold">비교하기</span>
@@ -1168,7 +1168,7 @@ const ArtworkComparison = {
       <div class="bg-white rounded-lg max-w-7xl w-full max-h-[90vh] overflow-y-auto">
         <div class="sticky top-0 bg-white border-b p-6 flex justify-between items-center z-10">
           <h2 class="text-2xl font-bold">작품 비교</h2>
-          <button onclick="ArtworkComparison.closeComparisonView()" 
+          <button onclick="ArtworkComparisonV2.closeComparisonView()" 
                   class="text-gray-500 hover:text-gray-700">
             <i class="fas fa-times text-2xl"></i>
           </button>
@@ -1179,7 +1179,7 @@ const ArtworkComparison = {
           <div class="grid grid-cols-${this.selectedArtworks.length} gap-6 mb-8">
             ${this.selectedArtworks.map(artwork => `
               <div class="relative">
-                <button onclick="ArtworkComparison.removeFromComparison(${artwork.id})" 
+                <button onclick="ArtworkComparisonV2.removeFromComparison(${artwork.id})" 
                         class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 hover:bg-red-600 z-10">
                   <i class="fas fa-times"></i>
                 </button>
@@ -1248,7 +1248,7 @@ const ArtworkComparison = {
   }
 };
 
-window.ArtworkComparison = ArtworkComparison;
+window.ArtworkComparisonV2 = ArtworkComparisonV2;
 
 // ============================================
 // M1: Terms Agreement Checkboxes (Already in register-improvements.js)
