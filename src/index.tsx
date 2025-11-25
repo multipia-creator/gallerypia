@@ -19320,13 +19320,34 @@ app.post('/api/admin/logout', async (c) => {
 })
 
 // ============================================
-// 🔐 Admin API Security Middleware
+// 🔐 Admin API Security Helper
 // ============================================
-// ✅ Apply authentication middleware to all /api/admin/* endpoints
-app.use('/api/admin/*', requireRole(['admin', 'super_admin']))
+async function requireAdminAuth(c: any) {
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || c.req.cookie('auth_token')
+  
+  if (!token) {
+    return c.json({ error: 'Unauthorized', message: '로그인이 필요합니다' }, 401)
+  }
+  
+  const session = await verifySession(c.env.DB, token)
+  if (!session) {
+    return c.json({ error: 'Unauthorized', message: '유효하지 않은 세션입니다' }, 401)
+  }
+  
+  const allowedRoles = ['admin', 'super_admin']
+  if (!session.role || !allowedRoles.includes(session.role)) {
+    return c.json({ error: 'Forbidden', message: '관리자 권한이 필요합니다' }, 403)
+  }
+  
+  return null // No error, continue
+}
 
 // 관리자 통계 API
 app.get('/api/admin/stats', async (c) => {
+  // ✅ Admin authentication check
+  const authError = await requireAdminAuth(c)
+  if (authError) return authError
+  
   const db = c.env.DB
   
   const totalArtworks = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
@@ -19348,6 +19369,10 @@ app.get('/api/admin/stats', async (c) => {
 
 // 작품 목록 조회 API (관리자용)
 app.get('/api/admin/artworks', async (c) => {
+  // ✅ Admin authentication check
+  const authError = await requireAdminAuth(c)
+  if (authError) return authError
+  
   const db = c.env.DB
   
   const artworks = await db.prepare(`
@@ -19365,6 +19390,10 @@ app.get('/api/admin/artworks', async (c) => {
 
 // 작가 목록 조회 API (관리자용)
 app.get('/api/admin/artists', async (c) => {
+  // ✅ Admin authentication check
+  const authError = await requireAdminAuth(c)
+  if (authError) return authError
+  
   const db = c.env.DB
   
   const artists = await db.prepare(`
@@ -19382,6 +19411,10 @@ app.get('/api/admin/artists', async (c) => {
 
 // 단일 작품 조회 API
 app.get('/api/admin/artworks/:id', async (c) => {
+  // ✅ Admin authentication check
+  const authError = await requireAdminAuth(c)
+  if (authError) return authError
+  
   const id = c.req.param('id')
   const db = c.env.DB
   
@@ -19401,6 +19434,10 @@ app.get('/api/admin/artworks/:id', async (c) => {
 
 // 작품 추가 API
 app.post('/api/admin/artworks', async (c) => {
+  // ✅ Admin authentication check
+  const authError = await requireAdminAuth(c)
+  if (authError) return authError
+  
   const data = await c.req.json()
   const db = c.env.DB
   
