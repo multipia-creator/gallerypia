@@ -2393,125 +2393,14 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       }
       
       window.changeLanguage = function(langCode) {
-        if (!window.i18n) {
-          console.error('i18n not initialized');
-          return;
-        }
+        // Save language preference
+        localStorage.setItem('gallerypia_language', langCode);
         
-        // Change language
-        const success = window.i18n.setLanguage(langCode);
-        
-        if (success) {
-          // Update flag in button
-          const languages = window.i18n.getAllLanguages();
-          const lang = languages.find(l => l.code === langCode);
-          if (lang) {
-            const flagEl = document.getElementById('currentLanguageFlag');
-            if (flagEl) flagEl.textContent = lang.flag;
-          }
-          
-          // Close menu
-          const menu = document.getElementById('languageMenu');
-          if (menu) menu.classList.add('hidden');
-          
-          // Update main page texts dynamically (without reload)
-          updateMainPageTexts();
-          
-          console.log('🌍 Language changed to: ' + langCode);
-        }
+        // Reload page to apply translations
+        window.location.reload();
       };
       
-      function updateMainPageTexts() {
-        if (!window.i18n) return;
-        
-        // Helper function to update text content
-        const updateText = (selector, i18nKey) => {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach(el => {
-            if (el && i18nKey) {
-              el.textContent = window.i18n.t(i18nKey);
-            }
-          });
-        };
-        
-        // Update navigation - using data-i18n attributes for elements that have them
-        // Note: Most navigation is handled by i18n.applyLanguage() with data-i18n attributes
-        
-        // Update main action buttons (specific texts only)
-        const explorBtn = document.querySelector('a[href="/gallery"] span.text-white');
-        if (explorBtn && explorBtn.textContent.includes('NFT')) {
-          explorBtn.textContent = window.i18n.t('main.explore');
-        }
-        
-        const valuationTitle = document.querySelector('a[href="/valuation"] span.text-white');
-        if (valuationTitle && valuationTitle.textContent.includes('셀프') || valuationTitle?.textContent.includes('Self')) {
-          valuationTitle.textContent = window.i18n.t('main.valuation');
-        }
-        
-        const systemGuide = document.querySelector('a[href="/valuation-system"]');
-        if (systemGuide) {
-          const iconEl = systemGuide.querySelector('i');
-          const iconHTML = iconEl ? iconEl.outerHTML : '';
-          if (systemGuide.textContent.includes('시스템') || systemGuide.textContent.includes('System')) {
-            systemGuide.innerHTML = iconHTML + ' ' + window.i18n.t('main.system_guide');
-          }
-        }
-        
-        const expertBtn = document.querySelector('a[href="/expert/apply"] span.text-white');
-        if (expertBtn && expertBtn.textContent.includes('전문가') || expertBtn?.textContent.includes('Expert')) {
-          expertBtn.textContent = window.i18n.t('main.expert_apply');
-        }
-        
-        // Partnership button texts
-        const partnershipBtns = document.querySelectorAll('a[href="/signup"].group span.text-white');
-        partnershipBtns.forEach(btn => {
-          if (btn.textContent === 'Partnership') {
-            btn.textContent = window.i18n.t('main.partnership');
-          }
-        });
-        
-        const partnershipSub = document.querySelector('a[href="/signup"].group span.text-amber-300');
-        if (partnershipSub) {
-          partnershipSub.textContent = window.i18n.t('main.partnership_sub');
-        }
-        
-        // Sign up button
-        const signupBtns = document.querySelectorAll('a[href="/signup"]:not(.group) span');
-        signupBtns.forEach(btn => {
-          if (btn.textContent.includes('회원가입') || btn.textContent.includes('Sign Up')) {
-            btn.textContent = window.i18n.t('main.signup');
-          }
-        });
-        
-        // Install app button
-        const installBtn = document.querySelector('#pwa-install-hero-button span');
-        if (installBtn && (installBtn.textContent.includes('앱') || installBtn.textContent.includes('Install'))) {
-          installBtn.textContent = window.i18n.t('main.install');
-        }
-        
-        // Mint NFT button
-        const mintBtn = document.querySelector('a[href="/mint"] span');
-        if (mintBtn && (mintBtn.textContent.includes('민팅') || mintBtn.textContent.includes('Mint'))) {
-          mintBtn.textContent = window.i18n.t('main.mint');
-        }
-        
-        // Wallet button
-        const walletBtn = document.getElementById('walletTextMain');
-        if (walletBtn && (walletBtn.textContent.includes('지갑') || walletBtn.textContent.includes('Wallet'))) {
-          walletBtn.textContent = window.i18n.t('main.wallet');
-        }
-        
-        // Stats labels
-        const statsLabels = document.querySelectorAll('.text-gray-300.font-semibold');
-        statsLabels.forEach(label => {
-          if (label.textContent.includes('NFT 작품') || label.textContent.includes('NFT Artworks')) {
-            label.textContent = window.i18n.t('main.artworks');
-          } else if (label.textContent.includes('아티스트') || label.textContent.includes('Artists')) {
-            label.textContent = window.i18n.t('main.artists');
-          }
-        });
-      }
-      
+
       // Initialize language switcher on page load
       document.addEventListener('DOMContentLoaded', () => {
         // Wait for i18n to load (with fallback)

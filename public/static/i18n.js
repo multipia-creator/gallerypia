@@ -529,6 +529,92 @@ class I18n {
       const key = el.getAttribute('data-i18n-title');
       el.title = this.t(key);
     });
+    
+    // Auto-translate main page buttons (without data-i18n attributes)
+    this.translateMainPageButtons();
+  }
+  
+  translateMainPageButtons() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.translateMainPageButtons());
+      return;
+    }
+    
+    try {
+      // Helper function to safely update text
+      const updateText = (selector, key) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => {
+          if (el) el.textContent = this.t(key);
+        });
+      };
+      
+      // Update NFT Collection button
+      const exploreBtn = document.querySelector('a[href="/gallery"] span.text-white');
+      if (exploreBtn) exploreBtn.textContent = this.t('main.explore');
+      
+      // Update Valuation System button
+      const valuationBtn = document.querySelector('a[href="/valuation"] span.text-white');
+      if (valuationBtn) valuationBtn.textContent = this.t('main.valuation');
+      
+      // Update System Guide button
+      const guideBtn = document.querySelector('a[href="/valuation-system"]');
+      if (guideBtn) {
+        const iconEl = guideBtn.querySelector('i');
+        const iconHTML = iconEl ? iconEl.outerHTML + ' ' : '';
+        guideBtn.innerHTML = iconHTML + this.t('main.system_guide');
+      }
+      
+      // Update Expert Apply button
+      const expertBtn = document.querySelector('a[href="/expert/apply"] span.text-white');
+      if (expertBtn) expertBtn.textContent = this.t('main.expert_apply');
+      
+      // Update Partnership text
+      const partnershipBtns = document.querySelectorAll('a[href="/signup"].group span.text-white');
+      partnershipBtns.forEach(btn => {
+        if (btn && btn.textContent === 'Partnership') {
+          btn.textContent = this.t('main.partnership');
+        }
+      });
+      
+      // Update Partnership subtitle
+      const partnershipSub = document.querySelector('a[href="/signup"].group span.text-amber-300');
+      if (partnershipSub) partnershipSub.textContent = this.t('main.partnership_sub');
+      
+      // Update Sign up buttons
+      const signupBtns = document.querySelectorAll('a[href="/signup"]:not(.group) span');
+      signupBtns.forEach(btn => {
+        if (btn) btn.textContent = this.t('main.signup');
+      });
+      
+      // Update Install app button
+      const installBtn = document.querySelector('#pwa-install-hero-button span');
+      if (installBtn) installBtn.textContent = this.t('main.install');
+      
+      // Update Mint NFT button
+      const mintBtn = document.querySelector('a[href="/mint"] span');
+      if (mintBtn) mintBtn.textContent = this.t('main.mint');
+      
+      // Update Wallet button
+      const walletBtn = document.getElementById('walletTextMain');
+      if (walletBtn) walletBtn.textContent = this.t('main.wallet');
+      
+      // Update Stats labels
+      const statsLabels = document.querySelectorAll('.text-gray-300.font-semibold');
+      statsLabels.forEach(label => {
+        const text = label.textContent.trim();
+        if (text.includes('NFT') || text.includes('작품') || text.includes('Artworks')) {
+          label.textContent = this.t('main.artworks');
+        } else if (text.includes('아티스트') || text.includes('Artists')) {
+          label.textContent = this.t('main.artists');
+        }
+      });
+      
+      console.log('✅ Main page buttons translated');
+    } catch (error) {
+      console.warn('Translation warning:', error);
+    }
   }
 
   isRTL(lang) {
