@@ -14175,9 +14175,9 @@ app.get('/signup', (c) => {
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
               <h1 class="text-5xl font-black mb-4">
-                  <span class="text-gradient">회원가입</span>
+                  <span class="text-gradient">${t('auth.signup', lang)}</span>
               </h1>
-              <p class="text-xl text-gray-400">갤러리피아에 오신 것을 환영합니다</p>
+              <p class="text-xl text-gray-400">${t('auth.welcome', lang)}</p>
           </div>
           
           <div class="card-nft rounded-3xl p-8 md:p-12">
@@ -14186,7 +14186,7 @@ app.get('/signup', (c) => {
               <!-- 소셜 계정으로 간편 가입 -->
               <div class="mb-8">
                   <div class="text-center mb-4">
-                      <p class="text-gray-400 text-sm font-semibold">소셜 계정으로 간편 가입</p>
+                      <p class="text-gray-400 text-sm font-semibold">${t('auth.social_signup', lang)}</p>
                   </div>
                   <div class="grid grid-cols-3 gap-4 mb-6">
                       <button type="button" onclick="loginWithGoogle()" class="py-4 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
@@ -14207,7 +14207,7 @@ app.get('/signup', (c) => {
                           <div class="w-full border-t border-white border-opacity-10"></div>
                       </div>
                       <div class="relative flex justify-center text-sm">
-                          <span class="px-4 bg-black text-gray-500">또는 이메일로 가입</span>
+                          <span class="px-4 bg-black text-gray-500">${t('auth.or_signup_with', lang)}</span>
                       </div>
                   </div>
               </div>
@@ -14217,13 +14217,13 @@ app.get('/signup', (c) => {
                   <div>
                       <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
                           <i class="fas fa-user mr-3 text-gradient"></i>
-                          기본 정보
+                          ${t('auth.basic_info', lang)}
                       </h3>
                       
                       <div class="grid md:grid-cols-2 gap-6">
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-envelope mr-2"></i>이메일 *
+                                  <i class="fas fa-envelope mr-2"></i>${t('auth.email', lang)} *
                               </label>
                               <input type="email" name="email" required
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
@@ -14232,7 +14232,7 @@ app.get('/signup', (c) => {
                           
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-user-tag mr-2"></i>사용자명 *
+                                  <i class="fas fa-user-tag mr-2"></i>${t('auth.username', lang)} *
                               </label>
                               <input type="text" name="username" required
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
@@ -14241,7 +14241,7 @@ app.get('/signup', (c) => {
                           
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-id-card mr-2"></i>이름 *
+                                  <i class="fas fa-id-card mr-2"></i>${t('auth.full_name', lang)} *
                               </label>
                               <input type="text" name="full_name" required
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
@@ -14250,7 +14250,7 @@ app.get('/signup', (c) => {
                           
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-phone mr-2"></i>전화번호
+                                  <i class="fas fa-phone mr-2"></i>${t('auth.phone', lang)}
                               </label>
                               <input type="tel" name="phone"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
@@ -14259,20 +14259,20 @@ app.get('/signup', (c) => {
                           
                           <div class="md:col-span-2">
                               <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-lock mr-2"></i>비밀번호 *
+                                  <i class="fas fa-lock mr-2"></i>${t('auth.password', lang)} *
                               </label>
                               <input type="password" name="password" required minlength="8"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                                     placeholder="최소 8자 이상">
+                                     placeholder="${t('auth.password_min', lang)}">
                           </div>
                           
                           <div class="md:col-span-2">
                               <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-lock mr-2"></i>비밀번호 확인 *
+                                  <i class="fas fa-lock mr-2"></i>${t('auth.confirm_password', lang)} *
                               </label>
                               <input type="password" name="confirm_password" required minlength="8"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                                     placeholder="비밀번호를 다시 입력하세요">
+                                     placeholder="${t('auth.confirm_password_placeholder', lang)}">
                           </div>
                       </div>
                   </div>
@@ -14281,7 +14281,7 @@ app.get('/signup', (c) => {
                   <div>
                       <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
                           <i class="fas fa-user-shield mr-3 text-gradient"></i>
-                          계정 유형 선택
+                          ${t('auth.account_type', lang)}
                       </h3>
                       
                       <div class="grid md:grid-cols-2 gap-4">
@@ -14292,9 +14292,9 @@ app.get('/signup', (c) => {
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mr-4">
                                           <i class="fas fa-shopping-cart text-white text-xl"></i>
                                       </div>
-                                      <div class="text-xl font-bold text-white">구매자</div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_buyer', lang)}</div>
                                   </div>
-                                  <p class="text-sm text-gray-400">NFT 작품을 구매하고 소장합니다</p>
+                                  <p class="text-sm text-gray-400">${t('auth.role_buyer_desc', lang)}</p>
                               </div>
                           </label>
                           
@@ -14305,9 +14305,9 @@ app.get('/signup', (c) => {
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center mr-4">
                                           <i class="fas fa-store text-white text-xl"></i>
                                       </div>
-                                      <div class="text-xl font-bold text-white">판매자</div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_seller', lang)}</div>
                                   </div>
-                                  <p class="text-sm text-gray-400">NFT 작품을 판매하고 거래합니다</p>
+                                  <p class="text-sm text-gray-400">${t('auth.role_seller_desc', lang)}</p>
                               </div>
                           </label>
                           
@@ -14318,9 +14318,9 @@ app.get('/signup', (c) => {
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center mr-4">
                                           <i class="fas fa-palette text-white text-xl"></i>
                                       </div>
-                                      <div class="text-xl font-bold text-white">미술작가</div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_artist', lang)}</div>
                                   </div>
-                                  <p class="text-sm text-gray-400">작품을 등록하고 NFT로 민팅합니다</p>
+                                  <p class="text-sm text-gray-400">${t('auth.role_artist_desc', lang)}</p>
                               </div>
                           </label>
                           
@@ -14331,10 +14331,10 @@ app.get('/signup', (c) => {
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center mr-4">
                                           <i class="fas fa-user-tie text-white text-xl"></i>
                                       </div>
-                                      <div class="text-xl font-bold text-white">전문가</div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_expert', lang)}</div>
                                   </div>
-                                  <p class="text-sm text-gray-400">작품을 평가하고 ETH 보상을 받습니다</p>
-                                  <p class="text-xs text-amber-400 mt-2"><i class="fas fa-coins mr-1"></i>평가당 0.01-0.1 ETH 보상</p>
+                                  <p class="text-sm text-gray-400">${t('auth.role_expert_desc', lang)}</p>
+                                  <p class="text-xs text-amber-400 mt-2"><i class="fas fa-coins mr-1"></i>${t('auth.role_expert_reward', lang)}</p>
                               </div>
                           </label>
                           
@@ -14345,9 +14345,9 @@ app.get('/signup', (c) => {
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-rose-500 to-red-500 flex items-center justify-center mr-4">
                                           <i class="fas fa-landmark text-white text-xl"></i>
                                       </div>
-                                      <div class="text-xl font-bold text-white">뮤지엄</div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_museum', lang)}</div>
                                   </div>
-                                  <p class="text-sm text-gray-400">전시를 기획하고 작품을 큐레이션합니다</p>
+                                  <p class="text-sm text-gray-400">${t('auth.role_museum_desc', lang)}</p>
                               </div>
                           </label>
                           
@@ -14358,9 +14358,9 @@ app.get('/signup', (c) => {
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 flex items-center justify-center mr-4">
                                           <i class="fas fa-building-columns text-white text-xl"></i>
                                       </div>
-                                      <div class="text-xl font-bold text-white">갤러리</div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_gallery', lang)}</div>
                                   </div>
-                                  <p class="text-sm text-gray-400">작품을 전시하고 거래를 중개합니다</p>
+                                  <p class="text-sm text-gray-400">${t('auth.role_gallery_desc', lang)}</p>
                               </div>
                           </label>
                       </div>
@@ -15993,7 +15993,7 @@ app.get('/login', (c) => {
               <!-- 간편 로그인 (상단 배치) -->
               <div class="mb-6">
                   <div class="text-center mb-4">
-                      <p class="text-gray-400 text-sm font-semibold">${lang === 'ko' ? '소셜 계정으로 간편 로그인' : lang === 'en' ? 'Quick login with social account' : lang === 'zh' ? '使用社交账户快速登录' : 'ソーシャルアカウントで簡単ログイン'}</p>
+                      <p class="text-gray-400 text-sm font-semibold">${t('auth.social_login', lang)}</p>
                   </div>
                   <div class="grid grid-cols-3 gap-4">
                       <button type="button" onclick="loginWithGoogle()" class="py-4 px-4 bg-white hover:bg-gray-100 rounded-lg font-semibold text-gray-800 flex items-center justify-center transition-all shadow-lg hover:shadow-xl">
@@ -16042,7 +16042,7 @@ app.get('/login', (c) => {
                           name="password" 
                           required
                           class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                          placeholder="${lang === 'ko' ? '비밀번호를 입력하세요' : lang === 'en' ? 'Enter your password' : lang === 'zh' ? '输入密码' : 'パスワードを入力'}"
+                          placeholder="${t('auth.password_placeholder', lang)}"
                       />
                   </div>
                   
@@ -16063,7 +16063,7 @@ app.get('/login', (c) => {
               
               <div class="mt-6 text-center">
                   <p class="text-sm text-gray-400">
-                      ${lang === 'ko' ? '아직 계정이 없으신가요?' : lang === 'en' ? "Don't have an account yet?" : lang === 'zh' ? '还没有账户?' : 'まだアカウントをお持ちではありませんか？'}
+                      ${t('auth.no_account', lang)}
                       <a href="/signup" class="text-purple-400 hover:text-purple-300 font-semibold ml-1">${t('auth.signup', lang)}</a>
                   </p>
               </div>
@@ -16091,8 +16091,8 @@ app.get('/forgot-password', (c) => {
                   <div class="inline-block p-4 rounded-full gradient-primary mb-4">
                       <i class="fas fa-key text-4xl text-white"></i>
                   </div>
-                  <h1 class="text-3xl font-bold text-white mb-2">비밀번호 찾기</h1>
-                  <p class="text-gray-400">가입하신 이메일 주소를 입력해주세요</p>
+                  <h1 class="text-3xl font-bold text-white mb-2">${t('auth.forgot_title', lang)}</h1>
+                  <p class="text-gray-400">${t('auth.forgot_desc', lang)}</p>
               </div>
               
               <div id="alertMessage" class="hidden mb-6"></div>
@@ -16100,7 +16100,7 @@ app.get('/forgot-password', (c) => {
               <form id="forgotPasswordForm" class="space-y-6">
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
-                          <i class="fas fa-envelope mr-2"></i>이메일
+                          <i class="fas fa-envelope mr-2"></i>${t('auth.email', lang)}
                       </label>
                       <input 
                           type="email" 
@@ -16114,20 +16114,20 @@ app.get('/forgot-password', (c) => {
                   <div class="bg-blue-500 bg-opacity-10 border border-blue-500 border-opacity-30 rounded-lg p-4">
                       <p class="text-sm text-gray-300">
                           <i class="fas fa-info-circle text-blue-400 mr-2"></i>
-                          입력하신 이메일로 비밀번호 재설정 링크가 전송됩니다.
+                          ${t('auth.forgot_info', lang)}
                       </p>
                   </div>
                   
                   <button 
                       type="submit" 
                       class="w-full gradient-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition transform hover:scale-105">
-                      <i class="fas fa-paper-plane mr-2"></i>재설정 링크 보내기
+                      <i class="fas fa-paper-plane mr-2"></i>${t('auth.send_reset_link', lang)}
                   </button>
               </form>
               
               <div class="mt-6 text-center">
                   <a href="/login" class="text-sm text-purple-400 hover:text-purple-300">
-                      <i class="fas fa-arrow-left mr-2"></i>로그인으로 돌아가기
+                      <i class="fas fa-arrow-left mr-2"></i>${t('auth.back_to_login', lang)}
                   </a>
               </div>
           </div>
@@ -16138,7 +16138,7 @@ app.get('/forgot-password', (c) => {
   <script src="/static/auth-improved.js"></script>
   `;
   
-  return c.html(getLayout(content, '비밀번호 찾기 - GALLERYPIA', lang))
+  return c.html(getLayout(content, `${t('auth.forgot_password', lang)} - GALLERYPIA`, lang))
 })
 
 // ============================================
@@ -16155,8 +16155,8 @@ app.get('/reset-password', (c) => {
                   <div class="inline-block p-4 rounded-full gradient-primary mb-4">
                       <i class="fas fa-lock text-4xl text-white"></i>
                   </div>
-                  <h1 class="text-3xl font-bold text-white mb-2">비밀번호 재설정</h1>
-                  <p class="text-gray-400">새로운 비밀번호를 입력해주세요</p>
+                  <h1 class="text-3xl font-bold text-white mb-2">${t('auth.reset_title', lang)}</h1>
+                  <p class="text-gray-400">${t('auth.reset_desc', lang)}</p>
               </div>
               
               <div id="alertMessage" class="hidden mb-6"></div>
@@ -16166,7 +16166,7 @@ app.get('/reset-password', (c) => {
                   
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
-                          <i class="fas fa-lock mr-2"></i>새 비밀번호
+                          <i class="fas fa-lock mr-2"></i>${t('auth.new_password', lang)}
                       </label>
                       <input 
                           type="password" 
@@ -16174,13 +16174,13 @@ app.get('/reset-password', (c) => {
                           required
                           minlength="8"
                           class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                          placeholder="최소 8자 이상"
+                          placeholder="${t('auth.password_min', lang)}"
                       />
                   </div>
                   
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
-                          <i class="fas fa-lock mr-2"></i>비밀번호 확인
+                          <i class="fas fa-lock mr-2"></i>${t('auth.confirm_password', lang)}
                       </label>
                       <input 
                           type="password" 
@@ -16188,20 +16188,20 @@ app.get('/reset-password', (c) => {
                           required
                           minlength="8"
                           class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                          placeholder="비밀번호를 다시 입력하세요"
+                          placeholder="${t('auth.confirm_password_placeholder', lang)}"
                       />
                   </div>
                   
                   <button 
                       type="submit" 
                       class="w-full gradient-primary text-white py-3 rounded-lg font-semibold hover:opacity-90 transition transform hover:scale-105">
-                      <i class="fas fa-check mr-2"></i>비밀번호 변경
+                      <i class="fas fa-check mr-2"></i>${t('auth.change_password', lang)}
                   </button>
               </form>
               
               <div class="mt-6 text-center">
                   <a href="/login" class="text-sm text-purple-400 hover:text-purple-300">
-                      <i class="fas fa-arrow-left mr-2"></i>로그인으로 돌아가기
+                      <i class="fas fa-arrow-left mr-2"></i>${t('auth.back_to_login', lang)}
                   </a>
               </div>
           </div>
@@ -16212,7 +16212,7 @@ app.get('/reset-password', (c) => {
   <script src="/static/auth.js?v=2"></script>
   `;
   
-  return c.html(getLayout(content, '비밀밀번호 재설정 - GALLERYPIA', lang))
+  return c.html(getLayout(content, `${t('auth.reset_password', lang)} - GALLERYPIA`, lang))
 })
 
 // ============================================
