@@ -4166,6 +4166,11 @@
       border-color: var(--color-amber-500);
     }
   }
+  .peer-checked\:border-cyan-500 {
+    &:is(:where(.peer):checked ~ *) {
+      border-color: var(--color-cyan-500);
+    }
+  }
   .peer-checked\:border-green-500 {
     &:is(:where(.peer):checked ~ *) {
       border-color: var(--color-green-500);
@@ -4214,6 +4219,11 @@
   .peer-checked\:bg-blue-600 {
     &:is(:where(.peer):checked ~ *) {
       background-color: var(--color-blue-600);
+    }
+  }
+  .peer-checked\:bg-cyan-500 {
+    &:is(:where(.peer):checked ~ *) {
+      background-color: var(--color-cyan-500);
     }
   }
   .peer-checked\:bg-green-50 {

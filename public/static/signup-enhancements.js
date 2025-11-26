@@ -156,29 +156,31 @@ function addPasswordValidation() {
   
   if (!passwordInput) return;
   
-  // 비밀번호 요구사항 표시
+  // 비밀번호 요구사항 표시 (한 줄로)
   const requirements = document.createElement('div');
-  requirements.className = 'mt-2 space-y-1 text-xs';
+  requirements.className = 'mt-2 text-xs';
   requirements.innerHTML = `
-    <div class="flex items-center gap-2">
-      <i id="pw-length" class="fas fa-circle text-gray-600"></i>
-      <span class="text-gray-400">8자 이상</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <i id="pw-upper" class="fas fa-circle text-gray-600"></i>
-      <span class="text-gray-400">대문자 1개 이상</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <i id="pw-lower" class="fas fa-circle text-gray-600"></i>
-      <span class="text-gray-400">소문자 1개 이상</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <i id="pw-number" class="fas fa-circle text-gray-600"></i>
-      <span class="text-gray-400">숫자 1개 이상</span>
-    </div>
-    <div class="flex items-center gap-2">
-      <i id="pw-special" class="fas fa-circle text-gray-600"></i>
-      <span class="text-gray-400">특수문자 1개 이상</span>
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="flex items-center gap-1">
+        <i id="pw-length" class="fas fa-circle text-gray-600" style="font-size: 6px;"></i>
+        <span class="text-gray-400">8자 이상</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <i id="pw-upper" class="fas fa-circle text-gray-600" style="font-size: 6px;"></i>
+        <span class="text-gray-400">대문자 1개 이상</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <i id="pw-lower" class="fas fa-circle text-gray-600" style="font-size: 6px;"></i>
+        <span class="text-gray-400">소문자 1개 이상</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <i id="pw-number" class="fas fa-circle text-gray-600" style="font-size: 6px;"></i>
+        <span class="text-gray-400">숫자 1개 이상</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <i id="pw-special" class="fas fa-circle text-gray-600" style="font-size: 6px;"></i>
+        <span class="text-gray-400">특수문자 1개 이상</span>
+      </div>
     </div>
   `;
   passwordInput.parentElement.appendChild(requirements);

@@ -312,6 +312,8 @@ const translations = {
     'auth.account_type': '계정 유형 선택',
     'auth.role_buyer': '구매자',
     'auth.role_buyer_desc': 'NFT 작품을 구매하고 소장합니다',
+    'auth.role_general': '일반(관람)',
+    'auth.role_general_desc': 'NFT 작품을 감상하고 수집합니다',
     'auth.role_seller': '판매자',
     'auth.role_seller_desc': 'NFT 작품을 판매하고 거래합니다',
     'auth.role_artist': '미술작가',
@@ -663,6 +665,8 @@ const translations = {
     'auth.confirm_password': 'Confirm Password',
     'auth.confirm_password_placeholder': 'Re-enter password',
     'auth.account_type': 'Select Account Type',
+    'auth.role_general': 'General (Viewer)',
+    'auth.role_general_desc': 'View and collect NFT artworks',
     'auth.role_buyer': 'Buyer',
     'auth.role_buyer_desc': 'Purchase and collect NFT artworks',
     'auth.role_seller': 'Seller',
@@ -1016,6 +1020,8 @@ const translations = {
     'auth.confirm_password': '确认密码',
     'auth.confirm_password_placeholder': '再次输入密码',
     'auth.account_type': '选择账户类型',
+    'auth.role_general': '普通(观览)',
+    'auth.role_general_desc': '欣赏和收藏NFT艺术品',
     'auth.role_buyer': '买家',
     'auth.role_buyer_desc': '购买和收藏NFT艺术品',
     'auth.role_seller': '卖家',
@@ -1369,6 +1375,8 @@ const translations = {
     'auth.confirm_password': 'パスワード確認',
     'auth.confirm_password_placeholder': 'パスワードを再入力',
     'auth.account_type': 'アカウントタイプを選択',
+    'auth.role_general': '一般(観覧)',
+    'auth.role_general_desc': 'NFTアート作品を鑑賞・収集',
     'auth.role_buyer': '購入者',
     'auth.role_buyer_desc': 'NFTアート作品を購入・収集',
     'auth.role_seller': '販売者',
@@ -15155,7 +15163,20 @@ app.get('/signup', (c) => {
                       
                       <div class="grid md:grid-cols-2 gap-4">
                           <label class="relative cursor-pointer">
-                              <input type="radio" name="role" value="buyer" checked class="peer sr-only">
+                              <input type="radio" name="role" value="general" checked class="peer sr-only">
+                              <div class="card-nft rounded-xl p-6 border-2 border-transparent peer-checked:border-cyan-500 peer-checked:bg-cyan-500 peer-checked:bg-opacity-10 transition-all">
+                                  <div class="flex items-center mb-3">
+                                      <div class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center mr-4">
+                                          <i class="fas fa-eye text-white text-xl"></i>
+                                      </div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_general', lang)}</div>
+                                  </div>
+                                  <p class="text-sm text-gray-400">${t('auth.role_general_desc', lang)}</p>
+                              </div>
+                          </label>
+                          
+                          <label class="relative cursor-pointer">
+                              <input type="radio" name="role" value="buyer" class="peer sr-only">
                               <div class="card-nft rounded-xl p-6 border-2 border-transparent peer-checked:border-purple-500 peer-checked:bg-purple-500 peer-checked:bg-opacity-10 transition-all">
                                   <div class="flex items-center mb-3">
                                       <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mr-4">
@@ -15375,9 +15396,9 @@ app.get('/signup', (c) => {
                   <!-- 제출 버튼 -->
                   <div class="flex flex-col sm:flex-row gap-4 pt-6">
                       <button type="submit" 
-                              class="flex-1 gradient-primary text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition transform hover:scale-105">
+                              class="flex-1 bg-gradient-to-r from-purple-600 to-cyan-600 text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition transform hover:scale-105 shadow-lg">
                           <i class="fas fa-user-plus mr-2"></i>
-                          회원가입
+                          <span class="text-white font-bold">회원가입</span>
                       </button>
                       <a href="/login" 
                          class="flex-1 bg-white bg-opacity-5 text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-10 transition text-center">
