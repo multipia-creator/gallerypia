@@ -267,6 +267,13 @@ const translations = {
     'tutorial.finish': '완료',
     'tutorial.step_of': '단계',
     
+    // 404 Page
+    '404.title': '페이지를 찾을 수 없습니다',
+    '404.description': '요청하신 페이지가 존재하지 않거나 이동되었습니다.',
+    '404.go_home': '홈으로 돌아가기',
+    '404.explore_gallery': '갤러리 둘러보기',
+    '404.contact_support': '문의하기',
+    
     // Gallery
     'gallery.title': '갤러리',
     'gallery.all': '전체',
@@ -590,6 +597,13 @@ const translations = {
     'tutorial.previous': 'Previous',
     'tutorial.finish': 'Finish',
     'tutorial.step_of': 'Step',
+    
+    // 404 Page
+    '404.title': 'Page Not Found',
+    '404.description': 'The page you requested does not exist or has been moved.',
+    '404.go_home': 'Go to Home',
+    '404.explore_gallery': 'Explore Gallery',
+    '404.contact_support': 'Contact Support',
     
     // Gallery
     'gallery.title': 'Gallery',
@@ -915,6 +929,13 @@ const translations = {
     'tutorial.finish': '完成',
     'tutorial.step_of': '步骤',
     
+    // 404 Page
+    '404.title': '找不到页面',
+    '404.description': '您请求的页面不存在或已移动。',
+    '404.go_home': '返回首页',
+    '404.explore_gallery': '浏览画廊',
+    '404.contact_support': '联系支持',
+    
     // Gallery
     'gallery.title': '画廊',
     'gallery.all': '全部',
@@ -1238,6 +1259,13 @@ const translations = {
     'tutorial.previous': '前へ',
     'tutorial.finish': '完了',
     'tutorial.step_of': 'ステップ',
+    
+    // 404 Page
+    '404.title': 'ページが見つかりません',
+    '404.description': 'お探しのページは存在しないか、移動されました。',
+    '404.go_home': 'ホームに戻る',
+    '404.explore_gallery': 'ギャラリーを見る',
+    '404.contact_support': 'お問い合わせ',
     
     // Gallery
     'gallery.title': 'ギャラリー',
@@ -8318,26 +8346,26 @@ app.get('/', async (c) => {
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                         <a href="/gallery" class="group relative px-8 py-5 bg-gradient-to-br from-purple-600/20 to-cyan-600/20 hover:from-purple-600/30 hover:to-cyan-600/30 rounded-2xl font-bold text-base inline-flex flex-col items-center justify-center border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-compass text-3xl mb-2 text-purple-400 group-hover:text-purple-300 transition-colors"></i>
-                            <span class="text-white">NFT 컬렉션 탐색</span>
+                            <span class="text-white">${t('main.btn_explore', lang)}</span>
                         </a>
                         <div class="group relative px-8 py-5 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 rounded-2xl border border-blue-500/30">
                             <a href="/valuation" class="inline-flex flex-col items-center justify-center hover:opacity-80 transition-all duration-300">
                                 <i class="fas fa-chart-line text-3xl mb-2 text-blue-400 transition-colors"></i>
-                                <span class="text-white font-bold text-base mb-3">셀프가치산정 시스템</span>
+                                <span class="text-white font-bold text-base mb-3">${t('main.btn_valuation', lang)}</span>
                             </a>
                             <a href="/valuation-system" class="block w-full px-4 py-2 bg-blue-600/40 hover:bg-blue-600/60 rounded-lg text-center text-white text-sm transition-all">
-                                <i class="fas fa-info-circle mr-1"></i>시스템 안내
+                                <i class="fas fa-info-circle mr-1"></i>${t('main.btn_valuation_info', lang)}
                             </a>
                         </div>
                         <a href="/expert/apply" class="group relative px-8 py-5 bg-gradient-to-br from-amber-600/20 to-orange-600/20 hover:from-amber-600/30 hover:to-orange-600/30 rounded-2xl font-bold text-base inline-flex flex-col items-center justify-center border border-amber-500/30 hover:border-amber-500/60 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-user-tie text-3xl mb-2 text-amber-400 group-hover:text-amber-300 transition-colors"></i>
-                            <span class="text-white">전문가 신청/평가</span>
+                            <span class="text-white">${t('main.btn_expert', lang)}</span>
                         </a>
                         <a href="/signup" class="group relative px-8 py-5 bg-gradient-to-br from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 rounded-2xl font-bold text-base inline-flex flex-col items-center justify-center border border-amber-400/40 hover:border-amber-400/70 transition-all duration-300 hover:scale-105 overflow-hidden">
                             <div class="absolute top-2 right-2 px-2 py-0.5 bg-amber-500 text-xs text-white rounded-full font-bold animate-pulse">NEW</div>
                             <i class="fas fa-handshake text-3xl mb-2 text-amber-400 group-hover:text-amber-300 transition-colors"></i>
-                            <span class="text-white">Partnership</span>
-                            <span class="text-xs text-amber-300 mt-1">미술관·갤러리·딜러</span>
+                            <span class="text-white">${t('main.btn_partnership', lang)}</span>
+                            <span class="text-xs text-amber-300 mt-1">${t('main.partnership_subtitle', lang)}</span>
                         </a>
                     </div>
                     
@@ -32135,6 +32163,43 @@ app.get('/curation', async (c) => {
   `
 
   return c.html(getLayout(content, '공동 큐레이션 - GALLERYPIA', lang))
+})
+
+// 404 Not Found Handler
+app.notFound((c) => {
+  const lang = getUserLanguage(c)
+  
+  const content = `
+    <div class="min-h-screen flex items-center justify-center px-4 py-16">
+      <div class="text-center max-w-2xl">
+        <div class="mb-8">
+          <div class="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-purple-600/20 to-cyan-500/20 rounded-full mb-6 border border-purple-500/30">
+            <i class="fas fa-exclamation-triangle text-6xl text-purple-400"></i>
+          </div>
+          <h1 class="text-6xl font-black text-white mb-4">404</h1>
+          <h2 class="text-3xl font-bold text-white mb-4">${t('404.title', lang)}</h2>
+          <p class="text-gray-400 text-lg mb-8">${t('404.description', lang)}</p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-700 hover:to-cyan-600 text-white font-bold text-lg rounded-xl transition-all hover:scale-105 shadow-lg">
+            <i class="fas fa-home mr-2"></i>
+            ${t('404.go_home', lang)}
+          </a>
+          <a href="/gallery" class="inline-flex items-center justify-center px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all">
+            <i class="fas fa-images mr-2"></i>
+            ${t('404.explore_gallery', lang)}
+          </a>
+          <a href="/support" class="inline-flex items-center justify-center px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all">
+            <i class="fas fa-headset mr-2"></i>
+            ${t('404.contact_support', lang)}
+          </a>
+        </div>
+      </div>
+    </div>
+  `
+  
+  return c.html(getLayout(content, `404 - ${t('404.title', lang)}`, lang), 404)
 })
 
 export default app

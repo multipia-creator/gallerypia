@@ -152,7 +152,7 @@ class I18n {
         'footer.terms': '이용약관',
         'footer.privacy': '개인정보처리방침',
         'footer.contact': '문의',
-        'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
+        'footer.copyright': '© 2025 Imageroot All rights reserved. Powered by Hyunwoo Nam Professor.',
         
         // Main Page - Hero Section
         'hero.title1': 'Discover',
@@ -549,6 +549,13 @@ class I18n {
         'tutorial.start_tour': '투어 시작하기',
         'tutorial.skip': '건너뛰기',
         
+        // 404 Page
+        '404.title': '페이지를 찾을 수 없습니다',
+        '404.description': '요청하신 페이지가 존재하지 않거나 이동되었습니다.',
+        '404.go_home': '홈으로 돌아가기',
+        '404.explore_gallery': '갤러리 둘러보기',
+        '404.contact_support': '문의하기',
+        
         // Keyboard Shortcuts
         'shortcuts.title': '⌨️ 키보드 단축키',
         'shortcuts.close': '닫기',
@@ -651,7 +658,7 @@ class I18n {
         'footer.terms': 'Terms',
         'footer.privacy': 'Privacy',
         'footer.contact': 'Contact',
-        'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
+        'footer.copyright': '© 2025 Imageroot All rights reserved. Powered by Hyunwoo Nam Professor.',
         
         // Main Page - Hero Section
         'hero.title1': 'Discover',
@@ -823,6 +830,13 @@ class I18n {
         'tutorial.welcome_description': 'GalleryPia is a next-generation NFT art platform with an AI-based valuation system. Would you like a quick tour of the main features?',
         'tutorial.start_tour': 'Start Tour',
         'tutorial.skip': 'Skip',
+        
+        // 404 Page
+        '404.title': 'Page Not Found',
+        '404.description': 'The page you requested does not exist or has been moved.',
+        '404.go_home': 'Go to Home',
+        '404.explore_gallery': 'Explore Gallery',
+        '404.contact_support': 'Contact Support',
         
         // Keyboard Shortcuts
         'shortcuts.title': '⌨️ Keyboard Shortcuts',
@@ -1130,7 +1144,7 @@ class I18n {
         'footer.terms': '条款',
         'footer.privacy': '隐私',
         'footer.contact': '联系',
-        'footer.copyright': '© 2024 GalleryPia. 版权所有。',
+        'footer.copyright': '© 2025 Imageroot 版权所有。由南贤宇教授提供技术支持。',
         
         // Main Page - Hero Section
         'hero.title1': 'Discover',
@@ -1302,6 +1316,13 @@ class I18n {
         'tutorial.welcome_description': 'GalleryPia是一个具有AI估值系统的下一代NFT艺术平台。想快速浏览主要功能吗？',
         'tutorial.start_tour': '开始导览',
         'tutorial.skip': '跳过',
+        
+        // 404 Page
+        '404.title': '找不到页面',
+        '404.description': '您请求的页面不存在或已移动。',
+        '404.go_home': '返回首页',
+        '404.explore_gallery': '浏览画廊',
+        '404.contact_support': '联系支持',
         
         // Keyboard Shortcuts
         'shortcuts.title': '⌨️ 键盘快捷键',
@@ -1609,7 +1630,7 @@ class I18n {
         'footer.terms': '利用規約',
         'footer.privacy': 'プライバシー',
         'footer.contact': 'お問い合わせ',
-        'footer.copyright': '© 2024 GalleryPia. All rights reserved.',
+        'footer.copyright': '© 2025 Imageroot 無断複写・転載を禁じます。ナム・ヒョヌ教授による技術提供。',
         
         // Main Page - Hero Section
         'hero.title1': 'Discover',
@@ -1781,6 +1802,13 @@ class I18n {
         'tutorial.welcome_description': 'GalleryPiaはAIベースの価値評価システムを備えた次世代NFTアートプラットフォームです。主要機能を簡単にご案内しましょうか？',
         'tutorial.start_tour': 'ツアーを開始',
         'tutorial.skip': 'スキップ',
+        
+        // 404 Page
+        '404.title': 'ページが見つかりません',
+        '404.description': 'お探しのページは存在しないか、移動されました。',
+        '404.go_home': 'ホームに戻る',
+        '404.explore_gallery': 'ギャラリーを見る',
+        '404.contact_support': 'お問い合わせ',
         
         // Keyboard Shortcuts
         'shortcuts.title': '⌨️ キーボードショートカット',
