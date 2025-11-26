@@ -527,7 +527,6 @@ class I18n {
         'auction.bid': '경매 입찰',
         
         // Valuation System
-        'valuation.title': '작품분석 + AI평가 + 전문가 검증',
         'valuation.subtitle': '평가 완료 후 즉시 NFT 민팅 및 등록 가능',
         'valuation.aiValue': 'AI 산정 가치',
         'valuation.hashBonus': '블록체인 원본 해시 등록 (+40점)',
@@ -821,7 +820,6 @@ class I18n {
         'auction.bid': 'Place Bid',
         
         // Valuation System
-        'valuation.title': 'Artwork Analysis + AI Evaluation + Expert Verification',
         'valuation.subtitle': 'Immediate NFT minting after evaluation',
         'valuation.aiValue': 'AI Estimated Value',
         'valuation.hashBonus': 'Blockchain Hash Registration (+40pts)',
@@ -1307,7 +1305,6 @@ class I18n {
         'auction.bid': '竞价',
         
         // Valuation System
-        'valuation.title': '作品分析 + AI评估 + 专家验证',
         'valuation.subtitle': '评估完成后立即铸造NFT并注册',
         'valuation.aiValue': 'AI估值',
         'valuation.hashBonus': '区块链原始哈希注册 (+40分)',
@@ -1793,7 +1790,6 @@ class I18n {
         'auction.bid': '入札',
         
         // Valuation System
-        'valuation.title': '作品分析 + AI評価 + 専門家検証',
         'valuation.subtitle': '評価完了後すぐにNFTミントと登録が可能',
         'valuation.aiValue': 'AI見積額',
         'valuation.hashBonus': 'ブロックチェーン原本ハッシュ登録 (+40点)',
