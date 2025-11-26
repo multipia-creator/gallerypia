@@ -1668,14 +1668,42 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
-    <!-- 3D/AR/VR Libraries -->
-    <!-- A-Frame includes Three.js internally - no need to load separately -->
-    <!-- A-Frame must load BEFORE AR.js -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <!-- Load Three.js extensions only when needed -->
+    <!-- 3D/AR/VR Libraries - Lazy Loaded -->
+    <!-- A-Frame and AR.js are heavy libraries (~500KB+) -->
+    <!-- Load them only when AR/VR features are needed -->
     <script>
-      // Lazy load Three.js extensions to avoid duplication
+      // Lazy load A-Frame and AR.js for significant performance improvement
+      window.loadARVRLibraries = async function() {
+        if (window.AFRAME) {
+          console.log('✅ AR/VR libraries already loaded');
+          return Promise.resolve();
+        }
+
+        console.log('📦 Loading AR/VR libraries...');
+        
+        return new Promise((resolve, reject) => {
+          // Load A-Frame first
+          const aframeScript = document.createElement('script');
+          aframeScript.src = 'https://aframe.io/releases/1.4.0/aframe.min.js';
+          aframeScript.onload = () => {
+            console.log('✅ A-Frame loaded');
+            
+            // Then load AR.js
+            const arScript = document.createElement('script');
+            arScript.src = 'https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js';
+            arScript.onload = () => {
+              console.log('✅ AR.js loaded');
+              resolve();
+            };
+            arScript.onerror = reject;
+            document.head.appendChild(arScript);
+          };
+          aframeScript.onerror = reject;
+          document.head.appendChild(aframeScript);
+        });
+      };
+
+      // Lazy load Three.js extensions
       window.loadThreeExtensions = async function() {
         if (window.THREE && !window.THREE.OrbitControls) {
           const [controls, loader] = await Promise.all([
@@ -4418,10 +4446,22 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         setTimeout(() => initVRGallery(imageUrl, title), 100);
       };
       
-      // VR 갤러리 초기화 (A-Frame)
-      window.initVRGallery = function(imageUrl, title) {
+      // VR 갤러리 초기화 (A-Frame) - With Lazy Loading
+      window.initVRGallery = async function(imageUrl, title) {
         const container = document.getElementById('vr-scene-container');
         if (!container) return;
+        
+        // Show loading indicator
+        container.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-white text-xl"><i class="fas fa-spinner fa-spin mr-2"></i>Loading VR Gallery...</div></div>';
+        
+        // Load AR/VR libraries if not already loaded
+        try {
+          await window.loadARVRLibraries();
+        } catch (error) {
+          console.error('Failed to load AR/VR libraries:', error);
+          container.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-red-500 text-xl"><i class="fas fa-exclamation-triangle mr-2"></i>Failed to load VR libraries</div></div>';
+          return;
+        }
         
         // Create A-Frame scene with enhanced features
         container.innerHTML = \`
