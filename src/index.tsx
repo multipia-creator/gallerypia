@@ -4815,90 +4815,100 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     -->
     
     <!-- Performance & Error Monitoring -->
+    <!-- CRITICAL: Immediate Load (Essential for all pages) -->
     <script src="/static/monitoring.js"></script>
-    
-    <!-- i18n (Internationalization) - L3-6 -->
     <script src="/static/i18n.js"></script>
     
-    <!-- Advanced AI Search - L3-7 -->
-    <script src="/static/advanced-search.js"></script>
+    <!-- HIGH: Async + Defer (Load in background, execute when ready) -->
+    <script src="/static/advanced-search.js" async defer></script>
+    <script src="/static/blockchain-minting.js" async defer></script>
+    <script src="/static/realtime-chat.js" async defer></script>
+    <script src="/static/notification-system.js" async defer></script>
     
-    <!-- Blockchain Minting Integration - L3-8 -->
-    <script src="/static/blockchain-minting.js"></script>
+    <!-- LOW: Dynamic Loading (Load on demand via initOptimizer) -->
+    <script>
+      // Lazy load all L4, L5, L6 feature scripts
+      window.initOptimizer.low(() => {
+        const featureScripts = [
+          // L4: Advanced Features
+          '/static/advanced-analytics-v2.js',
+          '/static/artwork-comparison.js',
+          '/static/collection-manager.js',
+          '/static/social-share.js',
+          '/static/price-prediction-ai.js',
+          '/static/blockchain-provenance.js',
+          '/static/advanced-filtering.js',
+          '/static/artwork-timeline.js',
+          '/static/proxy-bidding.js',
+          '/static/appraisal-request.js',
+          '/static/portfolio-tracker.js',
+          '/static/image-similarity.js',
+          '/static/certificate-generator.js',
+          '/static/email-notifications.js',
+          '/static/accessibility-wcag.js',
+          // L5: Innovation Features
+          '/static/ai-art-generator.js',
+          '/static/voice-search.js',
+          '/static/gesture-control.js',
+          '/static/emotion-recommendation.js',
+          '/static/ai-storyteller.js',
+          '/static/virtual-exhibition.js',
+          '/static/nft-fractionalization.js',
+          '/static/dao-governance.js',
+          '/static/nft-staking.js',
+          '/static/crosschain-bridge.js',
+          '/static/ai-curator.js',
+          '/static/live-auction.js',
+          '/static/lidar-upload.js',
+          '/static/ar-home-simulation.js',
+          '/static/blockchain-royalty.js',
+          '/static/metaverse-integration.js',
+          // UI/UX Features
+          '/static/form-validation.js',
+          '/static/loading-skeleton.js',
+          '/static/toast-system.js',
+          '/static/ui-improvements.js',
+          '/static/global-error-handler.js',
+          '/static/loading-states.js',
+          '/static/performance-enhancements.js',
+          '/static/week3-4-batch-features.js',
+          '/static/register-improvements.js',
+          '/static/upload-improvements.js',
+          '/static/critical-high-medium-improvements.js'
+        ];
+        
+        // Load scripts sequentially to avoid race conditions
+        console.log('Lazy loading ' + featureScripts.length + ' feature scripts...');
+        let loadedCount = 0;
+        
+        featureScripts.forEach((src, index) => {
+          setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            script.onload = () => {
+              loadedCount++;
+              if (loadedCount === featureScripts.length) {
+                console.log('All ' + featureScripts.length + ' feature scripts loaded');
+              }
+            };
+            script.onerror = () => console.warn('Failed to load: ' + src);
+            document.head.appendChild(script);
+          }, index * 50); // Stagger loading by 50ms each
+        });
+      });
+    </script>
     
-    <!-- Realtime Chat System - L4-1 -->
-    <script src="/static/realtime-chat.js"></script>
-    
-    <!-- Notification System - L4-2 -->
-    <script src="/static/notification-system.js"></script>
-    
-    <!-- Level 4: Advanced Features -->
-    <script src="/static/advanced-analytics-v2.js"></script> <!-- L4-3 -->
-    <script src="/static/artwork-comparison.js"></script> <!-- L4-4 -->
-    <script src="/static/collection-manager.js"></script> <!-- L4-5 -->
-    <script src="/static/social-share.js"></script> <!-- L4-6 -->
-    <script src="/static/price-prediction-ai.js"></script> <!-- L4-7 -->
-    <script src="/static/blockchain-provenance.js"></script> <!-- L4-8 -->
-    <script src="/static/advanced-filtering.js"></script> <!-- L4-9 -->
-    <script src="/static/artwork-timeline.js"></script> <!-- L4-10 -->
-    <script src="/static/proxy-bidding.js"></script> <!-- L4-11 -->
-    <script src="/static/appraisal-request.js"></script> <!-- L4-12 -->
-    <script src="/static/portfolio-tracker.js"></script> <!-- L4-13 -->
-    <script src="/static/image-similarity.js"></script> <!-- L4-14 -->
-    <script src="/static/certificate-generator.js"></script> <!-- L4-15 -->
-    <script src="/static/email-notifications.js"></script> <!-- L4-16 -->
-    <script src="/static/accessibility-wcag.js"></script> <!-- L4-17 -->
-    
-    <!-- Level 5: Innovation Features -->
-    <script src="/static/ai-art-generator.js"></script> <!-- L5-1 -->
-    <script src="/static/voice-search.js"></script> <!-- L5-2 -->
-    <script src="/static/gesture-control.js"></script> <!-- L5-3 -->
-    <script src="/static/emotion-recommendation.js"></script> <!-- L5-4 -->
-    <script src="/static/ai-storyteller.js"></script> <!-- L5-5 -->
-    <script src="/static/virtual-exhibition.js"></script> <!-- L5-6 -->
-    <script src="/static/nft-fractionalization.js"></script> <!-- L5-7 -->
-    <script src="/static/dao-governance.js"></script> <!-- L5-8 -->
-    <script src="/static/nft-staking.js"></script> <!-- L5-9 -->
-    <script src="/static/crosschain-bridge.js"></script> <!-- L5-10 -->
-    <script src="/static/ai-curator.js"></script> <!-- L5-11 -->
-    <script src="/static/live-auction.js"></script> <!-- L5-12 -->
-    <script src="/static/lidar-upload.js"></script> <!-- L5-13 -->
-    <script src="/static/ar-home-simulation.js"></script> <!-- L5-14 -->
-    <script src="/static/blockchain-royalty.js"></script> <!-- L5-15 -->
-    <script src="/static/metaverse-integration.js"></script> <!-- L5-16 -->
-    
-    <!-- v11.1: UX/UI Improvements & Security Fixes -->
-    <script src="/static/form-validation.js"></script> <!-- Real-time validation -->
-    <script src="/static/loading-skeleton.js"></script> <!-- Loading states -->
-    <script src="/static/toast-system.js"></script> <!-- Toast notifications -->
-    <script src="/static/ui-improvements.js"></script> <!-- W1-C15 & W1-C16: Toast Deduplication + Modal Scroll Lock -->
-    <script src="/static/global-error-handler.js"></script> <!-- W2-H1: Global Error Handler -->
-    <script src="/static/loading-states.js"></script> <!-- W2-H2: Consistent Loading States -->
-    <script src="/static/performance-enhancements.js"></script> <!-- W2-H3 to W2-H8: Performance Suite -->
-    <script src="/static/week3-4-batch-features.js"></script> <!-- W3-M1 to W3-M12: 12 Features -->
-    
-    <!-- UX/UI Error Verification - Critical, High & Medium Improvements -->
-    <script src="/static/register-improvements.js"></script> <!-- C1-1, C1-2: Registration improvements -->
-    <script src="/static/upload-improvements.js"></script> <!-- C4-1, C4-2: Upload improvements -->
-    <script src="/static/critical-high-medium-improvements.js"></script> <!-- C2-C8, H1-H4, M1-M5: 17 improvements -->
-    
-    <!-- Phase 6: UX Enhancement Scripts -->
-    <!-- 성능 최적화 (필수) -->
-    <script src="/static/performance-optimizer.js"></script>
-    
-    <!-- 테마 및 접근성 (필수) -->
-    <script src="/static/theme-customizer.js"></script>
-    <script src="/static/accessibility-panel.js"></script>
+    <!-- Phase 6: UX Enhancement Scripts (Async + Defer) -->
+    <script src="/static/performance-optimizer.js" async defer></script>
+    <script src="/static/theme-customizer.js" async defer></script>
+    <script src="/static/accessibility-panel.js" async defer></script>
     <link rel="stylesheet" href="/static/high-contrast.css" media="(prefers-contrast: high)">
     <link rel="stylesheet" href="/static/text-accessibility.css">
-    
-    <!-- 페이지 전환 애니메이션 (필수) -->
-    <script src="/static/page-transitions.js"></script>
+    <script src="/static/page-transitions.js" async defer></script>
     <link rel="stylesheet" href="/static/page-transitions.css">
-    
-    <!-- 마이크로 애니메이션 (선택) -->
     <link rel="stylesheet" href="/static/micro-animations.css">
-    <script src="/static/interaction-animations.js"></script>
+    <script src="/static/interaction-animations.js" async defer></script>
     
     <!-- 초기화 스크립트 -->
     <script>
