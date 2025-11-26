@@ -17455,12 +17455,12 @@ app.get('/about', (c) => {
                           </div>
                           <h3 class="text-lg font-bold text-white">보안 강화</h3>
                       </div>
-                      <p class="text-gray-400 text-sm mb-3">OWASP 보안 표준 적용</p>
+                      <p class="text-gray-400 text-sm mb-3">OWASP Top 10 보안 표준 준수</p>
                       <ul class="text-xs text-gray-500 space-y-1">
-                          <li>✓ Rate Limiting 구현</li>
-                          <li>✓ XSS/CSRF 방어</li>
-                          <li>✓ SQL Injection 방지</li>
-                          <li>✓ 보안 헤더 적용</li>
+                          <li>✓ bcrypt 비밀번호 해싱</li>
+                          <li>✓ HttpOnly Cookie 인증</li>
+                          <li>✓ Rate Limiting (API 보호)</li>
+                          <li>✓ XSS/CSRF/SQL Injection 방어</li>
                       </ul>
                   </div>
                   
@@ -17477,7 +17477,7 @@ app.get('/about', (c) => {
                           <li>✓ 빌드 크기 35% 감소</li>
                           <li>✓ 초기 로딩 4s → 2s</li>
                           <li>✓ WebP 이미지 최적화</li>
-                          <li>✓ CDN 캐싱 전략</li>
+                          <li>✓ CDN 캐싱 + 조기 무효화</li>
                       </ul>
                   </div>
               </div>
@@ -17797,8 +17797,36 @@ app.get('/about', (c) => {
                                   <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
                                   <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
                               </tr>
-                              <tr>
+                              <tr class="border-b border-gray-800">
                                   <td class="py-4 px-4">학술 논문 기반</td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-check-circle text-green-400 text-xl"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                              </tr>
+                              <tr class="border-b border-gray-800">
+                                  <td class="py-4 px-4">4개 언어 지원</td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-check-circle text-green-400 text-xl"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-minus-circle text-yellow-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                              </tr>
+                              <tr class="border-b border-gray-800">
+                                  <td class="py-4 px-4">AR/VR 전시</td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-check-circle text-green-400 text-xl"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                              </tr>
+                              <tr class="border-b border-gray-800">
+                                  <td class="py-4 px-4">전문가 평가 시스템</td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-check-circle text-green-400 text-xl"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
+                                  <td class="text-center py-4 px-4"><i class="fas fa-check-circle text-green-400 text-xl"></i></td>
+                              </tr>
+                              <tr>
+                                  <td class="py-4 px-4">NFT 아카데미</td>
                                   <td class="text-center py-4 px-4"><i class="fas fa-check-circle text-green-400 text-xl"></i></td>
                                   <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
                                   <td class="text-center py-4 px-4"><i class="fas fa-times-circle text-red-400"></i></td>
@@ -17823,21 +17851,21 @@ app.get('/about', (c) => {
                   <p class="leading-relaxed">갤러리피아는 블록체인 기반의 미술품 가치 평가 프레임워크 연구를 기반으로 개발되었습니다.</p>
                   <div class="bg-white bg-opacity-5 rounded-xl p-6 mb-6">
                       <h3 class="text-xl font-bold text-white mb-4"><i class="fas fa-presentation mr-2 text-gradient"></i>Conference Presentations</h3>
-                      <ul class="space-y-3 text-sm">
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>A Study on the Framework Process for Modular Services of Art NFT</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>Research into the valuation and ownership of artworks in the NFT market</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>Approach to NFT Service Framework Based on Art Value Calculation</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>Reflections on the perceived problems with Art NFTs</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>Research on NFT Artwork Ownership/Copyright Service Framework</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>Researching a Framework for Valuing NFT Artwork</span></li>
+                      <ul class="space-y-3 text-sm text-gray-200">
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">A Study on the Framework Process for Modular Services of Art NFT</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">Research into the valuation and ownership of artworks in the NFT market</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">Approach to NFT Service Framework Based on Art Value Calculation</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">Reflections on the perceived problems with Art NFTs</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">Research on NFT Artwork Ownership/Copyright Service Framework</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">Researching a Framework for Valuing NFT Artwork</span></li>
                       </ul>
                   </div>
                   <div class="bg-white bg-opacity-5 rounded-xl p-6">
                       <h3 class="text-xl font-bold text-white mb-4"><i class="fas fa-file-alt mr-2 text-gradient"></i>Published Papers</h3>
-                      <ul class="space-y-3 text-sm">
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>미술품 NFT 서비스 모듈별 기능 프레임워크 연구</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>NFT 미술품 구매/투자에 따른 문제점 분석과 해결방안 연구</span></li>
-                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span>NFT 미술작품 가치 평가 기반하의 랭크 프레임워크 연구</span></li>
+                      <ul class="space-y-3 text-sm text-gray-200">
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">미술품 NFT 서비스 모듈별 기능 프레임워크 연구</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">NFT 미술품 구매/투자에 따른 문제점 분석과 해결방안 연구</span></li>
+                          <li class="flex items-start"><i class="fas fa-check-circle text-gradient mr-3 mt-1"></i><span class="text-gray-200">NFT 미술작품 가치 평가 기반하의 랭크 프레임워크 연구</span></li>
                       </ul>
                   </div>
               </div>
@@ -17903,7 +17931,7 @@ app.get('/about', (c) => {
           </div>
           
           <!-- 지적재산권 보호 및 기술이전 안내 -->
-          <div class="card-nft rounded-3xl p-8 border-2 border-amber-500/40">
+          <div class="card-nft rounded-3xl p-8 border-2 border-amber-500/40 mb-16">
               <div class="flex items-start gap-6">
                   <div class="flex-shrink-0">
                       <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center">
