@@ -1666,6 +1666,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Initialization Optimizer -->
+    <script src="/static/init-optimizer.js"></script>
     <!-- Chart.js - Lazy loaded when needed -->
     <script>
       // Lazy load Chart.js for analytics/statistics pages
@@ -2654,8 +2656,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         updateWalletButton();
       }
       
-      // 페이지 로드 시 연결 상태 확인
-      window.addEventListener('DOMContentLoaded', async function() {
+      // 페이지 로드 시 연결 상태 확인 (CRITICAL - User Session)
+      window.initOptimizer.critical(async function() {
         const savedAddress = localStorage.getItem('walletAddress');
         if (savedAddress && typeof window.ethereum !== 'undefined') {
           try {
@@ -3408,8 +3410,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         });
       }
       
-      // 페이지 로드 시 Tab navigation 개선 적용
-      document.addEventListener('DOMContentLoaded', enhanceTabNavigation);
+      // 페이지 로드 시 Tab navigation 개선 적용 (HIGH - Accessibility)
+      window.initOptimizer.high(enhanceTabNavigation);
       
       // 동적 콘텐츠 로드 후에도 적용 (MutationObserver)
       if (typeof MutationObserver !== 'undefined') {
@@ -3738,8 +3740,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         showWelcomeModal();
       };
       
-      // 페이지 로드 시 첫 방문 확인
-      document.addEventListener('DOMContentLoaded', checkFirstVisit);
+      // 페이지 로드 시 첫 방문 확인 (LOW - Tutorial)
+      window.initOptimizer.low(checkFirstVisit);
       
       // ============================================
       // PWA Installation & Service Worker
@@ -3892,8 +3894,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       };
       
 
-      // Initialize language switcher on page load
-      document.addEventListener('DOMContentLoaded', () => {
+      // Initialize language switcher on page load (HIGH - i18n)
+      window.initOptimizer.high(() => {
         // Wait for i18n to load (with fallback)
         const initLanguageSwitcher = () => {
           const languageList = document.getElementById('languageList');
@@ -4844,7 +4846,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     
     <!-- 초기화 스크립트 -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
+      // HIGH Priority - Performance & Theme (Visible to user)
+      window.initOptimizer.high(function() {
         // 성능 최적화 초기화
         if (window.PerformanceOptimizer) {
           const perfOptimizer = new window.PerformanceOptimizer();
@@ -9448,8 +9451,8 @@ app.get('/recommendations', (c) => {
             }
         }
         
-        // 초기 로드
-        document.addEventListener('DOMContentLoaded', () => {
+        // 초기 로드 (HIGH - Content Loading)
+        window.initOptimizer.high(() => {
             const user = JSON.parse(localStorage.getItem('user') || 'null');
             if (user) {
                 loadRecommendations('personalized');
@@ -12555,7 +12558,8 @@ app.get('/mint', (c) => {
       }
     }
     
-    document.addEventListener('DOMContentLoaded', loadMintableArtworks);
+    // HIGH - Content Loading
+    window.initOptimizer.high(loadMintableArtworks);
   </script>
   `;
   
@@ -13316,8 +13320,8 @@ app.get('/mypage', (c) => {
       }
     }
 
-    // 페이지 로드 시 작품 목록 및 랭크 로드
-    document.addEventListener('DOMContentLoaded', () => {
+    // 페이지 로드 시 작품 목록 및 랭크 로드 (HIGH - Content Loading)
+    window.initOptimizer.high(() => {
       loadMyArtworks();
       loadArtistRank();
     });
@@ -13838,8 +13842,8 @@ app.get('/leaderboard', (c) => {
       }
     }
     
-    // 페이지 로드 시 리더보드 로드
-    document.addEventListener('DOMContentLoaded', () => {
+    // 페이지 로드 시 리더보드 로드 (HIGH - Content Loading)
+    window.initOptimizer.high(() => {
       loadLeaderboard();
     });
   </script>
@@ -14235,8 +14239,8 @@ app.get('/search', (c) => {
       }
     });
 
-    // 페이지 로드 시 전문가 추천 작품 로드
-    document.addEventListener('DOMContentLoaded', loadExpertRecommendations);
+    // 페이지 로드 시 전문가 추천 작품 로드 (HIGH - Content Loading)
+    window.initOptimizer.high(loadExpertRecommendations);
   </script>
   `;
   
@@ -14501,7 +14505,8 @@ app.get('/artists-old', (c) => {
     }
     
     // 페이지 로드 시 모든 섹션 로드
-    document.addEventListener('DOMContentLoaded', () => {
+    // HIGH - Content Loading
+    window.initOptimizer.high(() => {
       loadCuratorRecommended();
       loadPopularArtists();
       loadNewArtists();
@@ -14575,7 +14580,8 @@ app.get('/collections-old', (c) => {
       }
     }
     
-    document.addEventListener('DOMContentLoaded', loadCollections);
+    // HIGH - Content Loading
+    window.initOptimizer.high(loadCollections);
   </script>
   `;
   
@@ -14949,8 +14955,8 @@ app.get('/signup', (c) => {
   <script src="/static/signup-enhancements.js"></script>
   
   <script>
-    // 계정 유형별 동적 입력 폼 표시
-    document.addEventListener('DOMContentLoaded', function() {
+    // 계정 유형별 동적 입력 폼 표시 (HIGH - Form Interaction)
+    window.initOptimizer.high(function() {
       const roleInputs = document.querySelectorAll('input[name="role"]');
       const roleSpecificSections = {
         'artist': document.getElementById('artist-fields'),
@@ -32142,8 +32148,8 @@ app.get('/curation', async (c) => {
   </div>
   
   <script>
-    // 페이지 로드 시 세션 목록 로드
-    document.addEventListener('DOMContentLoaded', () => {
+    // 페이지 로드 시 세션 목록 로드 (HIGH - Content Loading)
+    window.initOptimizer.high(() => {
       loadCurationSessions();
       loadActivityFeed();
     });
