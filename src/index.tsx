@@ -10417,16 +10417,7 @@ app.get('/artwork/:id', async (c) => {
                     <!-- 구매/입찰 액션 버튼 -->
                     <div class="card-nft rounded-3xl p-8">
                         <div class="flex flex-col sm:flex-row gap-4">
-                            ${art.current_price > 0 ? `
-                            <button 
-                                onclick="openPurchaseModal()"
-                                class="flex-1 py-4 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 text-white font-bold text-lg rounded-xl transition-all hover:scale-105 shadow-lg flex items-center justify-center gap-2"
-                            >
-                                <i class="fas fa-shopping-cart"></i>
-                                <span>구매 제안하기</span>
-                                <span class="text-sm opacity-80">(${formatPrice(art.current_price)})</span>
-                            </button>
-                            ` : ''}
+
                             
                             <button 
                                 onclick="openBidModal()"
@@ -11198,102 +11189,7 @@ app.get('/artwork/:id', async (c) => {
       });
       
       // Purchase Modal
-      function openPurchaseModal() {
-        const modal = document.createElement('div');
-        modal.id = 'purchaseModal';
-        modal.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4';
-        modal.innerHTML = \`
-          <div class="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-white/10 animate-slide-in">
-            <div class="flex justify-between items-center mb-6">
-              <h3 class="text-2xl font-bold text-white">구매 제안</h3>
-              <button onclick="closePurchaseModal()" class="text-gray-400 hover:text-white">
-                <i class="fas fa-times text-2xl"></i>
-              </button>
-            </div>
-            
-            <div class="mb-6">
-              <label class="block text-gray-300 mb-2">제안 가격 (ETH)</label>
-              <input 
-                type="number" 
-                id="offerPrice" 
-                step="0.01" 
-                min="0"
-                value="${art.current_price || 0}"
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-purple-500 focus:outline-none"
-              >
-              <p class="text-xs text-gray-500 mt-1">현재가: ${formatPrice(art.current_price || 0)}</p>
-            </div>
-            
-            <div class="mb-6">
-              <label class="block text-gray-300 mb-2">메시지 (선택)</label>
-              <textarea 
-                id="offerMessage" 
-                rows="3"
-                placeholder="판매자에게 전달할 메시지를 입력하세요..."
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-purple-500 focus:outline-none resize-none"
-              ></textarea>
-            </div>
-            
-            <div class="flex gap-3">
-              <button 
-                onclick="submitPurchaseOffer()"
-                class="flex-1 py-3 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 text-white font-bold rounded-xl transition-all"
-              >
-                제안 제출
-              </button>
-              <button 
-                onclick="closePurchaseModal()"
-                class="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl transition-colors"
-              >
-                취소
-              </button>
-            </div>
-          </div>
-        \`;
-        document.body.appendChild(modal);
-      }
-      
-      function closePurchaseModal() {
-        const modal = document.getElementById('purchaseModal');
-        if (modal) modal.remove();
-      }
-      
-      async function submitPurchaseOffer() {
-        const token = localStorage.getItem('auth_token');
-        if (!token) {
-          alert('로그인이 필요합니다');
-          window.location.href = '/login';
-          return;
-        }
-        
-        const offerPrice = document.getElementById('offerPrice').value;
-        const message = document.getElementById('offerMessage').value;
-        
-        if (!offerPrice || parseFloat(offerPrice) <= 0) {
-          alert('유효한 가격을 입력해주세요');
-          return;
-        }
-        
-        try {
-          const response = await axios.post('/api/artworks/${art.id}/purchase', {
-            offer_price: parseFloat(offerPrice),
-            message: message,
-            payment_method: 'eth'
-          }, {
-            headers: { 'Authorization': \`Bearer \${token}\` }
-          });
-          
-          if (response.data.success) {
-            alert('✅ 구매 제안이 전송되었습니다!\\n\\n판매자가 제안을 검토 후 연락드립니다.');
-            closePurchaseModal();
-          } else {
-            alert('❌ ' + response.data.message);
-          }
-        } catch (error) {
-          console.error('Purchase error:', error);
-          alert('구매 제안 중 오류가 발생했습니다: ' + (error.response?.data?.message || error.message));
-        }
-      }
+      // Purchase feature removed as per requirements
       
       // Favorite Toggle
       async function toggleFavorite() {
@@ -27484,30 +27380,113 @@ app.get('/usage-guide', (c) => {
 // Note: In production (Cloudflare Pages), /academy.html will be served automatically
 // For local development, temporarily redirect to home
 // NFT 아카데미 페이지 (정적 HTML 서빙)
-app.get('/nft-academy', async (c) => {
-  try {
-    const html = await c.env.ASSETS.fetch('https://placeholder.com/academy.html')
-    return html
-  } catch (error) {
-    // Fallback: 아카데미 페이지를 직접 렌더링
-    return c.html(`
-      <!DOCTYPE html>
-      <html lang="ko">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>NFT 아카데미 - GALLERYPIA</title>
-        <script>
-          // Redirect to static academy.html
-          window.location.href = '/academy.html';
-        </script>
-      </head>
-      <body>
-        <p>페이지를 불러오는 중...</p>
-      </body>
-      </html>
-    `)
-  }
+app.get('/nft-academy', (c) => {
+  const lang = getUserLanguage(c)
+  const content = `
+    <section class="py-20" id="main-content" tabindex="-1">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-block mb-6 px-6 py-2 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm rounded-full border border-purple-500/30">
+                    <span class="text-gradient font-bold text-sm">📚 ${t('academy.title', lang)}</span>
+                </div>
+                <h1 class="text-6xl font-black mb-6">
+                    <span class="text-white">${lang === 'ko' ? 'NFT와 블록체인을' : lang === 'en' ? 'Learn NFT and' : lang === 'zh' ? '学习NFT和' : 'NFTとブロックチェーンを'}</span>
+                    <br class="sm:hidden"/>
+                    <span class="text-gradient">${lang === 'ko' ? '배우세요' : lang === 'en' ? 'Blockchain' : lang === 'zh' ? '区块链' : '学ぶ'}</span>
+                </h1>
+                <p class="text-gray-400 text-xl max-w-3xl mx-auto">
+                    ${lang === 'ko' ? '초보자부터 전문가까지, 단계별 학습 과정으로 NFT 아트의 세계를 마스터하세요' : lang === 'en' ? 'From beginners to experts, master the world of NFT art with step-by-step learning' : lang === 'zh' ? '从初学者到专家，通过循序渐进的学习掌握NFT艺术世界' : '初心者からエキスパートまで、段階的な学習でNFTアートの世界をマスター'}
+                </p>
+            </div>
+            
+            <!-- 학습 과정 카드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <!-- 기초 과정 -->
+                <div class="card-nft p-8 rounded-2xl hover:scale-105 transition-all">
+                    <div class="text-5xl mb-4">🎓</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">${lang === 'ko' ? '기초 과정' : lang === 'en' ? 'Basics' : lang === 'zh' ? '基础课程' : '基礎コース'}</h3>
+                    <p class="text-gray-400 mb-6">${lang === 'ko' ? 'NFT와 블록체인의 기본 개념을 이해합니다' : lang === 'en' ? 'Understand basic concepts of NFT and blockchain' : lang === 'zh' ? '了解NFT和区块链的基本概念' : 'NFTとブロックチェーンの基本概念を理解'}</p>
+                    <ul class="space-y-3 text-sm text-gray-300 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? 'NFT란 무엇인가?' : lang === 'en' ? 'What is NFT?' : lang === 'zh' ? '什么是NFT？' : 'NFTとは？'}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? '블록체인 기술 이해하기' : lang === 'en' ? 'Understanding Blockchain' : lang === 'zh' ? '理解区块链技术' : 'ブロックチェーン技術の理解'}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? '디지털 지갑 설정하기' : lang === 'en' ? 'Setting up Digital Wallet' : lang === 'zh' ? '设置数字钱包' : 'デジタルウォレットの設定'}</span>
+                        </li>
+                    </ul>
+                    <a href="#basics" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold rounded-xl hover:scale-105 transition-all w-full justify-center">
+                        <i class="fas fa-play mr-2"></i>${lang === 'ko' ? '시작하기' : lang === 'en' ? 'Start' : lang === 'zh' ? '开始' : '開始'}
+                    </a>
+                </div>
+                
+                <!-- 중급 과정 -->
+                <div class="card-nft p-8 rounded-2xl hover:scale-105 transition-all">
+                    <div class="text-5xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">${lang === 'ko' ? '중급 과정' : lang === 'en' ? 'Intermediate' : lang === 'zh' ? '中级课程' : '中級コース'}</h3>
+                    <p class="text-gray-400 mb-6">${lang === 'ko' ? 'NFT 작품 제작과 민팅 방법을 배웁니다' : lang === 'en' ? 'Learn how to create and mint NFT artworks' : lang === 'zh' ? '学习如何创作和铸造NFT作品' : 'NFT作品の制作とミント方法を学ぶ'}</p>
+                    <ul class="space-y-3 text-sm text-gray-300 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? 'NFT 작품 만들기' : lang === 'en' ? 'Creating NFT Artworks' : lang === 'zh' ? '创作NFT作品' : 'NFT作品の作成'}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? '스마트 컨트랙트 이해' : lang === 'en' ? 'Understanding Smart Contracts' : lang === 'zh' ? '理解智能合约' : 'スマートコントラクトの理解'}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? 'NFT 민팅 실습' : lang === 'en' ? 'NFT Minting Practice' : lang === 'zh' ? 'NFT铸造实践' : 'NFTミントの実習'}</span>
+                        </li>
+                    </ul>
+                    <a href="#intermediate" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold rounded-xl hover:scale-105 transition-all w-full justify-center">
+                        <i class="fas fa-play mr-2"></i>${lang === 'ko' ? '시작하기' : lang === 'en' ? 'Start' : lang === 'zh' ? '开始' : '開始'}
+                    </a>
+                </div>
+                
+                <!-- 고급 과정 -->
+                <div class="card-nft p-8 rounded-2xl hover:scale-105 transition-all">
+                    <div class="text-5xl mb-4">💎</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">${lang === 'ko' ? '고급 과정' : lang === 'en' ? 'Advanced' : lang === 'zh' ? '高级课程' : '上級コース'}</h3>
+                    <p class="text-gray-400 mb-6">${lang === 'ko' ? '마케팅과 투자 전략을 마스터합니다' : lang === 'en' ? 'Master marketing and investment strategies' : lang === 'zh' ? '掌握营销和投资策略' : 'マーケティングと投資戦略をマスター'}</p>
+                    <ul class="space-y-3 text-sm text-gray-300 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? 'NFT 마케팅 전략' : lang === 'en' ? 'NFT Marketing Strategy' : lang === 'zh' ? 'NFT营销策略' : 'NFTマーケティング戦略'}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? '수익 모델 구축하기' : lang === 'en' ? 'Building Revenue Model' : lang === 'zh' ? '建立收益模型' : '収益モデルの構築'}</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
+                            <span>${lang === 'ko' ? 'NFT 투자 및 거래' : lang === 'en' ? 'NFT Investment & Trading' : lang === 'zh' ? 'NFT投资和交易' : 'NFT投資と取引'}</span>
+                        </li>
+                    </ul>
+                    <a href="#advanced" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold rounded-xl hover:scale-105 transition-all w-full justify-center">
+                        <i class="fas fa-play mr-2"></i>${lang === 'ko' ? '시작하기' : lang === 'en' ? 'Start' : lang === 'zh' ? '开始' : '開始'}
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Coming Soon 메시지 -->
+            <div class="text-center py-12 bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-cyan-900/20 backdrop-blur-sm rounded-2xl border border-purple-500/20">
+                <i class="fas fa-rocket text-6xl text-purple-400 mb-4"></i>
+                <h3 class="text-3xl font-bold text-white mb-4">${lang === 'ko' ? '곧 출시됩니다!' : lang === 'en' ? 'Coming Soon!' : lang === 'zh' ? '即将推出！' : 'まもなく公開！'}</h3>
+                <p class="text-gray-400 text-lg mb-8">${lang === 'ko' ? '더 나은 학습 경험을 위해 준비 중입니다' : lang === 'en' ? 'Preparing for better learning experience' : lang === 'zh' ? '正在为更好的学习体验做准备' : 'より良い学習体験のため準備中'}</p>
+                <a href="/" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold rounded-xl hover:scale-105 transition-all">
+                    <i class="fas fa-home mr-2"></i>${lang === 'ko' ? '홈으로 돌아가기' : lang === 'en' ? 'Back to Home' : lang === 'zh' ? '返回首页' : 'ホームに戻る'}
+                </a>
+            </div>
+        </div>
+    </section>
+  `
+  return c.html(getLayout(content, `${t('academy.title', lang)} - GALLERYPIA`, lang))
 })
 
 // ============================================
