@@ -1445,27 +1445,28 @@ function t(key: string, lang: string = 'ko'): string {
 
 // Get user's preferred language from cookie or browser
 function getUserLanguage(c: any): string {
-  // Try to get from query parameter (highest priority)
+  // 1. Try to get from query parameter (highest priority)
   const queryLang = c.req.query('lang')
   if (queryLang && ['ko', 'en', 'zh', 'ja'].includes(queryLang)) {
     return queryLang
   }
   
-  // Try to get from cookie
+  // 2. Try to get from cookie (set by client-side language selector)
   const cookieLang = getCookie(c, 'gallerypia_language')
   if (cookieLang && ['ko', 'en', 'zh', 'ja'].includes(cookieLang)) {
     return cookieLang
   }
   
-  // Try to get from Accept-Language header
-  const acceptLang = c.req.header('Accept-Language')
-  if (acceptLang) {
-    if (acceptLang.includes('en')) return 'en'
-    if (acceptLang.includes('zh')) return 'zh'
-    if (acceptLang.includes('ja')) return 'ja'
+  // 3. Try to get from Accept-Language header
+  const acceptLanguage = c.req.header('Accept-Language')
+  if (acceptLanguage) {
+    const lang = acceptLanguage.split(',')[0].split('-')[0].toLowerCase()
+    if (['ko', 'en', 'zh', 'ja'].includes(lang)) {
+      return lang
+    }
   }
   
-  // Default to Korean
+  // 4. Default to Korean
   return 'ko'
 }
 

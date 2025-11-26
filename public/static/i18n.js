@@ -2071,12 +2071,15 @@ class I18n {
     this.currentLanguage = lang;
     localStorage.setItem('gallerypia_language', lang);
     
+    // CRITICAL: Also save to cookie so server can read it
+    document.cookie = `gallerypia_language=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+    
     this.applyLanguage(lang);
     
     // Emit language change event
     document.dispatchEvent(new CustomEvent('language-changed', { detail: { language: lang } }));
     
-    console.log(`🌍 Language changed to: ${lang}`);
+    console.log(`🌍 Language changed to: ${lang} (saved to localStorage and cookie)`);
     return true;
   }
 
