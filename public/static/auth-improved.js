@@ -270,18 +270,20 @@ async function handleSignupImproved(event) {
   const form = event.target
   const submitButton = form.querySelector('button[type="submit"]')
   
-  // Validate form
-  if (!validateForm(form.id)) {
+  // Get form data using name attributes (not id)
+  const formData = new FormData(form)
+  const email = formData.get('email')?.trim().toLowerCase()
+  const password = formData.get('password')
+  const confirmPassword = formData.get('confirm_password')
+  const fullName = formData.get('full_name')?.trim()
+  const role = formData.get('role')
+  const phone = formData.get('phone')?.replace(/-/g, '')
+  
+  // Basic validation
+  if (!email || !password || !fullName || !role) {
     showError('모든 필수 항목을 입력해주세요')
     return
   }
-  
-  const email = document.getElementById('email').value.trim().toLowerCase()
-  const password = document.getElementById('password').value
-  const confirmPassword = document.getElementById('confirm_password').value
-  const fullName = document.getElementById('full_name').value.trim()
-  const role = document.getElementById('role').value
-  const phone = document.getElementById('phone')?.value.replace(/-/g, '')
   
   // Password match check
   if (password !== confirmPassword) {
@@ -309,13 +311,13 @@ async function handleSignupImproved(event) {
     
     // Add organization fields if museum/gallery
     if (role === 'museum' || role === 'gallery') {
-      requestData.organization_name = document.getElementById('organization_name')?.value
-      requestData.organization_type = document.getElementById('organization_type')?.value
-      requestData.organization_address = document.getElementById('organization_address')?.value
-      requestData.organization_website = document.getElementById('organization_website')?.value || ''
-      requestData.organization_contact_email = document.getElementById('organization_contact_email')?.value
-      requestData.organization_phone = document.getElementById('organization_phone')?.value?.replace(/-/g, '')
-      requestData.organization_description = document.getElementById('organization_description')?.value
+      requestData.organization_name = formData.get('organization_name')
+      requestData.organization_type = formData.get('organization_type')
+      requestData.organization_address = formData.get('organization_address')
+      requestData.organization_website = formData.get('organization_website') || ''
+      requestData.organization_contact_email = formData.get('organization_contact_email')
+      requestData.organization_phone = formData.get('organization_phone')?.replace(/-/g, '')
+      requestData.organization_description = formData.get('organization_description')
     }
     
     // W1-C1: Use new register endpoint

@@ -1,5 +1,5 @@
 // Service Worker for Gallerypia PWA
-const CACHE_VERSION = 'v2.0.14-add-curator-role';
+const CACHE_VERSION = 'v2.0.15-fix-signup-formdata';
 const CACHE_NAME = `gallerypia-${CACHE_VERSION}`;
 
 // Static assets to cache on install
