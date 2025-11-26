@@ -1768,10 +1768,10 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           setTimeout(runLowPriority, 5000);
         },
         init() {
-          console.log('Init Optimizer: Starting optimized initialization');
-          console.log('   Critical: ' + this.criticalTasks.length + ' tasks');
-          console.log('   High: ' + this.highTasks.length + ' tasks');
-          console.log('   Low: ' + this.lowTasks.length + ' tasks');
+          // [REMOVED] console.log('Init Optimizer: Starting optimized initialization');
+          // [REMOVED] console.log('   Critical: ' + this.criticalTasks.length + ' tasks');
+          // [REMOVED] console.log('   High: ' + this.highTasks.length + ' tasks');
+          // [REMOVED] console.log('   Low: ' + this.lowTasks.length + ' tasks');
           this.runCritical();
           this.runHigh();
           this.runLow();
