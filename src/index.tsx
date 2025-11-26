@@ -217,6 +217,45 @@ const translations = {
     'main.vr_controls': '마우스로 드래그 | WASD 키로 이동',
     'main.vr_loading': 'VR 갤러리 로딩 중...',
     
+    // Accessibility
+    'accessibility.skip_to_main': '메인 콘텐츠로 바로가기',
+    'accessibility.keyboard_shortcuts': '⌨️ 키보드 단축키',
+    'accessibility.shortcuts_help': '단축키 도움말',
+    'accessibility.label': '♿ 접근성',
+    'accessibility.actions': '⚡ 액션',
+    'accessibility.go_home': '홈으로 이동',
+    'accessibility.go_gallery': '갤러리로 이동',
+    'accessibility.search': '검색',
+    'accessibility.open_notifications': '알림 열기',
+    'accessibility.close_modal': '모달/메뉴 닫기',
+    'accessibility.activate_link': '링크/버튼 활성화',
+    'accessibility.navigate_elements': '요소 간 이동',
+    'accessibility.navigate_back': '역방향 이동',
+    'accessibility.left': '왼쪽',
+    'accessibility.right': '오른쪽',
+    'accessibility.reset': '리셋',
+    
+    // AR Features
+    'ar.scan_qr': '모바일 기기로 QR 코드를 스캔하세요',
+    'ar.open_mobile': '모바일에서 직접 열기',
+    'ar.place_artwork': '모바일 기기에서 카메라를 통해 실제 공간에 작품을 배치해보세요',
+    'ar.drag_adjust': '손가락으로 드래그하여 위치와 크기를 조절하세요',
+    'ar.camera_permission': '카메라 권한을 허용해주세요',
+    'ar.flat_surface': '평평한 표면을 비추면 작품이 나타납니다',
+    
+    // Notifications
+    'notifications.new_version': '새로운 버전이 있습니다',
+    'notifications.refresh_update': '업데이트하려면 페이지를 새로고침하세요',
+    'notifications.load_failed': '알림을 불러올 수 없습니다',
+    
+    // UI Elements
+    'ui.background_music': '배경음악',
+    'ui.auto': '자동',
+    'ui.wire': '와이어',
+    'ui.new_standard': '새로운 기준',
+    'ui.expert_apply': '전문가 신청/평가',
+    'ui.wallet_connect': '지갑연결',
+    
     // Welcome Tutorial
     'tutorial.welcome_title': '갤러리피아에 오신 것을 환영합니다! 🎨',
     'tutorial.welcome_subtitle': 'NFT 아트의 새로운 세계로',
@@ -452,6 +491,45 @@ const translations = {
     'main.vr_background_music': 'Background Music',
     'main.vr_controls': 'Drag with mouse | Move with WASD keys',
     'main.vr_loading': 'Loading VR Gallery...',
+    
+    // Accessibility
+    'accessibility.skip_to_main': 'Skip to main content',
+    'accessibility.keyboard_shortcuts': '⌨️ Keyboard Shortcuts',
+    'accessibility.shortcuts_help': 'Shortcuts Help',
+    'accessibility.label': '♿ Accessibility',
+    'accessibility.actions': '⚡ Actions',
+    'accessibility.go_home': 'Go to Home',
+    'accessibility.go_gallery': 'Go to Gallery',
+    'accessibility.search': 'Search',
+    'accessibility.open_notifications': 'Open Notifications',
+    'accessibility.close_modal': 'Close Modal/Menu',
+    'accessibility.activate_link': 'Activate Link/Button',
+    'accessibility.navigate_elements': 'Navigate Between Elements',
+    'accessibility.navigate_back': 'Navigate Back',
+    'accessibility.left': 'Left',
+    'accessibility.right': 'Right',
+    'accessibility.reset': 'Reset',
+    
+    // AR Features
+    'ar.scan_qr': 'Scan QR code with your mobile device',
+    'ar.open_mobile': 'Open directly on mobile',
+    'ar.place_artwork': 'Place artwork in real space through your mobile camera',
+    'ar.drag_adjust': 'Drag with your finger to adjust position and size',
+    'ar.camera_permission': 'Please allow camera permission',
+    'ar.flat_surface': 'Point at a flat surface to see the artwork',
+    
+    // Notifications
+    'notifications.new_version': 'New version available',
+    'notifications.refresh_update': 'Refresh the page to update',
+    'notifications.load_failed': 'Failed to load notifications',
+    
+    // UI Elements
+    'ui.background_music': 'Background Music',
+    'ui.auto': 'Auto',
+    'ui.wire': 'Wire',
+    'ui.new_standard': 'New Standard',
+    'ui.expert_apply': 'Expert Application/Evaluation',
+    'ui.wallet_connect': 'Connect Wallet',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'Welcome to GalleryPia! 🎨',
@@ -689,6 +767,45 @@ const translations = {
     'main.vr_controls': '鼠标拖动 | WASD键移动',
     'main.vr_loading': '正在加载VR画廊...',
     
+    // 辅助功能
+    'accessibility.skip_to_main': '跳转到主要内容',
+    'accessibility.keyboard_shortcuts': '⌨️ 键盘快捷键',
+    'accessibility.shortcuts_help': '快捷键帮助',
+    'accessibility.label': '♿ 辅助功能',
+    'accessibility.actions': '⚡ 操作',
+    'accessibility.go_home': '返回首页',
+    'accessibility.go_gallery': '前往画廊',
+    'accessibility.search': '搜索',
+    'accessibility.open_notifications': '打开通知',
+    'accessibility.close_modal': '关闭模态框/菜单',
+    'accessibility.activate_link': '激活链接/按钮',
+    'accessibility.navigate_elements': '元素间导航',
+    'accessibility.navigate_back': '反向导航',
+    'accessibility.left': '左',
+    'accessibility.right': '右',
+    'accessibility.reset': '重置',
+    
+    // AR功能
+    'ar.scan_qr': '用移动设备扫描二维码',
+    'ar.open_mobile': '在移动设备上直接打开',
+    'ar.place_artwork': '通过移动设备摄像头在真实空间中放置作品',
+    'ar.drag_adjust': '用手指拖动以调整位置和大小',
+    'ar.camera_permission': '请允许摄像头权限',
+    'ar.flat_surface': '对准平面即可看到作品',
+    
+    // 通知
+    'notifications.new_version': '有新版本可用',
+    'notifications.refresh_update': '刷新页面以更新',
+    'notifications.load_failed': '无法加载通知',
+    
+    // UI元素
+    'ui.background_music': '背景音乐',
+    'ui.auto': '自动',
+    'ui.wire': '线框',
+    'ui.new_standard': '新标准',
+    'ui.expert_apply': '专家申请/评估',
+    'ui.wallet_connect': '连接钱包',
+    
     // Welcome Tutorial
     'tutorial.welcome_title': '欢迎来到GalleryPia！🎨',
     'tutorial.welcome_subtitle': '进入NFT艺术的新世界',
@@ -924,6 +1041,45 @@ const translations = {
     'main.vr_background_music': '背景音楽',
     'main.vr_controls': 'マウスでドラッグ | WASDキーで移動',
     'main.vr_loading': 'VRギャラリー読み込み中...',
+    
+    // アクセシビリティ
+    'accessibility.skip_to_main': 'メインコンテンツへスキップ',
+    'accessibility.keyboard_shortcuts': '⌨️ キーボードショートカット',
+    'accessibility.shortcuts_help': 'ショートカットヘルプ',
+    'accessibility.label': '♿ アクセシビリティ',
+    'accessibility.actions': '⚡ アクション',
+    'accessibility.go_home': 'ホームへ移動',
+    'accessibility.go_gallery': 'ギャラリーへ移動',
+    'accessibility.search': '検索',
+    'accessibility.open_notifications': '通知を開く',
+    'accessibility.close_modal': 'モーダル/メニューを閉じる',
+    'accessibility.activate_link': 'リンク/ボタンを有効化',
+    'accessibility.navigate_elements': '要素間を移動',
+    'accessibility.navigate_back': '逆方向に移動',
+    'accessibility.left': '左',
+    'accessibility.right': '右',
+    'accessibility.reset': 'リセット',
+    
+    // AR機能
+    'ar.scan_qr': 'モバイルデバイスでQRコードをスキャン',
+    'ar.open_mobile': 'モバイルで直接開く',
+    'ar.place_artwork': 'モバイルデバイスのカメラで実際の空間に作品を配置',
+    'ar.drag_adjust': '指でドラッグして位置とサイズを調整',
+    'ar.camera_permission': 'カメラ権限を許可してください',
+    'ar.flat_surface': '平らな面を照らすと作品が表示されます',
+    
+    // 通知
+    'notifications.new_version': '新しいバージョンがあります',
+    'notifications.refresh_update': 'ページを更新してください',
+    'notifications.load_failed': '通知を読み込めません',
+    
+    // UI要素
+    'ui.background_music': '背景音楽',
+    'ui.auto': '自動',
+    'ui.wire': 'ワイヤー',
+    'ui.new_standard': '新しい基準',
+    'ui.expert_apply': '専門家申請/評価',
+    'ui.wallet_connect': 'ウォレット接続',
     
     // Welcome Tutorial
     'tutorial.welcome_title': 'GalleryPiaへようこそ！🎨',
@@ -1750,7 +1906,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
 </head>
 <body class="antialiased bg-black text-white">
     <!-- Skip to content link (키보드 접근성) -->
-    <a href="#main-content" class="skip-to-content">메인 콘텐츠로 바로가기</a>
+    <a href="#main-content" class="skip-to-content">${t('accessibility.skip_to_main', lang)}</a>
     
     <!-- 네비게이션 -->
     <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-xl border-b border-white border-opacity-10">
