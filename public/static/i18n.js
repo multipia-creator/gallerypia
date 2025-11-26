@@ -163,7 +163,7 @@ class I18n {
         // Main Page - Buttons
         'main.explore': 'NFT 컬렉션 탐색',
         'main.valuation': '셀프가치산정 시스템',
-        'main.system_guide': '시스템 안내',
+        'main.system_guide': '가치산정',
         'main.expert_apply': '전문가 신청/평가',
         'main.partnership': 'Partnership',
         'main.partnership_sub': '미술관·갤러리·딜러',
@@ -173,7 +173,7 @@ class I18n {
         'main.wallet': '지갑 연결',
         'main.btn_explore': 'NFT 컬렉션 탐색',
         'main.btn_valuation': '가치산정',
-        'main.btn_valuation_info': '시스템 안내',
+        'main.btn_valuation_info': '가치산정',
         'main.btn_expert': '전문가 신청',
         'main.btn_partnership': '파트너십',
         'main.partnership_subtitle': '미술관·갤러리·딜러',
@@ -681,7 +681,7 @@ class I18n {
         // Main Page - Buttons
         'main.explore': 'Explore NFT Collection',
         'main.valuation': 'Self-Valuation System',
-        'main.system_guide': 'System Guide',
+        'main.system_guide': 'Valuation',
         'main.expert_apply': 'Expert Application',
         'main.partnership': 'Partnership',
         'main.partnership_sub': 'Museum·Gallery·Dealer',
@@ -691,7 +691,7 @@ class I18n {
         'main.wallet': 'Connect Wallet',
         'main.btn_explore': 'Explore NFT Collection',
         'main.btn_valuation': 'Valuation',
-        'main.btn_valuation_info': 'System Guide',
+        'main.btn_valuation_info': 'Valuation',
         'main.btn_expert': 'Expert Application',
         'main.btn_partnership': 'Partnership',
         'main.partnership_subtitle': 'Museum·Gallery·Dealer',
@@ -1179,7 +1179,7 @@ class I18n {
         // Main Page - Buttons
         'main.explore': '探索NFT收藏',
         'main.valuation': '自我估值系统',
-        'main.system_guide': '系统指南',
+        'main.system_guide': '估值',
         'main.expert_apply': '专家申请',
         'main.partnership': 'Partnership',
         'main.partnership_sub': '博物馆·画廊·经销商',
@@ -1665,7 +1665,7 @@ class I18n {
         // Main Page - Buttons
         'main.explore': 'NFTコレクション探索',
         'main.valuation': 'セルフ評価システム',
-        'main.system_guide': 'システムガイド',
+        'main.system_guide': '価値評価',
         'main.expert_apply': '専門家申請',
         'main.partnership': 'Partnership',
         'main.partnership_sub': '美術館·ギャラリー·ディーラー',
