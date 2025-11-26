@@ -1,15 +1,11 @@
 // Service Worker for Gallerypia PWA
-const CACHE_VERSION = 'v2.0.11-updates-section-title';
+const CACHE_VERSION = 'v2.0.13-force-updates-section';
 const CACHE_NAME = `gallerypia-${CACHE_VERSION}`;
 
 // Static assets to cache on install
 // Pre-cache essential resources for offline support
+// NOTE: HTML pages are NOT cached - always fetch from network
 const STATIC_CACHE = [
-  '/',
-  '/ko',
-  '/en',
-  '/zh',
-  '/ja',
   // Critical CSS and JS
   '/static/critical.css',
   '/static/monitoring.js',
