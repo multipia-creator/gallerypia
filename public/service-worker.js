@@ -1,5 +1,5 @@
 // Service Worker for Gallerypia PWA
-const CACHE_VERSION = 'v2.0.10-latest-updates-text-fix';
+const CACHE_VERSION = 'v2.0.11-updates-section-title';
 const CACHE_NAME = `gallerypia-${CACHE_VERSION}`;
 
 // Static assets to cache on install

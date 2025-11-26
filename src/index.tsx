@@ -17405,11 +17405,18 @@ app.get('/about', (c) => {
           </div>
           
           <!-- 최근 업데이트 섹션 (NEW) -->
-          <div class="mb-16">
+          <div class="mb-16" id="latest-updates">
               <div class="text-center mb-8">
                   <div class="inline-block mb-4 px-6 py-2 bg-gradient-to-r from-green-600/20 to-emerald-600/20 backdrop-blur-sm rounded-full border border-green-500/30">
                       <span class="text-gradient font-bold text-sm">✨ LATEST UPDATES - November 2025</span>
                   </div>
+                  <h2 class="text-3xl md:text-4xl font-black mb-4">
+                      <span class="text-white">최신</span>
+                      <span class="text-gradient"> 업데이트 내역</span>
+                  </h2>
+                  <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+                      2025년 11월의 주요 업데이트 사항을 확인하세요
+                  </p>
               </div>
               
               <div class="grid md:grid-cols-2 gap-6 mb-8">
