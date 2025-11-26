@@ -7595,6 +7595,52 @@ app.get('/api/collections', async (c) => {
   }
 })
 
+app.get('/api/leaderboard', async (c) => {
+  try {
+    const { type = 'artists', limit = '20' } = c.req.query()
+    const validLimit = Math.min(parseInt(limit) || 20, 100) // Max 100
+    
+    let result
+    
+    if (type === 'artworks') {
+      // Leaderboard by artwork value
+      result = await c.env.DB.prepare(`
+        SELECT 
+          a.*,
+          ar.name as artist_name,
+          ar.profile_image as artist_profile_image
+        FROM artworks a
+        LEFT JOIN artists ar ON a.artist_id = ar.id
+        WHERE a.status IN ('approved', 'minted')
+        ORDER BY a.estimated_value DESC
+        LIMIT ?
+      `).bind(validLimit).all()
+    } else {
+      // Leaderboard by artist (default)
+      result = await c.env.DB.prepare(`
+        SELECT 
+          ar.*,
+          COUNT(a.id) as artworks_count,
+          SUM(a.estimated_value) as total_value,
+          AVG(a.estimated_value) as avg_value
+        FROM artists ar
+        LEFT JOIN artworks a ON ar.id = a.artist_id
+        GROUP BY ar.id
+        ORDER BY total_value DESC
+        LIMIT ?
+      `).bind(validLimit).all()
+    }
+    
+    return c.json<ApiResponse>({ 
+      success: true, 
+      data: result.results,
+      meta: { type, limit: validLimit }
+    })
+  } catch (error: any) {
+    return c.json<ApiResponse>({ success: false, error: error.message }, 500)
+  }
+})
+
 app.get('/api/stats', async (c) => {
   try {
     const totalArtworks = await c.env.DB.prepare('SELECT COUNT(*) as count FROM artworks').first()
