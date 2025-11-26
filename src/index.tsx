@@ -1669,36 +1669,22 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <!-- 3D/AR/VR Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- A-Frame includes Three.js internally - no need to load separately -->
     <!-- A-Frame must load BEFORE AR.js -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    
+    <!-- Load Three.js extensions only when needed -->
     <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Outfit', 'system-ui', 'sans-serif'],
-            },
-            colors: {
-              primary: {
-                50: '#f0f9ff',
-                500: '#0ea5e9',
-                600: '#0284c7',
-                700: '#0369a1',
-              },
-              accent: {
-                500: '#8b5cf6',
-                600: '#7c3aed',
-              }
-            }
-          }
+      // Lazy load Three.js extensions to avoid duplication
+      window.loadThreeExtensions = async function() {
+        if (window.THREE && !window.THREE.OrbitControls) {
+          const [controls, loader] = await Promise.all([
+            import('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js'),
+            import('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/GLTFLoader.js')
+          ]);
+          console.log('✅ Three.js extensions loaded on demand');
         }
-      }
+      };
     </script>
     <style>
       * {
