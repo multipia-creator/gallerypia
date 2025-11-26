@@ -9574,14 +9574,20 @@ app.get('/recommendations', (c) => {
         }
         
         // 초기 로드 (HIGH - Content Loading)
-        window.initOptimizer.high(() => {
+        const initRecommendations = () => {
             const user = JSON.parse(localStorage.getItem('user') || 'null');
             if (user) {
                 loadRecommendations('personalized');
             } else {
                 loadRecommendations('trending');
             }
-        });
+        };
+        if (window.initOptimizer && window.initOptimizer.high) {
+            window.initOptimizer.high(initRecommendations);
+        } else {
+            // Fallback: 즉시 실행
+            initRecommendations();
+        }
     </script>
   `;
   
@@ -12681,7 +12687,12 @@ app.get('/mint', (c) => {
     }
     
     // HIGH - Content Loading
-    window.initOptimizer.high(loadMintableArtworks);
+    if (window.initOptimizer && window.initOptimizer.high) {
+        window.initOptimizer.high(loadMintableArtworks);
+    } else {
+        // Fallback: 즉시 실행
+        loadMintableArtworks();
+    }
   </script>
   `;
   
@@ -13443,10 +13454,16 @@ app.get('/mypage', (c) => {
     }
 
     // 페이지 로드 시 작품 목록 및 랭크 로드 (HIGH - Content Loading)
-    window.initOptimizer.high(() => {
+    const initMyPage = () => {
       loadMyArtworks();
       loadArtistRank();
-    });
+    };
+    if (window.initOptimizer && window.initOptimizer.high) {
+        window.initOptimizer.high(initMyPage);
+    } else {
+        // Fallback: 즉시 실행
+        initMyPage();
+    }
   </script>
   <script src="/static/artist-rank.js"></script>
   `;
@@ -13965,9 +13982,15 @@ app.get('/leaderboard', (c) => {
     }
     
     // 페이지 로드 시 리더보드 로드 (HIGH - Content Loading)
-    window.initOptimizer.high(() => {
+    const initLeaderboard = () => {
       loadLeaderboard();
-    });
+    };
+    if (window.initOptimizer && window.initOptimizer.high) {
+        window.initOptimizer.high(initLeaderboard);
+    } else {
+        // Fallback: 즉시 실행
+        initLeaderboard();
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
   <script src="/static/artist-rank.js"></script>
