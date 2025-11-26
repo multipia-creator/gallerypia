@@ -30786,7 +30786,8 @@ app.get('*', async (c) => {
   // This handles routes like /collections, /bundles, /activity, /mypage, /login, /signup
   const html = getLayout(`
     <div id="app-content"></div>
-    <script src="/static/app.js"></script>
+    <!-- app.js disabled - contains Parse Error -->
+    <!-- <script src="/static/app.js"></script> -->
   `, 'GALLERYPIA - NFT Art Museum');
   
   return c.html(html);
