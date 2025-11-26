@@ -19,7 +19,7 @@ export async function securityHeaders(c: Context, next: Next) {
   // Prevent XSS by controlling resource loading
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://browser.sentry-cdn.com",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://raw.githack.com https://aframe.io https://browser.sentry-cdn.com https://t1.daumcdn.net",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
     "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net",
     "img-src 'self' data: https: http:",
