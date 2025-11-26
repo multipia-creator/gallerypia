@@ -1,17 +1,23 @@
 // Service Worker for Gallerypia PWA
-const CACHE_VERSION = 'v1.0.0';
+const CACHE_VERSION = 'v2.0.0-phase5';
 const CACHE_NAME = `gallerypia-${CACHE_VERSION}`;
 
 // Static assets to cache on install
-// Only cache essential resources that actually exist
+// Pre-cache essential resources for offline support
 const STATIC_CACHE = [
   '/',
   '/ko',
   '/en',
   '/zh',
-  '/ja'
+  '/ja',
+  // Critical CSS and JS
+  '/static/critical.css',
+  '/static/monitoring.js',
+  '/static/i18n.js',
+  // Logo (used across all pages)
+  '/static/logo.png'
   // CDN resources will be cached on-demand via cacheFirstStrategy
-  // HTML files are handled by Hono backend routes
+  // Large images and feature scripts loaded on demand
 ];
 
 // API endpoints to cache with network-first strategy
@@ -89,6 +95,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Critical CSS - Stale While Revalidate (fastest response)
+  if (url.pathname === '/static/critical.css') {
+    event.respondWith(staleWhileRevalidate(request));
+    return;
+  }
+
   // Static assets - Cache First strategy
   if (
     url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff2?|ttf|eot)$/) ||
@@ -132,6 +144,25 @@ async function cacheFirstStrategy(request) {
     
     throw error;
   }
+}
+
+// Stale While Revalidate - fastest response for critical assets
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cachedResponse = await cache.match(request);
+  
+  // Fetch from network in background
+  const fetchPromise = fetch(request).then((networkResponse) => {
+    if (networkResponse && networkResponse.status === 200) {
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  }).catch((error) => {
+    console.error('[Service Worker] Stale-While-Revalidate fetch failed:', error);
+  });
+  
+  // Return cached response immediately, or wait for network
+  return cachedResponse || fetchPromise;
 }
 
 // Network First Strategy - for API and dynamic content
