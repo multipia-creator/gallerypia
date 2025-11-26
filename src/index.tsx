@@ -1203,6 +1203,12 @@ function t(key: string, lang: string = 'ko'): string {
 
 // Get user's preferred language from cookie or browser
 function getUserLanguage(c: any): string {
+  // Try to get from query parameter (highest priority)
+  const queryLang = c.req.query('lang')
+  if (queryLang && ['ko', 'en', 'zh', 'ja'].includes(queryLang)) {
+    return queryLang
+  }
+  
   // Try to get from cookie
   const cookieLang = getCookie(c, 'gallerypia_language')
   if (cookieLang && ['ko', 'en', 'zh', 'ja'].includes(cookieLang)) {
