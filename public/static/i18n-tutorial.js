@@ -10,6 +10,11 @@ function showFirstVisitTutorial() {
     return;
   }
 
+  // Only show on mobile devices (screen width <= 768px)
+  if (window.innerWidth > 768) {
+    return;
+  }
+
   // Create tutorial modal
   const modal = document.createElement('div');
   modal.id = 'tutorialModal';
@@ -91,6 +96,11 @@ function showFirstVisitTutorial() {
   document.head.appendChild(style);
 
   document.body.appendChild(modal);
+
+  // Auto-hide after 2 seconds and mark as shown permanently
+  setTimeout(() => {
+    closeTutorial(true);
+  }, 2000);
 }
 
 // Close tutorial
