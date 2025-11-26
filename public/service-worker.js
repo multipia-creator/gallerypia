@@ -1,5 +1,5 @@
 // Service Worker for Gallerypia PWA
-const CACHE_VERSION = 'v2.0.1-error-fix';
+const CACHE_VERSION = 'v2.0.2-i18n-fix';
 const CACHE_NAME = `gallerypia-${CACHE_VERSION}`;
 
 // Static assets to cache on install
