@@ -16,6 +16,12 @@ const ERROR_REPORT_ENDPOINT = '/api/error-report';
  * Global unhandled error handler
  */
 window.addEventListener('error', (event) => {
+  // Ignore resource loading errors (images, scripts from external sources)
+  if (event.target !== window) {
+    console.warn('⚠️ Resource loading error (ignored):', event.target);
+    return; // Don't show toast for resource errors
+  }
+  
   const error = {
     message: event.message,
     filename: event.filename,
@@ -35,11 +41,13 @@ window.addEventListener('error', (event) => {
     errorLog.shift(); // Remove oldest
   }
   
-  // Show user-friendly error message
-  if (typeof showErrorToast === 'function') {
-    showErrorToast('예상치 못한 오류가 발생했습니다. 페이지를 새로고침해주세요.');
-  } else {
-    console.error('Toast system not available');
+  // Only show toast for critical JavaScript errors
+  if (error.message && !error.message.includes('Script error')) {
+    if (typeof showErrorToast === 'function') {
+      showErrorToast('예상치 못한 오류가 발생했습니다. 페이지를 새로고침해주세요.');
+    } else {
+      console.error('Toast system not available');
+    }
   }
   
   // Report error to backend (optional, non-blocking)
@@ -120,8 +128,16 @@ window.fetch = async (...args) => {
       
       const userMessage = statusMessages[response.status] || `오류가 발생했습니다 (${response.status})`;
       
-      // Only show toast for non-auth endpoints to avoid spam
-      if (!url?.includes('/api/auth/') && typeof showWarningToast === 'function') {
+      // Only show toast for critical API endpoints (not auth, not images)
+      const shouldShowToast = !url?.includes('/api/auth/') && 
+                              !url?.includes('/api/stats') && 
+                              !url?.includes('.jpg') && 
+                              !url?.includes('.png') && 
+                              !url?.includes('.svg') &&
+                              response.status >= 400 && 
+                              response.status < 600;
+      
+      if (shouldShowToast && typeof showWarningToast === 'function') {
         showWarningToast(userMessage, 4000);
       }
       
