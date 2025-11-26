@@ -1666,8 +1666,64 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Initialization Optimizer -->
-    <script src="/static/init-optimizer.js"></script>
+    <!-- Initialization Optimizer (Inline for immediate availability) -->
+    <script>
+      window.initOptimizer = {
+        criticalTasks: [],
+        highTasks: [],
+        lowTasks: [],
+        critical(fn) { this.criticalTasks.push(fn); },
+        high(fn) { this.highTasks.push(fn); },
+        low(fn) { this.lowTasks.push(fn); },
+        runCritical() {
+          console.log(\`🚀 Running \${this.criticalTasks.length} critical initializations...\`);
+          this.criticalTasks.forEach((fn, i) => {
+            try { fn(); } catch (e) { console.error(\`❌ Critical task \${i+1} failed:\`, e); }
+          });
+        },
+        runHigh() {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+              console.log(\`⚡ Running \${this.highTasks.length} high-priority initializations...\`);
+              this.highTasks.forEach((fn, i) => {
+                try { fn(); } catch (e) { console.error(\`❌ High task \${i+1} failed:\`, e); }
+              });
+            }, { timeout: 2000 });
+          } else {
+            setTimeout(() => this.runHigh(), 1000);
+          }
+        },
+        runLow() {
+          const runLowPriority = () => {
+            console.log(\`💤 Running \${this.lowTasks.length} low-priority initializations...\`);
+            this.lowTasks.forEach((fn, i) => {
+              try { fn(); } catch (e) { console.error(\`❌ Low task \${i+1} failed:\`, e); }
+            });
+          };
+          const events = ['click', 'scroll', 'keydown', 'touchstart'];
+          const onFirstInteraction = () => {
+            runLowPriority();
+            events.forEach(e => document.removeEventListener(e, onFirstInteraction));
+          };
+          events.forEach(e => document.addEventListener(e, onFirstInteraction, { once: true, passive: true }));
+          setTimeout(runLowPriority, 5000);
+        },
+        init() {
+          console.log('🎯 Init Optimizer: Starting optimized initialization');
+          console.log(\`   Critical: \${this.criticalTasks.length} tasks\`);
+          console.log(\`   High: \${this.highTasks.length} tasks\`);
+          console.log(\`   Low: \${this.lowTasks.length} tasks\`);
+          this.runCritical();
+          this.runHigh();
+          this.runLow();
+        }
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => window.initOptimizer.init());
+      } else {
+        window.initOptimizer.init();
+      }
+    </script>
     <!-- Chart.js - Lazy loaded when needed -->
     <script>
       // Lazy load Chart.js for analytics/statistics pages

@@ -2,24 +2,31 @@
 // Manages all initialization scripts with priority-based loading
 
 window.initOptimizer = {
-  critical: [],    // Execute immediately
-  high: [],        // Execute on requestIdleCallback
-  low: [],         // Execute on user interaction or idle
+  criticalTasks: [],    // Execute immediately
+  highTasks: [],        // Execute on requestIdleCallback
+  lowTasks: [],         // Execute on user interaction or idle
 
-  // Add initialization function
-  add(priority, name, fn) {
-    this[priority].push({ name, fn });
+  // Direct API methods (called by user code)
+  critical(fn) {
+    this.criticalTasks.push(fn);
+  },
+
+  high(fn) {
+    this.highTasks.push(fn);
+  },
+
+  low(fn) {
+    this.lowTasks.push(fn);
   },
 
   // Run critical initializations immediately
   runCritical() {
-    console.log('🚀 Running critical initializations...');
-    this.critical.forEach(({ name, fn }) => {
+    console.log(`🚀 Running ${this.criticalTasks.length} critical initializations...`);
+    this.criticalTasks.forEach((fn, index) => {
       try {
         fn();
-        console.log(`✅ ${name} initialized (critical)`);
       } catch (error) {
-        console.error(`❌ ${name} failed:`, error);
+        console.error(`❌ Critical task ${index + 1} failed:`, error);
       }
     });
   },
@@ -28,13 +35,12 @@ window.initOptimizer = {
   runHigh() {
     if ('requestIdleCallback' in window) {
       requestIdleCallback(() => {
-        console.log('⚡ Running high-priority initializations...');
-        this.high.forEach(({ name, fn }) => {
+        console.log(`⚡ Running ${this.highTasks.length} high-priority initializations...`);
+        this.highTasks.forEach((fn, index) => {
           try {
             fn();
-            console.log(`✅ ${name} initialized (high)`);
           } catch (error) {
-            console.error(`❌ ${name} failed:`, error);
+            console.error(`❌ High task ${index + 1} failed:`, error);
           }
         });
       }, { timeout: 2000 });
@@ -47,13 +53,12 @@ window.initOptimizer = {
   // Run low priority on user interaction
   runLow() {
     const runLowPriority = () => {
-      console.log('💤 Running low-priority initializations...');
-      this.low.forEach(({ name, fn }) => {
+      console.log(`💤 Running ${this.lowTasks.length} low-priority initializations...`);
+      this.lowTasks.forEach((fn, index) => {
         try {
           fn();
-          console.log(`✅ ${name} initialized (low)`);
         } catch (error) {
-          console.error(`❌ ${name} failed:`, error);
+          console.error(`❌ Low task ${index + 1} failed:`, error);
         }
       });
     };
@@ -72,9 +77,9 @@ window.initOptimizer = {
   // Initialize all
   init() {
     console.log('🎯 Init Optimizer: Starting optimized initialization');
-    console.log(`   Critical: ${this.critical.length} tasks`);
-    console.log(`   High: ${this.high.length} tasks`);
-    console.log(`   Low: ${this.low.length} tasks`);
+    console.log(`   Critical: ${this.criticalTasks.length} tasks`);
+    console.log(`   High: ${this.highTasks.length} tasks`);
+    console.log(`   Low: ${this.lowTasks.length} tasks`);
 
     this.runCritical();
     this.runHigh();
