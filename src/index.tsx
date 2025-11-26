@@ -8933,6 +8933,7 @@ app.get('/', async (c) => {
                         <a href="/gallery" class="group relative px-8 py-5 bg-gradient-to-br from-purple-600/20 to-cyan-600/20 hover:from-purple-600/30 hover:to-cyan-600/30 rounded-2xl font-bold text-base inline-flex flex-col items-center justify-center border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-compass text-3xl mb-2 text-purple-400 group-hover:text-purple-300 transition-colors"></i>
                             <span class="text-white">${t('main.btn_explore', lang)}</span>
+                            <span class="text-gray-400 text-xs mt-2">[NFT 추천, 큐레이션]</span>
                         </a>
                         <div class="group relative px-8 py-5 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 rounded-2xl border border-blue-500/30">
                             <a href="/valuation" class="inline-flex flex-col items-center justify-center hover:opacity-80 transition-all duration-300">
@@ -8946,6 +8947,7 @@ app.get('/', async (c) => {
                         <a href="/expert/apply" class="group relative px-8 py-5 bg-gradient-to-br from-amber-600/20 to-orange-600/20 hover:from-amber-600/30 hover:to-orange-600/30 rounded-2xl font-bold text-base inline-flex flex-col items-center justify-center border border-amber-500/30 hover:border-amber-500/60 transition-all duration-300 hover:scale-105">
                             <i class="fas fa-user-tie text-3xl mb-2 text-amber-400 group-hover:text-amber-300 transition-colors"></i>
                             <span class="text-white">${t('main.btn_expert', lang)}</span>
+                            <span class="text-gray-400 text-xs mt-2">[비평가, 학예사, 교수 등 전문가 신청]</span>
                         </a>
                         <a href="/signup" class="group relative px-8 py-5 bg-gradient-to-br from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 rounded-2xl font-bold text-base inline-flex flex-col items-center justify-center border border-amber-400/40 hover:border-amber-400/70 transition-all duration-300 hover:scale-105 overflow-hidden">
                             <div class="absolute top-2 right-2 px-2 py-0.5 bg-amber-500 text-xs text-white rounded-full font-bold animate-pulse">NEW</div>

@@ -18,10 +18,8 @@ function showFirstVisitTutorial() {
     return;
   }
 
-  // Only show on mobile devices (screen width <= 768px)
-  if (window.innerWidth > 768) {
-    return;
-  }
+  // Show on all devices (PC and mobile)
+  // Removed mobile-only restriction to show tutorial once on all devices
 
   // Mark as showing
   tutorialShowing = true;
