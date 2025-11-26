@@ -3,18 +3,15 @@ const CACHE_VERSION = 'v1.0.0';
 const CACHE_NAME = `gallerypia-${CACHE_VERSION}`;
 
 // Static assets to cache on install
+// Only cache essential resources that actually exist
 const STATIC_CACHE = [
   '/',
-  '/login.html',
-  '/signup.html',
-  '/offline.html',
-  '/logo.png',
-  '/manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css',
-  'https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js',
-  'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js',
-  'https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js'
+  '/ko',
+  '/en',
+  '/zh',
+  '/ja'
+  // CDN resources will be cached on-demand via cacheFirstStrategy
+  // HTML files are handled by Hono backend routes
 ];
 
 // API endpoints to cache with network-first strategy
