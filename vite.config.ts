@@ -5,12 +5,17 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    build(),
+    build({
+      entry: 'src/index.tsx'
+    }),
     devServer({
       adapter,
       entry: 'src/index.tsx'
     })
   ],
+  css: {
+    postcss: './postcss.config.js'
+  },
   build: {
     // Use esbuild for faster minification (terser is too slow)
     minify: 'esbuild',
