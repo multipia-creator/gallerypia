@@ -478,6 +478,24 @@ class I18n {
         'tutorial.welcome_description': '갤러리피아는 AI 기반 가치산정 시스템을 갖춘 차세대 NFT 아트 플랫폼입니다. 주요 기능을 빠르게 둘러보시겠어요?',
         'tutorial.start_tour': '투어 시작하기',
         'tutorial.skip': '건너뛰기',
+        
+        // Keyboard Shortcuts
+        'shortcuts.title': '⌨️ 키보드 단축키',
+        'shortcuts.close': '닫기',
+        'shortcuts.section_navigation': '🧭 네비게이션',
+        'shortcuts.go_home': '홈으로 이동',
+        'shortcuts.go_gallery': '갤러리로 이동',
+        'shortcuts.search': '검색',
+        'shortcuts.section_actions': '⚡ 액션',
+        'shortcuts.open_notifications': '알림 열기',
+        'shortcuts.close_modal': '모달/메뉴 닫기',
+        'shortcuts.help': '단축키 도움말',
+        'shortcuts.section_accessibility': '♿ 접근성',
+        'shortcuts.tab_navigate': '요소 간 이동',
+        'shortcuts.tab_reverse': '역방향 이동',
+        'shortcuts.activate_link': '링크/버튼 활성화',
+        'shortcuts.tip': '<strong>Tip:</strong> Tab 키를 눌러 페이지 내 모든 인터랙티브 요소를 탐색할 수 있습니다.',
+        'shortcuts.confirm': '확인',
       },
       
       // English
@@ -735,6 +753,24 @@ class I18n {
         'tutorial.welcome_description': 'GalleryPia is a next-generation NFT art platform with an AI-based valuation system. Would you like a quick tour of the main features?',
         'tutorial.start_tour': 'Start Tour',
         'tutorial.skip': 'Skip',
+        
+        // Keyboard Shortcuts
+        'shortcuts.title': '⌨️ Keyboard Shortcuts',
+        'shortcuts.close': 'Close',
+        'shortcuts.section_navigation': '🧭 Navigation',
+        'shortcuts.go_home': 'Go to Home',
+        'shortcuts.go_gallery': 'Go to Gallery',
+        'shortcuts.search': 'Search',
+        'shortcuts.section_actions': '⚡ Actions',
+        'shortcuts.open_notifications': 'Open Notifications',
+        'shortcuts.close_modal': 'Close Modal/Menu',
+        'shortcuts.help': 'Shortcuts Help',
+        'shortcuts.section_accessibility': '♿ Accessibility',
+        'shortcuts.tab_navigate': 'Navigate between elements',
+        'shortcuts.tab_reverse': 'Navigate backwards',
+        'shortcuts.activate_link': 'Activate link/button',
+        'shortcuts.tip': '<strong>Tip:</strong> Press Tab to navigate all interactive elements on the page.',
+        'shortcuts.confirm': 'Confirm',
         
         // Common Terms
         'common.close': 'Close',
@@ -1138,6 +1174,24 @@ class I18n {
         'tutorial.start_tour': '开始导览',
         'tutorial.skip': '跳过',
         
+        // Keyboard Shortcuts
+        'shortcuts.title': '⌨️ 键盘快捷键',
+        'shortcuts.close': '关闭',
+        'shortcuts.section_navigation': '🧭 导航',
+        'shortcuts.go_home': '前往主页',
+        'shortcuts.go_gallery': '前往画廊',
+        'shortcuts.search': '搜索',
+        'shortcuts.section_actions': '⚡ 操作',
+        'shortcuts.open_notifications': '打开通知',
+        'shortcuts.close_modal': '关闭模态窗口/菜单',
+        'shortcuts.help': '快捷键帮助',
+        'shortcuts.section_accessibility': '♿ 辅助功能',
+        'shortcuts.tab_navigate': '在元素间导航',
+        'shortcuts.tab_reverse': '反向导航',
+        'shortcuts.activate_link': '激活链接/按钮',
+        'shortcuts.tip': '<strong>提示:</strong> 按Tab键可以浏览页面上的所有交互元素。',
+        'shortcuts.confirm': '确认',
+        
         // Common Terms
         'common.close': '关闭',
         'common.submit': '提交',
@@ -1539,6 +1593,24 @@ class I18n {
         'tutorial.welcome_description': 'GalleryPiaはAIベースの価値評価システムを備えた次世代NFTアートプラットフォームです。主要機能を簡単にご案内しましょうか？',
         'tutorial.start_tour': 'ツアーを開始',
         'tutorial.skip': 'スキップ',
+        
+        // Keyboard Shortcuts
+        'shortcuts.title': '⌨️ キーボードショートカット',
+        'shortcuts.close': '閉じる',
+        'shortcuts.section_navigation': '🧭 ナビゲーション',
+        'shortcuts.go_home': 'ホームに移動',
+        'shortcuts.go_gallery': 'ギャラリーに移動',
+        'shortcuts.search': '検索',
+        'shortcuts.section_actions': '⚡ アクション',
+        'shortcuts.open_notifications': '通知を開く',
+        'shortcuts.close_modal': 'モーダル/メニューを閉じる',
+        'shortcuts.help': 'ショートカットヘルプ',
+        'shortcuts.section_accessibility': '♿ アクセシビリティ',
+        'shortcuts.tab_navigate': '要素間を移動',
+        'shortcuts.tab_reverse': '逆方向に移動',
+        'shortcuts.activate_link': 'リンク/ボタンを有効化',
+        'shortcuts.tip': '<strong>ヒント:</strong> Tabキーを押してページ上のすべてのインタラクティブ要素を閲覧できます。',
+        'shortcuts.confirm': '確認',
         
         // Common Terms
         'common.close': '閉じる',

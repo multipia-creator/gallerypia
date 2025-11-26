@@ -2875,12 +2875,14 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         helpModal.setAttribute('aria-labelledby', 'shortcuts-title');
         helpModal.setAttribute('aria-modal', 'true');
         
+        const t = window.i18n.t.bind(window.i18n);
+        
         helpModal.innerHTML = \`
           <div class="bg-gray-900 rounded-2xl shadow-2xl max-w-2xl w-full border border-white border-opacity-10 overflow-hidden">
             <div class="p-6 border-b border-white border-opacity-10">
               <div class="flex justify-between items-center">
-                <h2 id="shortcuts-title" class="text-2xl font-bold text-white">⌨️ 키보드 단축키</h2>
-                <button onclick="closeKeyboardShortcutsHelp()" class="text-gray-400 hover:text-white transition p-2" aria-label="닫기">
+                <h2 id="shortcuts-title" class="text-2xl font-bold text-white">\${t('shortcuts.title')}</h2>
+                <button onclick="closeKeyboardShortcutsHelp()" class="text-gray-400 hover:text-white transition p-2" aria-label="\${t('shortcuts.close')}">
                   <i class="fas fa-times text-xl"></i>
                 </button>
               </div>
@@ -2888,26 +2890,26 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
             
             <div class="p-6 max-h-[70vh] overflow-y-auto">
               <div class="space-y-6">
-                <!-- 네비게이션 -->
+                <!-- Navigation -->
                 <div>
-                  <h3 class="text-lg font-semibold text-purple-400 mb-3">🧭 네비게이션</h3>
+                  <h3 class="text-lg font-semibold text-purple-400 mb-3">\${t('shortcuts.section_navigation')}</h3>
                   <div class="space-y-2">
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">홈으로 이동</span>
+                      <span class="text-gray-300">\${t('shortcuts.go_home')}</span>
                       <div class="flex gap-2">
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">G</kbd>
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">H</kbd>
                       </div>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">갤러리로 이동</span>
+                      <span class="text-gray-300">\${t('shortcuts.go_gallery')}</span>
                       <div class="flex gap-2">
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">G</kbd>
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">G</kbd>
                       </div>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">검색</span>
+                      <span class="text-gray-300">\${t('shortcuts.search')}</span>
                       <div class="flex gap-2">
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">Ctrl</kbd>
                         <span class="text-gray-500">+</span>
@@ -2917,20 +2919,20 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                   </div>
                 </div>
                 
-                <!-- 액션 -->
+                <!-- Actions -->
                 <div>
-                  <h3 class="text-lg font-semibold text-cyan-400 mb-3">⚡ 액션</h3>
+                  <h3 class="text-lg font-semibold text-cyan-400 mb-3">\${t('shortcuts.section_actions')}</h3>
                   <div class="space-y-2">
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">알림 열기</span>
+                      <span class="text-gray-300">\${t('shortcuts.open_notifications')}</span>
                       <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">N</kbd>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">모달/메뉴 닫기</span>
+                      <span class="text-gray-300">\${t('shortcuts.close_modal')}</span>
                       <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">ESC</kbd>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">단축키 도움말</span>
+                      <span class="text-gray-300">\${t('shortcuts.help')}</span>
                       <div class="flex gap-2">
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">Ctrl</kbd>
                         <span class="text-gray-500">+</span>
@@ -2940,16 +2942,16 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                   </div>
                 </div>
                 
-                <!-- 접근성 -->
+                <!-- Accessibility -->
                 <div>
-                  <h3 class="text-lg font-semibold text-green-400 mb-3">♿ 접근성</h3>
+                  <h3 class="text-lg font-semibold text-green-400 mb-3">\${t('shortcuts.section_accessibility')}</h3>
                   <div class="space-y-2">
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">요소 간 이동</span>
+                      <span class="text-gray-300">\${t('shortcuts.tab_navigate')}</span>
                       <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">Tab</kbd>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">역방향 이동</span>
+                      <span class="text-gray-300">\${t('shortcuts.tab_reverse')}</span>
                       <div class="flex gap-2">
                         <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">Shift</kbd>
                         <span class="text-gray-500">+</span>
@@ -2957,7 +2959,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                       </div>
                     </div>
                     <div class="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg">
-                      <span class="text-gray-300">링크/버튼 활성화</span>
+                      <span class="text-gray-300">\${t('shortcuts.activate_link')}</span>
                       <kbd class="px-3 py-1 bg-gray-800 border border-gray-700 rounded text-sm font-mono">Enter</kbd>
                     </div>
                   </div>
@@ -2967,14 +2969,14 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
               <div class="mt-6 p-4 bg-purple-900 bg-opacity-20 rounded-lg border border-purple-500 border-opacity-30">
                 <p class="text-sm text-gray-300">
                   <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
-                  <strong>Tip:</strong> Tab 키를 눌러 페이지 내 모든 인터랙티브 요소를 탐색할 수 있습니다.
+                  \${t('shortcuts.tip')}
                 </p>
               </div>
             </div>
             
             <div class="p-4 border-t border-white border-opacity-10 bg-gray-800 bg-opacity-50">
               <button onclick="closeKeyboardShortcutsHelp()" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-xl font-semibold hover:shadow-lg transition">
-                확인 <span class="keyboard-hint ml-2">ESC</span>
+                \${t('shortcuts.confirm')} <span class="keyboard-hint ml-2">ESC</span>
               </button>
             </div>
           </div>
