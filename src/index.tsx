@@ -17422,7 +17422,7 @@ app.get('/about', (c) => {
                           <h3 class="text-lg font-bold text-white">다국어 지원 확장</h3>
                       </div>
                       <p class="text-gray-400 text-sm mb-3">4개 언어 완전 지원 (KO/EN/ZH/JA)</p>
-                      <ul class="text-xs text-gray-500 space-y-1">
+                      <ul class="text-xs text-gray-300 space-y-1">
                           <li>✓ 186개 번역 키 추가</li>
                           <li>✓ 회원가입/로그인 100% 번역</li>
                           <li>✓ 추천 페이지 다국어 완료</li>
@@ -17439,7 +17439,7 @@ app.get('/about', (c) => {
                           <h3 class="text-lg font-bold text-white">NFT 아카데미 재구축</h3>
                       </div>
                       <p class="text-gray-400 text-sm mb-3">4단계 학습 커리큘럼</p>
-                      <ul class="text-xs text-gray-500 space-y-1">
+                      <ul class="text-xs text-gray-300 space-y-1">
                           <li>✓ 기초/중급/고급/전문가 과정</li>
                           <li>✓ 실습 프로젝트 통합</li>
                           <li>✓ 수료증 발급 시스템</li>
@@ -17456,7 +17456,7 @@ app.get('/about', (c) => {
                           <h3 class="text-lg font-bold text-white">보안 강화</h3>
                       </div>
                       <p class="text-gray-400 text-sm mb-3">OWASP Top 10 보안 표준 준수</p>
-                      <ul class="text-xs text-gray-500 space-y-1">
+                      <ul class="text-xs text-gray-300 space-y-1">
                           <li>✓ bcrypt 비밀번호 해싱</li>
                           <li>✓ HttpOnly Cookie 인증</li>
                           <li>✓ Rate Limiting (API 보호)</li>
@@ -17473,7 +17473,7 @@ app.get('/about', (c) => {
                           <h3 class="text-lg font-bold text-white">성능 최적화</h3>
                       </div>
                       <p class="text-gray-400 text-sm mb-3">로딩 시간 50% 단축</p>
-                      <ul class="text-xs text-gray-500 space-y-1">
+                      <ul class="text-xs text-gray-300 space-y-1">
                           <li>✓ 빌드 크기 35% 감소</li>
                           <li>✓ 초기 로딩 4s → 2s</li>
                           <li>✓ WebP 이미지 최적화</li>
