@@ -1666,6 +1666,19 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Global Error Handler (Prevent Parse Errors from breaking the page) -->
+    <script>
+      window.addEventListener('error', function(e) {
+        // Log error but don't let it break the page
+        console.error('Global error caught:', e.message, e.filename, e.lineno);
+        // Prevent default error handling for Parse Errors
+        if (e.message && e.message.includes('Unexpected token')) {
+          e.preventDefault();
+          return true;
+        }
+      });
+    </script>
+    
     <!-- Initialization Optimizer (Inline for immediate availability) -->
     <script>
       window.initOptimizer = {
