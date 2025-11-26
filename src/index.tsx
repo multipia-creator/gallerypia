@@ -318,6 +318,8 @@ const translations = {
     'auth.role_seller_desc': 'NFT 작품을 판매하고 거래합니다',
     'auth.role_artist': '미술작가',
     'auth.role_artist_desc': '작품을 등록하고 NFT로 민팅합니다',
+    'auth.role_curator': '학예사',
+    'auth.role_curator_desc': '작품을 연구하고 전시를 기획합니다',
     'auth.role_expert': '전문가',
     'auth.role_expert_desc': '작품을 평가하고 ETH 보상을 받습니다',
     'auth.role_expert_reward': '평가당 0.01-0.1 ETH 보상',
@@ -673,6 +675,8 @@ const translations = {
     'auth.role_seller_desc': 'Sell and trade NFT artworks',
     'auth.role_artist': 'Artist',
     'auth.role_artist_desc': 'Register artworks and mint as NFTs',
+    'auth.role_curator': 'Curator',
+    'auth.role_curator_desc': 'Research artworks and plan exhibitions',
     'auth.role_expert': 'Expert',
     'auth.role_expert_desc': 'Evaluate artworks and earn ETH rewards',
     'auth.role_expert_reward': '0.01-0.1 ETH reward per evaluation',
@@ -1028,6 +1032,8 @@ const translations = {
     'auth.role_seller_desc': '出售和交易NFT艺术品',
     'auth.role_artist': '艺术家',
     'auth.role_artist_desc': '注册作品并铸造为NFT',
+    'auth.role_curator': '策展人',
+    'auth.role_curator_desc': '研究作品并策划展览',
     'auth.role_expert': '专家',
     'auth.role_expert_desc': '评估作品并获得ETH奖励',
     'auth.role_expert_reward': '每次评估奖励0.01-0.1 ETH',
@@ -1383,6 +1389,8 @@ const translations = {
     'auth.role_seller_desc': 'NFTアート作品を販売・取引',
     'auth.role_artist': 'アーティスト',
     'auth.role_artist_desc': '作品を登録しNFTとしてミント',
+    'auth.role_curator': 'キュレーター',
+    'auth.role_curator_desc': '作品を研究し展覧会を企画',
     'auth.role_expert': '専門家',
     'auth.role_expert_desc': '作品を評価しETH報酬を獲得',
     'auth.role_expert_reward': '評価ごとに0.01-0.1 ETH報酬',
@@ -15215,6 +15223,19 @@ app.get('/signup', (c) => {
                           </label>
                           
                           <label class="relative cursor-pointer">
+                              <input type="radio" name="role" value="curator" class="peer sr-only">
+                              <div class="card-nft rounded-xl p-6 border-2 border-transparent peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:bg-opacity-10 transition-all">
+                                  <div class="flex items-center mb-3">
+                                      <div class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-blue-500 flex items-center justify-center mr-4">
+                                          <i class="fas fa-book-open text-white text-xl"></i>
+                                      </div>
+                                      <div class="text-xl font-bold text-white">${t('auth.role_curator', lang)}</div>
+                                  </div>
+                                  <p class="text-sm text-gray-400">${t('auth.role_curator_desc', lang)}</p>
+                              </div>
+                          </label>
+                          
+                          <label class="relative cursor-pointer">
                               <input type="radio" name="role" value="expert" class="peer sr-only">
                               <div class="card-nft rounded-xl p-6 border-2 border-transparent peer-checked:border-purple-500 peer-checked:bg-purple-500 peer-checked:bg-opacity-10 transition-all">
                                   <div class="flex items-center mb-3">
@@ -15495,6 +15516,12 @@ app.get('/signup', (c) => {
             color: 'amber',
             title: '미술작가 회원',
             message: '작품을 등록하고 NFT로 민팅할 수 있습니다. 추가 프로필 정보를 입력해주세요.'
+          },
+          'curator': {
+            icon: 'book-open',
+            color: 'indigo',
+            title: '학예사 회원',
+            message: '작품을 연구하고 전시를 기획할 수 있습니다. 전문 지식과 경험을 공유해주세요.'
           },
           'expert': {
             icon: 'user-tie',
