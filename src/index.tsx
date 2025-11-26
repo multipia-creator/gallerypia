@@ -5683,7 +5683,7 @@ app.post('/api/auth/password-reset-request', async (c) => {
     
     // Store reset token
     await db.prepare(`
-      INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
+      INSERT INTO password_reset_tokens (user_id, reset_token, expires_at, created_at)
       VALUES (?, ?, ?, datetime('now'))
     `).bind(user.id, resetToken, expiresAt).run()
     
@@ -5727,7 +5727,7 @@ app.post('/api/auth/password-reset-confirm', async (c) => {
     // Verify token
     const resetRecord = await db.prepare(`
       SELECT user_id, expires_at FROM password_reset_tokens 
-      WHERE token = ? AND used = 0
+      WHERE reset_token = ? AND used = 0
     `).bind(token).first()
     
     if (!resetRecord) {
@@ -5752,7 +5752,7 @@ app.post('/api/auth/password-reset-confirm', async (c) => {
     
     // Mark token as used
     await db.prepare(`
-      UPDATE password_reset_tokens SET used = 1 WHERE token = ?
+      UPDATE password_reset_tokens SET used = 1 WHERE reset_token = ?
     `).bind(token).run()
     
     // Invalidate all sessions
@@ -6376,7 +6376,7 @@ app.post('/api/auth/forgot-password', async (c) => {
     
     // Save reset token
     await db.prepare(`
-      INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
+      INSERT INTO password_reset_tokens (user_id, reset_token, expires_at, created_at)
       VALUES (?, ?, ?, datetime('now'))
     `).bind(user.id, resetToken, expiresAt.toISOString()).run()
     
@@ -6416,7 +6416,7 @@ app.post('/api/auth/reset-password', async (c) => {
     // Verify token
     const resetToken = await db.prepare(`
       SELECT * FROM password_reset_tokens 
-      WHERE token = ? AND used = 0 AND expires_at > datetime('now')
+      WHERE reset_token = ? AND used = 0 AND expires_at > datetime('now')
     `).bind(token).first()
     
     if (!resetToken) {
@@ -7557,6 +7557,287 @@ app.get('/download/documents', async (c) => {
     })
   } catch (error) {
     return c.text('File not found', 404)
+  }
+})
+
+// ============================================
+// 인증 API (Authentication APIs)
+// ============================================
+
+// 회원가입 API
+app.post('/api/auth/register', async (c) => {
+  try {
+    const { email, password, name, role = 'user' } = await c.req.json()
+    
+    // 1. 입력 검증
+    if (!email || !password || !name) {
+      return c.json({ success: false, error: '필수 항목을 모두 입력해주세요.' }, 400)
+    }
+    
+    // 2. 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return c.json({ success: false, error: '올바른 이메일 형식이 아닙니다.' }, 400)
+    }
+    
+    // 3. 비밀번호 강도 검증
+    if (password.length < 8) {
+      return c.json({ success: false, error: '비밀번호는 최소 8자 이상이어야 합니다.' }, 400)
+    }
+    
+    // 4. 이메일 중복 체크
+    const existingUser = await c.env.DB.prepare(
+      'SELECT id FROM users WHERE email = ?'
+    ).bind(email).first()
+    
+    if (existingUser) {
+      return c.json({ success: false, error: '이미 사용중인 이메일입니다.' }, 409)
+    }
+    
+    // 5. 비밀번호 해싱
+    const passwordHash = await bcrypt.hash(password, 10)
+    
+    // 6. 사용자 생성
+    const result = await c.env.DB.prepare(`
+      INSERT INTO users (email, password_hash, name, role, created_at, updated_at)
+      VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))
+    `).bind(email, passwordHash, name, role).run()
+    
+    const userId = result.meta.last_row_id
+    
+    // 7. JWT 토큰 생성 (30일 유효)
+    const token = await bcrypt.hash(`${userId}:${email}:${Date.now()}`, 10)
+    
+    // 8. 세션 저장
+    await c.env.DB.prepare(`
+      INSERT INTO user_sessions (user_id, session_token, expires_at, created_at)
+      VALUES (?, ?, datetime('now', '+30 days'), datetime('now'))
+    `).bind(userId, token).run()
+    
+    return c.json({
+      success: true,
+      data: {
+        token,
+        user: {
+          id: userId,
+          email,
+          name,
+          role
+        }
+      }
+    }, 201)
+    
+  } catch (error: any) {
+    console.error('Registration error:', error)
+    return c.json({ 
+      success: false, 
+      error: '회원가입 처리 중 오류가 발생했습니다.' 
+    }, 500)
+  }
+})
+
+// 로그인 API
+app.post('/api/auth/login', async (c) => {
+  try {
+    const { email, password } = await c.req.json()
+    
+    if (!email || !password) {
+      return c.json({ success: false, error: '이메일과 비밀번호를 입력해주세요.' }, 400)
+    }
+    
+    // 1. 사용자 조회
+    const user = await c.env.DB.prepare(`
+      SELECT id, email, name, role, password_hash
+      FROM users 
+      WHERE email = ?
+    `).bind(email).first()
+    
+    if (!user) {
+      return c.json({ success: false, error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, 401)
+    }
+    
+    // 2. 비밀번호 검증
+    const isValid = await bcrypt.compare(password, user.password_hash)
+    
+    if (!isValid) {
+      return c.json({ success: false, error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, 401)
+    }
+    
+    // 3. JWT 토큰 생성
+    const token = await bcrypt.hash(`${user.id}:${user.email}:${Date.now()}`, 10)
+    
+    // 4. 세션 저장
+    await c.env.DB.prepare(`
+      INSERT INTO user_sessions (user_id, session_token, expires_at, created_at)
+      VALUES (?, ?, datetime('now', '+30 days'), datetime('now'))
+    `).bind(user.id, token).run()
+    
+    return c.json({
+      success: true,
+      data: {
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role
+        }
+      }
+    })
+    
+  } catch (error: any) {
+    console.error('Login error:', error)
+    return c.json({ success: false, error: '로그인 처리 중 오류가 발생했습니다.' }, 500)
+  }
+})
+
+// 인증 확인 API
+app.get('/api/auth/me', async (c) => {
+  try {
+    const authHeader = c.req.header('Authorization')
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return c.json({ success: false, error: '인증 토큰이 없습니다.' }, 401)
+    }
+    
+    const token = authHeader.substring(7)
+    
+    // 세션 조회
+    const session = await c.env.DB.prepare(`
+      SELECT s.*, u.id, u.email, u.name, u.role
+      FROM user_sessions s
+      JOIN users u ON s.user_id = u.id
+      WHERE s.session_token = ? AND s.expires_at > datetime('now')
+    `).bind(token).first()
+    
+    if (!session) {
+      return c.json({ success: false, error: '유효하지 않거나 만료된 토큰입니다.' }, 401)
+    }
+    
+    return c.json({
+      success: true,
+      data: {
+        id: session.id,
+        email: session.email,
+        name: session.name,
+        role: session.role
+      }
+    })
+    
+  } catch (error: any) {
+    return c.json({ success: false, error: '인증 확인 중 오류가 발생했습니다.' }, 500)
+  }
+})
+
+// 비밀번호 재설정 요청 API
+app.post('/api/auth/forgot-password', async (c) => {
+  try {
+    const { email } = await c.req.json()
+    
+    if (!email) {
+      return c.json({ success: false, error: '이메일을 입력해주세요.' }, 400)
+    }
+    
+    // 사용자 확인
+    const user = await c.env.DB.prepare('SELECT id FROM users WHERE email = ?')
+      .bind(email).first()
+    
+    // 보안을 위해 사용자 존재 여부와 관계없이 동일한 응답
+    if (!user) {
+      return c.json({ 
+        success: true, 
+        message: '입력하신 이메일로 비밀번호 재설정 링크를 전송했습니다. 이메일을 확인해주세요.' 
+      })
+    }
+    
+    // 재설정 토큰 생성 (30분 유효)
+    const resetToken = await bcrypt.hash(`${user.id}:reset:${Date.now()}`, 10)
+    
+    // 재설정 토큰 저장
+    await c.env.DB.prepare(`
+      INSERT INTO password_reset_tokens (user_id, reset_token, expires_at, created_at)
+      VALUES (?, ?, datetime('now', '+30 minutes'), datetime('now'))
+    `).bind(user.id, resetToken).run()
+    
+    // TODO: 이메일 전송 (현재는 콘솔 로그)
+    const resetLink = `https://gallerypia.com/reset-password?token=${resetToken}`
+    console.log(`Password reset link for ${email}: ${resetLink}`)
+    
+    return c.json({ 
+      success: true, 
+      message: '입력하신 이메일로 비밀번호 재설정 링크를 전송했습니다. 이메일을 확인해주세요.',
+      // 개발 환경에서만 토큰 반환
+      ...(c.env.ENVIRONMENT === 'development' && { resetToken, resetLink })
+    })
+  } catch (error: any) {
+    console.error('Forgot password error:', error)
+    return c.json({ success: false, error: '비밀번호 재설정 요청 중 오류가 발생했습니다.' }, 500)
+  }
+})
+
+// 비밀번호 재설정 실행 API
+app.post('/api/auth/reset-password', async (c) => {
+  try {
+    const { token, newPassword } = await c.req.json()
+    
+    if (!token || !newPassword) {
+      return c.json({ success: false, error: '필수 항목을 모두 입력해주세요.' }, 400)
+    }
+    
+    if (newPassword.length < 8) {
+      return c.json({ success: false, error: '비밀번호는 최소 8자 이상이어야 합니다.' }, 400)
+    }
+    
+    // 토큰 검증
+    const resetToken = await c.env.DB.prepare(`
+      SELECT user_id 
+      FROM password_reset_tokens 
+      WHERE reset_token = ? AND expires_at > datetime('now')
+    `).bind(token).first()
+    
+    if (!resetToken) {
+      return c.json({ success: false, error: '유효하지 않거나 만료된 토큰입니다.' }, 400)
+    }
+    
+    // 비밀번호 해싱
+    const passwordHash = await bcrypt.hash(newPassword, 10)
+    
+    // 비밀번호 업데이트
+    await c.env.DB.prepare(`
+      UPDATE users 
+      SET password_hash = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `).bind(passwordHash, resetToken.user_id).run()
+    
+    // 사용된 토큰 삭제
+    await c.env.DB.prepare(`
+      DELETE FROM password_reset_tokens WHERE user_id = ?
+    `).bind(resetToken.user_id).run()
+    
+    return c.json({ success: true, message: '비밀번호가 성공적으로 변경되었습니다.' })
+  } catch (error: any) {
+    console.error('Reset password error:', error)
+    return c.json({ success: false, error: '비밀번호 재설정 중 오류가 발생했습니다.' }, 500)
+  }
+})
+
+// 로그아웃 API
+app.post('/api/auth/logout', async (c) => {
+  try {
+    const authHeader = c.req.header('Authorization')
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return c.json({ success: false, error: '인증 토큰이 없습니다.' }, 401)
+    }
+    
+    const token = authHeader.substring(7)
+    
+    // 세션 삭제
+    await c.env.DB.prepare(`
+      DELETE FROM user_sessions WHERE session_token = ?
+    `).bind(token).run()
+    
+    return c.json({ success: true, message: '로그아웃되었습니다.' })
+  } catch (error: any) {
+    return c.json({ success: false, error: '로그아웃 처리 중 오류가 발생했습니다.' }, 500)
   }
 })
 

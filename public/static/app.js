@@ -1,4 +1,82 @@
 // ========================================
+// 인증 상태 관리
+// ========================================
+
+// 전역 사용자 상태
+window.currentUser = null;
+
+// 페이지 로드 시 자동 인증 복구
+async function restoreAuthState() {
+  const token = localStorage.getItem('authToken')
+  if (!token) {
+    console.log('No auth token found')
+    return false
+  }
+  
+  try {
+    const response = await axios.get('/api/auth/me', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    
+    if (response.data.success) {
+      window.currentUser = response.data.data
+      updateUIForAuthState(true)
+      console.log('Auth restored:', window.currentUser.email)
+      return true
+    }
+  } catch (error) {
+    console.log('Token expired or invalid:', error.message)
+    localStorage.removeItem('authToken')
+    window.currentUser = null
+    updateUIForAuthState(false)
+    return false
+  }
+  
+  return false
+}
+
+// 인증 상태에 따라 UI 업데이트
+function updateUIForAuthState(isAuthenticated) {
+  const loginBtn = document.getElementById('loginBtn')
+  const signupBtn = document.getElementById('signupBtn')
+  const userMenu = document.getElementById('userMenu')
+  
+  if (isAuthenticated && window.currentUser) {
+    if (loginBtn) loginBtn.style.display = 'none'
+    if (signupBtn) signupBtn.style.display = 'none'
+    if (userMenu) {
+      userMenu.style.display = 'block'
+      const userNameEl = document.getElementById('userName')
+      if (userNameEl) userNameEl.textContent = window.currentUser.name
+    }
+  } else {
+    if (loginBtn) loginBtn.style.display = 'block'
+    if (signupBtn) signupBtn.style.display = 'block'
+    if (userMenu) userMenu.style.display = 'none'
+  }
+}
+
+// 로그아웃 함수
+async function logout() {
+  const token = localStorage.getItem('authToken')
+  
+  if (token) {
+    try {
+      await axios.post('/api/auth/logout', {}, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
+  
+  localStorage.removeItem('authToken')
+  window.currentUser = null
+  updateUIForAuthState(false)
+  window.location.href = '/'
+}
+
+// ========================================
 // SPA 라우팅
 // ========================================
 
@@ -723,7 +801,12 @@ window.addEventListener('popstate', function() {
 });
 
 // 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log('Initializing application...');
+  
+  // 인증 상태 복구
+  await restoreAuthState();
+  
   currentPage = window.location.pathname;
   renderPage();
   updateNavigationVisibility();
