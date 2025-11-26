@@ -401,6 +401,20 @@ class I18n {
         'auth.password_min': '최소 8자 이상',
         'auth.change_password': '비밀번호 변경',
         
+        // Recommendations
+        'recommendations.title': '당신을 위한 추천 작품',
+        'recommendations.subtitle': 'AI 기반 추천 알고리즘으로 취향에 맞는 작품을 발견하세요',
+        'recommendations.tab_personalized': '맞춤 추천',
+        'recommendations.tab_trending': '인기 급상승',
+        'recommendations.tab_new': '신규 작품',
+        'recommendations.loading': '추천 작품을 분석하는 중...',
+        'recommendations.algorithm_name': '하이브리드 추천',
+        'recommendations.algorithm_desc': '당신의 취향과 행동 패턴을 분석하여 최적의 작품을 추천합니다',
+        'recommendations.count_label': '추천 작품',
+        'recommendations.empty_title': '아직 추천할 작품이 없습니다',
+        'recommendations.empty_desc': '작품을 둘러보고 좋아요를 눌러 취향을 알려주세요!',
+        'recommendations.view_gallery': '갤러리 둘러보기',
+        
         // Buttons
         'btn.buy': '구매하기',
         'btn.bid': '입찰하기',
@@ -1002,6 +1016,20 @@ class I18n {
         'auth.password_min': 'Minimum 8 characters',
         'auth.change_password': 'Change Password',
         
+        // Recommendations
+        'recommendations.title': 'Recommended Artworks',
+        'recommendations.subtitle': 'Discover artworks tailored to your taste with AI-based recommendation algorithm',
+        'recommendations.tab_personalized': 'For You',
+        'recommendations.tab_trending': 'Trending',
+        'recommendations.tab_new': 'New Arrivals',
+        'recommendations.loading': 'Analyzing recommendations...',
+        'recommendations.algorithm_name': 'Hybrid Recommendations',
+        'recommendations.algorithm_desc': 'We analyze your preferences and behavior patterns to recommend the best artworks',
+        'recommendations.count_label': 'Recommendations',
+        'recommendations.empty_title': 'No recommendations yet',
+        'recommendations.empty_desc': 'Browse the gallery and like artworks to help us understand your taste!',
+        'recommendations.view_gallery': 'Browse Gallery',
+        
         // Buttons
         'btn.buy': 'Buy Now',
         'btn.bid': 'Place Bid',
@@ -1467,6 +1495,20 @@ class I18n {
         'auth.password_min': '至少8个字符',
         'auth.change_password': '更改密码',
         
+        // Recommendations
+        'recommendations.title': '为您推荐的作品',
+        'recommendations.subtitle': '通过AI推荐算法发现符合您品味的作品',
+        'recommendations.tab_personalized': '个性化推荐',
+        'recommendations.tab_trending': '热门上升',
+        'recommendations.tab_new': '新作品',
+        'recommendations.loading': '正在分析推荐作品...',
+        'recommendations.algorithm_name': '混合推荐',
+        'recommendations.algorithm_desc': '分析您的偏好和行为模式，推荐最佳作品',
+        'recommendations.count_label': '推荐作品',
+        'recommendations.empty_title': '暂无推荐作品',
+        'recommendations.empty_desc': '浏览画廊并点赞作品，告诉我们您的品味！',
+        'recommendations.view_gallery': '浏览画廊',
+        
         // Buttons
         'btn.buy': '立即购买',
         'btn.bid': '出价',
@@ -1931,6 +1973,20 @@ class I18n {
         'auth.new_password': '新しいパスワード',
         'auth.password_min': '最低8文字以上',
         'auth.change_password': 'パスワードを変更',
+        
+        // Recommendations
+        'recommendations.title': 'あなたにおすすめの作品',
+        'recommendations.subtitle': 'AIベースの推薦アルゴリズムで好みに合った作品を発見',
+        'recommendations.tab_personalized': 'あなたへのおすすめ',
+        'recommendations.tab_trending': '急上昇',
+        'recommendations.tab_new': '新着作品',
+        'recommendations.loading': 'おすすめ作品を分析中...',
+        'recommendations.algorithm_name': 'ハイブリッド推薦',
+        'recommendations.algorithm_desc': 'あなたの好みと行動パターンを分析して最適な作品を推薦します',
+        'recommendations.count_label': 'おすすめ作品',
+        'recommendations.empty_title': 'まだおすすめの作品がありません',
+        'recommendations.empty_desc': 'ギャラリーを見て、いいねを押して好みを教えてください！',
+        'recommendations.view_gallery': 'ギャラリーを見る',
         
         // Buttons
         'btn.buy': '今すぐ購入',

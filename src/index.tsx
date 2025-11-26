@@ -328,6 +328,20 @@ const translations = {
     'auth.password_min': '최소 8자 이상',
     'auth.change_password': '비밀번호 변경',
     
+    // Recommendations
+    'recommendations.title': '당신을 위한 추천 작품',
+    'recommendations.subtitle': 'AI 기반 추천 알고리즘으로 취향에 맞는 작품을 발견하세요',
+    'recommendations.tab_personalized': '맞춤 추천',
+    'recommendations.tab_trending': '인기 급상승',
+    'recommendations.tab_new': '신규 작품',
+    'recommendations.loading': '추천 작품을 분석하는 중...',
+    'recommendations.algorithm_name': '하이브리드 추천',
+    'recommendations.algorithm_desc': '당신의 취향과 행동 패턴을 분석하여 최적의 작품을 추천합니다',
+    'recommendations.count_label': '추천 작품',
+    'recommendations.empty_title': '아직 추천할 작품이 없습니다',
+    'recommendations.empty_desc': '작품을 둘러보고 좋아요를 눌러 취향을 알려주세요!',
+    'recommendations.view_gallery': '갤러리 둘러보기',
+    
     // Common
     'common.search': '검색',
     'common.close': '닫기',
@@ -638,6 +652,20 @@ const translations = {
     'auth.password_min': 'Minimum 8 characters',
     'auth.change_password': 'Change Password',
     
+    // Recommendations
+    'recommendations.title': 'Recommended Artworks',
+    'recommendations.subtitle': 'Discover artworks tailored to your taste with AI-based recommendation algorithm',
+    'recommendations.tab_personalized': 'For You',
+    'recommendations.tab_trending': 'Trending',
+    'recommendations.tab_new': 'New Arrivals',
+    'recommendations.loading': 'Analyzing recommendations...',
+    'recommendations.algorithm_name': 'Hybrid Recommendations',
+    'recommendations.algorithm_desc': 'We analyze your preferences and behavior patterns to recommend the best artworks',
+    'recommendations.count_label': 'Recommendations',
+    'recommendations.empty_title': 'No recommendations yet',
+    'recommendations.empty_desc': 'Browse the gallery and like artworks to help us understand your taste!',
+    'recommendations.view_gallery': 'Browse Gallery',
+    
     // Common
     'common.search': 'Search',
     'common.close': 'Close',
@@ -912,6 +940,55 @@ const translations = {
     'auth.remember_me': '记住我',
     'auth.or_login_with': '或使用电子邮件登录',
     'auth.welcome': '欢迎来到GalleryPia',
+    'auth.social_login': '使用社交账户快速登录',
+    'auth.social_signup': '使用社交账户快速注册',
+    'auth.or_signup_with': '或使用电子邮件注册',
+    'auth.password_placeholder': '输入密码',
+    'auth.basic_info': '基本信息',
+    'auth.username': '用户名',
+    'auth.full_name': '姓名',
+    'auth.phone': '电话号码',
+    'auth.confirm_password': '确认密码',
+    'auth.confirm_password_placeholder': '再次输入密码',
+    'auth.account_type': '选择账户类型',
+    'auth.role_buyer': '买家',
+    'auth.role_buyer_desc': '购买和收藏NFT艺术品',
+    'auth.role_seller': '卖家',
+    'auth.role_seller_desc': '出售和交易NFT艺术品',
+    'auth.role_artist': '艺术家',
+    'auth.role_artist_desc': '注册作品并铸造为NFT',
+    'auth.role_expert': '专家',
+    'auth.role_expert_desc': '评估作品并获得ETH奖励',
+    'auth.role_expert_reward': '每次评估奖励0.01-0.1 ETH',
+    'auth.role_museum': '博物馆',
+    'auth.role_museum_desc': '策划展览和策展作品',
+    'auth.role_gallery': '画廊',
+    'auth.role_gallery_desc': '展示作品并中介交易',
+    'auth.forgot_title': '忘记密码',
+    'auth.forgot_desc': '请输入您注册的电子邮件地址',
+    'auth.forgot_info': '密码重置链接将发送到您输入的电子邮件。',
+    'auth.send_reset_link': '发送重置链接',
+    'auth.back_to_login': '返回登录',
+    'auth.reset_password': '重置密码',
+    'auth.reset_title': '重置密码',
+    'auth.reset_desc': '请输入新密码',
+    'auth.new_password': '新密码',
+    'auth.password_min': '至少8个字符',
+    'auth.change_password': '更改密码',
+    
+    // Recommendations
+    'recommendations.title': '为您推荐的作品',
+    'recommendations.subtitle': '通过AI推荐算法发现符合您品味的作品',
+    'recommendations.tab_personalized': '个性化推荐',
+    'recommendations.tab_trending': '热门上升',
+    'recommendations.tab_new': '新作品',
+    'recommendations.loading': '正在分析推荐作品...',
+    'recommendations.algorithm_name': '混合推荐',
+    'recommendations.algorithm_desc': '分析您的偏好和行为模式，推荐最佳作品',
+    'recommendations.count_label': '推荐作品',
+    'recommendations.empty_title': '暂无推荐作品',
+    'recommendations.empty_desc': '浏览画廊并点赞作品，告诉我们您的品味！',
+    'recommendations.view_gallery': '浏览画廊',
     
     // Common
     'common.search': '搜索',
@@ -1187,6 +1264,55 @@ const translations = {
     'auth.remember_me': 'ログイン状態を保持',
     'auth.or_login_with': 'またはメールでログイン',
     'auth.welcome': 'GalleryPiaへようこそ',
+    'auth.social_login': 'ソーシャルアカウントで簡単ログイン',
+    'auth.social_signup': 'ソーシャルアカウントで簡単登録',
+    'auth.or_signup_with': 'またはメールで登録',
+    'auth.password_placeholder': 'パスワードを入力',
+    'auth.basic_info': '基本情報',
+    'auth.username': 'ユーザー名',
+    'auth.full_name': '氏名',
+    'auth.phone': '電話番号',
+    'auth.confirm_password': 'パスワード確認',
+    'auth.confirm_password_placeholder': 'パスワードを再入力',
+    'auth.account_type': 'アカウントタイプを選択',
+    'auth.role_buyer': '購入者',
+    'auth.role_buyer_desc': 'NFTアート作品を購入・収集',
+    'auth.role_seller': '販売者',
+    'auth.role_seller_desc': 'NFTアート作品を販売・取引',
+    'auth.role_artist': 'アーティスト',
+    'auth.role_artist_desc': '作品を登録しNFTとしてミント',
+    'auth.role_expert': '専門家',
+    'auth.role_expert_desc': '作品を評価しETH報酬を獲得',
+    'auth.role_expert_reward': '評価ごとに0.01-0.1 ETH報酬',
+    'auth.role_museum': '美術館',
+    'auth.role_museum_desc': '展覧会を企画し作品をキュレーション',
+    'auth.role_gallery': 'ギャラリー',
+    'auth.role_gallery_desc': '作品を展示し取引を仲介',
+    'auth.forgot_title': 'パスワードをお忘れですか',
+    'auth.forgot_desc': '登録されたメールアドレスを入力してください',
+    'auth.forgot_info': '入力されたメールアドレスにパスワードリセットリンクが送信されます。',
+    'auth.send_reset_link': 'リセットリンクを送信',
+    'auth.back_to_login': 'ログインに戻る',
+    'auth.reset_password': 'パスワードをリセット',
+    'auth.reset_title': 'パスワードをリセット',
+    'auth.reset_desc': '新しいパスワードを入力してください',
+    'auth.new_password': '新しいパスワード',
+    'auth.password_min': '最低8文字以上',
+    'auth.change_password': 'パスワードを変更',
+    
+    // Recommendations
+    'recommendations.title': 'あなたにおすすめの作品',
+    'recommendations.subtitle': 'AIベースの推薦アルゴリズムで好みに合った作品を発見',
+    'recommendations.tab_personalized': 'あなたへのおすすめ',
+    'recommendations.tab_trending': '急上昇',
+    'recommendations.tab_new': '新着作品',
+    'recommendations.loading': 'おすすめ作品を分析中...',
+    'recommendations.algorithm_name': 'ハイブリッド推薦',
+    'recommendations.algorithm_desc': 'あなたの好みと行動パターンを分析して最適な作品を推薦します',
+    'recommendations.count_label': 'おすすめ作品',
+    'recommendations.empty_title': 'まだおすすめの作品がありません',
+    'recommendations.empty_desc': 'ギャラリーを見て、いいねを押して好みを教えてください！',
+    'recommendations.view_gallery': 'ギャラリーを見る',
     
     // Common
     'common.search': '検索',
@@ -8903,30 +9029,30 @@ app.get('/recommendations', (c) => {
                     <span class="text-gradient font-bold text-sm">🤖 AI RECOMMENDATIONS</span>
                 </div>
                 <h1 class="text-6xl font-black mb-6">
-                    <span class="text-white">당신을 위한</span> <span class="text-gradient">추천 작품</span>
+                    <span class="text-gradient">${t('recommendations.title', lang)}</span>
                 </h1>
                 <p class="text-gray-400 text-xl max-w-3xl mx-auto">
-                    AI 기반 추천 알고리즘으로 취향에 맞는 작품을 발견하세요
+                    ${t('recommendations.subtitle', lang)}
                 </p>
             </div>
             
             <!-- 추천 탭 -->
             <div class="flex flex-wrap gap-3 mb-12 justify-center">
                 <button onclick="loadRecommendations('personalized')" class="rec-tab active px-6 py-3 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 rounded-xl transition-all border border-purple-500/30 hover:border-purple-400/50 font-semibold" data-tab="personalized">
-                    <i class="fas fa-user-circle mr-2"></i>맞춤 추천
+                    <i class="fas fa-user-circle mr-2"></i>${t('recommendations.tab_personalized', lang)}
                 </button>
                 <button onclick="loadRecommendations('trending')" class="rec-tab px-6 py-3 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl transition-all border border-white/10 hover:border-white/20 font-semibold" data-tab="trending">
-                    <i class="fas fa-fire mr-2"></i>인기 급상승
+                    <i class="fas fa-fire mr-2"></i>${t('recommendations.tab_trending', lang)}
                 </button>
                 <button onclick="loadRecommendations('new')" class="rec-tab px-6 py-3 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl transition-all border border-white/10 hover:border-white/20 font-semibold" data-tab="new">
-                    <i class="fas fa-sparkles mr-2"></i>신규 작품
+                    <i class="fas fa-sparkles mr-2"></i>${t('recommendations.tab_new', lang)}
                 </button>
             </div>
             
             <!-- 로딩 상태 -->
             <div id="recommendations-loading" class="text-center py-20">
                 <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
-                <p class="text-gray-400">추천 작품을 분석하는 중...</p>
+                <p class="text-gray-400">${t('recommendations.loading', lang)}</p>
             </div>
             
             <!-- 추천 알고리즘 설명 -->
@@ -8935,16 +9061,16 @@ app.get('/recommendations', (c) => {
                     <div>
                         <h3 class="text-lg font-bold text-white mb-2 flex items-center">
                             <i class="fas fa-robot text-purple-400 mr-2"></i>
-                            <span id="algorithm-name">하이브리드 추천</span>
+                            <span id="algorithm-name">${t('recommendations.algorithm_name', lang)}</span>
                         </h3>
                         <p class="text-sm text-gray-400" id="algorithm-description">
-                            당신의 취향과 행동 패턴을 분석하여 최적의 작품을 추천합니다
+                            ${t('recommendations.algorithm_desc', lang)}
                         </p>
                     </div>
                     <div class="hidden md:flex items-center space-x-4 text-sm">
                         <div class="text-center px-4 py-2 bg-purple-600/20 rounded-lg">
                             <div class="text-2xl font-bold text-gradient" id="rec-count">0</div>
-                            <div class="text-xs text-gray-400">추천 작품</div>
+                            <div class="text-xs text-gray-400">${t('recommendations.count_label', lang)}</div>
                         </div>
                     </div>
                 </div>
@@ -8956,11 +9082,11 @@ app.get('/recommendations', (c) => {
             <!-- 빈 상태 -->
             <div id="recommendations-empty" class="hidden text-center py-20">
                 <i class="fas fa-heart-broken text-6xl text-gray-700 mb-4"></i>
-                <h3 class="text-2xl font-bold text-white mb-2">아직 추천할 작품이 없습니다</h3>
-                <p class="text-gray-400 mb-8">작품을 둘러보고 좋아요를 눌러 취향을 알려주세요!</p>
+                <h3 class="text-2xl font-bold text-white mb-2">${t('recommendations.empty_title', lang)}</h3>
+                <p class="text-gray-400 mb-8">${t('recommendations.empty_desc', lang)}</p>
                 <a href="/gallery" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-bold rounded-xl hover:scale-105 transition-all">
                     <i class="fas fa-palette mr-2"></i>
-                    갤러리 둘러보기
+                    ${t('recommendations.view_gallery', lang)}
                 </a>
             </div>
         </div>
