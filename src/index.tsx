@@ -189,7 +189,7 @@ const translations = {
     'main.recent_coming_soon': '새로운 작품이 곧 등록됩니다.',
     'main.recent_badge': 'NEW',
     // 가치산정 시스템 섹션
-    'main.valuation_title': '셀프가치산정 시스템',
+    'main.valuation_title': '가치산정',
     'main.valuation_subtitle': '전문가 패널의 정성평가와 데이터 기반의 정량평가를 결합하여 투명하고 객관적인 NFT 미술품 가치산정을 제공합니다',
     'main.valuation_quantitative': '정량적 평가',
     'main.valuation_quantitative_en': 'Quantitative Analysis',
@@ -542,7 +542,7 @@ const translations = {
     'main.recent_coming_soon': 'New artworks will be registered soon.',
     'main.recent_badge': 'NEW',
     // Valuation System Section
-    'main.valuation_title': 'Self-Valuation System',
+    'main.valuation_title': 'Valuation',
     'main.valuation_subtitle': 'Provides transparent and objective NFT art valuation by combining qualitative evaluation from expert panels and data-based quantitative evaluation',
     'main.valuation_quantitative': 'Quantitative Evaluation',
     'main.valuation_quantitative_en': 'Quantitative Analysis',
@@ -895,7 +895,7 @@ const translations = {
     'main.recent_coming_soon': '新作品即将注册。',
     'main.recent_badge': 'NEW',
     // 估值系统部分
-    'main.valuation_title': '自我估值系统',
+    'main.valuation_title': '估值',
     'main.valuation_subtitle': '结合专家小组的定性评估和基于数据的定量评估，提供透明客观的NFT艺术品估值',
     'main.valuation_quantitative': '定量评估',
     'main.valuation_quantitative_en': 'Quantitative Analysis',
@@ -1248,7 +1248,7 @@ const translations = {
     'main.recent_coming_soon': '新しい作品が間もなく登録されます。',
     'main.recent_badge': 'NEW',
     // 評価システムセクション
-    'main.valuation_title': 'セルフ評価システム',
+    'main.valuation_title': '価値評価',
     'main.valuation_subtitle': '専門家パネルの定性評価とデータベースの定量評価を組み合わせて、透明で客観的なNFTアート評価を提供します',
     'main.valuation_quantitative': '定量評価',
     'main.valuation_quantitative_en': 'Quantitative Analysis',
