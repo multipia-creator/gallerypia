@@ -1666,7 +1666,28 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Chart.js - Lazy loaded when needed -->
+    <script>
+      // Lazy load Chart.js for analytics/statistics pages
+      window.loadChartJS = async function() {
+        if (window.Chart) {
+          console.log('✅ Chart.js already loaded');
+          return Promise.resolve();
+        }
+        
+        console.log('📊 Loading Chart.js...');
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+          script.onload = () => {
+            console.log('✅ Chart.js loaded');
+            resolve();
+          };
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      };
+    </script>
     
     <!-- 3D/AR/VR Libraries - Lazy Loaded -->
     <!-- A-Frame and AR.js are heavy libraries (~500KB+) -->
@@ -13156,9 +13177,11 @@ app.get('/mypage', (c) => {
   </section>
 
   <script>
-    // 월별 활동 차트
-    const activityCtx = document.getElementById('activityChart').getContext('2d');
-    new Chart(activityCtx, {
+    // 월별 활동 차트 - Lazy load Chart.js
+    (async function() {
+      await window.loadChartJS();
+      const activityCtx = document.getElementById('activityChart').getContext('2d');
+      new Chart(activityCtx, {
       type: 'line',
       data: {
         labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
@@ -13222,6 +13245,7 @@ app.get('/mypage', (c) => {
         }
       }
     });
+    })(); // End of Chart.js lazy loading
 
     // 내 작품 로드
     async function loadMyArtworks() {
