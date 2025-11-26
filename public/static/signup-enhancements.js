@@ -325,12 +325,14 @@ function addAddressSearch() {
   addressInput.style.paddingRight = '110px';
   container.appendChild(searchButton);
   
-  // 상세주소 입력란 추가
+  // 상세주소 입력란 추가 (접근성: label 추가)
   const detailAddressDiv = document.createElement('div');
   detailAddressDiv.className = 'mt-2';
   detailAddressDiv.innerHTML = `
+    <label for="organization_address_detail" class="sr-only">상세주소</label>
     <input type="text" id="organization_address_detail" 
            placeholder="상세주소 (동/호수 등)"
+           aria-label="상세주소 입력"
            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
   `;
   container.appendChild(detailAddressDiv);

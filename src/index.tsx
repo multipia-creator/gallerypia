@@ -22570,7 +22570,7 @@ app.delete('/api/admin/artworks/:id', async (c) => {
   }
 })
 
-// 일괄 상태 변경 API
+// 일괄 상태 변경 API (트랜잭션 처리)
 app.put('/api/admin/artworks/bulk/status', async (c) => {
   const { ids, status } = await c.req.json()
   const db = c.env.DB
@@ -22580,19 +22580,29 @@ app.put('/api/admin/artworks/bulk/status', async (c) => {
   }
   
   try {
-    for (const id of ids) {
-      await db.prepare(`
+    // D1 batch transaction for atomic updates
+    const statements = ids.map((id: number) =>
+      db.prepare(`
         UPDATE artworks SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?
-      `).bind(status, id).run()
+      `).bind(status, id)
+    )
+    
+    const results = await db.batch(statements)
+    
+    // Check if all updates succeeded
+    const failed = results.filter((r: any) => !r.success)
+    if (failed.length > 0) {
+      return c.json({ success: false, message: `${failed.length}개 작품 업데이트 실패` }, 500)
     }
     
     return c.json({ success: true, updated: ids.length })
   } catch (error) {
-    return c.json({ success: false, message: '일괄 상태 변경에 실패했습니다.' })
+    console.error('Bulk status update error:', error)
+    return c.json({ success: false, message: '일괄 상태 변경에 실패했습니다.' }, 500)
   }
 })
 
-// 일괄 삭제 API
+// 일괄 삭제 API (트랜잭션 처리)
 app.delete('/api/admin/artworks/bulk/delete', async (c) => {
   const { ids } = await c.req.json()
   const db = c.env.DB
@@ -22602,13 +22612,23 @@ app.delete('/api/admin/artworks/bulk/delete', async (c) => {
   }
   
   try {
-    for (const id of ids) {
-      await db.prepare('DELETE FROM artworks WHERE id = ?').bind(id).run()
+    // D1 batch transaction for atomic deletes
+    const statements = ids.map((id: number) =>
+      db.prepare('DELETE FROM artworks WHERE id = ?').bind(id)
+    )
+    
+    const results = await db.batch(statements)
+    
+    // Check if all deletes succeeded
+    const failed = results.filter((r: any) => !r.success)
+    if (failed.length > 0) {
+      return c.json({ success: false, message: `${failed.length}개 작품 삭제 실패` }, 500)
     }
     
     return c.json({ success: true, deleted: ids.length })
   } catch (error) {
-    return c.json({ success: false, message: '일괄 삭제에 실패했습니다.' })
+    console.error('Bulk delete error:', error)
+    return c.json({ success: false, message: '일괄 삭제에 실패했습니다.' }, 500)
   }
 })
 
