@@ -3553,7 +3553,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
               \${progressDots}
             </div>
             
-            <h3 class="text-2xl font-bold text-white mb-3">\${step.title}</h3>
+            <h2 class="text-2xl font-bold text-white mb-3">\${step.title}</h2>
             <p class="text-gray-300 mb-6 leading-relaxed">\${step.description}</p>
             
             <div class="flex justify-between items-center gap-4">
@@ -4016,7 +4016,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         modal.innerHTML = \`
           <div class="relative w-full max-w-6xl h-[80vh] bg-gray-900 rounded-2xl overflow-hidden">
             <div class="absolute top-4 left-4 z-10">
-              <h3 class="text-2xl font-bold text-white mb-1">\${title}</h3>
+              <h2 class="text-2xl font-bold text-white mb-1">\${title}</h2>
               <p class="text-sm text-gray-400">3D 미리보기</p>
             </div>
             <button onclick="close3DViewer()" class="absolute top-4 right-4 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all">
@@ -4376,7 +4376,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         modal.innerHTML = \`
           <div class="relative w-full max-w-6xl h-[80vh] bg-gray-900 rounded-2xl overflow-hidden">
             <div class="absolute top-4 left-4 z-10">
-              <h3 class="text-2xl font-bold text-white mb-1">VR 갤러리 투어</h3>
+              <h2 class="text-2xl font-bold text-white mb-1">VR 갤러리 투어</h2>
               <p class="text-sm text-gray-400">360도 가상 갤러리에서 작품 감상하기</p>
             </div>
             <button onclick="closeVRGallery()" class="absolute top-4 right-4 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all">
