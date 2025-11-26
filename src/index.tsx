@@ -4642,37 +4642,40 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       };
       
       // ============================================
-      // Mobile Menu Functions
+      // Mobile Menu Functions (HIGH Priority - Critical for mobile UX)
       // ============================================
       
-      const mobileMenuButton = document.getElementById('mobileMenuButton');
-      const mobileMenu = document.getElementById('mobileMenu');
-      const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-      const closeMobileMenu = document.getElementById('closeMobileMenu');
-      
-      function openMobileMenu() {
-        mobileMenu.classList.remove('translate-x-full');
-        mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
-        document.body.style.overflow = 'hidden';
-      }
-      
-      function closeMobileMenuFunc() {
-        mobileMenu.classList.add('translate-x-full');
-        mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
-        document.body.style.overflow = '';
-      }
-      
-      if (mobileMenuButton) {
+      window.initOptimizer.high(function() {
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        if (!mobileMenuButton || !mobileMenu || !mobileMenuOverlay || !closeMobileMenu) {
+          console.warn('Mobile menu elements not found');
+          return;
+        }
+        
+        function openMobileMenu() {
+          mobileMenu.classList.remove('translate-x-full');
+          mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+          document.body.style.overflow = 'hidden';
+          mobileMenuButton.setAttribute('aria-expanded', 'true');
+        }
+        
+        function closeMobileMenuFunc() {
+          mobileMenu.classList.add('translate-x-full');
+          mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
+          document.body.style.overflow = '';
+          mobileMenuButton.setAttribute('aria-expanded', 'false');
+        }
+        
         mobileMenuButton.addEventListener('click', openMobileMenu);
-      }
-      
-      if (closeMobileMenu) {
         closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
-      }
-      
-      if (mobileMenuOverlay) {
         mobileMenuOverlay.addEventListener('click', closeMobileMenuFunc);
-      }
+        
+        console.log('Mobile menu initialized');
+      });
       
       // 모바일 사용자 정보 업데이트
       function updateMobileUserInfo() {
@@ -4731,7 +4734,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         }
       }
       
-      updateMobileUserInfo();
+      // Call updateMobileUserInfo with HIGH priority
+      window.initOptimizer.high(updateMobileUserInfo);
       
       // ============================================
       // Touch Gesture Support (Swipe to close mobile menu)
