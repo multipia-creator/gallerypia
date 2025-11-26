@@ -8660,6 +8660,7 @@ app.get('/', async (c) => {
 // 추천 페이지 (ML-Based Recommendations)
 // ============================================
 app.get('/recommendations', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20" id="main-content" tabindex="-1">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -8890,7 +8891,7 @@ app.get('/recommendations', (c) => {
     </script>
   `;
   
-  return c.html(getLayout(content, '추천 작품 - GALLERYPIA'))
+  return c.html(getLayout(content, '추천 작품 - GALLERYPIA', lang))
 })
 
 // 갤러리 페이지 (계속...)
@@ -11253,6 +11254,7 @@ app.get('/artwork/:id', async (c) => {
 // 전문가 평가 페이지
 app.get('/evaluate/:id', async (c) => {
   try {
+    const lang = getUserLanguage(c)
     const id = c.req.param('id')
     const db = c.env.DB
     
@@ -11473,16 +11475,17 @@ app.get('/evaluate/:id', async (c) => {
     </script>
     `;
     
-    return c.html(getLayout(content, `전문가 평가 - ${artwork.title} - GALLERYPIA`))
+    return c.html(getLayout(content, `전문가 평가 - ${artwork.title} - GALLERYPIA`, lang))
   } catch (error: any) {
     console.error('Evaluation page error:', error)
-    return c.html(getLayout(`<div class="py-20 text-center text-red-500">페이지를 불러오는데 실패했습니다.<br/><small>${error.message || String(error)}</small></div>`))
+    return c.html(getLayout(`<div class="py-20 text-center text-red-500">페이지를 불러오는데 실패했습니다.<br/><small>${error.message || String(error)}</small></div>`, 'Error', lang))
   }
 })
 
 // 가치산정 페이지
 // 가치산정 페이지 - 5개 모듈 시스템 (작품 이미지 + 전문가 평가 포함)
 app.get('/valuation', async (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -11962,13 +11965,14 @@ app.get('/valuation', async (c) => {
   <script src="/static/valuation-complete.js"></script>
   `;
   
-  return c.html(getLayout(content, 'NFT 가치평가 시스템 - GALLERYPIA'))
+  return c.html(getLayout(content, 'NFT 가치평가 시스템 - GALLERYPIA', lang))
 })
 
 // 로그인 페이지
 
 // NFT 민팅 - 승인된 작품 목록 페이지
 app.get('/mint', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12090,11 +12094,12 @@ app.get('/mint', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, 'NFT 민팅 - GALLERYPIA'))
+  return c.html(getLayout(content, 'NFT 민팅 - GALLERYPIA', lang))
 })
 
 // NFT 민팅 - 작품 업로드 페이지
 app.get('/mint-upload', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="py-16">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12480,7 +12485,7 @@ app.get('/mint-upload', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, 'NFT 작품 업로드 - GALLERYPIA'))
+  return c.html(getLayout(content, 'NFT 작품 업로드 - GALLERYPIA', lang))
 })
 
 // Mypage - 개인화 대시보드
@@ -12851,7 +12856,7 @@ app.get('/mypage', (c) => {
   <script src="/static/artist-rank.js"></script>
   `;
   
-  return c.html(getLayout(content, '마이페이지 - GALLERYPIA'))
+  return c.html(getLayout(content, '마이페이지 - GALLERYPIA', lang))
 })
 
 // 리더보드 페이지 - 아티스트 랭킹
@@ -13409,7 +13414,7 @@ app.get('/leaderboard', (c) => {
   </style>
   `;
   
-  return c.html(getLayout(content, '아티스트 랭킹 - GALLERYPIA'))
+  return c.html(getLayout(content, '아티스트 랭킹 - GALLERYPIA', lang))
 })
 
 // 검색 페이지 - 음성검색, AI검색, 전문가 추천
@@ -13764,7 +13769,7 @@ app.get('/search', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, '스마트 검색 - GALLERYPIA'))
+  return c.html(getLayout(content, '스마트 검색 - GALLERYPIA', lang))
 })
 
 // /artists 리다이렉트 (아티스트 기능은 /leaderboard로 통합)
@@ -14034,7 +14039,7 @@ app.get('/artists-old', (c) => {
   <script src="/static/artist-rank.js"></script>
   `;
   
-  return c.html(getLayout(content, '아티스트 - GALLERYPIA'))
+  return c.html(getLayout(content, '아티스트 - GALLERYPIA', lang))
 })
 
 // /collections 리다이렉트 (컬렉션 기능은 /gallery로 통합)
@@ -14103,13 +14108,14 @@ app.get('/collections-old', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, '컬렉션 - GALLERYPIA'))
+  return c.html(getLayout(content, '컬렉션 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 회원가입 페이지
 // ============================================
 app.get('/signup', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section id="main-content" class="min-h-screen py-20" tabindex="-1">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14623,13 +14629,14 @@ app.get('/signup', (c) => {
   </style>
   `;
   
-  return c.html(getLayout(content, '회원가입 - GALLERYPIA'))
+  return c.html(getLayout(content, '회원가입 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 사용자 프로필 페이지
 // ============================================
 app.get('/profile', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
       <div class="max-w-4xl mx-auto px-4">
@@ -14787,13 +14794,14 @@ app.get('/profile', (c) => {
       }
     </script>
   `;
-  return c.html(getLayout(content, '내 프로필 - GALLERYPIA'))
+  return c.html(getLayout(content, '내 프로필 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 설정 페이지
 // ============================================
 app.get('/settings', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
       <div class="max-w-4xl mx-auto px-4">
@@ -15176,13 +15184,14 @@ app.get('/settings', (c) => {
       }
     </script>
   `;
-  return c.html(getLayout(content, '설정 - GALLERYPIA'))
+  return c.html(getLayout(content, '설정 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 관심작품 페이지
 // ============================================
 app.get('/favorites', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4">
@@ -15298,13 +15307,14 @@ app.get('/favorites', (c) => {
       loadFavorites();
     </script>
   `;
-  return c.html(getLayout(content, '관심작품 - GALLERYPIA'))
+  return c.html(getLayout(content, '관심작품 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 내 작품 페이지
 // ============================================
 app.get('/my-artworks', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4">
@@ -15340,7 +15350,7 @@ app.get('/my-artworks', (c) => {
       }
     </script>
   `;
-  return c.html(getLayout(content, '내 작품 - GALLERYPIA'))
+  return c.html(getLayout(content, '내 작품 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -15749,7 +15759,7 @@ app.get('/dashboard', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, '대시보드 - GALLERYPIA'))
+  return c.html(getLayout(content, '대시보드 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -15904,7 +15914,7 @@ app.get('/analytics-dashboard', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, '고급 분석 - GALLERYPIA'))
+  return c.html(getLayout(content, '고급 분석 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -16074,7 +16084,7 @@ app.get('/forgot-password', (c) => {
   <script src="/static/auth-improved.js"></script>
   `;
   
-  return c.html(getLayout(content, '비밀번호 찾기 - GALLERYPIA'))
+  return c.html(getLayout(content, '비밀번호 찾기 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -16148,7 +16158,7 @@ app.get('/reset-password', (c) => {
   <script src="/static/auth.js?v=2"></script>
   `;
   
-  return c.html(getLayout(content, '비밀번호 재설정 - GALLERYPIA'))
+  return c.html(getLayout(content, '비밀밀번호 재설정 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -16431,7 +16441,7 @@ app.get('/expert/apply', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, '전문가 신청 - GALLERYPIA'))
+  return c.html(getLayout(content, '전문가 신청 - GALLERYPIA', lang))
 })
 
 app.get('/about', (c) => {
@@ -17134,7 +17144,7 @@ app.get('/about', (c) => {
   </section>
   `;
   
-  return c.html(getLayout(content, '소개 - GALLERYPIA'))
+  return c.html(getLayout(content, '소개 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -17359,7 +17369,7 @@ app.get('/transactions', (c) => {
       loadTransactions();
     </script>
   `;
-  return c.html(getLayout(content, '거래 내역 - GALLERYPIA'))
+  return c.html(getLayout(content, '거래 내역 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -17384,7 +17394,7 @@ app.get('/bundles', (c) => {
       </div>
     </section>
   `;
-  return c.html(getLayout(content, 'NFT 번들 - GALLERYPIA'))
+  return c.html(getLayout(content, 'NFT 번들 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -17437,7 +17447,7 @@ app.get('/activity', (c) => {
       if (!token) window.location.href = '/login';
     </script>
   `;
-  return c.html(getLayout(content, '최근 활동 - GALLERYPIA'))
+  return c.html(getLayout(content, '최근 활동 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -17553,13 +17563,14 @@ app.get('/admin/login', (c) => {
   </script>
   `;
   
-  return c.html(getLayout(content, '관리자 로그인 - GALLERYPIA'))
+  return c.html(getLayout(content, '관리자 로그인 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 아티스트 대시보드 페이지
 // ============================================
 app.get('/dashboard/artist', async (c) => {
+  const lang = getUserLanguage(c)
   const db = c.env.DB
   const token = c.req.header('Authorization')?.replace('Bearer ', '')
   
@@ -17738,7 +17749,7 @@ app.get('/dashboard/artist', async (c) => {
   </section>
   `;
   
-  return c.html(getLayout(content, '아티스트 대시보드 - GALLERYPIA'))
+  return c.html(getLayout(content, '아티스트 대시보드 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -17934,13 +17945,14 @@ app.get('/dashboard/expert', async (c) => {
   </section>
   `;
   
-  return c.html(getLayout(content, '전문가 대시보드 - GALLERYPIA'))
+  return c.html(getLayout(content, '전문가 대시보드 - GALLERYPIA', lang))
 })
 
 // ============================================
 // 관리자 대시보드 페이지
 // ============================================
 app.get('/admin/dashboard', async (c) => {
+  const lang = getUserLanguage(c)
   const db = c.env.DB
   const token = c.req.header('Authorization')?.replace('Bearer ', '')
   
@@ -20166,7 +20178,7 @@ app.get('/admin/dashboard', async (c) => {
   
   `;
   
-  return c.html(getLayout(content, '관리자 대시보드 - GALLERYPIA'))
+  return c.html(getLayout(content, '관리자 대시보드 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -26051,7 +26063,7 @@ app.get('/support', (c) => {
         </div>
     </section>
   `;
-  return c.html(getLayout(content, '지원 센터 - GALLERYPIA'))
+  return c.html(getLayout(content, '지원 센터 - GALLERYPIA', lang))
 })
 
 // 2. 도움말 페이지
@@ -26187,7 +26199,7 @@ app.get('/help', (c) => {
         </div>
     </section>
   `;
-  return c.html(getLayout(content, '도움말 센터 - GALLERYPIA'))
+  return c.html(getLayout(content, '도움말 센터 - GALLERYPIA', lang))
 })
 
 // 3. 가치산정 시스템 상세 페이지
@@ -26723,7 +26735,7 @@ app.get('/valuation-system', (c) => {
         </div>
     </section>
   `;
-  return c.html(getLayout(content, '가치산정 시스템 - GALLERYPIA'))
+  return c.html(getLayout(content, '가치산정 시스템 - GALLERYPIA', lang))
 })
 
 // 4. 문의하기 페이지
@@ -26853,7 +26865,7 @@ app.get('/contact', (c) => {
       }
     </script>
   `;
-  return c.html(getLayout(content, '문의하기 - GALLERYPIA'))
+  return c.html(getLayout(content, '문의하기 - GALLERYPIA', lang))
 })
 
 // 5. 개인정보보호 페이지
@@ -26998,7 +27010,7 @@ app.get('/privacy', (c) => {
         </div>
     </section>
   `;
-  return c.html(getLayout(content, '개인정보보호정책 - GALLERYPIA'))
+  return c.html(getLayout(content, '개인정보보호정책 - GALLERYPIA', lang))
 })
 
 // 6. 사이트 이용하기 페이지
@@ -27306,7 +27318,7 @@ app.get('/usage-guide', (c) => {
       }
     </script>
   `;
-  return c.html(getLayout(content, '사이트 이용하기 - GALLERYPIA'))
+  return c.html(getLayout(content, '사이트 이용하기 - GALLERYPIA', lang))
 })
 
 // 7. NFT 아카데미 페이지 - 새로운 아카데미 페이지로 redirect
@@ -29488,7 +29500,7 @@ app.get('/admin/authenticity', async (c) => {
   </script>
   `
   
-  return c.html(getLayout(content, 'AI 진위 검증 - GALLERYPIA'))
+  return c.html(getLayout(content, 'AI 진위 검증 - GALLERYPIA', lang))
 })
 
 // ========================================
@@ -29548,7 +29560,7 @@ app.get('/admin/royalty', async (c) => {
   </section>
   `
   
-  return c.html(getLayout(content, '로열티 관리 - GALLERYPIA'))
+  return c.html(getLayout(content, '로열티 관리 - GALLERYPIA', lang))
 })
 
 // ========================================
@@ -29663,7 +29675,7 @@ app.get('/admin/museum', async (c) => {
   </script>
   `
   
-  return c.html(getLayout(content, 'Partnership 관리 - GALLERYPIA'))
+  return c.html(getLayout(content, 'Partnership 관리 - GALLERYPIA', lang))
 })
 
 // ========================================
@@ -29799,7 +29811,7 @@ app.get('/museum/apply', async (c) => {
   </script>
   `
   
-  return c.html(getLayout(content, 'Partnership 신청 - GALLERYPIA'))
+  return c.html(getLayout(content, 'Partnership 신청 - GALLERYPIA', lang))
 })
 
 // Upload Artwork Page
@@ -29963,7 +29975,7 @@ app.get('/upload-artwork', (c) => {
     </script>
   `
   
-  return c.html(getLayout(uploadHTML, '작품 업로드 - GALLERYPIA'))
+  return c.html(getLayout(uploadHTML, '작품 업로드 - GALLERYPIA', lang))
 })
 
 // SPA Wildcard Routes - Return HTML shell for client-side routing
@@ -30167,7 +30179,7 @@ app.get('/unsubscribe', async (c) => {
   </script>
   `
 
-  return c.html(getLayout(content, '이메일 수신 거부 - GALLERYPIA'))
+  return c.html(getLayout(content, '이메일 수신 거부 - GALLERYPIA', lang))
 })
 
 // ============================================
@@ -31680,7 +31692,7 @@ app.get('/curation', async (c) => {
   </script>
   `
 
-  return c.html(getLayout(content, '공동 큐레이션 - GALLERYPIA'))
+  return c.html(getLayout(content, '공동 큐레이션 - GALLERYPIA', lang))
 })
 
 export default app
