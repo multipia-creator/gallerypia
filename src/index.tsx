@@ -12774,6 +12774,7 @@ app.get('/mint-upload', (c) => {
 
 // Mypage - 개인화 대시보드
 app.get('/mypage', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16729,6 +16730,7 @@ app.get('/expert/apply', (c) => {
 })
 
 app.get('/about', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="py-16">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
