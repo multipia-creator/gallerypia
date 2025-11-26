@@ -13146,6 +13146,7 @@ app.get('/mypage', (c) => {
 
 // 리더보드 페이지 - 아티스트 랭킹
 app.get('/leaderboard', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13704,6 +13705,7 @@ app.get('/leaderboard', (c) => {
 
 // 검색 페이지 - 음성검색, AI검색, 전문가 추천
 app.get('/search', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section id="main-content" class="py-16" tabindex="-1">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15642,6 +15644,7 @@ app.get('/my-artworks', (c) => {
 // 통합 대시보드 페이지 (역할별 자동 전환)
 // ============================================
 app.get('/dashboard', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <div id="dashboardContainer" class="min-h-screen py-20">
     <div class="max-w-7xl mx-auto px-4">
@@ -16051,6 +16054,7 @@ app.get('/dashboard', (c) => {
 // 고급 분석 대시보드 (Phase 10.4)
 // ============================================
 app.get('/analytics-dashboard', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <div id="analyticsDashboard" class="min-h-screen py-20">
     <div class="max-w-7xl mx-auto px-4">
@@ -16314,6 +16318,7 @@ app.get('/login', (c) => {
 // 비밀번호 찾기 페이지
 // ============================================
 app.get('/forgot-password', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
   <section class="min-h-screen flex items-center justify-center py-20">
       <div class="w-full max-w-md px-4">
@@ -17540,6 +17545,7 @@ app.get('/about', (c) => {
 // 거래 내역 페이지
 // ============================================
 app.get('/transactions', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
       <div class="max-w-7xl mx-auto px-4">
@@ -26336,6 +26342,7 @@ app.post('/api/recommendations/track', async (c) => {
 
 // 1. 지원 페이지
 app.get('/support', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26457,6 +26464,7 @@ app.get('/support', (c) => {
 
 // 2. 도움말 페이지
 app.get('/help', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26593,6 +26601,7 @@ app.get('/help', (c) => {
 
 // 3. 가치산정 시스템 상세 페이지
 app.get('/valuation-system', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27129,6 +27138,7 @@ app.get('/valuation-system', (c) => {
 
 // 4. 문의하기 페이지
 app.get('/contact', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27259,6 +27269,7 @@ app.get('/contact', (c) => {
 
 // 5. 개인정보보호 페이지
 app.get('/privacy', (c) => {
+  const lang = getUserLanguage(c)
   const content = `
     <section class="py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
