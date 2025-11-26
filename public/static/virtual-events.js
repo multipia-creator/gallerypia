@@ -1,91 +1,49 @@
 /**
  * GALLERYPIA - Virtual Events System
  * Phase 9: Metaverse Integration
- * Virtual Exhibition, Curation, and Live Events in 3D Space
+ * Virtual Exhibition & Live Curation Events
  */
 
 class VirtualEventsSystem {
   constructor() {
     this.events = [];
     this.currentEvent = null;
-    this.participants = [];
-    this.eventSpace = null;
-    this.avatars = new Map();
+    this.attendees = [];
+    this.maxAttendees = 100;
+    this.eventRoom = null;
     this.init();
   }
 
   init() {
     console.log('🎭 Virtual Events System initializing...');
     this.loadUpcomingEvents();
-    this.setupWebSocket();
+    this.setupEventListeners();
   }
 
-  setupWebSocket() {
-    // 실시간 이벤트 동기화
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws/virtual-events`;
-    
-    try {
-      this.ws = new WebSocket(wsUrl);
-      
-      this.ws.onopen = () => {
-        console.log('🔌 Virtual Events WebSocket connected');
-      };
+  setupEventListeners() {
+    // 이벤트 참가/퇴장 추적
+    window.addEventListener('event-joined', (e) => {
+      console.log('✅ Joined event:', e.detail.eventId);
+      this.onEventJoined(e.detail);
+    });
 
-      this.ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        this.handleEventUpdate(data);
-      };
-
-      this.ws.onerror = () => {
-        console.log('⚠️ WebSocket error, using polling fallback');
-        this.setupPolling();
-      };
-    } catch (error) {
-      console.log('⚠️ WebSocket not available, using polling');
-      this.setupPolling();
-    }
-  }
-
-  setupPolling() {
-    // WebSocket 대체: 폴링
-    setInterval(() => {
-      this.loadUpcomingEvents();
-    }, 30000); // 30초마다
-  }
-
-  handleEventUpdate(data) {
-    switch (data.type) {
-      case 'participant_joined':
-        this.onParticipantJoined(data.participant);
-        break;
-      case 'participant_left':
-        this.onParticipantLeft(data.participant);
-        break;
-      case 'event_started':
-        this.onEventStarted(data.event);
-        break;
-      case 'event_ended':
-        this.onEventEnded(data.event);
-        break;
-      case 'curator_action':
-        this.onCuratorAction(data.action);
-        break;
-      default:
-        console.log('Unknown event update:', data.type);
-    }
+    window.addEventListener('event-left', (e) => {
+      console.log('👋 Left event:', e.detail.eventId);
+      this.onEventLeft(e.detail);
+    });
   }
 
   async loadUpcomingEvents() {
-    console.log('📅 Loading upcoming virtual events...');
+    console.log('📅 Loading upcoming events...');
 
     try {
-      const response = await fetch('/api/virtual-events?status=upcoming&limit=20');
+      const response = await fetch('/api/events?status=upcoming&limit=10');
       const result = await response.json();
 
       if (result.success && result.events) {
         this.events = result.events;
-        this.displayEventCalendar();
+        console.log(`✅ Loaded ${this.events.length} upcoming events`);
+        this.displayEvents();
       }
     } catch (error) {
       console.error('❌ Failed to load events:', error);
@@ -94,55 +52,133 @@ class VirtualEventsSystem {
   }
 
   loadDemoEvents() {
+    console.log('🎭 Loading demo events...');
+
     this.events = [
       {
         id: 1,
-        title: 'Digital Art Revolution',
-        description: 'Explore the future of digital art',
+        title: 'Digital Art Renaissance',
+        type: 'exhibition',
         start_time: new Date(Date.now() + 3600000).toISOString(),
         duration: 120,
-        type: 'exhibition',
-        curator: 'John Curator',
-        max_participants: 100
+        curator: 'Jane Smith',
+        artworks_count: 25,
+        max_attendees: 100,
+        description: 'Explore the latest in digital art innovation'
       },
       {
         id: 2,
-        title: 'NFT Masterclass Live',
-        description: 'Learn from top NFT artists',
+        title: 'NFT Artist Showcase',
+        type: 'live_auction',
         start_time: new Date(Date.now() + 7200000).toISOString(),
         duration: 90,
-        type: 'workshop',
-        curator: 'Sarah Artist',
-        max_participants: 50
+        curator: 'John Doe',
+        artworks_count: 15,
+        max_attendees: 50,
+        description: 'Live auction featuring emerging NFT artists'
+      },
+      {
+        id: 3,
+        title: 'VR Gallery Tour',
+        type: 'guided_tour',
+        start_time: new Date(Date.now() + 10800000).toISOString(),
+        duration: 60,
+        curator: 'Alice Johnson',
+        artworks_count: 30,
+        max_attendees: 20,
+        description: 'Immersive VR tour of our premium collection'
       }
     ];
-    this.displayEventCalendar();
+
+    this.displayEvents();
   }
 
-  displayEventCalendar() {
-    console.log(`📅 ${this.events.length} upcoming events loaded`);
-    
-    // 이벤트 목록 UI 업데이트 (2D)
-    const eventList = document.getElementById('virtual-events-list');
-    if (eventList) {
-      eventList.innerHTML = this.events.map(event => `
-        <div class="virtual-event-card" onclick="window.virtualEvents.joinEvent(${event.id})">
-          <h3>${event.title}</h3>
-          <p>${event.description}</p>
-          <p class="event-time">${new Date(event.start_time).toLocaleString()}</p>
-          <p class="event-curator">Curator: ${event.curator}</p>
-          <p class="event-participants">${event.max_participants} max participants</p>
-          <button class="btn-join-event">Join Virtual Event</button>
+  displayEvents() {
+    const container = document.getElementById('events-list');
+    if (!container) return;
+
+    container.innerHTML = this.events.map(event => this.createEventCard(event)).join('');
+  }
+
+  createEventCard(event) {
+    const startTime = new Date(event.start_time);
+    const timeUntil = this.getTimeUntil(startTime);
+
+    return `
+      <div class="event-card" data-event-id="${event.id}">
+        <div class="event-header">
+          <span class="event-type ${event.type}">${this.getEventTypeLabel(event.type)}</span>
+          <span class="event-time">${timeUntil}</span>
         </div>
-      `).join('');
+        <h3>${event.title}</h3>
+        <p class="event-description">${event.description}</p>
+        <div class="event-details">
+          <span><i class="fas fa-user"></i> ${event.curator}</span>
+          <span><i class="fas fa-palette"></i> ${event.artworks_count} artworks</span>
+          <span><i class="fas fa-users"></i> ${event.current_attendees || 0}/${event.max_attendees}</span>
+          <span><i class="fas fa-clock"></i> ${event.duration} min</span>
+        </div>
+        <div class="event-actions">
+          <button class="btn-primary" onclick="window.virtualEvents.joinEvent(${event.id})">
+            <i class="fas fa-door-open"></i> Join Event
+          </button>
+          <button class="btn-secondary" onclick="window.virtualEvents.setReminder(${event.id})">
+            <i class="fas fa-bell"></i> Set Reminder
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  getEventTypeLabel(type) {
+    const labels = {
+      'exhibition': '🎨 Exhibition',
+      'live_auction': '🔨 Live Auction',
+      'guided_tour': '🚶 Guided Tour',
+      'artist_talk': '🎤 Artist Talk',
+      'workshop': '🛠️ Workshop'
+    };
+    return labels[type] || '📅 Event';
+  }
+
+  getTimeUntil(eventTime) {
+    const now = new Date();
+    const diff = eventTime - now;
+
+    if (diff < 0) return 'Live Now!';
+
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+
+    if (hours > 24) {
+      const days = Math.floor(hours / 24);
+      return `In ${days} day${days > 1 ? 's' : ''}`;
+    } else if (hours > 0) {
+      return `In ${hours}h ${minutes}m`;
+    } else {
+      return `In ${minutes}m`;
     }
   }
 
   async joinEvent(eventId) {
     console.log(`🚪 Joining event ${eventId}...`);
 
+    // 이벤트 정보 로드
+    const event = this.events.find(e => e.id === eventId);
+    if (!event) {
+      console.error('❌ Event not found');
+      return;
+    }
+
+    // 정원 확인
+    if (event.current_attendees >= event.max_attendees) {
+      alert('Sorry, this event is full!');
+      return;
+    }
+
     try {
-      const response = await fetch(`/api/virtual-events/${eventId}/join`, {
+      // 서버에 참가 요청
+      const response = await fetch(`/api/events/${eventId}/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -150,524 +186,561 @@ class VirtualEventsSystem {
       const result = await response.json();
 
       if (result.success) {
-        this.currentEvent = result.event;
-        this.createEventSpace(result.event);
-        this.trackEvent('event_joined', { event_id: eventId });
+        this.currentEvent = event;
+        this.createEventRoom(event);
+        this.trackEvent('event_joined', { event_id: eventId, event_type: event.type });
       } else {
-        alert(result.message || 'Failed to join event');
+        alert('Failed to join event: ' + result.message);
       }
     } catch (error) {
       console.error('❌ Failed to join event:', error);
-      // 데모 모드로 진입
-      this.createDemoEventSpace(eventId);
     }
   }
 
-  createEventSpace(event) {
-    console.log(`🏗️ Creating event space: ${event.title}...`);
+  createEventRoom(event) {
+    console.log(`🏗️ Creating event room for: ${event.title}`);
 
-    // 이벤트 전용 3D 공간 생성
-    const eventSpace = document.createElement('a-scene');
-    eventSpace.setAttribute('id', `event-space-${event.id}`);
-    eventSpace.setAttribute('embedded', '');
+    // 가상 갤러리 활용
+    if (window.virtualGallery) {
+      this.eventRoom = window.virtualGallery;
+    } else {
+      // 새로운 이벤트 전용 씬 생성
+      this.eventRoom = this.createEventScene(event);
+    }
 
-    // 환경 설정
-    this.setupEventEnvironment(eventSpace, event);
+    // 이벤트 타입별 설정
+    switch (event.type) {
+      case 'exhibition':
+        this.setupExhibition(event);
+        break;
+      case 'live_auction':
+        this.setupLiveAuction(event);
+        break;
+      case 'guided_tour':
+        this.setupGuidedTour(event);
+        break;
+      case 'artist_talk':
+        this.setupArtistTalk(event);
+        break;
+    }
 
-    // 아바타 시스템
-    this.createAvatarSystem(eventSpace);
+    // 참석자 아바타 표시
+    this.displayAttendees();
 
-    // 큐레이션 포인트
-    this.createCurationPoints(eventSpace, event);
+    // 라이브 채팅
+    this.enableEventChat();
+  }
 
-    // 인터랙션 영역
-    this.createInteractionZones(eventSpace, event);
+  createEventScene(event) {
+    const scene = document.createElement('a-scene');
+    scene.setAttribute('id', 'event-scene');
+    scene.setAttribute('embedded', '');
+    scene.setAttribute('vr-mode-ui', 'enabled: true');
 
-    // 컨테이너에 추가
-    const container = document.getElementById('event-space-container');
+    // 이벤트 전용 환경
+    this.createEventEnvironment(scene, event);
+
+    const container = document.getElementById('event-container');
     if (container) {
-      container.innerHTML = ''; // 기존 공간 제거
-      container.appendChild(eventSpace);
+      container.appendChild(scene);
     }
 
-    this.eventSpace = eventSpace;
+    return scene;
   }
 
-  createDemoEventSpace(eventId) {
-    const demoEvent = this.events.find(e => e.id === eventId) || this.events[0];
-    this.currentEvent = demoEvent;
-    this.createEventSpace(demoEvent);
-  }
-
-  setupEventEnvironment(space, event) {
-    // 하늘
+  createEventEnvironment(scene, event) {
+    // 스카이박스
     const sky = document.createElement('a-sky');
-    sky.setAttribute('color', event.type === 'exhibition' ? '#87CEEB' : '#1a1a2e');
-    space.appendChild(sky);
+    sky.setAttribute('color', event.type === 'live_auction' ? '#1A1A2E' : '#F0F0F0');
+    scene.appendChild(sky);
 
-    // 바닥
-    const floor = document.createElement('a-plane');
-    floor.setAttribute('position', '0 0 0');
-    floor.setAttribute('rotation', '-90 0 0');
-    floor.setAttribute('width', '50');
-    floor.setAttribute('height', '50');
-    floor.setAttribute('color', '#2a2a3e');
-    floor.setAttribute('roughness', '0.8');
-    space.appendChild(floor);
+    // 무대
+    const stage = document.createElement('a-plane');
+    stage.setAttribute('position', '0 0 -5');
+    stage.setAttribute('rotation', '-90 0 0');
+    stage.setAttribute('width', '15');
+    stage.setAttribute('height', '15');
+    stage.setAttribute('color', '#8B7355');
+    scene.appendChild(stage);
 
-    // 중앙 무대
-    const stage = document.createElement('a-cylinder');
-    stage.setAttribute('position', '0 0.1 -10');
-    stage.setAttribute('radius', '5');
-    stage.setAttribute('height', '0.2');
-    stage.setAttribute('color', '#8B4513');
-    space.appendChild(stage);
+    // 이벤트 배너
+    const banner = document.createElement('a-text');
+    banner.setAttribute('value', event.title.toUpperCase());
+    banner.setAttribute('align', 'center');
+    banner.setAttribute('position', '0 4 -10');
+    banner.setAttribute('width', '10');
+    banner.setAttribute('color', '#000');
+    scene.appendChild(banner);
 
     // 조명
-    this.setupEventLighting(space, event);
-
-    // 카메라
-    const cameraRig = document.createElement('a-entity');
-    cameraRig.setAttribute('position', '0 1.6 10');
-    
-    const camera = document.createElement('a-camera');
-    camera.setAttribute('look-controls', 'enabled: true');
-    camera.setAttribute('wasd-controls', 'enabled: true');
-    cameraRig.appendChild(camera);
-    
-    space.appendChild(cameraRig);
+    const light = document.createElement('a-light');
+    light.setAttribute('type', 'directional');
+    light.setAttribute('position', '0 5 0');
+    light.setAttribute('intensity', '1');
+    scene.appendChild(light);
   }
 
-  setupEventLighting(space, event) {
-    // 주 조명
-    const mainLight = document.createElement('a-light');
-    mainLight.setAttribute('type', 'directional');
-    mainLight.setAttribute('position', '5 15 5');
-    mainLight.setAttribute('intensity', '1.0');
-    space.appendChild(mainLight);
+  setupExhibition(event) {
+    console.log('🎨 Setting up exhibition...');
 
-    // 앰비언트
-    const ambient = document.createElement('a-light');
-    ambient.setAttribute('type', 'ambient');
-    ambient.setAttribute('intensity', '0.6');
-    ambient.setAttribute('color', event.type === 'exhibition' ? '#FFF' : '#9370DB');
-    space.appendChild(ambient);
+    // 작품 로드 및 배치
+    this.loadEventArtworks(event.id).then(artworks => {
+      this.displayExhibitionArtworks(artworks);
+    });
 
-    // 무대 스포트라이트
-    for (let i = 0; i < 4; i++) {
-      const spotlight = document.createElement('a-light');
-      spotlight.setAttribute('type', 'spot');
-      spotlight.setAttribute('position', `${-10 + i * 7} 8 -10`);
-      spotlight.setAttribute('target', '#stage');
-      spotlight.setAttribute('intensity', '1.5');
-      spotlight.setAttribute('angle', '45');
-      space.appendChild(spotlight);
+    // 전시 안내판
+    this.createExhibitionGuide(event);
+  }
+
+  setupLiveAuction(event) {
+    console.log('🔨 Setting up live auction...');
+
+    // 경매 무대
+    this.createAuctionStage();
+
+    // 경매 아이템 로드
+    this.loadAuctionItems(event.id);
+
+    // 실시간 입찰 시스템
+    if (window.realtimeAuction) {
+      window.realtimeAuction.init();
     }
   }
 
-  createAvatarSystem(space) {
-    console.log('👤 Creating avatar system...');
+  setupGuidedTour(event) {
+    console.log('🚶 Setting up guided tour...');
 
-    // 자신의 아바타
-    const myAvatar = this.createAvatar({
-      id: 'me',
-      name: localStorage.getItem('username') || 'Guest',
-      color: '#' + Math.floor(Math.random()*16777215).toString(16),
-      position: { x: 0, y: 0, z: 5 }
-    });
+    // 투어 경로 생성
+    this.createTourPath(event);
 
-    space.appendChild(myAvatar);
-    this.avatars.set('me', myAvatar);
+    // 큐레이터 아바타
+    this.createCuratorAvatar(event.curator);
 
-    // 다른 참가자 아바타 (데모)
-    this.createDemoAvatars(space);
+    // 자동 이동 시스템
+    this.enableAutoNavigation();
   }
 
-  createAvatar(participant) {
-    const avatar = document.createElement('a-entity');
-    avatar.setAttribute('id', `avatar-${participant.id}`);
-    avatar.setAttribute('position', `${participant.position.x} ${participant.position.y} ${participant.position.z}`);
+  setupArtistTalk(event) {
+    console.log('🎤 Setting up artist talk...');
 
-    // 몸체 (캡슐 모양)
+    // 강연 무대
+    this.createTalkStage();
+
+    // 아티스트 아바타
+    this.createSpeakerAvatar(event.curator);
+
+    // Q&A 시스템
+    this.enableQASystem();
+  }
+
+  async loadEventArtworks(eventId) {
+    try {
+      const response = await fetch(`/api/events/${eventId}/artworks`);
+      const result = await response.json();
+      return result.artworks || [];
+    } catch (error) {
+      console.error('❌ Failed to load event artworks:', error);
+      return [];
+    }
+  }
+
+  displayExhibitionArtworks(artworks) {
+    // 원형 배치
+    const radius = 8;
+    const angleStep = (2 * Math.PI) / artworks.length;
+
+    artworks.forEach((artwork, index) => {
+      const angle = index * angleStep;
+      const x = radius * Math.cos(angle);
+      const z = -10 + radius * Math.sin(angle);
+
+      const frame = this.createArtworkFrame(artwork, x, 2, z, angle);
+      this.eventRoom.appendChild(frame);
+    });
+  }
+
+  createArtworkFrame(artwork, x, y, z, rotation) {
+    const frame = document.createElement('a-entity');
+    frame.setAttribute('position', `${x} ${y} ${z}`);
+    frame.setAttribute('rotation', `0 ${(rotation * 180 / Math.PI) + 90} 0`);
+
+    const box = document.createElement('a-box');
+    box.setAttribute('width', '2');
+    box.setAttribute('height', '2');
+    box.setAttribute('depth', '0.1');
+    box.setAttribute('color', '#8B7355');
+    frame.appendChild(box);
+
+    const image = document.createElement('a-image');
+    image.setAttribute('src', artwork.image_url);
+    image.setAttribute('width', '1.8');
+    image.setAttribute('height', '1.8');
+    image.setAttribute('position', '0 0 0.06');
+    frame.appendChild(image);
+
+    return frame;
+  }
+
+  createAuctionStage() {
+    const stage = document.createElement('a-box');
+    stage.setAttribute('position', '0 0.5 -8');
+    stage.setAttribute('width', '5');
+    stage.setAttribute('height', '1');
+    stage.setAttribute('depth', '3');
+    stage.setAttribute('color', '#2C3E50');
+    this.eventRoom.appendChild(stage);
+
+    // 경매 디스플레이
+    const display = document.createElement('a-plane');
+    display.setAttribute('position', '0 2 -8');
+    display.setAttribute('width', '4');
+    display.setAttribute('height', '3');
+    display.setAttribute('color', '#000');
+    this.eventRoom.appendChild(display);
+  }
+
+  async loadAuctionItems(eventId) {
+    try {
+      const response = await fetch(`/api/events/${eventId}/auction-items`);
+      const result = await response.json();
+      
+      if (result.items) {
+        this.displayAuctionItems(result.items);
+      }
+    } catch (error) {
+      console.error('❌ Failed to load auction items:', error);
+    }
+  }
+
+  displayAuctionItems(items) {
+    // 현재 경매 중인 아이템 표시
+    const currentItem = items[0];
+    if (!currentItem) return;
+
+    const itemDisplay = document.createElement('a-image');
+    itemDisplay.setAttribute('src', currentItem.image_url);
+    itemDisplay.setAttribute('position', '0 2 -7.9');
+    itemDisplay.setAttribute('width', '3');
+    itemDisplay.setAttribute('height', '3');
+    this.eventRoom.appendChild(itemDisplay);
+
+    // 현재 입찰가 표시
+    const priceText = document.createElement('a-text');
+    priceText.setAttribute('value', `Current Bid: ${currentItem.current_bid} ETH`);
+    priceText.setAttribute('align', 'center');
+    priceText.setAttribute('position', '0 0.5 -7.9');
+    priceText.setAttribute('width', '5');
+    priceText.setAttribute('color', '#FFD700');
+    this.eventRoom.appendChild(priceText);
+  }
+
+  createTourPath(event) {
+    // 투어 포인트 생성
+    const tourPoints = [
+      { x: 0, z: -5, label: 'Start' },
+      { x: -5, z: -8, label: 'Section A' },
+      { x: 5, z: -8, label: 'Section B' },
+      { x: 0, z: -12, label: 'Main Gallery' },
+      { x: 0, z: -5, label: 'End' }
+    ];
+
+    tourPoints.forEach((point, index) => {
+      const marker = document.createElement('a-cylinder');
+      marker.setAttribute('position', `${point.x} 0.1 ${point.z}`);
+      marker.setAttribute('radius', '0.3');
+      marker.setAttribute('height', '0.2');
+      marker.setAttribute('color', '#0066FF');
+      this.eventRoom.appendChild(marker);
+
+      const label = document.createElement('a-text');
+      label.setAttribute('value', `${index + 1}. ${point.label}`);
+      label.setAttribute('align', 'center');
+      label.setAttribute('position', `${point.x} 0.5 ${point.z}`);
+      label.setAttribute('width', '2');
+      this.eventRoom.appendChild(label);
+    });
+
+    this.tourPoints = tourPoints;
+    this.currentTourPoint = 0;
+  }
+
+  createCuratorAvatar(curatorName) {
+    const avatar = document.createElement('a-entity');
+    avatar.setAttribute('id', 'curator-avatar');
+    avatar.setAttribute('position', '0 1 -6');
+
+    // 간단한 아바타 모델
     const body = document.createElement('a-cylinder');
-    body.setAttribute('position', '0 0.8 0');
     body.setAttribute('radius', '0.3');
-    body.setAttribute('height', '1.6');
-    body.setAttribute('color', participant.color);
+    body.setAttribute('height', '1.5');
+    body.setAttribute('color', '#333');
     avatar.appendChild(body);
 
-    // 머리
     const head = document.createElement('a-sphere');
-    head.setAttribute('position', '0 1.8 0');
+    head.setAttribute('position', '0 1 0');
     head.setAttribute('radius', '0.25');
-    head.setAttribute('color', participant.color);
+    head.setAttribute('color', '#FFD700');
     avatar.appendChild(head);
 
     // 이름표
     const nameTag = document.createElement('a-text');
-    nameTag.setAttribute('value', participant.name);
+    nameTag.setAttribute('value', curatorName);
     nameTag.setAttribute('align', 'center');
-    nameTag.setAttribute('position', '0 2.3 0');
+    nameTag.setAttribute('position', '0 1.8 0');
     nameTag.setAttribute('width', '2');
-    nameTag.setAttribute('color', '#FFF');
-    nameTag.setAttribute('background', '#000');
     avatar.appendChild(nameTag);
 
-    // 이동 애니메이션 (자연스러운 움직임)
-    avatar.setAttribute('animation__float', {
-      property: 'position',
-      to: `${participant.position.x} ${participant.position.y + 0.1} ${participant.position.z}`,
-      dir: 'alternate',
-      loop: true,
-      dur: 2000,
-      easing: 'easeInOutSine'
+    this.eventRoom.appendChild(avatar);
+    return avatar;
+  }
+
+  enableAutoNavigation() {
+    console.log('🚶 Enabling auto navigation...');
+
+    let currentPoint = 0;
+    const navigationInterval = setInterval(() => {
+      if (currentPoint >= this.tourPoints.length) {
+        clearInterval(navigationInterval);
+        console.log('✅ Tour completed');
+        this.onTourComplete();
+        return;
+      }
+
+      const point = this.tourPoints[currentPoint];
+      this.moveCameraTo(point.x, 1.6, point.z);
+      
+      currentPoint++;
+    }, 15000); // 각 포인트마다 15초
+  }
+
+  moveCameraTo(x, y, z) {
+    const camera = this.eventRoom.querySelector('#cameraRig') || 
+                   this.eventRoom.querySelector('a-camera');
+    
+    if (camera) {
+      camera.setAttribute('animation', {
+        property: 'position',
+        to: `${x} ${y} ${z}`,
+        dur: 3000,
+        easing: 'easeInOutQuad'
+      });
+    }
+  }
+
+  createTalkStage() {
+    // 강연 무대
+    const stage = document.createElement('a-box');
+    stage.setAttribute('position', '0 0.5 -10');
+    stage.setAttribute('width', '6');
+    stage.setAttribute('height', '1');
+    stage.setAttribute('depth', '4');
+    stage.setAttribute('color', '#34495E');
+    this.eventRoom.appendChild(stage);
+
+    // 프레젠테이션 스크린
+    const screen = document.createElement('a-plane');
+    screen.setAttribute('position', '0 3 -12');
+    screen.setAttribute('width', '8');
+    screen.setAttribute('height', '4.5');
+    screen.setAttribute('color', '#000');
+    this.eventRoom.appendChild(screen);
+  }
+
+  createSpeakerAvatar(speakerName) {
+    const avatar = document.createElement('a-entity');
+    avatar.setAttribute('id', 'speaker-avatar');
+    avatar.setAttribute('position', '-2 1 -10');
+
+    const body = document.createElement('a-cylinder');
+    body.setAttribute('radius', '0.3');
+    body.setAttribute('height', '1.5');
+    body.setAttribute('color', '#2C3E50');
+    avatar.appendChild(body);
+
+    const head = document.createElement('a-sphere');
+    head.setAttribute('position', '0 1 0');
+    head.setAttribute('radius', '0.25');
+    head.setAttribute('color', '#E74C3C');
+    avatar.appendChild(head);
+
+    const nameTag = document.createElement('a-text');
+    nameTag.setAttribute('value', speakerName);
+    nameTag.setAttribute('align', 'center');
+    nameTag.setAttribute('position', '0 1.8 0');
+    nameTag.setAttribute('width', '2');
+    avatar.appendChild(nameTag);
+
+    this.eventRoom.appendChild(avatar);
+    return avatar;
+  }
+
+  enableQASystem() {
+    console.log('💬 Q&A system enabled');
+
+    // 질문 UI
+    const qaPanel = document.createElement('div');
+    qaPanel.id = 'qa-panel';
+    qaPanel.className = 'event-qa-panel';
+    qaPanel.innerHTML = `
+      <h3>Ask a Question</h3>
+      <textarea id="qa-question" placeholder="Type your question here..."></textarea>
+      <button onclick="window.virtualEvents.submitQuestion()">Submit</button>
+      <div id="qa-list"></div>
+    `;
+    document.body.appendChild(qaPanel);
+  }
+
+  submitQuestion() {
+    const questionInput = document.getElementById('qa-question');
+    const question = questionInput.value.trim();
+
+    if (!question) return;
+
+    console.log('❓ Submitting question:', question);
+
+    fetch(`/api/events/${this.currentEvent.id}/questions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        questionInput.value = '';
+        this.loadQuestions();
+      }
     });
+  }
+
+  async loadQuestions() {
+    const response = await fetch(`/api/events/${this.currentEvent.id}/questions`);
+    const result = await response.json();
+
+    if (result.questions) {
+      const qaList = document.getElementById('qa-list');
+      qaList.innerHTML = result.questions.map(q => `
+        <div class="qa-item">
+          <p class="question">${q.question}</p>
+          ${q.answer ? `<p class="answer">${q.answer}</p>` : ''}
+        </div>
+      `).join('');
+    }
+  }
+
+  displayAttendees() {
+    console.log('👥 Displaying attendees...');
+
+    // 간단한 아바타 표시
+    this.attendees.forEach((attendee, index) => {
+      const avatar = this.createAttendeeAvatar(attendee, index);
+      this.eventRoom.appendChild(avatar);
+    });
+  }
+
+  createAttendeeAvatar(attendee, index) {
+    const angle = (index * 2 * Math.PI) / this.maxAttendees;
+    const radius = 12;
+    const x = radius * Math.cos(angle);
+    const z = -10 + radius * Math.sin(angle);
+
+    const avatar = document.createElement('a-entity');
+    avatar.setAttribute('position', `${x} 1 ${z}`);
+    avatar.setAttribute('rotation', `0 ${-angle * 180 / Math.PI} 0`);
+
+    const body = document.createElement('a-cylinder');
+    body.setAttribute('radius', '0.2');
+    body.setAttribute('height', '1.2');
+    body.setAttribute('color', attendee.color || '#3498DB');
+    avatar.appendChild(body);
+
+    const head = document.createElement('a-sphere');
+    head.setAttribute('position', '0 0.8 0');
+    head.setAttribute('radius', '0.15');
+    head.setAttribute('color', '#FFF');
+    avatar.appendChild(head);
 
     return avatar;
   }
 
-  createDemoAvatars(space) {
-    const demoParticipants = [
-      { id: 'p1', name: 'Alice', color: '#FF6B6B', position: { x: -3, y: 0, z: -5 } },
-      { id: 'p2', name: 'Bob', color: '#4ECDC4', position: { x: 3, y: 0, z: -5 } },
-      { id: 'p3', name: 'Charlie', color: '#FFD93D', position: { x: -5, y: 0, z: 0 } },
-      { id: 'p4', name: 'Diana', color: '#95E1D3', position: { x: 5, y: 0, z: 0 } }
-    ];
-
-    demoParticipants.forEach(p => {
-      const avatar = this.createAvatar(p);
-      space.appendChild(avatar);
-      this.avatars.set(p.id, avatar);
-    });
-  }
-
-  createCurationPoints(space, event) {
-    console.log('🎨 Creating curation points...');
-
-    // 큐레이션 포인트: 큐레이터가 설명하는 작품 위치
-    const curationPoints = [
-      { position: '-8 1.5 -8', title: 'Featured Collection' },
-      { position: '8 1.5 -8', title: 'Rising Stars' },
-      { position: '-8 1.5 -12', title: 'Digital Pioneers' },
-      { position: '8 1.5 -12', title: 'Abstract Masters' }
-    ];
-
-    curationPoints.forEach((point, index) => {
-      const marker = document.createElement('a-entity');
-      marker.setAttribute('position', point.position);
-
-      // 마커 실린더
-      const cylinder = document.createElement('a-cylinder');
-      cylinder.setAttribute('radius', '0.5');
-      cylinder.setAttribute('height', '2.5');
-      cylinder.setAttribute('color', '#FFD700');
-      cylinder.setAttribute('opacity', '0.5');
-      marker.appendChild(cylinder);
-
-      // 타이틀
-      const title = document.createElement('a-text');
-      title.setAttribute('value', point.title);
-      title.setAttribute('align', 'center');
-      title.setAttribute('position', '0 1.5 0');
-      title.setAttribute('width', '3');
-      title.setAttribute('color', '#FFF');
-      title.setAttribute('background', '#000');
-      marker.appendChild(title);
-
-      // 회전 애니메이션
-      marker.setAttribute('animation', {
-        property: 'rotation',
-        to: '0 360 0',
-        loop: true,
-        dur: 10000,
-        easing: 'linear'
-      });
-
-      // 클릭 이벤트
-      marker.setAttribute('class', 'clickable');
-      marker.addEventListener('click', () => {
-        this.onCurationPointClick(index, point);
-      });
-
-      space.appendChild(marker);
-    });
-  }
-
-  createInteractionZones(space, event) {
-    console.log('⚡ Creating interaction zones...');
-
-    // 소셜 존 (참가자들이 모일 수 있는 공간)
-    const socialZone = document.createElement('a-entity');
-    socialZone.setAttribute('position', '0 0 15');
-
-    const socialMarker = document.createElement('a-ring');
-    socialMarker.setAttribute('radius-inner', '3');
-    socialMarker.setAttribute('radius-outer', '3.5');
-    socialMarker.setAttribute('color', '#00FF00');
-    socialMarker.setAttribute('rotation', '-90 0 0');
-    socialMarker.setAttribute('position', '0 0.05 0');
-    socialZone.appendChild(socialMarker);
-
-    const socialText = document.createElement('a-text');
-    socialText.setAttribute('value', 'Social Zone\nChat & Network');
-    socialText.setAttribute('align', 'center');
-    socialText.setAttribute('position', '0 0.1 0');
-    socialText.setAttribute('rotation', '-90 0 0');
-    socialText.setAttribute('width', '5');
-    socialText.setAttribute('color', '#00FF00');
-    socialZone.appendChild(socialText);
-
-    space.appendChild(socialZone);
-
-    // 퀴즈 존 (이벤트 관련 퀴즈)
-    const quizZone = document.createElement('a-entity');
-    quizZone.setAttribute('position', '-15 0 -10');
-
-    const quizMarker = document.createElement('a-ring');
-    quizMarker.setAttribute('radius-inner', '2');
-    quizMarker.setAttribute('radius-outer', '2.5');
-    quizMarker.setAttribute('color', '#FF00FF');
-    quizMarker.setAttribute('rotation', '-90 0 0');
-    quizMarker.setAttribute('position', '0 0.05 0');
-    quizZone.appendChild(quizMarker);
-
-    const quizText = document.createElement('a-text');
-    quizText.setAttribute('value', 'Quiz Zone\nTest Your Knowledge');
-    quizText.setAttribute('align', 'center');
-    quizText.setAttribute('position', '0 0.1 0');
-    quizText.setAttribute('rotation', '-90 0 0');
-    quizText.setAttribute('width', '4');
-    quizText.setAttribute('color', '#FF00FF');
-    quizZone.appendChild(quizText);
-
-    quizZone.setAttribute('class', 'clickable');
-    quizZone.addEventListener('click', () => {
-      this.startEventQuiz();
-    });
-
-    space.appendChild(quizZone);
-
-    // NFT 민팅 존
-    const mintZone = document.createElement('a-entity');
-    mintZone.setAttribute('position', '15 0 -10');
-
-    const mintMarker = document.createElement('a-ring');
-    mintMarker.setAttribute('radius-inner', '2');
-    mintMarker.setAttribute('radius-outer', '2.5');
-    mintMarker.setAttribute('color', '#FFA500');
-    mintMarker.setAttribute('rotation', '-90 0 0');
-    mintMarker.setAttribute('position', '0 0.05 0');
-    mintZone.appendChild(mintMarker);
-
-    const mintText = document.createElement('a-text');
-    mintText.setAttribute('value', 'Minting Zone\nCreate Your NFT');
-    mintText.setAttribute('align', 'center');
-    mintText.setAttribute('position', '0 0.1 0');
-    mintText.setAttribute('rotation', '-90 0 0');
-    mintText.setAttribute('width', '4');
-    mintText.setAttribute('color', '#FFA500');
-    mintZone.appendChild(mintText);
-
-    mintZone.setAttribute('class', 'clickable');
-    mintZone.addEventListener('click', () => {
-      window.location.href = '/mint-nft.html';
-    });
-
-    space.appendChild(mintZone);
-  }
-
-  onCurationPointClick(index, point) {
-    console.log(`🎨 Curation point ${index} clicked: ${point.title}`);
-
-    // 큐레이터 설명 표시
-    this.showCuratorNarration(point);
-
-    this.trackEvent('curation_point_clicked', {
-      point_index: index,
-      point_title: point.title
-    });
-  }
-
-  showCuratorNarration(point) {
-    // 큐레이터 음성/텍스트 설명
-    const narration = document.createElement('div');
-    narration.className = 'curator-narration-overlay';
-    narration.innerHTML = `
-      <div class="curator-narration-content">
-        <h3>🎤 Curator's Note</h3>
-        <h2>${point.title}</h2>
-        <p>This collection showcases the finest examples of ${point.title.toLowerCase()}...</p>
-        <p>Each piece has been carefully selected for its unique artistic vision and technical excellence.</p>
-        <button onclick="this.parentElement.parentElement.remove()">Close</button>
-      </div>
-    `;
-    document.body.appendChild(narration);
-  }
-
-  startEventQuiz() {
-    console.log('🎯 Starting event quiz...');
-
-    const quiz = {
-      questions: [
-        {
-          question: 'What does NFT stand for?',
-          options: ['Non-Fungible Token', 'New Finance Technology', 'Network File Transfer'],
-          correct: 0
-        },
-        {
-          question: 'Which blockchain is most popular for NFTs?',
-          options: ['Bitcoin', 'Ethereum', 'Litecoin'],
-          correct: 1
-        }
-      ]
-    };
-
-    // 퀴즈 UI 표시
-    this.displayQuizUI(quiz);
-  }
-
-  displayQuizUI(quiz) {
-    const quizOverlay = document.createElement('div');
-    quizOverlay.className = 'event-quiz-overlay';
-    quizOverlay.innerHTML = `
-      <div class="quiz-content">
-        <h2>📝 Event Quiz</h2>
-        <div id="quiz-questions"></div>
-        <button onclick="window.virtualEvents.submitQuiz()">Submit</button>
-        <button onclick="this.parentElement.parentElement.remove()">Close</button>
-      </div>
-    `;
-
-    const questionsDiv = quizOverlay.querySelector('#quiz-questions');
-    quiz.questions.forEach((q, i) => {
-      questionsDiv.innerHTML += `
-        <div class="quiz-question">
-          <p><strong>Q${i + 1}:</strong> ${q.question}</p>
-          ${q.options.map((opt, j) => `
-            <label>
-              <input type="radio" name="q${i}" value="${j}">
-              ${opt}
-            </label>
-          `).join('')}
-        </div>
-      `;
-    });
-
-    document.body.appendChild(quizOverlay);
-  }
-
-  submitQuiz() {
-    console.log('✅ Quiz submitted');
-    alert('Quiz submitted! You earned 10 points.');
-    this.trackEvent('quiz_completed');
-  }
-
-  onParticipantJoined(participant) {
-    console.log(`👋 ${participant.name} joined the event`);
-
-    // 새 아바타 생성
-    const avatar = this.createAvatar(participant);
-    this.eventSpace.appendChild(avatar);
-    this.avatars.set(participant.id, avatar);
-
-    // 알림
-    this.showNotification(`${participant.name} joined the event`);
-  }
-
-  onParticipantLeft(participant) {
-    console.log(`👋 ${participant.name} left the event`);
-
-    // 아바타 제거
-    const avatar = this.avatars.get(participant.id);
-    if (avatar) {
-      avatar.remove();
-      this.avatars.delete(participant.id);
-    }
-
-    this.showNotification(`${participant.name} left the event`);
-  }
-
-  onEventStarted(event) {
-    console.log(`🎬 Event started: ${event.title}`);
-    this.showNotification(`Event "${event.title}" has started!`, 'success');
-  }
-
-  onEventEnded(event) {
-    console.log(`🏁 Event ended: ${event.title}`);
-    this.showNotification(`Event "${event.title}" has ended. Thank you for participating!`, 'info');
-  }
-
-  onCuratorAction(action) {
-    console.log('🎨 Curator action:', action.type);
-
-    switch (action.type) {
-      case 'highlight_artwork':
-        this.highlightArtwork(action.artwork_id);
-        break;
-      case 'start_tour':
-        this.startGuidedTour(action.tour_data);
-        break;
-      case 'enable_chat':
-        this.enableEventChat();
-        break;
-    }
-  }
-
-  highlightArtwork(artworkId) {
-    // 작품 하이라이트 효과
-    const artwork = this.eventSpace.querySelector(`#artwork-${artworkId}`);
-    if (artwork) {
-      artwork.setAttribute('animation__highlight', {
-        property: 'scale',
-        to: '1.2 1.2 1.2',
-        dur: 500,
-        dir: 'alternate',
-        loop: 3
-      });
-    }
-  }
-
-  startGuidedTour(tourData) {
-    console.log('🚶 Starting guided tour...');
-    // 가이드 투어 시작
-    this.showNotification('Guided tour starting...', 'info');
-  }
-
   enableEventChat() {
     console.log('💬 Event chat enabled');
-    // 이벤트 채팅 활성화
-    this.showNotification('Event chat is now enabled', 'success');
+
+    // 실시간 채팅 시스템
+    if (window.realtimeChat) {
+      window.realtimeChat.joinRoom(`event-${this.currentEvent.id}`);
+    }
   }
 
-  showNotification(message, type = 'info') {
-    // 간단한 토스트 알림
-    const toast = document.createElement('div');
-    toast.className = `toast-notification toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
+  async setReminder(eventId) {
+    console.log(`🔔 Setting reminder for event ${eventId}...`);
 
-    setTimeout(() => {
-      toast.remove();
-    }, 3000);
+    const event = this.events.find(e => e.id === eventId);
+    if (!event) return;
+
+    try {
+      const response = await fetch(`/api/events/${eventId}/reminder`, {
+        method: 'POST'
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert(`✅ Reminder set for "${event.title}"`);
+        this.trackEvent('reminder_set', { event_id: eventId });
+
+        // 브라우저 알림 권한 요청
+        if ('Notification' in window) {
+          Notification.requestPermission();
+        }
+      }
+    } catch (error) {
+      console.error('❌ Failed to set reminder:', error);
+    }
+  }
+
+  onEventJoined(data) {
+    this.attendees.push(data.user);
+    console.log(`✅ ${data.user.name} joined the event`);
+  }
+
+  onEventLeft(data) {
+    this.attendees = this.attendees.filter(a => a.id !== data.user.id);
+    console.log(`👋 ${data.user.name} left the event`);
+  }
+
+  onTourComplete() {
+    console.log('🎉 Tour completed!');
+    
+    // 완료 배지
+    this.awardBadge('tour_completed');
+    
+    this.trackEvent('tour_completed', { event_id: this.currentEvent.id });
+  }
+
+  awardBadge(badgeType) {
+    fetch('/api/badges/award', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ badge_type: badgeType })
+    });
   }
 
   leaveEvent() {
-    console.log('🚪 Leaving event...');
+    console.log('👋 Leaving event...');
 
     if (this.currentEvent) {
-      fetch(`/api/virtual-events/${this.currentEvent.id}/leave`, {
+      fetch(`/api/events/${this.currentEvent.id}/leave`, {
         method: 'POST'
-      }).catch(err => console.error(err));
+      });
 
       this.trackEvent('event_left', { event_id: this.currentEvent.id });
     }
 
-    if (this.eventSpace) {
-      this.eventSpace.remove();
-      this.eventSpace = null;
+    if (this.eventRoom) {
+      this.eventRoom.remove();
+      this.eventRoom = null;
     }
 
-    this.avatars.clear();
     this.currentEvent = null;
   }
 
@@ -682,9 +755,7 @@ class VirtualEventsSystem {
 
   destroy() {
     this.leaveEvent();
-    if (this.ws) {
-      this.ws.close();
-    }
+    this.events = [];
     console.log('🗑️ Virtual Events System destroyed');
   }
 }
