@@ -334,6 +334,19 @@ const translations = {
     'auth.new_password': '새 비밀번호',
     'auth.password_min': '최소 8자 이상',
     'auth.change_password': '비밀번호 변경',
+    'auth.full_name_placeholder': '홍길동',
+    'auth.styles_placeholder': '예: 추상화, 사실주의',
+    'auth.medium_placeholder': '예: 유화, 디지털',
+    'auth.artist_bio_placeholder': '작가로서의 비전과 철학을 간단히 소개해주세요',
+    'auth.expert_reward_1': '작품 평가당 0.01 ~ 0.1 ETH 보상',
+    'auth.expert_reward_2': '정확하고 상세한 평가일수록 높은 보상',
+    'auth.expert_reward_3': '평가 완료 후 즉시 지갑으로 지급',
+    'auth.expert_reward_4': '전문가 등급에 따라 보상금 차등 지급',
+    'auth.institution_name_placeholder': '예: 서울 현대미술관',
+    'auth.institution_address_placeholder': '기관 주소',
+    'auth.institution_bio_placeholder': '기관의 비전과 특징을 간단히 소개해주세요',
+    'auth.bio_placeholder': '자기소개를 입력하세요...',
+    'auth.delete_confirm_placeholder': '계정삭제',
     
     // Recommendations
     'recommendations.title': '당신을 위한 추천 작품',
@@ -674,6 +687,19 @@ const translations = {
     'auth.new_password': 'New Password',
     'auth.password_min': 'Minimum 8 characters',
     'auth.change_password': 'Change Password',
+    'auth.full_name_placeholder': 'John Doe',
+    'auth.styles_placeholder': 'e.g., Abstract, Realism',
+    'auth.medium_placeholder': 'e.g., Oil, Digital',
+    'auth.artist_bio_placeholder': 'Briefly introduce your vision and philosophy as an artist',
+    'auth.expert_reward_1': '0.01 ~ 0.1 ETH reward per artwork evaluation',
+    'auth.expert_reward_2': 'Higher reward for accurate and detailed evaluations',
+    'auth.expert_reward_3': 'Paid immediately to wallet after evaluation',
+    'auth.expert_reward_4': 'Differential rewards based on expert level',
+    'auth.institution_name_placeholder': 'e.g., Seoul Museum of Modern Art',
+    'auth.institution_address_placeholder': 'Institution Address',
+    'auth.institution_bio_placeholder': 'Briefly introduce your institution\'s vision and features',
+    'auth.bio_placeholder': 'Enter your bio...',
+    'auth.delete_confirm_placeholder': 'DELETE ACCOUNT',
     
     // Recommendations
     'recommendations.title': 'Recommended Artworks',
@@ -1014,6 +1040,19 @@ const translations = {
     'auth.new_password': '新密码',
     'auth.password_min': '至少8个字符',
     'auth.change_password': '更改密码',
+    'auth.full_name_placeholder': '洪吉洞',
+    'auth.styles_placeholder': '例如：抽象、写实主义',
+    'auth.medium_placeholder': '例如：油画、数字',
+    'auth.artist_bio_placeholder': '简要介绍您作为艺术家的愿景和理念',
+    'auth.expert_reward_1': '每次作品评估奖励 0.01 ~ 0.1 ETH',
+    'auth.expert_reward_2': '评估越准确详细，奖励越高',
+    'auth.expert_reward_3': '评估完成后立即支付到钱包',
+    'auth.expert_reward_4': '根据专家等级差异化奖励',
+    'auth.institution_name_placeholder': '例如：首尔现代美术馆',
+    'auth.institution_address_placeholder': '机构地址',
+    'auth.institution_bio_placeholder': '简要介绍您机构的愿景和特点',
+    'auth.bio_placeholder': '输入您的简介...',
+    'auth.delete_confirm_placeholder': '删除账户',
     
     // Recommendations
     'recommendations.title': '为您推荐的作品',
@@ -1354,6 +1393,19 @@ const translations = {
     'auth.new_password': '新しいパスワード',
     'auth.password_min': '最低8文字以上',
     'auth.change_password': 'パスワードを変更',
+    'auth.full_name_placeholder': '洪吉洞',
+    'auth.styles_placeholder': '例：抽象、写実主義',
+    'auth.medium_placeholder': '例：油絵、デジタル',
+    'auth.artist_bio_placeholder': 'アーティストとしてのビジョンと哲学を簡単に紹介してください',
+    'auth.expert_reward_1': '作品評価ごとに 0.01 ~ 0.1 ETH 報酬',
+    'auth.expert_reward_2': '正確で詳細な評価ほど高い報酬',
+    'auth.expert_reward_3': '評価完了後すぐにウォレットに支払い',
+    'auth.expert_reward_4': '専門家レベルに応じて報酬差額支給',
+    'auth.institution_name_placeholder': '例：ソウル現代美術館',
+    'auth.institution_address_placeholder': '機関住所',
+    'auth.institution_bio_placeholder': '機関のビジョンと特徴を簡単に紹介してください',
+    'auth.bio_placeholder': '自己紹介を入力してください...',
+    'auth.delete_confirm_placeholder': 'アカウント削除',
     
     // Recommendations
     'recommendations.title': 'あなたにおすすめの作品',
@@ -14560,7 +14612,7 @@ app.get('/signup', (c) => {
                               </label>
                               <input type="text" name="full_name" required
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                                     placeholder="홍길동">
+                                     placeholder="${t('auth.full_name_placeholder', lang)}">
                           </div>
                           
                           <div>
@@ -14693,14 +14745,14 @@ app.get('/signup', (c) => {
                               <label class="block text-sm font-medium text-gray-300 mb-2">작품 스타일</label>
                               <input type="text" name="art_style"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
-                                     placeholder="예: 추상화, 사실주의">
+                                     placeholder="${t('auth.styles_placeholder', lang)}">
                           </div>
                           
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">주요 매체</label>
                               <input type="text" name="major_medium"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
-                                     placeholder="예: 유화, 디지털">
+                                     placeholder="${t('auth.medium_placeholder', lang)}">
                           </div>
                           
                           <div class="md:col-span-2">
@@ -14714,7 +14766,7 @@ app.get('/signup', (c) => {
                               <label class="block text-sm font-medium text-gray-300 mb-2">자기소개</label>
                               <textarea name="bio" rows="3"
                                         class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
-                                        placeholder="작가로서의 비전과 철학을 간단히 소개해주세요"></textarea>
+                                        placeholder="${t('auth.artist_bio_placeholder', lang)}"></textarea>
                           </div>
                       </div>
                   </div>
@@ -14730,19 +14782,19 @@ app.get('/signup', (c) => {
                           <ul class="space-y-2 text-sm text-gray-400">
                               <li class="flex items-start">
                                   <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
-                                  <span>작품 평가당 0.01 ~ 0.1 ETH 보상</span>
+                                  <span>${t('auth.expert_reward_1', lang)}</span>
                               </li>
                               <li class="flex items-start">
                                   <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
-                                  <span>정확하고 상세한 평가일수록 높은 보상</span>
+                                  <span>${t('auth.expert_reward_2', lang)}</span>
                               </li>
                               <li class="flex items-start">
                                   <i class="fas fa-check text-green-400 mr-2 mt-1"></i>
-                                  <span>평가 완료 후 즉시 지갑으로 지급</span>
+                                  <span>${t('auth.expert_reward_3', lang)}</span>
                               </li>
                               <li class="flex items-start">
                                   <i class="fas fa-info-circle text-blue-400 mr-2 mt-1"></i>
-                                  <span>전문가 등급에 따라 보상금 차등 지급</span>
+                                  <span>${t('auth.expert_reward_4', lang)}</span>
                               </li>
                           </ul>
                       </div>
@@ -14762,7 +14814,7 @@ app.get('/signup', (c) => {
                               </label>
                               <input type="text" name="organization_name"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
-                                     placeholder="예: 서울 현대미술관">
+                                     placeholder="${t('auth.institution_name_placeholder', lang)}">
                           </div>
                           
                           <div class="md:col-span-2">
@@ -14771,7 +14823,7 @@ app.get('/signup', (c) => {
                               </label>
                               <input type="text" id="organization_address" name="organization_address"
                                      class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
-                                     placeholder="기관 주소">
+                                     placeholder="${t('auth.institution_address_placeholder', lang)}">
                           </div>
                           
                           <div>
@@ -14798,7 +14850,7 @@ app.get('/signup', (c) => {
                               </label>
                               <textarea name="organization_description" rows="3"
                                         class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
-                                        placeholder="기관의 비전과 특징을 간단히 소개해주세요"></textarea>
+                                        placeholder="${t('auth.institution_bio_placeholder', lang)}"></textarea>
                           </div>
                       </div>
                   </div>
@@ -15050,7 +15102,7 @@ app.get('/profile', (c) => {
               </div>
               <div class="md:col-span-2">
                 <label class="block text-gray-400 mb-2">자기소개</label>
-                <textarea id="bio" name="bio" rows="3" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-purple-500 transition-colors" placeholder="자기소개를 입력하세요..."></textarea>
+                <textarea id="bio" name="bio" rows="3" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-purple-500 transition-colors" placeholder="${t('auth.bio_placeholder', lang)}"></textarea>
               </div>
             </div>
           </form>
@@ -15355,7 +15407,7 @@ app.get('/settings', (c) => {
           
           <div>
             <label class="block text-gray-400 mb-2">삭제 확인을 위해 "계정삭제"를 입력하세요</label>
-            <input type="text" id="deleteConfirmText" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-red-500 transition-colors" placeholder="계정삭제">
+            <input type="text" id="deleteConfirmText" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-red-500 transition-colors" placeholder="${t('auth.delete_confirm_placeholder', lang)}">
           </div>
           
           <div>
