@@ -1689,17 +1689,17 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         high(fn) { this.highTasks.push(fn); },
         low(fn) { this.lowTasks.push(fn); },
         runCritical() {
-          console.log(\`🚀 Running \${this.criticalTasks.length} critical initializations...\`);
+          console.log('Running ' + this.criticalTasks.length + ' critical initializations...');
           this.criticalTasks.forEach((fn, i) => {
-            try { fn(); } catch (e) { console.error(\`❌ Critical task \${i+1} failed:\`, e); }
+            try { fn(); } catch (e) { console.error('Critical task ' + (i+1) + ' failed:', e); }
           });
         },
         runHigh() {
           if ('requestIdleCallback' in window) {
             requestIdleCallback(() => {
-              console.log(\`⚡ Running \${this.highTasks.length} high-priority initializations...\`);
+              console.log('Running ' + this.highTasks.length + ' high-priority initializations...');
               this.highTasks.forEach((fn, i) => {
-                try { fn(); } catch (e) { console.error(\`❌ High task \${i+1} failed:\`, e); }
+                try { fn(); } catch (e) { console.error('High task ' + (i+1) + ' failed:', e); }
               });
             }, { timeout: 2000 });
           } else {
@@ -1708,9 +1708,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         },
         runLow() {
           const runLowPriority = () => {
-            console.log(\`💤 Running \${this.lowTasks.length} low-priority initializations...\`);
+            console.log('Running ' + this.lowTasks.length + ' low-priority initializations...');
             this.lowTasks.forEach((fn, i) => {
-              try { fn(); } catch (e) { console.error(\`❌ Low task \${i+1} failed:\`, e); }
+              try { fn(); } catch (e) { console.error('Low task ' + (i+1) + ' failed:', e); }
             });
           };
           const events = ['click', 'scroll', 'keydown', 'touchstart'];
@@ -1722,10 +1722,10 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           setTimeout(runLowPriority, 5000);
         },
         init() {
-          console.log('🎯 Init Optimizer: Starting optimized initialization');
-          console.log(\`   Critical: \${this.criticalTasks.length} tasks\`);
-          console.log(\`   High: \${this.highTasks.length} tasks\`);
-          console.log(\`   Low: \${this.lowTasks.length} tasks\`);
+          console.log('Init Optimizer: Starting optimized initialization');
+          console.log('   Critical: ' + this.criticalTasks.length + ' tasks');
+          console.log('   High: ' + this.highTasks.length + ' tasks');
+          console.log('   Low: ' + this.lowTasks.length + ' tasks');
           this.runCritical();
           this.runHigh();
           this.runLow();
@@ -1742,16 +1742,16 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       // Lazy load Chart.js for analytics/statistics pages
       window.loadChartJS = async function() {
         if (window.Chart) {
-          console.log('✅ Chart.js already loaded');
+          console.log('Chart.js already loaded');
           return Promise.resolve();
         }
         
-        console.log('📊 Loading Chart.js...');
+        console.log('Loading Chart.js...');
         return new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
           script.onload = () => {
-            console.log('✅ Chart.js loaded');
+            console.log('Chart.js loaded');
             resolve();
           };
           script.onerror = reject;
@@ -1767,24 +1767,24 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
       // Lazy load A-Frame and AR.js for significant performance improvement
       window.loadARVRLibraries = async function() {
         if (window.AFRAME) {
-          console.log('✅ AR/VR libraries already loaded');
+          console.log(' AR/VR libraries already loaded');
           return Promise.resolve();
         }
 
-        console.log('📦 Loading AR/VR libraries...');
+        console.log(' Loading AR/VR libraries...');
         
         return new Promise((resolve, reject) => {
           // Load A-Frame first
           const aframeScript = document.createElement('script');
           aframeScript.src = 'https://aframe.io/releases/1.4.0/aframe.min.js';
           aframeScript.onload = () => {
-            console.log('✅ A-Frame loaded');
+            console.log(' A-Frame loaded');
             
             // Then load AR.js
             const arScript = document.createElement('script');
             arScript.src = 'https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js';
             arScript.onload = () => {
-              console.log('✅ AR.js loaded');
+              console.log(' AR.js loaded');
               resolve();
             };
             arScript.onerror = reject;
@@ -1802,7 +1802,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
             import('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/OrbitControls.js'),
             import('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/loaders/GLTFLoader.js')
           ]);
-          console.log('✅ Three.js extensions loaded on demand');
+          console.log(' Three.js extensions loaded on demand');
         }
       };
     </script>
@@ -3544,8 +3544,9 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         const hasVisited = localStorage.getItem('tutorial_completed');
         const currentPath = window.location.pathname;
         
-        // 홈페이지에서만 튜토리얼 표시
-        if (!hasVisited && currentPath === '/') {
+        // 홈페이지에서만 튜토리얼 표시 (모바일 제외)
+        const isMobile = window.innerWidth <= 768;
+        if (!hasVisited && currentPath === '/' && !isMobile) {
           setTimeout(() => {
             showWelcomeModal();
           }, 1000);
@@ -4231,7 +4232,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
           window.artwork3DMesh = null;
           window.artwork3DControls = null;
           
-          console.log('✅ 3D Viewer cleaned up successfully');
+          console.log(' 3D Viewer cleaned up successfully');
         }
       };
       
@@ -4964,7 +4965,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         // 프로덕션 모니터링 초기화 (Phase 8)
         if (window.PerformanceMonitor) {
           const perfMonitor = new window.PerformanceMonitor();
-          console.log('✅ Production monitoring initialized');
+          console.log(' Production monitoring initialized');
         }
       });
     </script>
