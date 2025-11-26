@@ -354,6 +354,15 @@ const translations = {
     'common.close': '닫기',
     'common.loading': '로딩 중...',
     'common.no_data': '데이터가 없습니다',
+    
+    // Search Page
+    'search.title': '스마트 검색',
+    'search.subtitle': '음성, 텍스트, AI로 원하는 작품을 찾아보세요',
+    'search.tab_text': '텍스트 검색',
+    'search.tab_voice': '음성 검색',
+    'search.tab_ai': 'AI 검색',
+    'search.placeholder': '작품명, 작가명, 키워드를 입력하세요...',
+    'search.popular': '인기 검색어',
   },
   en: {
     // Navigation
@@ -685,6 +694,15 @@ const translations = {
     'common.close': 'Close',
     'common.loading': 'Loading...',
     'common.no_data': 'No data available',
+    
+    // Search Page
+    'search.title': 'Smart Search',
+    'search.subtitle': 'Find artworks with voice, text, and AI',
+    'search.tab_text': 'Text Search',
+    'search.tab_voice': 'Voice Search',
+    'search.tab_ai': 'AI Search',
+    'search.placeholder': 'Enter artwork name, artist, keywords...',
+    'search.popular': 'Popular Searches',
   },
   zh: {
     // Navigation
@@ -1016,6 +1034,15 @@ const translations = {
     'common.close': '关闭',
     'common.loading': '加载中...',
     'common.no_data': '暂无数据',
+    
+    // Search Page
+    'search.title': '智能搜索',
+    'search.subtitle': '通过语音、文本和AI查找艺术品',
+    'search.tab_text': '文本搜索',
+    'search.tab_voice': '语音搜索',
+    'search.tab_ai': 'AI搜索',
+    'search.placeholder': '输入作品名、艺术家、关键词...',
+    'search.popular': '热门搜索',
   },
   ja: {
     // Navigation
@@ -1347,6 +1374,15 @@ const translations = {
     'common.close': '閉じる',
     'common.loading': '読み込み中...',
     'common.no_data': 'データがありません',
+    
+    // Search Page
+    'search.title': 'スマート検索',
+    'search.subtitle': '音声、テキスト、AIで作品を見つける',
+    'search.tab_text': 'テキスト検索',
+    'search.tab_voice': '音声検索',
+    'search.tab_ai': 'AI検索',
+    'search.placeholder': '作品名、アーティスト、キーワードを入力...',
+    'search.popular': '人気検索ワード',
   }
 }
 
@@ -2293,21 +2329,21 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                     </button>
                     
                     <!-- 모바일 햄버거 메뉴 버튼 -->
-                    <button id="mobileMenuButton" class="md:hidden flex items-center px-3 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all">
-                        <i class="fas fa-bars text-xl"></i>
+                    <button id="mobileMenuButton" class="md:hidden flex items-center px-3 py-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all" aria-label="${t('nav.mobile_menu', lang)}" aria-expanded="false">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
         </div>
         
         <!-- 모바일 메뉴 (Slide-in from right) -->
-        <div id="mobileMenu" class="fixed inset-y-0 right-0 w-80 bg-black bg-opacity-95 backdrop-blur-xl border-l border-white border-opacity-10 transform translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden overflow-y-auto">
+        <div id="mobileMenu" class="fixed inset-y-0 right-0 w-80 bg-black bg-opacity-95 backdrop-blur-xl border-l border-white border-opacity-10 transform translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
             <div class="p-6">
                 <!-- 닫기 버튼 -->
                 <div class="flex justify-between items-center mb-8">
-                    <div class="text-xl font-bold text-gradient">GALLERYPIA</div>
-                    <button id="closeMobileMenu" class="p-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all">
-                        <i class="fas fa-times text-xl"></i>
+                    <div id="mobileMenuTitle" class="text-xl font-bold text-gradient">GALLERYPIA</div>
+                    <button id="closeMobileMenu" class="p-2 text-gray-400 hover:text-white rounded-xl hover:bg-white hover:bg-opacity-5 transition-all" aria-label="${t('common.close', lang)}">
+                        <i class="fas fa-times text-xl" aria-hidden="true"></i>
                     </button>
                 </div>
                 
@@ -13711,21 +13747,21 @@ app.get('/search', (c) => {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-12">
               <h1 class="text-6xl font-black mb-4">
-                  <span class="text-gradient">스마트</span> <span class="text-white">검색</span>
+                  <span class="text-gradient">${t('search.title', lang)}</span>
               </h1>
-              <p class="text-gray-400 text-lg">음성, 텍스트, AI로 원하는 작품을 찾아보세요</p>
+              <p class="text-gray-400 text-lg">${t('search.subtitle', lang)}</p>
           </div>
 
           <!-- 검색 방법 선택 탭 -->
           <div class="flex justify-center gap-4 mb-12">
               <button onclick="switchSearchMode('text')" id="textTab" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-xl font-semibold">
-                  <i class="fas fa-keyboard mr-2"></i>텍스트 검색
+                  <i class="fas fa-keyboard mr-2"></i>${t('search.tab_text', lang)}
               </button>
               <button onclick="switchSearchMode('voice')" id="voiceTab" class="px-8 py-3 bg-gray-800 text-gray-400 hover:bg-gray-700 rounded-xl font-semibold">
-                  <i class="fas fa-microphone mr-2"></i>음성 검색
+                  <i class="fas fa-microphone mr-2"></i>${t('search.tab_voice', lang)}
               </button>
               <button onclick="switchSearchMode('ai')" id="aiTab" class="px-8 py-3 bg-gray-800 text-gray-400 hover:bg-gray-700 rounded-xl font-semibold">
-                  <i class="fas fa-brain mr-2"></i>AI 검색
+                  <i class="fas fa-brain mr-2"></i>${t('search.tab_ai', lang)}
               </button>
           </div>
 
@@ -13733,14 +13769,14 @@ app.get('/search', (c) => {
           <div id="textSearch" class="max-w-3xl mx-auto mb-16">
               <div class="card-nft rounded-2xl p-8">
                   <div class="relative">
-                      <input type="text" id="searchInput" placeholder="작품명, 작가명, 키워드를 입력하세요..."
+                      <input type="text" id="searchInput" placeholder="${t('search.placeholder', lang)}"
                              class="w-full px-6 py-4 bg-gray-900 border border-gray-700 rounded-xl text-white text-lg focus:border-purple-500 focus:outline-none pr-14">
                       <button onclick="performSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-lg">
                           <i class="fas fa-search"></i>
                       </button>
                   </div>
                   <div class="mt-4 flex flex-wrap gap-2">
-                      <span class="text-sm text-gray-400">인기 검색어:</span>
+                      <span class="text-sm text-gray-400">${t('search.popular', lang)}:</span>
                       <button onclick="quickSearch('디지털아트')" class="px-3 py-1 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-sm transition">디지털아트</button>
                       <button onclick="quickSearch('추상화')" class="px-3 py-1 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-sm transition">추상화</button>
                       <button onclick="quickSearch('NFT')" class="px-3 py-1 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-sm transition">NFT</button>
