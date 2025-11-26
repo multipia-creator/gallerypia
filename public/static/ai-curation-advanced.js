@@ -2,7 +2,7 @@
 class AICurationAdvanced {
   constructor() { this.init(); }
   init() { console.log('🤖 AI Curation Advanced initializing...'); }
-  async autoC urate(theme, count = 20) {
+  async autoCurate(theme, count = 20) {
     const response = await fetch('/api/ai/auto-curate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

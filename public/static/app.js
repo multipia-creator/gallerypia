@@ -131,7 +131,7 @@ function renderPage() {
 // ========================================
 
 function renderHomePage(container) {
-  container.innerHTML = \`
+  container.innerHTML = `
     <!-- 히어로 섹션 -->
     <section class="gradient-bg text-white py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,7 +240,7 @@ function renderHomePage(container) {
             </div>
         </div>
     </section>
-  \`;
+  `;
   
   loadHomeStats();
   loadHomeArtworks();
@@ -253,7 +253,7 @@ async function loadHomeStats() {
       const stats = response.data.data;
       const statsContainer = document.getElementById('home-stats');
       if (statsContainer) {
-        statsContainer.innerHTML = \`
+        statsContainer.innerHTML = `
           <div class="stat-card rounded-xl p-6 text-center">
               <div class="text-3xl font-bold text-purple-600 mb-2">\${stats.total_artworks}</div>
               <div class="text-gray-600 text-sm font-medium">전체 작품</div>
@@ -270,7 +270,7 @@ async function loadHomeStats() {
               <div class="text-3xl font-bold text-purple-600 mb-2">\${(stats.total_value / 100000000).toFixed(1)}억원</div>
               <div class="text-gray-600 text-sm font-medium">총 작품 가치</div>
           </div>
-        \`;
+        `;
       }
     }
   } catch (error) {
@@ -294,7 +294,7 @@ async function loadHomeArtworks() {
 // ========================================
 
 function renderGalleryPage(container) {
-  container.innerHTML = \`
+  container.innerHTML = `
     <section class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="section-title text-4xl font-bold text-gray-900 mb-8">작품 갤러리</h1>
@@ -323,7 +323,7 @@ function renderGalleryPage(container) {
             </div>
         </div>
     </section>
-  \`;
+  `;
   
   loadGalleryArtworks();
 }
@@ -364,7 +364,7 @@ function filterCategory(category) {
 // ========================================
 
 function renderArtistsPage(container) {
-  container.innerHTML = \`
+  container.innerHTML = `
     <section class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="section-title text-4xl font-bold text-gray-900 mb-8">작가</h1>
@@ -376,7 +376,7 @@ function renderArtistsPage(container) {
             </div>
         </div>
     </section>
-  \`;
+  `;
   
   loadArtists();
 }
@@ -393,7 +393,7 @@ async function loadArtists() {
         return;
       }
       
-      container.innerHTML = artists.map(artist => \`
+      container.innerHTML = artists.map(artist => `
         <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer" onclick="viewArtist(\${artist.id})">
             <div class="p-6 text-center">
                 <img src="\${artist.profile_image || 'https://i.pravatar.cc/150'}" 
@@ -408,7 +408,7 @@ async function loadArtists() {
                 </div>
             </div>
         </div>
-      \`).join('');
+      `).join('');
     }
   } catch (error) {
     console.error('작가 로드 실패:', error);
@@ -416,7 +416,7 @@ async function loadArtists() {
 }
 
 function viewArtist(id) {
-  navigateTo(null, \`/artist/\${id}\`);
+  navigateTo(null, `/artist/\${id}`);
 }
 
 // ========================================
@@ -424,7 +424,7 @@ function viewArtist(id) {
 // ========================================
 
 function renderCollectionsPage(container) {
-  container.innerHTML = \`
+  container.innerHTML = `
     <section class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="section-title text-4xl font-bold text-gray-900 mb-8">컬렉션</h1>
@@ -436,7 +436,7 @@ function renderCollectionsPage(container) {
             </div>
         </div>
     </section>
-  \`;
+  `;
   
   loadCollections();
 }
@@ -453,7 +453,7 @@ async function loadCollections() {
         return;
       }
       
-      container.innerHTML = collections.map(collection => \`
+      container.innerHTML = collections.map(collection => `
         <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
             <div class="h-48 bg-gradient-to-br from-purple-400 to-indigo-500 relative overflow-hidden">
                 <img src="\${collection.cover_image}" class="w-full h-full object-cover opacity-80" alt="\${collection.name}" loading="lazy">
@@ -467,7 +467,7 @@ async function loadCollections() {
                 </div>
             </div>
         </div>
-      \`).join('');
+      `).join('');
     }
   } catch (error) {
     console.error('컬렉션 로드 실패:', error);
@@ -479,7 +479,7 @@ async function loadCollections() {
 // ========================================
 
 function renderArtworkDetailPage(container, id) {
-  container.innerHTML = \`
+  container.innerHTML = `
     <section class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <button onclick="history.back()" class="mb-6 text-gray-600 hover:text-gray-900 font-medium">
@@ -493,19 +493,19 @@ function renderArtworkDetailPage(container, id) {
             </div>
         </div>
     </section>
-  \`;
+  `;
   
   loadArtworkDetail(id);
 }
 
 async function loadArtworkDetail(id) {
   try {
-    const response = await axios.get(\`/api/artworks/\${id}\`);
+    const response = await axios.get(`/api/artworks/\${id}`);
     if (response.data.success) {
       const artwork = response.data.data;
       const container = document.getElementById('artwork-detail');
       
-      container.innerHTML = \`
+      container.innerHTML = `
         <div class="grid lg:grid-cols-2 gap-12">
             <!-- 작품 이미지 -->
             <div>
@@ -605,21 +605,21 @@ async function loadArtworkDetail(id) {
                 </div>
             </div>
         </div>
-      \`;
+      `;
     }
   } catch (error) {
     console.error('작품 상세 로드 실패:', error);
-    document.getElementById('artwork-detail').innerHTML = \`
+    document.getElementById('artwork-detail').innerHTML = `
       <div class="text-center py-20">
           <i class="fas fa-exclamation-circle text-4xl text-red-600 mb-4"></i>
           <p class="text-gray-600">작품을 불러오는데 실패했습니다.</p>
       </div>
-    \`;
+    `;
   }
 }
 
 function renderScoreBar(label, score, color) {
-  return \`
+  return `
     <div>
         <div class="flex justify-between mb-2">
             <span class="text-sm font-medium text-gray-700">\${label}</span>
@@ -629,7 +629,7 @@ function renderScoreBar(label, score, color) {
             <div class="bg-\${color}-600 h-2.5 rounded-full transition-all duration-500" style="width: \${score}%"></div>
         </div>
     </div>
-  \`;
+  `;
 }
 
 // ========================================
@@ -637,7 +637,7 @@ function renderScoreBar(label, score, color) {
 // ========================================
 
 function renderArtistDetailPage(container, id) {
-  container.innerHTML = \`
+  container.innerHTML = `
     <section class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <button onclick="history.back()" class="mb-6 text-gray-600 hover:text-gray-900 font-medium">
@@ -649,7 +649,7 @@ function renderArtistDetailPage(container, id) {
             </div>
         </div>
     </section>
-  \`;
+  `;
 }
 
 // ========================================
@@ -659,7 +659,7 @@ function renderArtistDetailPage(container, id) {
 function generateSkeletonCards(count) {
   let html = '';
   for (let i = 0; i < count; i++) {
-    html += \`
+    html += `
       <div class="bg-white rounded-xl overflow-hidden shadow-md">
           <div class="skeleton h-64 bg-gray-200"></div>
           <div class="p-5">
@@ -668,7 +668,7 @@ function generateSkeletonCards(count) {
               <div class="skeleton h-8 bg-gray-200 rounded"></div>
           </div>
       </div>
-    \`;
+    `;
   }
   return html;
 }
@@ -683,7 +683,7 @@ function renderArtworkGrid(artworks, containerId) {
     return;
   }
   
-  container.innerHTML = artworks.map(artwork => \`
+  container.innerHTML = artworks.map(artwork => `
     <div class="artwork-card bg-white rounded-xl overflow-hidden shadow-md" onclick="viewArtwork(\${artwork.id})">
         <div class="artwork-image-container">
             <img src="\${artwork.image_url}" alt="\${artwork.title}" loading="lazy">
@@ -715,7 +715,7 @@ function renderArtworkGrid(artworks, containerId) {
             </div>
         </div>
     </div>
-  \`).join('');
+  `).join('');
 }
 
 function formatPrice(price) {
@@ -728,7 +728,7 @@ function formatPrice(price) {
 }
 
 function viewArtwork(id) {
-  navigateTo(null, \`/artwork/\${id}\`);
+  navigateTo(null, `/artwork/\${id}`);
 }
 
 function likeArtwork(id) {
