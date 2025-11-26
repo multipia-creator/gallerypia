@@ -2179,6 +2179,12 @@ class I18n {
       const expertBtn = document.querySelector('a[href="/expert/apply"] span.text-white');
       if (expertBtn) expertBtn.textContent = this.t('main.expert_apply');
       
+      // Update Academy button
+      const academyBtn = document.querySelector('a[href="/nft-academy"] span');
+      if (academyBtn && academyBtn.textContent.includes('main.btn_academy')) {
+        academyBtn.textContent = this.t('main.btn_academy');
+      }
+      
       // Update Partnership text
       const partnershipBtns = document.querySelectorAll('a[href="/signup"].group span.text-white');
       partnershipBtns.forEach(btn => {
