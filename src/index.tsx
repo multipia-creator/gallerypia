@@ -2393,11 +2393,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                     </a>
                     <div class="hidden md:flex items-center space-x-1">
                         <a href="/gallery" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.gallery', lang)}</a>
-                        <a href="/recommendations" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.recommendations', lang)}</a>
                         <a href="/leaderboard" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.artists', lang)}</a>
                         <a href="/valuation-system" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.valuation', lang)}</a>
-                        <a href="/curation" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.curation', lang)}</a>
-                        <a href="/nft-academy" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.academy', lang)}</a>
                         <a href="/about" class="nav-link px-4 py-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300 font-medium text-sm">${t('nav.about', lang)}</a>
                     </div>
                 </div>
@@ -2575,13 +2572,6 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
                     </a>
                     <a href="/valuation-system" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
                         <i class="fas fa-balance-scale w-6 mr-3"></i>${t('nav.valuation', lang)}
-                    </a>
-
-                    <a href="/curation" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-users w-6 mr-3"></i>${t('nav.curation', lang)}
-                    </a>
-                    <a href="/nft-academy" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
-                        <i class="fas fa-graduation-cap w-6 mr-3"></i>${t('nav.academy', lang)}
                     </a>
                     <a href="/about" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white hover:bg-opacity-5 rounded-xl transition-all">
                         <i class="fas fa-info-circle w-6 mr-3"></i>${t('nav.about', lang)}
@@ -8971,6 +8961,10 @@ app.get('/', async (c) => {
                             <i class="fas fa-user-plus mr-2 text-lg group-hover:rotate-12 transition-transform"></i>
                             <span>${t('main.btn_signup', lang)}</span>
                         </a>
+                        <a href="/nft-academy" class="group px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105">
+                            <i class="fas fa-graduation-cap mr-2 text-lg group-hover:rotate-12 transition-transform"></i>
+                            <span>${t('main.btn_academy', lang)}</span>
+                        </a>
                         <button id="pwa-install-hero-button" onclick="installPWA()" class="group px-10 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl font-bold text-base inline-flex items-center justify-center shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105" style="display: none;" title="${t('main.btn_install_tooltip', lang)}">
                             <i class="fas fa-download mr-2 text-lg group-hover:scale-110 transition-transform"></i>
                             <span>${t('main.btn_install_app', lang)}</span>
@@ -9961,6 +9955,21 @@ app.get('/gallery', async (c) => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 갤러리 탭 UI (전체/추천/큐레이션) -->
+            <div class="mb-8">
+                <div class="flex items-center justify-center gap-2 p-2 bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-2xl border border-white/10 max-w-md mx-auto">
+                    <button onclick="switchGalleryTab('all')" id="tabAll" class="gallery-tab flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-purple-600 to-cyan-500 text-white">
+                        <i class="fas fa-th mr-2"></i>${lang === 'ko' ? '전체 작품' : lang === 'en' ? 'All Artworks' : lang === 'zh' ? '全部作品' : '全作品'}
+                    </button>
+                    <button onclick="switchGalleryTab('recommendations')" id="tabRecommendations" class="gallery-tab flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fas fa-star mr-2"></i>${lang === 'ko' ? '추천' : lang === 'en' ? 'Featured' : lang === 'zh' ? '推荐' : 'おすすめ'}
+                    </button>
+                    <button onclick="switchGalleryTab('curation')" id="tabCuration" class="gallery-tab flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-gray-400 hover:text-white hover:bg-white/5">
+                        <i class="fas fa-crown mr-2"></i>${lang === 'ko' ? '큐레이션' : lang === 'en' ? 'Curated' : lang === 'zh' ? '策展' : 'キュレーション'}
+                    </button>
                 </div>
             </div>
 

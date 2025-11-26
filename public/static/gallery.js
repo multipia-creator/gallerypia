@@ -1,5 +1,31 @@
 // 갤러리 필터링 및 정렬 JavaScript
 
+// 현재 활성 탭
+let currentGalleryTab = 'all';
+
+// 갤러리 탭 전환 함수
+function switchGalleryTab(tab) {
+    currentGalleryTab = tab;
+    
+    // 탭 버튼 스타일 업데이트
+    document.querySelectorAll('.gallery-tab').forEach(btn => {
+        btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-cyan-500', 'text-white');
+        btn.classList.add('text-gray-400', 'hover:text-white', 'hover:bg-white/5');
+    });
+    
+    const activeTab = document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1).replace('s', '')}`);
+    if (activeTab) {
+        activeTab.classList.remove('text-gray-400', 'hover:text-white', 'hover:bg-white/5');
+        activeTab.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-cyan-500', 'text-white');
+    }
+    
+    // 필터 적용
+    applyFilters();
+}
+
+// 전역 스코프로 export
+window.switchGalleryTab = switchGalleryTab;
+
 // 가격 포맷 함수
 function formatPrice(price) {
     if (price >= 1000000000) return (price / 100000000).toFixed(1) + '억원';
