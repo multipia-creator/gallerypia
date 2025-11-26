@@ -4,7 +4,15 @@
  */
 
 // First-Visit Tutorial
+let tutorialShowing = false; // Prevent duplicate execution
+
 function showFirstVisitTutorial() {
+  // Prevent duplicate calls
+  if (tutorialShowing) {
+    console.log('[P3] Tutorial already showing, skipping duplicate call');
+    return;
+  }
+
   // Check if already shown
   if (localStorage.getItem('gallerypia_tutorial_shown') === 'true') {
     return;
@@ -14,6 +22,9 @@ function showFirstVisitTutorial() {
   if (window.innerWidth > 768) {
     return;
   }
+
+  // Mark as showing
+  tutorialShowing = true;
 
   // Create tutorial modal
   const modal = document.createElement('div');
@@ -111,7 +122,10 @@ window.closeTutorial = function(markAsShown) {
   const modal = document.getElementById('tutorialModal');
   if (modal) {
     modal.style.animation = 'fadeOut 0.3s ease-out';
-    setTimeout(() => modal.remove(), 300);
+    setTimeout(() => {
+      modal.remove();
+      tutorialShowing = false; // Reset flag after closing
+    }, 300);
   }
 };
 
