@@ -12393,7 +12393,7 @@ app.get('/valuation', async (c) => {
               <p class="text-gray-400 text-lg">작품분석 + AI평가 + 전문가 검증</p>
               <p class="text-gray-500 text-sm mt-2">NFT 미술품 평균가격 (1 ETH, OpenSea 2022 통계값 기준)</p>
               
-              <!-- 셀프 평가 안내 -->
+              <!-- 가치평가 안내 -->
               <div class="mt-6 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-2xl p-6 max-w-4xl mx-auto">
                   <div class="flex items-start gap-4">
                       <div class="flex-shrink-0">
@@ -12404,7 +12404,7 @@ app.get('/valuation', async (c) => {
                       <div class="flex-1">
                           <h3 class="text-xl font-bold text-white mb-2">
                               <i class="fas fa-sparkles text-cyan-400 mr-2"></i>
-                              셀프 가치평가 시스템
+                              가치평가 시스템
                           </h3>
                           <p class="text-gray-300 mb-3">
                               작가 본인이 직접 작품의 가치를 평가하고 NFT로 등록할 수 있습니다.
@@ -27782,7 +27782,7 @@ app.get('/valuation-system', (c) => {
                     </a>
                     <a href="/valuation" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-purple-500/50 transition-all">
                         <i class="fas fa-calculator mr-2"></i>
-                        셀프 가치 평가
+                        가치 평가
                     </a>
                 </div>
             </div>

@@ -162,7 +162,7 @@ class I18n {
         
         // Main Page - Buttons
         'main.explore': 'NFT 컬렉션 탐색',
-        'main.valuation': '셀프가치산정 시스템',
+        'main.valuation': '가치산정',
         'main.system_guide': '가치산정',
         'main.expert_apply': '전문가 신청/평가',
         'main.partnership': 'Partnership',
@@ -679,7 +679,7 @@ class I18n {
         
         // Main Page - Buttons
         'main.explore': 'Explore NFT Collection',
-        'main.valuation': 'Self-Valuation System',
+        'main.valuation': 'Valuation',
         'main.system_guide': 'Valuation',
         'main.expert_apply': 'Expert Application',
         'main.partnership': 'Partnership',
@@ -1176,7 +1176,7 @@ class I18n {
         
         // Main Page - Buttons
         'main.explore': '探索NFT收藏',
-        'main.valuation': '自我估值系统',
+        'main.valuation': '估值',
         'main.system_guide': '估值',
         'main.expert_apply': '专家申请',
         'main.partnership': 'Partnership',
@@ -1661,7 +1661,7 @@ class I18n {
         
         // Main Page - Buttons
         'main.explore': 'NFTコレクション探索',
-        'main.valuation': 'セルフ評価システム',
+        'main.valuation': '価値評価',
         'main.system_guide': '価値評価',
         'main.expert_apply': '専門家申請',
         'main.partnership': 'Partnership',
