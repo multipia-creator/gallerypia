@@ -1661,11 +1661,49 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <meta property="twitter:description" content="${t('meta.og_description', lang)}">
     
     <title>${title}</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    
+    <!-- Critical CSS (Inline for immediate rendering) -->
+    <style id="critical-css">
+      /* Critical Above-the-Fold CSS (20KB) */
+      /* Full styles.css will load asynchronously */
+      @import url('/static/critical.css');
+    </style>
+    
+    <!-- Async CSS Loading (Non-blocking) -->
+    <link rel="preload" href="/static/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/static/styles.css"></noscript>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome - Will be lazy loaded -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"> -->
+    <!-- FontAwesome Lazy Loader -->
+    <script>
+      // Lazy load FontAwesome when needed
+      window.loadFontAwesome = function() {
+        if (document.getElementById('fontawesome-css')) {
+          console.log('FontAwesome already loaded');
+          return;
+        }
+        
+        console.log('Loading FontAwesome...');
+        const link = document.createElement('link');
+        link.id = 'fontawesome-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css';
+        document.head.appendChild(link);
+      };
+      
+      // Auto-load FontAwesome after page load
+      if (document.readyState === 'complete') {
+        window.loadFontAwesome();
+      } else {
+        window.addEventListener('load', window.loadFontAwesome);
+      }
+    </script>
+    
     <!-- Global Error Handler (Prevent Parse Errors from breaking the page) -->
     <script>
       window.addEventListener('error', function(e) {
