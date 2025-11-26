@@ -41,14 +41,14 @@ window.addEventListener('error', (event) => {
     errorLog.shift(); // Remove oldest
   }
   
-  // Only show toast for critical JavaScript errors
-  if (error.message && !error.message.includes('Script error')) {
-    if (typeof showErrorToast === 'function') {
-      showErrorToast('예상치 못한 오류가 발생했습니다. 페이지를 새로고침해주세요.');
-    } else {
-      console.error('Toast system not available');
-    }
-  }
+  // Disable error toast - only log to console for debugging
+  // Users reported false positives, so we only log errors
+  console.error('[Error logged for debugging]:', error.message);
+  
+  // DO NOT show toast to users
+  // if (typeof showErrorToast === 'function') {
+  //   showErrorToast('예상치 못한 오류가 발생했습니다. 페이지를 새로고침해주세요.');
+  // }
   
   // Report error to backend (optional, non-blocking)
   reportErrorToBackend(error);
@@ -78,10 +78,13 @@ window.addEventListener('unhandledrejection', (event) => {
     errorLog.shift();
   }
   
-  // Show user-friendly error message
-  if (typeof showErrorToast === 'function') {
-    showErrorToast('비동기 작업 중 오류가 발생했습니다.');
-  }
+  // Disable error toast - only log to console
+  console.error('[Promise rejection logged]:', error.reason);
+  
+  // DO NOT show toast
+  // if (typeof showErrorToast === 'function') {
+  //   showErrorToast('비동기 작업 중 오류가 발생했습니다.');
+  // }
   
   // Report error to backend
   reportErrorToBackend(error);
@@ -137,9 +140,13 @@ window.fetch = async (...args) => {
                               response.status >= 400 && 
                               response.status < 600;
       
-      if (shouldShowToast && typeof showWarningToast === 'function') {
-        showWarningToast(userMessage, 4000);
-      }
+      // Disable HTTP error toasts - only log
+      console.warn('[HTTP Error logged]:', response.status, url);
+      
+      // DO NOT show toast
+      // if (shouldShowToast && typeof showWarningToast === 'function') {
+      //   showWarningToast(userMessage, 4000);
+      // }
       
       // Log error
       errorLog.push(error);
@@ -160,10 +167,13 @@ window.fetch = async (...args) => {
     
     console.error('🔴 Network Error:', error);
     
-    // Show network error toast
-    if (typeof showErrorToast === 'function') {
-      showErrorToast('네트워크 연결을 확인해주세요.');
-    }
+    // Disable network error toast - only log
+    console.error('[Network Error logged]:', error.message);
+    
+    // DO NOT show toast
+    // if (typeof showErrorToast === 'function') {
+    //   showErrorToast('네트워크 연결을 확인해주세요.');
+    // }
     
     // Log error
     errorLog.push(error);
