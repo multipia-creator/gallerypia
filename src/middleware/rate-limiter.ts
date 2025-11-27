@@ -33,6 +33,12 @@ export function rateLimiter(config: RateLimitConfig) {
   } = config
 
   return async (c: Context, next: Next) => {
+    // Skip rate limiting in development
+    if (c.env?.NODE_ENV === 'development') {
+      await next()
+      return
+    }
+    
     // Get client identifier (IP address)
     const clientId = getClientId(c)
     

@@ -5417,8 +5417,8 @@ app.post('/api/auth/register', async (c) => {
     } else if (role === 'expert') {
       await db.prepare(`
         INSERT INTO expert_profiles (
-          user_id, specialties, experience_years, created_at, updated_at
-        ) VALUES (?, '미술 감정', 0, datetime('now'), datetime('now'))
+          user_id, expert_type, specialization, years_experience, created_at, updated_at
+        ) VALUES (?, '감정사', '미술품 감정', 0, datetime('now'), datetime('now'))
       `).bind(userId).run()
     } else if (role === 'museum' && organization_name) {
       // Create organization profile for museum/gallery
