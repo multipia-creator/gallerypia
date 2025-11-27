@@ -5542,6 +5542,7 @@ app.post('/api/auth/login', async (c) => {
     return c.json({ 
       success: true, 
       message: '로그인 성공',
+      session_token: sessionToken, // Add session_token for frontend
       user: {
         id: Number(user.id),
         email: String(user.email),
