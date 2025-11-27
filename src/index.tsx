@@ -4887,7 +4887,7 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     <!-- HIGH: Async + Defer (Load in background, execute when ready) -->
     <script src="/static/advanced-search.js" async defer></script>
     <script src="/static/blockchain-minting.js" async defer></script>
-    <script src="/static/realtime-chat.js" async defer></script>
+    <script src="/static/customer-support-ai.js?v=3.0.0" async defer></script>
     <script src="/static/notification-system.js" async defer></script>
     
     <!-- LOW: Dynamic Loading (Load on demand via initOptimizer) -->

@@ -125,32 +125,35 @@ export function cleanupRateLimiters(olderThan: number = 3600000) {
 /**
  * Predefined rate limiters
  */
+// Detect if we're in local development mode
+const isDevelopment = typeof process !== 'undefined' && process.env?.NODE_ENV === 'development'
+
 export const rateLimiters = {
-  // Strict rate limiting for authentication endpoints
+  // Strict rate limiting for authentication endpoints (relaxed in dev)
   auth: rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    maxRequests: 5,             // 5 requests per 15 minutes
+    windowMs: isDevelopment ? 60 * 1000 : 15 * 60 * 1000, // 1min dev, 15min prod
+    maxRequests: isDevelopment ? 100 : 5,                   // 100 dev, 5 prod
     message: '인증 시도가 너무 많습니다. 15분 후에 다시 시도해주세요.'
   }),
   
   // Moderate rate limiting for general API endpoints
   api: rateLimiter({
     windowMs: 60 * 1000,       // 1 minute
-    maxRequests: 100,           // 100 requests per minute
+    maxRequests: isDevelopment ? 1000 : 100,  // 1000 dev, 100 prod
     message: 'API 요청이 너무 많습니다. 잠시 후에 다시 시도해주세요.'
   }),
   
   // Strict rate limiting for data modification endpoints
   mutation: rateLimiter({
     windowMs: 60 * 1000,       // 1 minute
-    maxRequests: 20,            // 20 requests per minute
+    maxRequests: isDevelopment ? 200 : 20,    // 200 dev, 20 prod
     message: '데이터 수정 요청이 너무 많습니다. 잠시 후에 다시 시도해주세요.'
   }),
   
-  // Very strict rate limiting for registration/signup
+  // Very strict rate limiting for registration/signup (relaxed in dev)
   signup: rateLimiter({
-    windowMs: 60 * 60 * 1000,  // 1 hour
-    maxRequests: 3,             // 3 signups per hour
+    windowMs: isDevelopment ? 60 * 1000 : 60 * 60 * 1000,  // 1min dev, 1hr prod
+    maxRequests: isDevelopment ? 100 : 3,                   // 100 dev, 3 prod
     message: '회원가입 시도가 너무 많습니다. 1시간 후에 다시 시도해주세요.'
   })
 }
