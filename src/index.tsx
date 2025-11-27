@@ -22716,103 +22716,59 @@ app.get('/api/admin/stats', async (c) => {
 
 // 작품 목록 조회 API (관리자용)
 app.get('/api/admin/artworks', async (c) => {
-  // ✅ Authentication handled by middleware (line 76)
+  // ✅ Authentication handled by middleware
+  const db = c.env.DB
   
-  try {
-    const db = c.env.DB
-    if (!db) {
-      return c.json({ success: false, error: 'Database not available' }, 500)
-    }
-    
-    const page = parseInt(c.req.query('page') || '1')
-    const limit = parseInt(c.req.query('limit') || '10')
-    const offset = (page - 1) * limit
-    
-    // Get total count
-    const countResult = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
-    const total = countResult?.count || 0
-    
-    // Simple query without JOIN first to test
-    const artworks = await db.prepare(`
-      SELECT *
-      FROM artworks
-      ORDER BY id DESC
-      LIMIT ? OFFSET ?
-    `).bind(limit, offset).all()
-    
-    return c.json({ 
-      success: true, 
-      artworks: artworks.results || [],
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit)
-      }
-    })
-  } catch (error) {
-    // More detailed error logging
-    const errorMessage = error instanceof Error ? error.message : String(error)
-    const errorStack = error instanceof Error ? error.stack : ''
-    
-    return c.json({ 
-      success: false, 
-      error: 'Failed to fetch artworks',
-      message: errorMessage,
-      details: errorStack ? errorStack.substring(0, 200) : 'No stack trace'
-    }, 500)
-  }
+  // Get total count
+  const countResult = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
+  const total = countResult?.count || 0
+  
+  // Get artworks
+  const artworks = await db.prepare(`
+    SELECT *
+    FROM artworks
+    ORDER BY id DESC
+    LIMIT 50
+  `).all()
+  
+  return c.json({ 
+    success: true, 
+    artworks: artworks.results || [],
+    total
+  })
 })
 
 // 사용자 목록 조회 API (관리자용)
 app.get('/api/admin/users', async (c) => {
   // ✅ Authentication handled by middleware
+  const db = c.env.DB
   
-  try {
-    const db = c.env.DB
-    const page = parseInt(c.req.query('page') || '1')
-    const limit = parseInt(c.req.query('limit') || '10')
-    const offset = (page - 1) * limit
-    
-    // Get total count
-    const countResult = await db.prepare('SELECT COUNT(*) as count FROM users').first()
-    const total = countResult?.count || 0
-    
-    // Get users with pagination
-    const users = await db.prepare(`
-      SELECT 
-        id,
-        email,
-        username,
-        full_name,
-        role,
-        is_active,
-        is_verified,
-        created_at,
-        last_login_at
-      FROM users
-      ORDER BY created_at DESC
-      LIMIT ? OFFSET ?
-    `).bind(limit, offset).all()
-    
-    return c.json({ 
-      success: true, 
-      users: users.results || [],
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit)
-      }
-    })
-  } catch (error) {
-    console.error('Error fetching users:', error)
-    return c.json({ 
-      success: false, 
-      error: 'Failed to fetch users',
-      message: error.message 
-    }, 500)
-  }
+  // Get total count
+  const countResult = await db.prepare('SELECT COUNT(*) as count FROM users').first()
+  const total = countResult?.count || 0
+  
+  // Get users
+  const users = await db.prepare(`
+    SELECT 
+      id,
+      email,
+      username,
+      full_name,
+      role,
+      is_active,
+      is_verified,
+      created_at,
+      last_login_at
+    FROM users
+    ORDER BY created_at DESC
+    LIMIT 50
+  `).all()
+  
+  return c.json({ 
+    success: true, 
+    users: users.results || [],
+    total
+  })
 })
 
 // 작가 목록 조회 API (관리자용)
