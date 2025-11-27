@@ -455,9 +455,10 @@ function initAuthenticationSystem() {
     })
   }
   
-  // Initialize email validation
+  // Initialize email validation (ONLY FOR SIGNUP PAGE)
+  const signupForm = document.getElementById('signupForm')
   const emailInput = document.getElementById('email')
-  if (emailInput && document.getElementById('signup-form')) {
+  if (signupForm && emailInput) {
     // Create feedback element
     const feedbackEl = document.createElement('div')
     feedbackEl.id = 'email-feedback'
@@ -472,6 +473,7 @@ function initAuthenticationSystem() {
     emailInput.addEventListener('input', (e) => {
       debouncedValidation(e.target.value.trim())
     })
+    console.log('✅ Email validation enabled for signup page')
   }
   
   // Auto-format phone numbers
