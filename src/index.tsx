@@ -15092,7 +15092,7 @@ app.get('/signup', (c) => {
                   </div>
               </div>
               
-              <form id="signupForm" class="space-y-6">
+              <form id="signupForm" class="space-y-6" onsubmit="return false;">
                   <!-- 기본 정보 -->
                   <div>
                       <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
@@ -15428,7 +15428,7 @@ app.get('/signup', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.0.0"></script>
+  <script src="/static/auth-improved.js?v=3.1.0">
   <script src="/static/social-login.js"></script>
   
   <!-- P1: Kakao Address API for Museum/Gallery -->
@@ -16933,7 +16933,7 @@ app.get('/login', (c) => {
                   </div>
               </div>
               
-              <form id="loginForm" class="space-y-6">
+              <form id="loginForm" class="space-y-6" onsubmit="return false;">
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
                           <i class="fas fa-envelope mr-2"></i>${t('auth.email', lang)}
@@ -16988,7 +16988,7 @@ app.get('/login', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.0.0"></script>
+  <script src="/static/auth-improved.js?v=3.1.0">
   <script src="/static/social-login.js"></script>
   `;
   
@@ -17052,7 +17052,7 @@ app.get('/forgot-password', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.0.0"></script>
+  <script src="/static/auth-improved.js?v=3.1.0">
   `;
   
   return c.html(getLayout(content, `${t('auth.forgot_password', lang)} - GALLERYPIA`, lang))
@@ -18588,7 +18588,7 @@ app.get('/admin/login', (c) => {
                   <p class="text-red-400 text-sm"><i class="fas fa-exclamation-circle mr-2"></i><span id="errorMessage"></span></p>
               </div>
               
-              <form id="loginForm" class="space-y-6">
+              <form id="loginForm" class="space-y-6" onsubmit="return false;">
                   <div>
                       <label class="block text-sm font-medium text-gray-300 mb-2">
                           <i class="fas fa-user mr-2"></i>사용자명
@@ -18709,25 +18709,32 @@ app.get('/dashboard/artist', async (c) => {
       WHERE us.session_token = ? AND us.expires_at > datetime('now')
     `).bind(token).first()
     
+    console.log('[Artist Dashboard] Session query result:', session)
+    
     if (!session) {
+      console.log('[Artist Dashboard] No session found, redirecting to login')
       return c.redirect('/login')
     }
     
+    console.log('[Artist Dashboard] User role:', session.role)
+    
     // 작가 role 확인
     if (session.role !== 'artist' && session.role !== 'admin') {
+      console.log('[Artist Dashboard] User is not artist/admin, redirecting to /dashboard')
       return c.redirect('/dashboard')
     }
     
     userId = session.user_id as number
     
-    // 아티스트 ID 조회
-    const artist = await db.prepare(`
-      SELECT id FROM artists WHERE user_id = ?
+    // 아티스트 프로필 확인 (artist_profiles 테이블 사용)
+    const artistProfile = await db.prepare(`
+      SELECT user_id FROM artist_profiles WHERE user_id = ?
     `).bind(userId).first()
     
-    artistId = artist ? artist.id as number : null
+    artistId = artistProfile ? artistProfile.user_id as number : userId
+    console.log('[Artist Dashboard] Artist User ID:', artistId)
   } catch (error) {
-    console.error('Dashboard auth error:', error)
+    console.error('[Artist Dashboard] Auth error:', error)
     return c.redirect('/login')
   }
   
@@ -18902,18 +18909,25 @@ app.get('/dashboard/expert', async (c) => {
       WHERE us.session_token = ? AND us.expires_at > datetime('now')
     `).bind(token).first()
     
+    console.log('[Expert Dashboard] Session query result:', session)
+    
     if (!session) {
+      console.log('[Expert Dashboard] No session found, redirecting to login')
       return c.redirect('/login')
     }
     
+    console.log('[Expert Dashboard] User role:', session.role)
+    
     // 전문가 role 확인
     if (session.role !== 'expert' && session.role !== 'admin') {
+      console.log('[Expert Dashboard] User is not expert/admin, redirecting to /dashboard')
       return c.redirect('/dashboard')
     }
     
     userId = session.user_id as number
+    console.log('[Expert Dashboard] User ID:', userId)
   } catch (error) {
-    console.error('Dashboard auth error:', error)
+    console.error('[Expert Dashboard] Auth error:', error)
     return c.redirect('/login')
   }
   

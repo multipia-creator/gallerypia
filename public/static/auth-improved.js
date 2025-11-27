@@ -435,6 +435,11 @@ async function handleLoginImproved(event) {
 // ====================================
 
 function initAuthenticationSystem() {
+  // Get form elements at the beginning
+  const loginForm = document.getElementById('loginForm')
+  const signupForm = document.getElementById('signupForm')
+  const emailInput = document.getElementById('email')
+  
   // Initialize password toggles
   const passwordFields = document.querySelectorAll('input[type="password"]')
   passwordFields.forEach(field => {
@@ -456,8 +461,6 @@ function initAuthenticationSystem() {
   }
   
   // Initialize email validation (ONLY FOR SIGNUP PAGE)
-  const signupForm = document.getElementById('signupForm')
-  const emailInput = document.getElementById('email')
   if (signupForm && emailInput) {
     // Create feedback element
     const feedbackEl = document.createElement('div')
@@ -494,14 +497,12 @@ function initAuthenticationSystem() {
   })
   
   // Connect login form - CRITICAL FIX
-  const loginForm = document.getElementById('loginForm')
   if (loginForm) {
     loginForm.addEventListener('submit', handleLoginImproved)
     console.log('✅ Login form connected')
   }
   
   // Connect signup form - CRITICAL FIX
-  const signupForm = document.getElementById('signupForm')
   if (signupForm) {
     signupForm.addEventListener('submit', handleSignupImproved)
     console.log('✅ Signup form connected')
