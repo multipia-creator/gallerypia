@@ -18690,7 +18690,8 @@ app.get('/admin/login', (c) => {
 app.get('/dashboard/artist', async (c) => {
   const lang = getUserLanguage(c)
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  // 쿠키 또는 Authorization 헤더에서 토큰 가져오기
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
   
   // 인증 확인
   if (!token) {
@@ -18702,11 +18703,19 @@ app.get('/dashboard/artist', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id, role FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
+      SELECT us.user_id, u.role 
+      FROM user_sessions us
+      JOIN users u ON us.user_id = u.id
+      WHERE us.session_token = ? AND us.expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
       return c.redirect('/login')
+    }
+    
+    // 작가 role 확인
+    if (session.role !== 'artist' && session.role !== 'admin') {
+      return c.redirect('/dashboard')
     }
     
     userId = session.user_id as number
@@ -18875,7 +18884,8 @@ app.get('/dashboard/artist', async (c) => {
 // ============================================
 app.get('/dashboard/expert', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  // 쿠키 또는 Authorization 헤더에서 토큰 가져오기
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
   
   // 인증 확인
   if (!token) {
@@ -18886,11 +18896,19 @@ app.get('/dashboard/expert', async (c) => {
   
   try {
     const session = await db.prepare(`
-      SELECT user_id, role FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
+      SELECT us.user_id, u.role 
+      FROM user_sessions us
+      JOIN users u ON us.user_id = u.id
+      WHERE us.session_token = ? AND us.expires_at > datetime('now')
     `).bind(token).first()
     
     if (!session) {
       return c.redirect('/login')
+    }
+    
+    // 전문가 role 확인
+    if (session.role !== 'expert' && session.role !== 'admin') {
+      return c.redirect('/dashboard')
     }
     
     userId = session.user_id as number
@@ -19073,15 +19091,8 @@ app.get('/admin/dashboard', async (c) => {
   const lang = getUserLanguage(c)
   const db = c.env.DB
   
-  // 쿠키에서 세션 토큰 읽기
-  const cookieHeader = c.req.header('Cookie') || ''
-  const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=')
-    acc[key] = value
-    return acc
-  }, {} as Record<string, string>)
-  
-  const token = cookies['session_token']
+  // 쿠키 또는 Authorization 헤더에서 토큰 가져오기
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
   
   // 인증 확인
   if (!token) {
