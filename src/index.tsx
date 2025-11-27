@@ -22717,52 +22717,76 @@ app.get('/api/admin/stats', async (c) => {
 // 작품 목록 조회 API (관리자용)
 app.get('/api/admin/artworks', async (c) => {
   // ✅ Authentication handled by middleware
-  
-  const db = c.env.DB
-  
-  const artworks = await db.prepare(`
-    SELECT 
-      a.id,
-      a.title,
-      a.description,
-      a.category,
-      a.image_url,
-      a.thumbnail_url,
-      a.created_at,
-      ar.name as artist_name,
-      ar.id as artist_id
-    FROM artworks a
-    LEFT JOIN artists ar ON a.artist_id = ar.id
-    ORDER BY a.id DESC
-    LIMIT 50
-  `).all()
-  
-  return c.json({ success: true, data: artworks.results })
+  try {
+    const db = c.env.DB
+    
+    if (!db) {
+      return c.json({ success: false, error: 'Database not available' }, 500)
+    }
+    
+    const artworks = await db.prepare(`
+      SELECT 
+        a.id,
+        a.title,
+        a.description,
+        a.category,
+        a.image_url,
+        a.thumbnail_url,
+        a.created_at,
+        ar.name as artist_name,
+        ar.id as artist_id
+      FROM artworks a
+      LEFT JOIN artists ar ON a.artist_id = ar.id
+      ORDER BY a.id DESC
+      LIMIT 50
+    `).all()
+    
+    return c.json({ success: true, data: artworks.results || [] })
+  } catch (error: any) {
+    console.error('Artworks API Error:', error)
+    return c.json({ 
+      success: false, 
+      error: 'Failed to fetch artworks',
+      details: error.message || String(error)
+    }, 500)
+  }
 })
 
 // 사용자 목록 조회 API (관리자용)
 app.get('/api/admin/users', async (c) => {
   // ✅ Authentication handled by middleware
-  
-  const db = c.env.DB
-  
-  const users = await db.prepare(`
-    SELECT 
-      id,
-      email,
-      username,
-      full_name,
-      role,
-      is_active,
-      is_verified,
-      created_at,
-      last_login_at
-    FROM users
-    ORDER BY created_at DESC
-    LIMIT 50
-  `).all()
-  
-  return c.json({ success: true, data: users.results })
+  try {
+    const db = c.env.DB
+    
+    if (!db) {
+      return c.json({ success: false, error: 'Database not available' }, 500)
+    }
+    
+    const users = await db.prepare(`
+      SELECT 
+        id,
+        email,
+        username,
+        full_name,
+        role,
+        is_active,
+        is_verified,
+        created_at,
+        last_login_at
+      FROM users
+      ORDER BY created_at DESC
+      LIMIT 50
+    `).all()
+    
+    return c.json({ success: true, data: users.results || [] })
+  } catch (error: any) {
+    console.error('Users API Error:', error)
+    return c.json({ 
+      success: false, 
+      error: 'Failed to fetch users',
+      details: error.message || String(error)
+    }, 500)
+  }
 })
 
 // 작가 목록 조회 API (관리자용)
