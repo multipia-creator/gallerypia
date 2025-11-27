@@ -3,11 +3,15 @@
  * Real-time validation with visual feedback
  */
 
-// Prevent duplicate loading
+// Prevent duplicate loading - CRITICAL FIX
 if (typeof window.FormValidation !== 'undefined') {
   console.log('⚠️ FormValidation already loaded, skipping...');
-  // Don't throw error - just exit silently to avoid breaking other scripts
-} else {
+  // Exit immediately to prevent duplicate class declaration
+  throw new Error('FormValidation already loaded');
+}
+
+(function() {
+  'use strict';
 
 class FormValidation {
   constructor() {
@@ -433,4 +437,4 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = FormValidation;
 }
 
-} // End of duplicate loading check
+})(); // End of IIFE to prevent duplicate loading
