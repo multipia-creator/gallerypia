@@ -22721,7 +22721,16 @@ app.get('/api/admin/artworks', async (c) => {
   const db = c.env.DB
   
   const artworks = await db.prepare(`
-    SELECT a.*, ar.name as artist_name
+    SELECT 
+      a.id,
+      a.title,
+      a.description,
+      a.category,
+      a.image_url,
+      a.thumbnail_url,
+      a.created_at,
+      ar.name as artist_name,
+      ar.id as artist_id
     FROM artworks a
     LEFT JOIN artists ar ON a.artist_id = ar.id
     ORDER BY a.id DESC
