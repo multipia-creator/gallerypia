@@ -298,6 +298,7 @@ const translations = {
     'auth.forgot_password': '비밀번호 찾기',
     'auth.remember_me': '로그인 상태 유지',
     'auth.or_login_with': '또는 이메일로 로그인',
+    'auth.no_account': '계정이 없으신가요?',
     'auth.welcome': '갤러리피아에 오신 것을 환영합니다',
     'auth.social_login': '소셜 계정으로 간편 로그인',
     'auth.social_signup': '소셜 계정으로 간편 가입',
