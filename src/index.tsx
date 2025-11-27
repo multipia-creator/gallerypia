@@ -15112,7 +15112,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-envelope mr-2"></i>${t('auth.email', lang)} *
                               </label>
                               <input type="email" name="email" required
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="your@email.com">
                           </div>
                           
@@ -15121,7 +15121,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-user-tag mr-2"></i>${t('auth.username', lang)} *
                               </label>
                               <input type="text" name="username" required
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="username">
                           </div>
                           
@@ -15130,7 +15130,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-id-card mr-2"></i>${t('auth.full_name', lang)} *
                               </label>
                               <input type="text" name="full_name" required
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="${t('auth.full_name_placeholder', lang)}">
                           </div>
                           
@@ -15139,7 +15139,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-phone mr-2"></i>${t('auth.phone', lang)}
                               </label>
                               <input type="tel" name="phone"
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="010-1234-5678">
                           </div>
                           
@@ -15148,7 +15148,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-lock mr-2"></i>${t('auth.password', lang)} *
                               </label>
                               <input type="password" name="password" required minlength="8"
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="${t('auth.password_min', lang)}">
                           </div>
                           
@@ -15157,7 +15157,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-lock mr-2"></i>${t('auth.confirm_password', lang)} *
                               </label>
                               <input type="password" name="confirm_password" required minlength="8"
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="${t('auth.confirm_password_placeholder', lang)}">
                           </div>
                       </div>
@@ -17029,7 +17029,7 @@ app.get('/forgot-password', (c) => {
                           type="email" 
                           name="email" 
                           required
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="your@email.com"
                       />
                   </div>
@@ -17096,7 +17096,7 @@ app.get('/reset-password', (c) => {
                           name="password" 
                           required
                           minlength="8"
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="${t('auth.password_min', lang)}"
                       />
                   </div>
@@ -17110,7 +17110,7 @@ app.get('/reset-password', (c) => {
                           name="confirm_password" 
                           required
                           minlength="8"
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="${t('auth.confirm_password_placeholder', lang)}"
                       />
                   </div>
@@ -18604,7 +18604,7 @@ app.get('/admin/login', (c) => {
                           id="username" 
                           name="username" 
                           required
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="사용자명을 입력하세요"
                       />
                   </div>
@@ -18618,7 +18618,7 @@ app.get('/admin/login', (c) => {
                           id="password" 
                           name="password" 
                           required
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="비밀번호를 입력하세요"
                       />
                   </div>
