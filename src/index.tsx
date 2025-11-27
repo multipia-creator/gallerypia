@@ -3592,18 +3592,12 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
         isActive: false
       };
       
-      // 첫 방문 여부 확인
+      // 첫 방문 여부 확인 - DISABLED: Using i18n-tutorial.js instead
       window.checkFirstVisit = function() {
-        const hasVisited = localStorage.getItem('tutorial_completed');
-        const currentPath = window.location.pathname;
-        
-        // 홈페이지에서만 튜토리얼 표시 (모바일 제외)
-        const isMobile = window.innerWidth <= 768;
-        if (!hasVisited && currentPath === '/' && !isMobile) {
-          setTimeout(() => {
-            showWelcomeModal();
-          }, 1000);
-        }
+        // Disabled to prevent duplicate tutorial modals
+        // The i18n-tutorial.js handles first-visit tutorial now
+        console.log('[Tutorial] Using i18n-tutorial.js for first-visit experience');
+        return;
       };
       
       // 웰컴 모달 표시

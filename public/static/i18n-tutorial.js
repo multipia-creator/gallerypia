@@ -127,15 +127,19 @@ window.closeTutorial = function(markAsShown) {
   }
 };
 
-// Initialize on page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initTutorial);
-} else {
-  // DOM already loaded
-  initTutorial();
-}
+// Global flag to prevent multiple initializations
+let tutorialInitialized = false;
 
+// Initialize on page load
 function initTutorial() {
+  // Prevent duplicate initialization
+  if (tutorialInitialized) {
+    console.log('[P3] Tutorial already initialized, skipping');
+    return;
+  }
+  
+  tutorialInitialized = true;
+  
   try {
     console.log('[P3] 첫 방문 튜토리얼 시스템 초기화');
     
@@ -148,4 +152,12 @@ function initTutorial() {
   } catch (err) {
     console.error('[P3] 튜토리얼 초기화 오류:', err);
   }
+}
+
+// Run only once when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTutorial, { once: true });
+} else {
+  // DOM already loaded
+  initTutorial();
 }
