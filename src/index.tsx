@@ -22720,6 +22720,10 @@ app.get('/api/admin/artworks', async (c) => {
   
   try {
     const db = c.env.DB
+    if (!db) {
+      return c.json({ success: false, error: 'Database not available' }, 500)
+    }
+    
     const page = parseInt(c.req.query('page') || '1')
     const limit = parseInt(c.req.query('limit') || '10')
     const offset = (page - 1) * limit
@@ -22728,14 +22732,11 @@ app.get('/api/admin/artworks', async (c) => {
     const countResult = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
     const total = countResult?.count || 0
     
-    // Get artworks with pagination
+    // Simple query without JOIN first to test
     const artworks = await db.prepare(`
-      SELECT 
-        a.*,
-        ar.name as artist_name
-      FROM artworks a
-      LEFT JOIN artists ar ON a.artist_id = ar.id
-      ORDER BY a.created_at DESC
+      SELECT *
+      FROM artworks
+      ORDER BY id DESC
       LIMIT ? OFFSET ?
     `).bind(limit, offset).all()
     
@@ -22750,10 +22751,65 @@ app.get('/api/admin/artworks', async (c) => {
       }
     })
   } catch (error) {
-    console.error('Error fetching artworks:', error)
+    // More detailed error logging
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    const errorStack = error instanceof Error ? error.stack : ''
+    
     return c.json({ 
       success: false, 
       error: 'Failed to fetch artworks',
+      message: errorMessage,
+      details: errorStack ? errorStack.substring(0, 200) : 'No stack trace'
+    }, 500)
+  }
+})
+
+// 사용자 목록 조회 API (관리자용)
+app.get('/api/admin/users', async (c) => {
+  // ✅ Authentication handled by middleware
+  
+  try {
+    const db = c.env.DB
+    const page = parseInt(c.req.query('page') || '1')
+    const limit = parseInt(c.req.query('limit') || '10')
+    const offset = (page - 1) * limit
+    
+    // Get total count
+    const countResult = await db.prepare('SELECT COUNT(*) as count FROM users').first()
+    const total = countResult?.count || 0
+    
+    // Get users with pagination
+    const users = await db.prepare(`
+      SELECT 
+        id,
+        email,
+        username,
+        full_name,
+        role,
+        is_active,
+        is_verified,
+        created_at,
+        last_login_at
+      FROM users
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+    `).bind(limit, offset).all()
+    
+    return c.json({ 
+      success: true, 
+      users: users.results || [],
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching users:', error)
+    return c.json({ 
+      success: false, 
+      error: 'Failed to fetch users',
       message: error.message 
     }, 500)
   }
