@@ -12,6 +12,77 @@
  */
 
 // ====================================
+// Helper Functions
+// ====================================
+
+/**
+ * Set form loading state
+ * @param {HTMLFormElement} form - The form element
+ * @param {HTMLButtonElement} button - The submit button
+ * @param {boolean} isLoading - Loading state
+ * @param {string} loadingText - Text to display when loading
+ */
+function setFormLoading(form, button, isLoading, loadingText = '처리 중...') {
+  if (!form || !button) return;
+  
+  if (isLoading) {
+    button.disabled = true;
+    button.dataset.originalText = button.innerHTML;
+    button.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${loadingText}`;
+    
+    // Disable all form inputs
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+      input.disabled = true;
+      input.dataset.wasDisabled = input.disabled;
+    });
+  } else {
+    button.disabled = false;
+    button.innerHTML = button.dataset.originalText || button.innerHTML;
+    
+    // Re-enable form inputs
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+      if (input.dataset.wasDisabled !== 'true') {
+        input.disabled = false;
+      }
+    });
+  }
+}
+
+/**
+ * Show error message
+ * @param {string} message - Error message to display
+ */
+function showError(message) {
+  // Try to use toast system if available
+  if (typeof showErrorToast === 'function') {
+    showErrorToast(message);
+    return;
+  }
+  
+  // Fallback to alert
+  console.error('Auth Error:', message);
+  alert(message);
+}
+
+/**
+ * Show success message
+ * @param {string} message - Success message to display
+ */
+function showSuccess(message) {
+  // Try to use toast system if available
+  if (typeof showSuccessToast === 'function') {
+    showSuccessToast(message);
+    return;
+  }
+  
+  // Fallback to alert
+  console.log('Auth Success:', message);
+  alert(message);
+}
+
+// ====================================
 // Password Strength Calculator
 // ====================================
 

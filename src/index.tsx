@@ -15420,7 +15420,7 @@ app.get('/signup', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.1.0"></script>
+  <script src="/static/auth-improved.js?v=3.2.0"></script>
   <script src="/static/social-login.js"></script>
   
   <!-- P1: Kakao Address API for Museum/Gallery -->
@@ -17067,7 +17067,7 @@ app.get('/login', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.1.0"></script>
+  <script src="/static/auth-improved.js?v=3.2.0"></script>
   <script src="/static/social-login.js"></script>
   `;
   
@@ -17131,7 +17131,7 @@ app.get('/forgot-password', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.1.0">
+  <script src="/static/auth-improved.js?v=3.2.0">
   `;
   
   return c.html(getLayout(content, `${t('auth.forgot_password', lang)} - GALLERYPIA`, lang))
