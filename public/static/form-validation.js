@@ -3,6 +3,12 @@
  * Real-time validation with visual feedback
  */
 
+// Prevent duplicate loading
+if (typeof window.FormValidation !== 'undefined') {
+  console.log('⚠️ FormValidation already loaded, skipping...');
+  // Don't throw error - just exit silently to avoid breaking other scripts
+} else {
+
 class FormValidation {
   constructor() {
     this.validators = {
@@ -413,10 +419,18 @@ class FormValidation {
   }
 }
 
-// Initialize
-window.formValidation = new FormValidation();
+// Initialize - only if not already initialized
+if (!window.formValidation) {
+  window.formValidation = new FormValidation();
+  console.log('✅ FormValidation initialized');
+}
+
+// Store class globally for future reference
+window.FormValidation = FormValidation;
 
 // Export for module usage
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = FormValidation;
 }
+
+} // End of duplicate loading check

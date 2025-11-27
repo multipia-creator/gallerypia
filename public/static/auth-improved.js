@@ -265,6 +265,7 @@ function validateForm(formId) {
 // ====================================
 
 async function handleSignupImproved(event) {
+  console.log('🔍 handleSignupImproved called')
   event.preventDefault()
   
   const form = event.target
@@ -279,24 +280,34 @@ async function handleSignupImproved(event) {
   const role = formData.get('role')
   const phone = formData.get('phone')?.replace(/-/g, '')
   
+  console.log('📝 Form data:', { email, fullName, role, hasPassword: !!password })
+  
   // Basic validation
   if (!email || !password || !fullName || !role) {
+    console.log('❌ Validation failed: missing required fields')
     showError('모든 필수 항목을 입력해주세요')
     return
   }
   
   // Password match check
   if (password !== confirmPassword) {
+    console.log('❌ Password mismatch')
     showError('비밀번호가 일치하지 않습니다')
     return
   }
   
+  console.log('✅ Validation passed, checking password strength...')
+  
   // Password strength check
   const { score } = calculatePasswordStrength(password)
+  console.log(`🔒 Password strength score: ${score}`)
   if (score < 40) {
+    console.log('❌ Password too weak')
     showError('비밀번호가 너무 약합니다. 더 강력한 비밀번호를 사용해주세요')
     return
   }
+  
+  console.log('🚀 Starting signup API request...')
   
   try {
     setFormLoading(form, submitButton, true, '가입 처리중...')
@@ -308,6 +319,8 @@ async function handleSignupImproved(event) {
       role,
       phone
     }
+    
+    console.log('📤 Sending request to /api/auth/register')
     
     // Add organization fields if museum/gallery
     if (role === 'museum' || role === 'gallery') {
@@ -504,7 +517,10 @@ function initAuthenticationSystem() {
   
   // Connect signup form - CRITICAL FIX
   if (signupForm) {
-    signupForm.addEventListener('submit', handleSignupImproved)
+    signupForm.addEventListener('submit', (e) => {
+      console.log('🎯 SUBMIT EVENT RECEIVED!')
+      handleSignupImproved(e)
+    })
     console.log('✅ Signup form connected')
   }
   

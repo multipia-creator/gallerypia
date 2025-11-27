@@ -15092,7 +15092,7 @@ app.get('/signup', (c) => {
                   </div>
               </div>
               
-              <form id="signupForm" class="space-y-6" onsubmit="return false;">
+              <form id="signupForm" class="space-y-6">
                   <!-- 기본 정보 -->
                   <div>
                       <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
@@ -15108,15 +15108,6 @@ app.get('/signup', (c) => {
                               <input type="email" name="email" required
                                      style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="your@email.com">
-                          </div>
-                          
-                          <div>
-                              <label class="block text-sm font-medium text-gray-300 mb-2">
-                                  <i class="fas fa-user-tag mr-2"></i>${t('auth.username', lang)} *
-                              </label>
-                              <input type="text" name="username" required
-                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
-                                     placeholder="username">
                           </div>
                           
                           <div>
@@ -15428,7 +15419,7 @@ app.get('/signup', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.1.0">
+  <script src="/static/auth-improved.js?v=3.1.0"></script>
   <script src="/static/social-login.js"></script>
   
   <!-- P1: Kakao Address API for Museum/Gallery -->
@@ -15436,6 +15427,93 @@ app.get('/signup', (c) => {
   
   <!-- P1: Signup Enhancements (Email check, Password toggle, Address search) -->
   <script src="/static/signup-enhancements.js"></script>
+  
+  <!-- CRITICAL FIX: Direct form submit handler to bypass JavaScript conflicts -->
+  <script>
+    (function() {
+      console.log('🔧 Direct signup handler initializing (immediate execution)...');
+      
+      // Try multiple times to ensure form is loaded
+      function initSignupHandler() {
+        const signupForm = document.getElementById('signupForm');
+        if (!signupForm) {
+          console.log('⏳ Signup form not found yet, retrying...');
+          setTimeout(initSignupHandler, 100);
+          return;
+        }
+        
+        console.log('✅ Signup form found, adding handler');
+        
+        // Remove onsubmit attribute if exists
+        signupForm.removeAttribute('onsubmit');
+        
+        // ALSO handle button click directly as backup
+        const submitButton = signupForm.querySelector('button[type="submit"]');
+        if (submitButton) {
+          submitButton.addEventListener('click', async function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            console.log('🚀 Direct signup handler called via button click');
+            await handleSignupSubmit(signupForm, submitButton);
+          }, true);
+        }
+        
+        // Common signup submit handler
+        async function handleSignupSubmit(form, button) {
+          console.log('🚀 handleSignupSubmit called');
+          
+          const formData = new FormData(form);
+          
+          // Disable button
+          if (button) {
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>처리중...';
+          }
+          
+          try {
+            const response = await axios.post('/api/auth/register', {
+              email: formData.get('email')?.trim().toLowerCase(),
+              password: formData.get('password'),
+              full_name: formData.get('full_name')?.trim(),
+              role: formData.get('role') || 'general',
+              phone: formData.get('phone')?.replace(/-/g, '') || ''
+            });
+            
+            if (response.data.success) {
+              alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
+              window.location.href = '/login';
+            } else {
+              alert(response.data.error || '회원가입에 실패했습니다');
+              if (button) {
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-user-plus mr-2"></i><span class="text-white font-bold">회원가입</span>';
+              }
+            }
+          } catch (error) {
+            console.error('Signup error:', error);
+            alert(error.response?.data?.error || '회원가입 중 오류가 발생했습니다');
+            if (button) {
+              button.disabled = false;
+              button.innerHTML = '<i class="fas fa-user-plus mr-2"></i><span class="text-white font-bold">회원가입</span>';
+            }
+          }
+        }
+        
+        // Add submit handler
+        signupForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          console.log('🚀 Direct signup handler called via form submit');
+          await handleSignupSubmit(signupForm, submitButton);
+        }, true);
+        
+        console.log('✅ Direct signup handler registered successfully');
+      }
+      
+      // Start initialization
+      initSignupHandler();
+    })();
+  </script>
   
   <script>
     // 계정 유형별 동적 입력 폼 표시 (HIGH - Form Interaction)
@@ -16988,7 +17066,7 @@ app.get('/login', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=3.1.0">
+  <script src="/static/auth-improved.js?v=3.1.0"></script>
   <script src="/static/social-login.js"></script>
   `;
   

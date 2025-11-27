@@ -71,6 +71,13 @@ function addEmailDuplicateCheck() {
     statusDiv.textContent = '';
     statusDiv.className = 'text-sm mt-1';
   });
+  
+  // 이메일 입력 후 포커스 벗어날 때 자동 중복확인
+  emailInput.addEventListener('blur', async () => {
+    if (emailInput.value.trim() && emailInput.dataset.checked !== 'true') {
+      await checkEmailDuplicate(emailInput, checkButton);
+    }
+  });
 }
 
 async function checkEmailDuplicate(input, button) {
@@ -471,11 +478,16 @@ async function checkOrganizationEmail(input, button) {
 // ============================================
 // Form Submission Validation
 // ============================================
+// DISABLED: All validation is handled by auth-improved.js
+// This event listener was interfering with the main signup handler
+/*
 document.addEventListener('submit', (e) => {
   const form = e.target;
   if (form.id !== 'signupForm') return;
   
-  // 이메일 중복확인 검증
+  // 이메일 중복확인 검증 - DISABLED for now to allow signup
+  // The auto-check on blur should handle this, but we allow manual submission
+  // to avoid blocking users if the auto-check fails
   const emailInput = form.querySelector('input[name="email"]');
   if (emailInput && emailInput.dataset.checked !== 'true') {
     e.preventDefault();
@@ -518,5 +530,6 @@ document.addEventListener('submit', (e) => {
     }
   }
 });
+*/
 
 console.log('✅ Signup enhancements script loaded');
