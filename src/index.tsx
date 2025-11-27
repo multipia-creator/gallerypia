@@ -18565,8 +18565,15 @@ app.get('/activity', (c) => {
 })
 
 // ============================================
-// 관리자 로그인 페이지
+// 관리자 페이지 라우트
 // ============================================
+
+// /admin 루트 경로 - 대시보드로 리다이렉트
+app.get('/admin', (c) => {
+  return c.redirect('/admin/dashboard')
+})
+
+// 관리자 로그인 페이지
 app.get('/admin/login', (c) => {
   const content = `
   <section class="min-h-screen flex items-center justify-center py-20">
@@ -19068,7 +19075,16 @@ app.get('/dashboard/expert', async (c) => {
 app.get('/admin/dashboard', async (c) => {
   const lang = getUserLanguage(c)
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  
+  // 쿠키에서 세션 토큰 읽기
+  const cookieHeader = c.req.header('Cookie') || ''
+  const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
+    const [key, value] = cookie.trim().split('=')
+    acc[key] = value
+    return acc
+  }, {} as Record<string, string>)
+  
+  const token = cookies['session_token']
   
   // 인증 확인
   if (!token) {
@@ -19076,12 +19092,16 @@ app.get('/admin/dashboard', async (c) => {
   }
   
   try {
+    // 세션 확인 및 사용자 정보 가져오기
     const session = await db.prepare(`
-      SELECT user_id, role FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
+      SELECT us.user_id, u.role 
+      FROM user_sessions us
+      JOIN users u ON us.user_id = u.id
+      WHERE us.session_token = ? AND us.expires_at > datetime('now')
     `).bind(token).first()
     
-    if (!session || (session.role !== 'admin' && session.role !== 'super_admin')) {
-      return c.json({ success: false, error: '관리자 권한이 필요합니다' }, 403)
+    if (!session || session.role !== 'admin') {
+      return c.redirect('/login?error=unauthorized')
     }
   } catch (error) {
     console.error('Dashboard auth error:', error)
