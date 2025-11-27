@@ -404,6 +404,12 @@ async function handleLoginImproved(event) {
     }
   } catch (error) {
     console.error('Login error:', error)
+    console.error('Error details:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      config: error.config
+    })
     
     if (error.response?.status === 429) {
       const retryAfter = error.response.data.retry_after || 900
@@ -414,8 +420,10 @@ async function handleLoginImproved(event) {
       showError('계정이 일시적으로 잠겼습니다. 15분 후에 다시 시도해주세요')
     } else if (error.response?.data?.error) {
       showError(error.response.data.error)
+    } else if (error.message) {
+      showError(`로그인 중 오류가 발생했습니다: ${error.message}`)
     } else {
-      showError('로그인 중 오류가 발생했습니다')
+      showError('로그인 중 오류가 발생했습니다. Console을 확인해주세요.')
     }
   } finally {
     setFormLoading(form, submitButton, false)
