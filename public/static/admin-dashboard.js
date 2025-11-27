@@ -18,8 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Check authentication
 function checkAuth() {
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    // ✅ FIX: Check all possible token storage locations
+    const token = localStorage.getItem('token') || 
+                  localStorage.getItem('session_token') || 
+                  sessionStorage.getItem('session_token');
+    const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || '{}');
     
     if (!token || user.role !== 'admin') {
         alert('관리자 권한이 필요합니다.');
@@ -27,7 +30,7 @@ function checkAuth() {
         return;
     }
     
-    document.getElementById('adminName').textContent = user.name || '관리자';
+    document.getElementById('adminName').textContent = user.full_name || user.name || '관리자';
 }
 
 // Logout
@@ -397,17 +400,34 @@ function formatDateTime(dateString) {
 
 // API helper
 async function fetchAPI(url, options = {}) {
-    const token = localStorage.getItem('token');
+    // ✅ FIX: Try multiple token sources: localStorage, sessionStorage, or rely on HttpOnly cookie
+    const token = localStorage.getItem('token') || 
+                  localStorage.getItem('session_token') || 
+                  sessionStorage.getItem('session_token');
+    
+    console.log(`[fetchAPI] URL: ${url}, Token found: ${!!token}`);
+    if (token) {
+        console.log(`[fetchAPI] Token (first 20 chars): ${token.substring(0, 20)}...`);
+    }
+    
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
         ...options.headers
     };
     
+    // Add Authorization header only if token exists
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    // ✅ FIX: Include credentials to send HttpOnly cookies automatically
     const response = await fetch(url, {
         ...options,
-        headers
+        headers,
+        credentials: 'include' // Send cookies with request
     });
+    
+    console.log(`[fetchAPI] Response status: ${response.status}`);
     
     if (!response.ok) {
         throw new Error(`API error: ${response.status}`);

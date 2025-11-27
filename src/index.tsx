@@ -1574,20 +1574,21 @@ app.use('/api/admin/*', async (c, next) => {
     return next()
   }
   
-  // Session-based authentication for admin routes
-  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'auth_token')
+  // ✅ FIX: Session-based authentication for admin routes
+  // Check both Authorization header and session_token cookie (not auth_token!)
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
   
   if (!token) {
     return c.json({ error: 'Unauthorized', message: '로그인이 필요합니다' }, 401)
   }
   
-  // Verify session using verifySession function (defined later in this file)
-  // Note: This creates a forward reference that will be resolved at runtime
+  // ✅ FIX: Use user_sessions table (not admin_sessions!)
+  // This matches the table used by /api/auth/login
   const verifySessionFn = async (db: any, sessionToken: string) => {
     const session = await db.prepare(`
-      SELECT s.*, u.role 
-      FROM admin_sessions s
-      JOIN admin_users u ON s.admin_user_id = u.id
+      SELECT s.*, u.role, u.id as user_id
+      FROM user_sessions s
+      JOIN users u ON s.user_id = u.id
       WHERE s.session_token = ? AND s.expires_at > datetime('now')
     `).bind(sessionToken).first()
     
@@ -6314,7 +6315,8 @@ app.get('/api/price-prediction/artwork/:id', async (c) => {
 // Get current user info
 app.get('/api/auth/me', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  // ✅ FIX: Check both cookie and Authorization header
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
   
   if (!token) {
     return c.json({ success: false, error: '인증 토큰이 없습니다' }, 401)
@@ -7640,96 +7642,11 @@ app.post('/api/auth/register', async (c) => {
 })
 
 // 로그인 API
-app.post('/api/auth/login', async (c) => {
-  try {
-    const { email, password } = await c.req.json()
-    
-    if (!email || !password) {
-      return c.json({ success: false, error: '이메일과 비밀번호를 입력해주세요.' }, 400)
-    }
-    
-    // 1. 사용자 조회
-    const user = await c.env.DB.prepare(`
-      SELECT id, email, name, role, password_hash
-      FROM users 
-      WHERE email = ?
-    `).bind(email).first()
-    
-    if (!user) {
-      return c.json({ success: false, error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, 401)
-    }
-    
-    // 2. 비밀번호 검증
-    const isValid = await bcrypt.compare(password, user.password_hash)
-    
-    if (!isValid) {
-      return c.json({ success: false, error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, 401)
-    }
-    
-    // 3. JWT 토큰 생성
-    const token = await bcrypt.hash(`${user.id}:${user.email}:${Date.now()}`, 10)
-    
-    // 4. 세션 저장
-    await c.env.DB.prepare(`
-      INSERT INTO user_sessions (user_id, session_token, expires_at, created_at)
-      VALUES (?, ?, datetime('now', '+30 days'), datetime('now'))
-    `).bind(user.id, token).run()
-    
-    return c.json({
-      success: true,
-      data: {
-        token,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role
-        }
-      }
-    })
-    
-  } catch (error: any) {
-    console.error('Login error:', error)
-    return c.json({ success: false, error: '로그인 처리 중 오류가 발생했습니다.' }, 500)
-  }
-})
+// ✅ REMOVED: Duplicate login API (HttpOnly cookie not set)
+// First login API at line 5483 is the correct one with proper cookie handling
 
-// 인증 확인 API
-app.get('/api/auth/me', async (c) => {
-  try {
-    const authHeader = c.req.header('Authorization')
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return c.json({ success: false, error: '인증 토큰이 없습니다.' }, 401)
-    }
-    
-    const token = authHeader.substring(7)
-    
-    // 세션 조회
-    const session = await c.env.DB.prepare(`
-      SELECT s.*, u.id, u.email, u.name, u.role
-      FROM user_sessions s
-      JOIN users u ON s.user_id = u.id
-      WHERE s.session_token = ? AND s.expires_at > datetime('now')
-    `).bind(token).first()
-    
-    if (!session) {
-      return c.json({ success: false, error: '유효하지 않거나 만료된 토큰입니다.' }, 401)
-    }
-    
-    return c.json({
-      success: true,
-      data: {
-        id: session.id,
-        email: session.email,
-        name: session.name,
-        role: session.role
-      }
-    })
-    
-  } catch (error: any) {
-    return c.json({ success: false, error: '인증 확인 중 오류가 발생했습니다.' }, 500)
-  }
-})
+// ✅ REMOVED: Duplicate /api/auth/me API (Authorization header only)
+// First API at line 6315 is the correct one with both cookie and header support
 
 // 비밀번호 재설정 요청 API
 app.post('/api/auth/forgot-password', async (c) => {
@@ -19195,13 +19112,21 @@ app.get('/admin/dashboard', async (c) => {
   try {
     // 세션 확인 및 사용자 정보 가져오기
     const session = await db.prepare(`
-      SELECT us.user_id, u.role 
+      SELECT us.user_id, u.role, u.email
       FROM user_sessions us
       JOIN users u ON us.user_id = u.id
       WHERE us.session_token = ? AND us.expires_at > datetime('now')
     `).bind(token).first()
     
+    console.log('[Admin Dashboard] Session check:', {
+      hasSession: !!session,
+      role: session?.role,
+      email: session?.email,
+      token: token?.substring(0, 20) + '...'
+    })
+    
     if (!session || session.role !== 'admin') {
+      console.log('[Admin Dashboard] Unauthorized access attempt - redirecting to login')
       return c.redirect('/login?error=unauthorized')
     }
   } catch (error) {
@@ -24409,37 +24334,8 @@ app.post('/api/auth/register', async (c) => {
 })
 
 // 3. Verify Session / Get Current User
-app.get('/api/auth/me', async (c) => {
-  const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
-  
-  if (!token) {
-    return c.json({ success: false, message: '인증 토큰이 없습니다' }, 401)
-  }
-  
-  try {
-    const session = await verifySession(db, token)
-    
-    if (!session) {
-      return c.json({ success: false, message: '유효하지 않은 세션입니다' }, 401)
-    }
-    
-    return c.json({
-      success: true,
-      user: {
-        id: session.user_id,
-        email: session.email,
-        username: session.username,
-        full_name: session.full_name,
-        role: session.role,
-        profile_image: session.profile_image,
-        bio: session.bio
-      }
-    })
-  } catch (error) {
-    return c.json({ success: false, message: '세션 확인 중 오류가 발생했습니다' }, 500)
-  }
-})
+// ✅ REMOVED: Duplicate /api/auth/me API
+// First API at line 6315 is the correct one with both cookie and header support
 
 // 4. Logout
 app.post('/api/auth/logout', async (c) => {
