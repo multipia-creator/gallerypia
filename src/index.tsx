@@ -16947,8 +16947,9 @@ app.get('/login', (c) => {
                       <input 
                           type="email" 
                           name="email" 
+                          id="email"
                           required
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="your@email.com"
                       />
                   </div>
@@ -16960,15 +16961,16 @@ app.get('/login', (c) => {
                       <input 
                           type="password" 
                           name="password" 
+                          id="password"
                           required
-                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="${t('auth.password_placeholder', lang)}"
                       />
                   </div>
                   
                   <div class="flex items-center justify-between">
                       <label class="flex items-center">
-                          <input type="checkbox" class="w-4 h-4 rounded bg-white bg-opacity-5 border-white border-opacity-10 text-purple-600 focus:ring-purple-500">
+                          <input type="checkbox" id="remember_me" name="remember_me" class="w-4 h-4 rounded bg-gray-900 border-gray-700 text-purple-600 focus:ring-purple-500">
                           <span class="ml-2 text-sm text-gray-400">${t('auth.remember_me', lang)}</span>
                       </label>
                       <a href="/forgot-password" class="text-sm text-purple-400 hover:text-purple-300">${t('auth.forgot_password', lang)}</a>
