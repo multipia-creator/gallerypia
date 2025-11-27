@@ -483,6 +483,20 @@ function initAuthenticationSystem() {
     })
   })
   
+  // Connect login form - CRITICAL FIX
+  const loginForm = document.getElementById('loginForm')
+  if (loginForm) {
+    loginForm.addEventListener('submit', handleLoginImproved)
+    console.log('✅ Login form connected')
+  }
+  
+  // Connect signup form - CRITICAL FIX
+  const signupForm = document.getElementById('signupForm')
+  if (signupForm) {
+    signupForm.addEventListener('submit', handleSignupImproved)
+    console.log('✅ Signup form connected')
+  }
+  
   console.log('✅ Enhanced Authentication System Initialized')
 }
 
