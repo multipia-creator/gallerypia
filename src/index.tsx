@@ -1695,8 +1695,8 @@ function getLayout(content: string, title: string = '갤러리피아 - NFT Art M
     </style>
     
     <!-- Async CSS Loading (Non-blocking) -->
-    <link rel="preload" href="/static/styles.css?v=2.0.20" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/static/styles.css?v=2.0.20"></noscript>
+    <link rel="preload" href="/static/styles.css?v=3.0.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/static/styles.css?v=3.0.0"></noscript>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15434,7 +15434,7 @@ app.get('/signup', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=2.0.20"></script>
+  <script src="/static/auth-improved.js?v=3.0.0"></script>
   <script src="/static/social-login.js"></script>
   
   <!-- P1: Kakao Address API for Museum/Gallery -->
@@ -16994,7 +16994,7 @@ app.get('/login', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=2.0.20"></script>
+  <script src="/static/auth-improved.js?v=3.0.0"></script>
   <script src="/static/social-login.js"></script>
   `;
   
@@ -17058,7 +17058,7 @@ app.get('/forgot-password', (c) => {
   </section>
   
   <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
-  <script src="/static/auth-improved.js?v=2.0.20"></script>
+  <script src="/static/auth-improved.js?v=3.0.0"></script>
   `;
   
   return c.html(getLayout(content, `${t('auth.forgot_password', lang)} - GALLERYPIA`, lang))
@@ -32979,3 +32979,4 @@ app.notFound((c) => {
 })
 
 export default app
+
