@@ -13082,7 +13082,7 @@ app.get('/mint-upload', (c) => {
                   <div>
                       <label class="block text-sm font-medium mb-2 text-white">기법</label>
                       <input type="text" id="technique"
-                             class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                             style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
                              placeholder="예: 유화, 수채화, Digital Art">
                   </div>
 
@@ -13165,7 +13165,7 @@ app.get('/mint-upload', (c) => {
                   <div>
                       <label class="block text-sm font-medium mb-2 text-white">전시회 명칭</label>
                       <input type="text" id="exhibitionName"
-                             class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                             style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
                              placeholder="예: 2024 서울 국제 아트페어">
                   </div>
 
@@ -13221,7 +13221,7 @@ app.get('/mint-upload', (c) => {
                               YouTube URL
                           </label>
                           <input type="url" id="youtubeUrl"
-                                 class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                                 style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
                                  placeholder="https://www.youtube.com/watch?v=...">
                       </div>
 
@@ -13231,7 +13231,7 @@ app.get('/mint-upload', (c) => {
                               Instagram URL
                           </label>
                           <input type="url" id="instagramUrl"
-                                 class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                                 style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
                                  placeholder="https://www.instagram.com/p/...">
                       </div>
 
@@ -13241,7 +13241,7 @@ app.get('/mint-upload', (c) => {
                               NFT 플랫폼 URL
                           </label>
                           <input type="url" id="nftPlatformUrl"
-                                 class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                                 style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
                                  placeholder="https://opensea.io/assets/...">
                       </div>
 
@@ -13251,7 +13251,7 @@ app.get('/mint-upload', (c) => {
                               보도자료 URL
                           </label>
                           <input type="url" id="pressReleaseUrl"
-                                 class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
+                                 style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-primary-500 focus:outline-none"
                                  placeholder="https://...">
                       </div>
                   </div>
@@ -15111,7 +15111,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-envelope mr-2"></i>${t('auth.email', lang)} *
                               </label>
                               <input type="email" name="email" required
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="your@email.com">
                           </div>
                           
@@ -15120,7 +15120,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-user-tag mr-2"></i>${t('auth.username', lang)} *
                               </label>
                               <input type="text" name="username" required
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="username">
                           </div>
                           
@@ -15129,7 +15129,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-id-card mr-2"></i>${t('auth.full_name', lang)} *
                               </label>
                               <input type="text" name="full_name" required
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="${t('auth.full_name_placeholder', lang)}">
                           </div>
                           
@@ -15138,7 +15138,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-phone mr-2"></i>${t('auth.phone', lang)}
                               </label>
                               <input type="tel" name="phone"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="010-1234-5678">
                           </div>
                           
@@ -15147,7 +15147,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-lock mr-2"></i>${t('auth.password', lang)} *
                               </label>
                               <input type="password" name="password" required minlength="8"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="${t('auth.password_min', lang)}">
                           </div>
                           
@@ -15156,7 +15156,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-lock mr-2"></i>${t('auth.confirm_password', lang)} *
                               </label>
                               <input type="password" name="confirm_password" required minlength="8"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                                      placeholder="${t('auth.confirm_password_placeholder', lang)}">
                           </div>
                       </div>
@@ -15288,21 +15288,21 @@ app.get('/signup', (c) => {
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">작품 스타일</label>
                               <input type="text" name="art_style"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="${t('auth.styles_placeholder', lang)}">
                           </div>
                           
                           <div>
                               <label class="block text-sm font-medium text-gray-300 mb-2">주요 매체</label>
                               <input type="text" name="major_medium"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="${t('auth.medium_placeholder', lang)}">
                           </div>
                           
                           <div class="md:col-span-2">
                               <label class="block text-sm font-medium text-gray-300 mb-2">웹사이트/포트폴리오</label>
                               <input type="url" name="website"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="https://your-portfolio.com">
                           </div>
                           
@@ -15357,7 +15357,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-building mr-2"></i>기관명 *
                               </label>
                               <input type="text" name="organization_name"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="${t('auth.institution_name_placeholder', lang)}">
                           </div>
                           
@@ -15366,7 +15366,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-map-marker-alt mr-2"></i>주소
                               </label>
                               <input type="text" id="organization_address" name="organization_address"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="${t('auth.institution_address_placeholder', lang)}">
                           </div>
                           
@@ -15375,7 +15375,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-globe mr-2"></i>웹사이트
                               </label>
                               <input type="url" id="organization_website" name="organization_website"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="https://museum.example.com">
                           </div>
                           
@@ -15384,7 +15384,7 @@ app.get('/signup', (c) => {
                                   <i class="fas fa-envelope mr-2"></i>기관 이메일
                               </label>
                               <input type="email" id="organization_contact_email" name="organization_contact_email"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="contact@museum.com">
                           </div>
                           
@@ -15957,7 +15957,7 @@ app.get('/settings', (c) => {
           
           <div>
             <label class="block text-gray-400 mb-2">삭제 확인을 위해 "계정삭제"를 입력하세요</label>
-            <input type="text" id="deleteConfirmText" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-red-500 transition-colors" placeholder="${t('auth.delete_confirm_placeholder', lang)}">
+            <input type="text" id="deleteConfirmText" style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white focus:border-red-500 transition-colors" placeholder="${t('auth.delete_confirm_placeholder', lang)}">
           </div>
           
           <div>
@@ -16947,7 +16947,7 @@ app.get('/login', (c) => {
                           type="email" 
                           name="email" 
                           required
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="your@email.com"
                       />
                   </div>
@@ -16960,7 +16960,7 @@ app.get('/login', (c) => {
                           type="password" 
                           name="password" 
                           required
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="${t('auth.password_placeholder', lang)}"
                       />
                   </div>
@@ -17026,7 +17026,7 @@ app.get('/forgot-password', (c) => {
                           type="email" 
                           name="email" 
                           required
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="your@email.com"
                       />
                   </div>
@@ -17093,7 +17093,7 @@ app.get('/reset-password', (c) => {
                           name="password" 
                           required
                           minlength="8"
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="${t('auth.password_min', lang)}"
                       />
                   </div>
@@ -17107,7 +17107,7 @@ app.get('/reset-password', (c) => {
                           name="confirm_password" 
                           required
                           minlength="8"
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="${t('auth.confirm_password_placeholder', lang)}"
                       />
                   </div>
@@ -17236,7 +17236,7 @@ app.get('/expert/apply', (c) => {
                                   <i class="fas fa-university mr-2"></i>소속 기관 *
                               </label>
                               <input type="text" name="institution" required
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="예: 서울시립미술관">
                           </div>
                           
@@ -17245,7 +17245,7 @@ app.get('/expert/apply', (c) => {
                                   <i class="fas fa-id-badge mr-2"></i>직책 *
                               </label>
                               <input type="text" name="position" required
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="예: 수석 큐레이터">
                           </div>
                           
@@ -17263,7 +17263,7 @@ app.get('/expert/apply', (c) => {
                                   <i class="fas fa-tags mr-2"></i>전문 분야 *
                               </label>
                               <input type="text" name="specialization" required
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="예: 현대미술, 한국화">
                           </div>
                       </div>
@@ -17282,7 +17282,7 @@ app.get('/expert/apply', (c) => {
                                   <i class="fas fa-file-pdf mr-2"></i>이력서 URL
                               </label>
                               <input type="url" name="resume_url"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="https://...">
                               <p class="text-xs text-gray-500 mt-1">Google Drive, Dropbox 등의 공개 링크</p>
                           </div>
@@ -17292,7 +17292,7 @@ app.get('/expert/apply', (c) => {
                                   <i class="fas fa-folder-open mr-2"></i>포트폴리오 URL
                               </label>
                               <input type="url" name="portfolio_url"
-                                     class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                                     style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                                      placeholder="https://...">
                           </div>
                       </div>
@@ -18594,7 +18594,7 @@ app.get('/admin/login', (c) => {
                           id="username" 
                           name="username" 
                           required
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="사용자명을 입력하세요"
                       />
                   </div>
@@ -18608,7 +18608,7 @@ app.get('/admin/login', (c) => {
                           id="password" 
                           name="password" 
                           required
-                          class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+                          style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
                           placeholder="비밀번호를 입력하세요"
                       />
                   </div>
@@ -19716,7 +19716,7 @@ app.get('/admin/dashboard', async (c) => {
                       
                       <!-- URL 입력 영역 -->
                       <div id="urlArea" class="hidden">
-                          <input type="url" id="artwork_image_url" name="image_url" class="w-full px-4 py-2 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white" placeholder="https://..." />
+                          <input type="url" id="artwork_image_url" name="image_url" style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-2 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white" placeholder="https://..." />
                       </div>
                       
                       <input type="hidden" id="artwork_final_image_url" name="final_image_url" required />
@@ -19815,7 +19815,7 @@ app.get('/admin/dashboard', async (c) => {
                   
                   <div class="col-span-2">
                       <label class="block text-sm font-medium text-gray-300 mb-2">지갑 주소</label>
-                      <input type="text" id="artist_wallet_address" name="wallet_address" class="w-full px-4 py-2 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white font-mono text-sm" placeholder="0x..." />
+                      <input type="text" id="artist_wallet_address" name="wallet_address" style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-2 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white font-mono text-sm" placeholder="0x..." />
                   </div>
               </div>
               
@@ -20178,7 +20178,7 @@ app.get('/admin/dashboard', async (c) => {
                       <i class="fas fa-link mr-2"></i>OpenSea NFT URL
                   </label>
                   <input type="text" id="openSeaUrl" 
-                         class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
+                         style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
                          placeholder="https://opensea.io/assets/ethereum/0x.../123">
                   <p class="text-xs text-gray-500 mt-2">
                       <i class="fas fa-info-circle mr-1"></i>
@@ -20203,7 +20203,7 @@ app.get('/admin/dashboard', async (c) => {
                           <i class="fas fa-file-contract mr-2"></i>Contract Address
                       </label>
                       <input type="text" id="contractAddress" 
-                             class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
+                             style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
                              placeholder="0x...">
                   </div>
                   <div>
@@ -20211,7 +20211,7 @@ app.get('/admin/dashboard', async (c) => {
                           <i class="fas fa-hashtag mr-2"></i>Token ID
                       </label>
                       <input type="text" id="tokenId" 
-                             class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
+                             style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
                              placeholder="123">
                   </div>
               </div>
@@ -20623,7 +20623,7 @@ app.get('/admin/dashboard', async (c) => {
                       <i class="fas fa-tag mr-2"></i>컬렉션 슬러그
                   </label>
                   <input type="text" id="collectionSlug"
-                         class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
+                         style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:border-cyan-500 focus:outline-none"
                          placeholder="boredapeyachtclub">
               </div>
               
@@ -30946,7 +30946,7 @@ app.get('/museum/apply', async (c) => {
                           <span id="institution_label">기관명</span> *
                       </label>
                       <input type="text" id="museum_name" required
-                             class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-purple-500 focus:outline-none"
+                             style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-purple-500 focus:outline-none"
                              placeholder="예: 국립현대미술관">
                   </div>
                   
@@ -32655,7 +32655,7 @@ app.get('/curation', async (c) => {
           <form id="createSessionForm" class="p-6 space-y-4">
               <div>
                   <label class="block text-sm font-medium text-gray-300 mb-2">세션 제목 *</label>
-                  <input type="text" name="title" required class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition" placeholder="예: 2025 신진작가 추천전">
+                  <input type="text" name="title" required style="color: white !important; -webkit-text-fill-color: white !important;" class="w-full px-4 py-3 bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition" placeholder="예: 2025 신진작가 추천전">
               </div>
               
               <div>
