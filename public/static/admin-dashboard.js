@@ -10,10 +10,21 @@ let allArtworks = [];
 let charts = {};
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     checkAuth();
     loadDashboardData();
-    initializeCharts();
+    
+    // ✅ FIX: Load Chart.js before initializing charts
+    if (typeof window.loadChartJS === 'function') {
+        try {
+            await window.loadChartJS();
+            initializeCharts();
+        } catch (error) {
+            console.error('Failed to load Chart.js:', error);
+        }
+    } else {
+        console.warn('Chart.js loader not available');
+    }
 });
 
 // Check authentication

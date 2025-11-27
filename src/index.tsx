@@ -21342,6 +21342,174 @@ app.get('/admin/dashboard', async (c) => {
 })
 
 // ============================================
+// Museum/Gallery Dashboard
+// ============================================
+app.get('/dashboard/museum', async (c) => {
+  const lang = getUserLanguage(c)
+  const db = c.env.DB
+  
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
+  
+  if (!token) {
+    return c.redirect('/login')
+  }
+  
+  try {
+    const session = await db.prepare(`
+      SELECT us.user_id, u.role, u.full_name, u.email
+      FROM user_sessions us
+      JOIN users u ON us.user_id = u.id
+      WHERE us.session_token = ? AND us.expires_at > datetime('now')
+    `).bind(token).first()
+    
+    if (!session || (session.role !== 'museum' && session.role !== 'gallery' && session.role !== 'admin')) {
+      return c.redirect('/dashboard')
+    }
+    
+    const content = `
+    <section class="min-h-screen py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-white mb-2">
+                    <i class="fas fa-building mr-3 text-gradient"></i>
+                    박물관/갤러리 대시보드
+                </h1>
+                <p class="text-gray-400">컬렉션 및 전시 관리</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="card-nft rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                            <i class="fas fa-images text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">소장 작품</p>
+                </div>
+                
+                <div class="card-nft rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                            <i class="fas fa-calendar text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">진행 중 전시</p>
+                </div>
+                
+                <div class="card-nft rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center">
+                            <i class="fas fa-users text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">월간 방문자</p>
+                </div>
+            </div>
+            
+            <div class="card-nft rounded-2xl p-6">
+                <h2 class="text-2xl font-bold text-white mb-4">컬렉션 관리</h2>
+                <p class="text-gray-400 mb-4">박물관/갤러리 기능은 곧 제공될 예정입니다.</p>
+                <a href="/dashboard" class="btn-gradient">일반 대시보드로 이동</a>
+            </div>
+        </div>
+    </section>
+    `
+    
+    return c.html(getLayout(content, '박물관/갤러리 대시보드 - GALLERYPIA', lang))
+  } catch (error) {
+    console.error('Museum dashboard error:', error)
+    return c.redirect('/login')
+  }
+})
+
+// ============================================
+// Curator Dashboard
+// ============================================
+app.get('/dashboard/curator', async (c) => {
+  const lang = getUserLanguage(c)
+  const db = c.env.DB
+  
+  const token = getCookie(c, 'session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
+  
+  if (!token) {
+    return c.redirect('/login')
+  }
+  
+  try {
+    const session = await db.prepare(`
+      SELECT us.user_id, u.role, u.full_name, u.email
+      FROM user_sessions us
+      JOIN users u ON us.user_id = u.id
+      WHERE us.session_token = ? AND us.expires_at > datetime('now')
+    `).bind(token).first()
+    
+    if (!session || (session.role !== 'curator' && session.role !== 'admin')) {
+      return c.redirect('/dashboard')
+    }
+    
+    const content = `
+    <section class="min-h-screen py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-white mb-2">
+                    <i class="fas fa-palette mr-3 text-gradient"></i>
+                    큐레이터 대시보드
+                </h1>
+                <p class="text-gray-400">작품 큐레이션 및 전시 기획</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="card-nft rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                            <i class="fas fa-check-circle text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">큐레이션 작품</p>
+                </div>
+                
+                <div class="card-nft rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                            <i class="fas fa-list text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">진행 중 세션</p>
+                </div>
+                
+                <div class="card-nft rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white">0</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">평균 평점</p>
+                </div>
+            </div>
+            
+            <div class="card-nft rounded-2xl p-6">
+                <h2 class="text-2xl font-bold text-white mb-4">큐레이션 세션</h2>
+                <p class="text-gray-400 mb-4">큐레이터 기능은 곧 제공될 예정입니다.</p>
+                <a href="/dashboard" class="btn-gradient">일반 대시보드로 이동</a>
+            </div>
+        </div>
+    </section>
+    `
+    
+    return c.html(getLayout(content, '큐레이터 대시보드 - GALLERYPIA', lang))
+  } catch (error) {
+    console.error('Curator dashboard error:', error)
+    return c.redirect('/login')
+  }
+})
+
+// ============================================
 // 관리자 API 엔드포인트
 // ============================================
 
