@@ -22717,37 +22717,26 @@ app.get('/api/admin/stats', async (c) => {
 // 작품 목록 조회 API (관리자용)
 app.get('/api/admin/artworks', async (c) => {
   // ✅ Authentication handled by middleware
+  
   const db = c.env.DB
   
-  // Get total count
-  const countResult = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
-  const total = countResult?.count || 0
-  
-  // Get artworks
   const artworks = await db.prepare(`
-    SELECT *
-    FROM artworks
-    ORDER BY id DESC
+    SELECT a.*, ar.name as artist_name
+    FROM artworks a
+    LEFT JOIN artists ar ON a.artist_id = ar.id
+    ORDER BY a.id DESC
     LIMIT 50
   `).all()
   
-  return c.json({ 
-    success: true, 
-    artworks: artworks.results || [],
-    total
-  })
+  return c.json({ success: true, data: artworks.results })
 })
 
 // 사용자 목록 조회 API (관리자용)
 app.get('/api/admin/users', async (c) => {
   // ✅ Authentication handled by middleware
+  
   const db = c.env.DB
   
-  // Get total count
-  const countResult = await db.prepare('SELECT COUNT(*) as count FROM users').first()
-  const total = countResult?.count || 0
-  
-  // Get users
   const users = await db.prepare(`
     SELECT 
       id,
@@ -22764,11 +22753,7 @@ app.get('/api/admin/users', async (c) => {
     LIMIT 50
   `).all()
   
-  return c.json({ 
-    success: true, 
-    users: users.results || [],
-    total
-  })
+  return c.json({ success: true, data: users.results })
 })
 
 // 작가 목록 조회 API (관리자용)

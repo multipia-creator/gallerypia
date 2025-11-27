@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 
-const PRODUCTION_URL = 'https://c2428a5e.gallerypia.pages.dev';
+const PRODUCTION_URL = 'https://cd1c93d3.gallerypia.pages.dev';
 
 const results = {
   totalTests: 0,
