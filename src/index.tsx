@@ -5377,7 +5377,7 @@ app.post('/api/auth/register', async (c) => {
     }
     
     // Role validation (W1-C2)
-    const validRoles = ['buyer', 'artist', 'expert', 'museum', 'admin']
+    const validRoles = ['general', 'buyer', 'seller', 'artist', 'curator', 'expert', 'museum', 'admin']
     if (!validRoles.includes(role)) {
       return c.json({ success: false, error: '올바르지 않은 역할입니다' }, 400)
     }
@@ -5411,8 +5411,8 @@ app.post('/api/auth/register', async (c) => {
     if (role === 'artist') {
       await db.prepare(`
         INSERT INTO artist_profiles (
-          user_id, bio, specialties, created_at, updated_at
-        ) VALUES (?, '새로운 아티스트입니다', '미술', datetime('now'), datetime('now'))
+          user_id, art_style, major_medium, created_at
+        ) VALUES (?, '현대미술', '회화', datetime('now'))
       `).bind(userId).run()
     } else if (role === 'expert') {
       await db.prepare(`
