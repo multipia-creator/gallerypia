@@ -22718,19 +22718,45 @@ app.get('/api/admin/stats', async (c) => {
 app.get('/api/admin/artworks', async (c) => {
   // ✅ Authentication handled by middleware (line 76)
   
-  const db = c.env.DB
-  
-  const artworks = await db.prepare(`
-    SELECT 
-      a.*,
-      ar.name as artist_name
-    FROM artworks a
-    LEFT JOIN artists ar ON a.artist_id = ar.id
-    ORDER BY a.created_at DESC
-    LIMIT 50
-  `).all()
-  
-  return c.json({ success: true, data: artworks.results })
+  try {
+    const db = c.env.DB
+    const page = parseInt(c.req.query('page') || '1')
+    const limit = parseInt(c.req.query('limit') || '10')
+    const offset = (page - 1) * limit
+    
+    // Get total count
+    const countResult = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
+    const total = countResult?.count || 0
+    
+    // Get artworks with pagination
+    const artworks = await db.prepare(`
+      SELECT 
+        a.*,
+        ar.name as artist_name
+      FROM artworks a
+      LEFT JOIN artists ar ON a.artist_id = ar.id
+      ORDER BY a.created_at DESC
+      LIMIT ? OFFSET ?
+    `).bind(limit, offset).all()
+    
+    return c.json({ 
+      success: true, 
+      artworks: artworks.results || [],
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching artworks:', error)
+    return c.json({ 
+      success: false, 
+      error: 'Failed to fetch artworks',
+      message: error.message 
+    }, 500)
+  }
 })
 
 // 작가 목록 조회 API (관리자용)
@@ -26255,18 +26281,10 @@ app.get('/api/artworks/:id/auction', async (c) => {
 
 // 21. 관리자: 거래 내역 조회
 app.get('/api/admin/transactions', async (c) => {
+  // ✅ Authentication handled by middleware
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
-  
-  if (!token) {
-    return c.json({ success: false, message: '로그인이 필요합니다' }, 401)
-  }
   
   try {
-    const session = await verifyAdminSession(db, token)
-    if (!session) {
-      return c.json({ success: false, message: '관리자 권한이 필요합니다' }, 403)
-    }
     
     const { status, type, limit = 50 } = c.req.query()
     
