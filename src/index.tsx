@@ -20219,6 +20219,7 @@ app.get('/admin/dashboard', async (c) => {
       // 알림 로드
       async function loadNotifications() {
         try {
+          // Note: 쿠키 기반 인증이므로 별도 헤더 불필요
           const response = await axios.get('/api/notifications/unread-count');
           const count = response.data.count || 0;
           
@@ -25225,7 +25226,7 @@ app.get('/api/evaluations/my-evaluations', async (c) => {
 // 15. Get Notifications
 app.get('/api/notifications', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
   
   if (!token) {
     return c.json({ success: false, message: '로그인이 필요합니다' }, 401)
@@ -25973,7 +25974,7 @@ app.get('/api/notifications', async (c) => {
 // 읽지 않은 알림 개수 API
 app.get('/api/notifications/unread-count', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
   
   if (!token) {
     return c.json({ success: false, count: 0 })
@@ -26034,7 +26035,7 @@ app.put('/api/notifications/:id/read', async (c) => {
 // 모든 알림 읽음 표시 API
 app.put('/api/notifications/mark-all-read', async (c) => {
   const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
   
   if (!token) {
     return c.json({ success: false, message: '로그인이 필요합니다' }, 401)
