@@ -21105,7 +21105,7 @@ app.get('/admin/dashboard', async (c) => {
       
       try {
         // Find artwork_id if exists
-        const artworksResponse = await axios.get('/api/admin/artworks');
+        const artworksResponse = await axios.get('/api/admin/artworks-list');
         const artworks = artworksResponse.data.data || [];
         const artwork = artworks.find(a => 
           a.nft_contract_address === contractAddress && a.nft_token_id === tokenId
