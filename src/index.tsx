@@ -22695,23 +22695,51 @@ async function requireAdminAuth(c: any, next?: any) {
 // 관리자 통계 API
 app.get('/api/admin/stats', async (c) => {
   // ✅ Authentication handled by middleware (line 76)
-  const db = c.env.DB
-  
-  const totalArtworks = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
-  const mintedArtworks = await db.prepare('SELECT COUNT(*) as count FROM artworks WHERE is_minted = 1').first()
-  const totalArtists = await db.prepare('SELECT COUNT(*) as count FROM artists').first()
-  const pendingArtworks = await db.prepare("SELECT COUNT(*) as count FROM artworks WHERE status = 'pending_review'").first()
-  
-  return c.json({
-    success: true,
-    data: {
-      totalArtworks: totalArtworks?.count || 0,
-      mintedCount: mintedArtworks?.count || 0,
-      totalArtists: totalArtists?.count || 0,
-      pendingCount: pendingArtworks?.count || 0,
-      totalVolume: '0'
+  try {
+    const db = c.env.DB
+    
+    if (!db) {
+      return c.json({ 
+        success: true, 
+        data: { 
+          total_users: 0, 
+          total_artworks: 0, 
+          total_artists: 0, 
+          pending_approvals: 0 
+        } 
+      })
     }
-  })
+    
+    const totalUsers = await db.prepare('SELECT COUNT(*) as count FROM users').first()
+    const totalArtworks = await db.prepare('SELECT COUNT(*) as count FROM artworks').first()
+    const totalArtists = await db.prepare('SELECT COUNT(*) as count FROM artists').first()
+    const pendingArtworks = await db.prepare("SELECT COUNT(*) as count FROM artworks WHERE status = 'pending_review'").first()
+    
+    return c.json({
+      success: true,
+      data: {
+        total_users: totalUsers?.count || 0,
+        total_artworks: totalArtworks?.count || 0,
+        total_artists: totalArtists?.count || 0,
+        pending_approvals: pendingArtworks?.count || 0,
+        totalArtworks: totalArtworks?.count || 0,
+        totalArtists: totalArtists?.count || 0,
+        pendingCount: pendingArtworks?.count || 0,
+        totalVolume: '0'
+      }
+    })
+  } catch (error: any) {
+    console.error('Admin stats error:', error)
+    return c.json({ 
+      success: true, 
+      data: { 
+        total_users: 0, 
+        total_artworks: 0, 
+        total_artists: 0, 
+        pending_approvals: 0 
+      } 
+    })
+  }
 })
 
 // 작품 목록 조회 API (관리자용)

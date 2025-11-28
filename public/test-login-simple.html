@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단 로그인 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #6366f1;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #10b981;
+            display: block;
+        }
+        .error {
+            background: #ef4444;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h2>🔐 관리자 로그인 테스트</h2>
+    
+    <form id="loginForm">
+        <div class="form-group">
+            <label>이메일:</label>
+            <input type="text" id="email" value="admin@gallerypia.com">
+        </div>
+        
+        <div class="form-group">
+            <label>비밀번호:</label>
+            <input type="password" id="password" value="admin123!@#">
+        </div>
+        
+        <button type="submit">로그인</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.textContent = '로그인 중...';
+            resultDiv.className = '';
+            resultDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.className = 'success';
+                    resultDiv.innerHTML = `
+                        <strong>✅ 로그인 성공!</strong><br>
+                        이메일: ${data.user.email}<br>
+                        역할: ${data.user.role}<br>
+                        <br>
+                        <a href="/admin/dashboard" style="color: white; text-decoration: underline;">
+                            관리자 대시보드로 이동 →
+                        </a>
+                    `;
+                } else {
+                    resultDiv.className = 'error';
+                    resultDiv.textContent = '❌ ' + (data.error || '로그인 실패');
+                }
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = '❌ 네트워크 오류: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
