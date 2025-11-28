@@ -25223,33 +25223,7 @@ app.get('/api/evaluations/my-evaluations', async (c) => {
   }
 })
 
-// 15. Get Notifications
-app.get('/api/notifications', async (c) => {
-  const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
-  
-  if (!token) {
-    return c.json({ success: false, message: '로그인이 필요합니다' }, 401)
-  }
-  
-  try {
-    const session = await verifySession(db, token)
-    if (!session) {
-      return c.json({ success: false, message: '유효하지 않은 세션입니다' }, 401)
-    }
-    
-    const notifications = await db.prepare(`
-      SELECT * FROM notifications
-      WHERE user_id = ?
-      ORDER BY created_at DESC
-      LIMIT 50
-    `).bind(session.user_id).all()
-    
-    return c.json({ success: true, data: notifications.results })
-  } catch (error) {
-    return c.json({ success: false, message: '알림 조회 중 오류가 발생했습니다' }, 500)
-  }
-})
+// 15. Get Notifications (Removed - consolidated below in line ~25940)
 
 // 16. Mark Notification as Read
 app.put('/api/notifications/:notificationId/read', async (c) => {
@@ -25933,43 +25907,8 @@ app.get('/api/artworks/:id/favorite-status', async (c) => {
 })
 
 // ============================================
-// Notifications API
+// Notifications API (CONSOLIDATED)
 // ============================================
-
-// 알림 목록 조회 API
-app.get('/api/notifications', async (c) => {
-  const db = c.env.DB
-  const token = c.req.header('Authorization')?.replace('Bearer ', '')
-  
-  if (!token) {
-    return c.json({ success: false, message: '로그인이 필요합니다', notifications: [] }, 401)
-  }
-  
-  try {
-    const session = await db.prepare(`
-      SELECT user_id FROM user_sessions WHERE session_token = ? AND expires_at > datetime('now')
-    `).bind(token).first()
-    
-    if (!session) {
-      return c.json({ success: false, message: '유효하지 않은 세션입니다', notifications: [] }, 401)
-    }
-    
-    const limit = parseInt(c.req.query('limit') || '20')
-    
-    const notifications = await db.prepare(`
-      SELECT id, user_id, type, title, message, link, is_read, created_at
-      FROM notifications
-      WHERE user_id = ?
-      ORDER BY created_at DESC
-      LIMIT ?
-    `).bind(session.user_id, limit).all()
-    
-    return c.json({ success: true, notifications: notifications.results || [] })
-  } catch (error: any) {
-    console.error('Notifications fetch error:', error)
-    return c.json({ success: false, message: '알림 조회 중 오류가 발생했습니다: ' + error.message, notifications: [] }, 500)
-  }
-})
 
 // 읽지 않은 알림 개수 API
 app.get('/api/notifications/unread-count', async (c) => {
@@ -26059,6 +25998,37 @@ app.put('/api/notifications/mark-all-read', async (c) => {
   } catch (error: any) {
     console.error('Mark all read error:', error)
     return c.json({ success: false, message: '모든 알림 읽음 처리 중 오류가 발생했습니다: ' + error.message }, 500)
+  }
+})
+
+// 알림 목록 조회 API (General route - must be AFTER specific routes)
+app.get('/api/notifications', async (c) => {
+  const db = c.env.DB
+  const token = c.req.header('Authorization')?.replace('Bearer ', '') || getCookie(c, 'session_token')
+  
+  if (!token) {
+    return c.json({ success: false, message: '로그인이 필요합니다' }, 401)
+  }
+  
+  try {
+    const session = await verifySession(db, token)
+    if (!session) {
+      return c.json({ success: false, message: '유효하지 않은 세션입니다' }, 401)
+    }
+    
+    const limit = parseInt(c.req.query('limit') || '50')
+    
+    const notifications = await db.prepare(`
+      SELECT * FROM notifications
+      WHERE user_id = ?
+      ORDER BY created_at DESC
+      LIMIT ?
+    `).bind(session.user_id, limit).all()
+    
+    return c.json({ success: true, data: notifications.results })
+  } catch (error: any) {
+    console.error('Notifications fetch error:', error)
+    return c.json({ success: false, message: '알림 조회 중 오류가 발생했습니다: ' + error.message }, 500)
   }
 })
 

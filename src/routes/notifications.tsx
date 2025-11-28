@@ -1,10 +1,12 @@
 import { Hono } from 'hono'
-import type { Context } from 'hono'
+import type { Context as HonoContext } from 'hono'
 import { getCookie } from 'hono/cookie'
 
 interface Bindings {
   DB: D1Database
 }
+
+type Context = HonoContext<{ Bindings: Bindings }>
 
 const notifications = new Hono<{ Bindings: Bindings }>()
 
@@ -54,9 +56,14 @@ notifications.get('/', async (c: Context) => {
       notifications: result.results || [],
       count: result.results?.length || 0
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ Notifications fetch error:', error)
-    return c.json({ error: 'Failed to fetch notifications' }, 500)
+    console.error('Error message:', error?.message)
+    console.error('Error stack:', error?.stack)
+    return c.json({ 
+      error: 'Failed to fetch notifications',
+      details: error?.message || 'Unknown error'
+    }, 500)
   }
 })
 
@@ -87,9 +94,14 @@ notifications.get('/unread-count', async (c: Context) => {
     `).bind(session.user_id).first()
 
     return c.json({ count: result?.count || 0 })
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ Unread count error:', error)
-    return c.json({ error: 'Failed to get unread count' }, 500)
+    console.error('Error message:', error?.message)
+    console.error('Error stack:', error?.stack)
+    return c.json({ 
+      error: 'Failed to get unread count',
+      details: error?.message || 'Unknown error'
+    }, 500)
   }
 })
 
@@ -152,7 +164,7 @@ notifications.put('/read-all', async (c: Context) => {
       UPDATE notifications
       SET is_read = 1, updated_at = CURRENT_TIMESTAMP
       WHERE user_id = ? AND is_read = 0
-    `).bind(userId).run()
+    `).bind(session.user_id).run()
 
     return c.json({ success: true })
   } catch (error) {
