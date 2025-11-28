@@ -27,8 +27,8 @@ export default defineConfig({
     sourcemap: false
   },
   esbuild: {
-    // Drop console and debugger in production
-    drop: ['console', 'debugger'],
+    // ⚠️ TEMPORARILY ENABLE CONSOLE FOR DEBUGGING (normally drop: ['console', 'debugger'])
+    // drop: ['console', 'debugger'],
     // Tree shaking optimization
     treeShaking: true,
     // Remove legal comments
