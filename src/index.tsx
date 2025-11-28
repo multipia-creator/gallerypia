@@ -20202,6 +20202,95 @@ app.get('/admin/dashboard', async (c) => {
       refreshTransactions();
       refreshAuctions();
       refreshPurchaseOffers();
+      
+      // ========== 헤더 기능 함수들 ==========
+      
+      // 알림 토글
+      function toggleNotifications() {
+        const dropdown = document.getElementById('notificationDropdown');
+        if (dropdown.classList.contains('hidden')) {
+          dropdown.classList.remove('hidden');
+          loadNotifications();
+        } else {
+          dropdown.classList.add('hidden');
+        }
+      }
+      
+      // 알림 로드
+      async function loadNotifications() {
+        try {
+          const response = await axios.get('/api/notifications/unread-count');
+          const count = response.data.count || 0;
+          
+          const badge = document.getElementById('notificationBadge');
+          if (count > 0) {
+            badge.textContent = count;
+            badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
+          }
+          
+          // 알림 목록 로드
+          const listResponse = await axios.get('/api/notifications');
+          const notifications = listResponse.data.data || [];
+          
+          const notificationList = document.getElementById('notificationList');
+          if (notifications.length === 0) {
+            notificationList.innerHTML = '<div class="p-4 text-center text-gray-500">알림이 없습니다</div>';
+          } else {
+            notificationList.innerHTML = notifications.map(notif => \`
+              <div class="p-4 hover:bg-gray-900 cursor-pointer \${notif.is_read ? 'opacity-50' : ''}">
+                <div class="flex items-start gap-3">
+                  <i class="fas fa-\${notif.type === 'artwork_approved' ? 'check-circle text-green-400' : 
+                                     notif.type === 'artwork_rejected' ? 'times-circle text-red-400' : 
+                                     notif.type === 'new_purchase' ? 'shopping-cart text-blue-400' : 
+                                     'bell text-purple-400'} text-xl"></i>
+                  <div class="flex-1">
+                    <p class="text-white text-sm">\${notif.message}</p>
+                    <p class="text-gray-500 text-xs mt-1">\${new Date(notif.created_at).toLocaleString('ko-KR')}</p>
+                  </div>
+                </div>
+              </div>
+            \`).join('');
+          }
+        } catch (error) {
+          console.error('알림 로드 실패:', error);
+        }
+      }
+      
+      // 모든 알림 읽음 표시
+      async function markAllNotificationsRead() {
+        try {
+          await axios.post('/api/notifications/mark-all-read');
+          loadNotifications();
+        } catch (error) {
+          console.error('알림 읽음 표시 실패:', error);
+        }
+      }
+      
+      // 로그아웃
+      function logout() {
+        if (confirm('로그아웃하시겠습니까?')) {
+          // 세션 토큰 삭제
+          localStorage.removeItem('admin_session_token');
+          localStorage.removeItem('session_token');
+          
+          // 로그아웃 API 호출
+          fetch('/api/auth/logout', { method: 'POST' })
+            .then(() => {
+              window.location.href = '/login';
+            })
+            .catch(() => {
+              window.location.href = '/login';
+            });
+        }
+      }
+      
+      // 페이지 로드 시 알림 로드
+      loadNotifications();
+      
+      // 주기적으로 알림 체크 (1분마다)
+      setInterval(loadNotifications, 60000);
   </script>
   
   <!-- OpenSea Import Modal -->
